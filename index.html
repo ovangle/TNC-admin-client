@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>TNC Admin client</title>
+
+    <script src="/node_modules/es6-shim/es6-shim.js"></script>
+    <script src="/node_modules/systemjs/dist/system.src.js"></script>
+    <script src="/node_modules/zone.js/dist/zone.js"></script>
+
+    <script src="/node_modules/immutable/dist/immutable.js"></script>
+
+    <script src="/paths.js"></script>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="/assets/css/positioning.css">
+
+    <script>
+        System.config({
+            baseUrl: '.',
+            defaultJSExtensions: true,
+            paths: APP_PATHS
+        });
+
+        System.import('/dist/src/bootstrap.js')
+    </script>
+</head>
+<base href="/">
+<body class="fullbleed">
+    <main-app></main-app>
+</body>
+</html>

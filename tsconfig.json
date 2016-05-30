@@ -6,9 +6,12 @@
     "emitDecoratorMetadata": true,
     "removeComments": false,
     "outDir": "dist",
-    "sourceMap": true
+    "noImplicitAny": true,
+    "noImplicitReturns": true
   },
   "exclude": [
+    "assets",
     "node_modules"
   ]
 }
+
