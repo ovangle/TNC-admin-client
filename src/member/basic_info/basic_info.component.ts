@@ -27,7 +27,6 @@ export interface MemberBasicInfo extends ModelBase {
 @Component({
     selector: 'member-basic-info',
     template: `
-        <h3>Basic Info</h3>
         <form>
         
         <div class="form-group">
