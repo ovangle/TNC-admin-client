@@ -10,7 +10,7 @@ import {IncomeType, IncomeTypePipe, INCOME_TYPE_VALUES} from "./income_type.enum
                 [ngModel]="incomeType" 
                 [ngModel]="incomeTypeChange.emit($event)"
                 [disabled]="disabled">
-                <option *ngFor="#value of incomeTypeValues">{{value | incomeType}}</option>
+                <option *ngFor="let value of incomeTypeValues">{{value | incomeType}}</option>
             </select>    
         </div>
     `,
@@ -22,8 +22,8 @@ import {IncomeType, IncomeTypePipe, INCOME_TYPE_VALUES} from "./income_type.enum
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncomeTypeSelect {
-    incomeTypeValues = INCOME_TYPE_VALUES; 
-    
+    incomeTypeValues = INCOME_TYPE_VALUES;
+
     @Input() incomeType: IncomeType;
     @Output() incomeTypeChange = new EventEmitter<IncomeType>();
 

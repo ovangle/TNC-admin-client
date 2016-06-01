@@ -18,7 +18,7 @@ import {MemberResultTableRow} from './result_table/row.component';
     </div>
     <div class="table-body">
         <ul class="list-unstyled">
-            <li class="table-row" *ngFor="#item of result.items.toArray()">
+            <li class="table-row" *ngFor="let item of result.items.toArray()">
                 <member-result-table-row [item]="item">
                 </member-result-table-row>
             </li>

@@ -10,7 +10,7 @@ import {ResidenceType, ResidenceTypePipe, RESIDENCE_TYPE_VALUES} from './residen
                 [ngModel]="residenceType"
                 (ngModelChange)="residenceTypeChange.emit($event)"
                 [disabled]="disabled">
-            <option *ngFor="#value of residenceTypeValues" [value]="value">{{value | residenceType}}</option>
+            <option *ngFor="let value of residenceTypeValues" [value]="value">{{value | residenceType}}</option>
         </select>        
         
     `,

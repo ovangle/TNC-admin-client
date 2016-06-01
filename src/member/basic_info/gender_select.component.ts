@@ -13,7 +13,7 @@ import {Gender, GENDER_VALUES, GenderPipe} from './gender.enum';
                 [ngModel]="gender"
                 (ngModelChange)="genderChange($event)">
             <option value="null">Unknown</option>
-            <option *ngFor="#value of genderValues" [value]="value">{{value | gender}}</option>
+            <option *ngFor="let value of genderValues" [value]="value">{{value | gender}}</option>
         </select>
     </div>
     `,

@@ -9,7 +9,7 @@ import {RESIDENTIAL_STABILITY_VALUES, ResidentialStability, ResidentialStability
             [ngModel]="residentialStability" 
             (ngModelChange)="residentialStabilityChange.emit($event)"
             [disabled]="disabled" >
-        <option *ngFor="#stability of stabilityValues">{{stability | residentialStability}}</option>
+        <option *ngFor="let stability of stabilityValues">{{stability | residentialStability}}</option>
     </select>
     `,
     pipes: [ResidentialStabilityPipe],

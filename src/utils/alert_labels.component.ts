@@ -10,7 +10,7 @@ export {AlertLabel, LabelSeverity} from './alert_label/alert_label';
     selector: 'alert-labels',
     template: `
     <ul class="list-inline"> 
-        <li *ngFor="#label of labels">
+        <li *ngFor="let label of labels">
             <alert-label [label]="label"></alert-label>           
         </li>
     </ul>     

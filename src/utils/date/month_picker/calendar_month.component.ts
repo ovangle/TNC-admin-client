@@ -10,12 +10,12 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetecti
     <table>
         <thead>
             <tr>
-                <th *ngFor="#dayName of dayNames">{{dayName}}</th>
+                <th *ngFor="let dayName of dayNames">{{dayName}}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="#week of monthWeeks">
-                <td *ngFor="#day of week"
+            <tr *ngFor="let week of monthWeeks">
+                <td *ngFor="let day of week"
                     (click)="selectDay(day)">
                     <div class="day-cell" [ngClass]="{'selected': isSelected(day)}">{{inMonth(day) ? day.date: '' }}</div>
                 </td>

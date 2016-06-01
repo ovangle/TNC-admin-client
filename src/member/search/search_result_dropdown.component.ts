@@ -16,7 +16,7 @@ import {Member} from '../member.model';
     template: `
         <dropdown [active]="active" [fullWidth]="true">
             <ul class="list-unstyled">
-                <li *ngFor="#item of result.items.toArray()">
+                <li *ngFor="let item of result.items.toArray()">
                     {{item.id}}: {{item.firstName}} {{item.lastName}}
                 </li>
             </ul>

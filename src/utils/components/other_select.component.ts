@@ -42,7 +42,7 @@ export interface OtherSelection {
                     [disabled]="disabled"
                     [ngModel]="selection.option"
                     (ngModelChange)="_selectionChanged($event)">
-                <option *ngFor="#option of options" [ngValue]="option">{{option.displayText}}</option>         
+                <option *ngFor="let option of options" [ngValue]="option">{{option.displayText}}</option>         
             </select>
             <input type="text"  class="form-control" [ngClass]="{'visible': _otherInputVisible}"
                     placeholder="Description"
