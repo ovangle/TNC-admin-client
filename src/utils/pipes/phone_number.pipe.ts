@@ -1,3 +1,7 @@
+import {Pipe, PipeTransform} from 'angular2/core';
+
+import {isBlank, isString} from 'caesium-core/lang';
+import {ArgumentError} from 'caesium-model/exceptions';
 
 export const DIGIT_PLACEHOLDER = 'd';
 
@@ -41,11 +45,30 @@ export function formatPhoneNumber(source: string, format: string) {
             formatted += fmtChar;
         }
     }
-    
+
     if (fmtChar !== DIGIT_PLACEHOLDER) {
         formatted += fmtChar;
     }
-    
+
     return formatted;
+}
+
+@Pipe({name: 'phone'})
+export class PhoneNumberPipe implements PipeTransform {
+    transform(value: any, args: any[]) {
+        if (args.length === 0) {
+            throw new ArgumentError(
+                'Phone number pipe requires a format argument'
+            );
+        }
+        if (isBlank(value)) {
+            return value;
+        }
+        if (!isString(value)) {
+            throw new ArgumentError(`Not a string: ${value}`);
+        }
+
+        return formatPhoneNumber(value, args[0]);
+    }
 }
 
