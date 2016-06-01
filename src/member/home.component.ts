@@ -1,9 +1,8 @@
 import {
     Component, ChangeDetectionStrategy, ViewEncapsulation, provide, AfterViewInit,
     ViewChild
-} from 'angular2/core';
-import {HTTP_PROVIDERS} from "angular2/http";
-import {ROUTER_DIRECTIVES, RouteConfig, Router, RouterOutlet} from 'angular2/router';
+} from '@angular/core';
+import {ROUTER_DIRECTIVES, RouteConfig, Router, RouterOutlet} from '@angular/router-deprecated';
 import {ModelHttp, ManagerOptions} from "caesium-model/manager";
 
 import {MemberManager} from './member.model';

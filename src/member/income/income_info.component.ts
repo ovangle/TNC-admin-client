@@ -1,4 +1,4 @@
-import {Component, Input, Output, ViewEncapsulation, EventEmitter} from "angular2/core";
+import {Component, Input, Output, ViewEncapsulation, EventEmitter} from "@angular/core";
 import {YesNo} from '../../utils/pipes/yes_no.pipe';
 import {IncomeSourcePipe, IncomeSource} from './income_source.record';
 import {IncomeInfo} from "./income_info.record";

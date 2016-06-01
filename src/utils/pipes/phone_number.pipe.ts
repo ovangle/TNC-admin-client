@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from 'angular2/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 import {isBlank, isString} from 'caesium-core/lang';
 import {ArgumentError} from 'caesium-model/exceptions';

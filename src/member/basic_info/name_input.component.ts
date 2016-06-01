@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
     selector: 'name-input',

@@ -1,6 +1,6 @@
 
 
-import {Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from "angular2/core";
+import {Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 
 import {Search, SearchResult} from 'caesium-model/manager';
 

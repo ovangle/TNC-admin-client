@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ViewEncapsulation} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
 
 @Component({
     selector: 'admin-home',

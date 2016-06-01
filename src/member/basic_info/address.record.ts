@@ -2,7 +2,7 @@ import {Record} from 'immutable';
 
 import {isBlank} from 'caesium-core/lang';
 import {str, recordCodec} from "caesium-model/json_codecs";
-import {Pipe, PipeTransform} from "angular2/core";
+import {Pipe, PipeTransform} from "@angular/core";
 
 const _ADDRESS_RECORD = Record({street: null, city: null, postcode: null});
 

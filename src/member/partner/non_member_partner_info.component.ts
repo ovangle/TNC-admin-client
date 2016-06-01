@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 
 import {NonMemberPartner, Partner} from './partner.record';
 import {NameInput} from "../basic_info/name_input.component";

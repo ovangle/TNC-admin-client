@@ -1,8 +1,8 @@
 import {
     Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, provide, NgZone
-} from "angular2/core";
+} from "@angular/core";
 
-import {Router, RouteParams, RouterLink} from "angular2/router";
+import {Router, RouteParams, RouterLink} from "@angular/router-deprecated";
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {AlertLabels} from '../utils/alert_labels.component';
@@ -15,7 +15,6 @@ import {ContactInfoComponent} from './contact/contact_info.component';
 import {IncomeInfoComponent} from './income/income_info.component';
 import {MemberTermComponent} from './term/term.component';
 import {PartnerInfoComponent} from './partner/partner_info.component';
-import {HTTP_PROVIDERS} from "angular2/http";
 
 
 @Component({
@@ -143,7 +142,7 @@ export class MemberDetailsComponent implements OnInit {
         response.handle({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
             this.member = member;
             this._changeDetector.markForCheck();
-        }, this);
+        });
         //TODO: handle not found.
     }
 }

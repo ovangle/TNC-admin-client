@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 
 import {isDefined} from 'caesium-core/lang';
 import {identity} from "caesium-core/codec";
@@ -58,7 +58,7 @@ export class LoginPage {
         var response = this.userManager.login(loginDetails);
 
         var success = response.handle<User>({select: 200, decoder: this.userManager.modelCodec})
-            .forEach((user) => this.userContext.setUser(user), this);
+            .forEach((user) => this.userContext.setUser(user));
 
         var loginFailure = response.handle<any>({select: 401, decoder: identity})
             .forEach((errors) => {
@@ -68,7 +68,7 @@ export class LoginPage {
                 if (isDefined(errors['passwrod'])) {
                     this.passwordError = errors['password'];
                 }
-            }, this);
+            });
         return Promise.all([success, loginFailure]);
     }
 

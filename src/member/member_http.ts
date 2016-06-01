@@ -6,8 +6,8 @@
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 
-import {Injectable, Inject} from "angular2/core";
-import {Http, Response} from "angular2/http";
+import {Injectable, Inject} from "@angular/core";
+import {Http, Response} from "@angular/http";
 
 import {JsonObject} from 'caesium-model/json_codecs';
 import {ModelHttp, RawResponse, RequestOptions, API_HOST_HREF} from "caesium-model/manager/model_http";

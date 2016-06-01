@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {
     Component, EventEmitter, Input, ViewEncapsulation, ChangeDetectionStrategy, Output,
     OnInit, OnDestroy, ElementRef
-} from "angular2/core";
+} from "@angular/core";
 
 
 import {CalendarMonth} from './calendar_month.component';

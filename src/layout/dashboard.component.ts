@@ -1,6 +1,6 @@
 
-import {Component, ViewEncapsulation, ChangeDetectionStrategy} from "angular2/core";
-import {ROUTER_DIRECTIVES, RouterLink, RouteConfig, RouterOutlet, Router} from 'angular2/router';
+import {Component, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
+import {ROUTER_DIRECTIVES, RouterLink, RouteConfig, RouterOutlet, Router} from '@angular/router-deprecated';
 
 import {AdminHome} from '../admin/home.component';
 

@@ -2,7 +2,7 @@ import moment = require('moment');
 import {Moment} from 'moment';
 
 
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnInit} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnInit} from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
 

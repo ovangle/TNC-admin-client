@@ -1,7 +1,7 @@
 import {
     Component, ContentChildren, Input, ViewEncapsulation, Query, QueryList, ElementRef,
     SimpleChange, OnChanges, Renderer
-} from "angular2/core";
+} from '@angular/core';
 
 /**
  * A component which expands upon toggling it's 'hidden' attribute.

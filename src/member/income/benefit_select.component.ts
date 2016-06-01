@@ -1,6 +1,6 @@
 import {List, OrderedMap} from 'immutable';
 
-import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation, EventEmitter} from "angular2/core";
+import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation, EventEmitter} from "@angular/core";
 import {BenefitType, BENEFIT_TYPE_VALUES, BenefitTypePipe} from "./benefit_type.enum";
 import {Benefit} from './benefit.record';
 

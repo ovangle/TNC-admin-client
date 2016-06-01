@@ -1,7 +1,7 @@
 import moment = require('moment');
 import {Observable} from 'rxjs/Observable';
 
-import {Injectable, Pipe, Type} from 'angular2/core';
+import {Injectable, Pipe, Type} from '@angular/core';
 
 import {Iterable, List, Set} from 'immutable';
 

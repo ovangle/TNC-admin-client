@@ -1,4 +1,4 @@
-import {Component, Input, ViewEncapsulation, DoCheck, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, ViewEncapsulation, DoCheck, ChangeDetectionStrategy} from '@angular/core';
 import {List} from 'immutable';
 
 import {AlertLabel, CheckForAlertLabels} from './alert_label/alert_label';

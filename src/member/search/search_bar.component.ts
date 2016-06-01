@@ -6,8 +6,8 @@ import {Subject} from 'rxjs/Subject';
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
     OnInit, ChangeDetectorRef, provide, OnDestroy
-} from "angular2/core";
-import {NgControl} from "angular2/common";
+} from "@angular/core";
+import {NgControl} from "@angular/common";
 import {ModelHttp, Search, SearchResult, ManagerOptions} from 'caesium-model/manager';
 
 import {MemberHttp} from '../member_http';

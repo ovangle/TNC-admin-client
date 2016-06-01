@@ -1,5 +1,5 @@
-import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from 'angular2/core';
-import {RouterLink} from "angular2/router";
+import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
+import {RouterLink} from "@angular/router-deprecated";
 
 import {Expander} from "../../../layout/expander.component";
 import {DefaultPipe} from '../../../utils/pipes/default.pipe';

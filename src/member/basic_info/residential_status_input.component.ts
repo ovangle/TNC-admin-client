@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from 'angular2/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 import {ResidenceType} from './residence_type.enum';
 import {ResidenceTypeSelect} from './residence_type_select.component';

@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from "angular2/core";
+import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
 
 import {IncomeSource} from './income_source.record';
 import {IncomeTypeSelect} from './income_type_select.component';

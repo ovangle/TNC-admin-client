@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, ViewEncapsulation} from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
 
 import {DefaultPipe} from '../../utils/pipes/default.pipe';
 

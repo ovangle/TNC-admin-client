@@ -1,6 +1,5 @@
-import {Pipe, PipeTransform} from 'angular2/core';
-import {isString} from "angular2/src/facade/lang";
-import {isBlank} from 'caesium-core/lang';
+import {Pipe, PipeTransform} from '@angular/core';
+import {isString} from 'caesium-core/lang';
 
 @Pipe({name: 'email'})
 export class EmailPipe implements PipeTransform {

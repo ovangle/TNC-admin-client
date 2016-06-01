@@ -2,7 +2,7 @@ import moment = require('moment');
 import {
     Component, ElementRef, EventEmitter, Input, Output, ViewEncapsulation,
     ChangeDetectionStrategy, ViewChild, OnChanges
-} from "angular2/core";
+} from "@angular/core";
 
 import {KeyCode} from '../../keycodes.enum';
 

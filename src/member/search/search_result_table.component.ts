@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {
     Component, Input, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef,
     OnChanges, SimpleChange
-} from 'angular2/core';
+} from '@angular/core';
 import {SearchResult} from 'caesium-model/manager';
 
 import {Member} from '../member.model';

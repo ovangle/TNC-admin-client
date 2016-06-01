@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter, ViewEncapsulation} from "angular2/core";
+import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter, ViewEncapsulation} from "@angular/core";
 
 import {forEachOwnProperty} from 'caesium-core/lang';
 import {ModelBase} from 'caesium-model/model';

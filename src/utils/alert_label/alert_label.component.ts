@@ -1,6 +1,6 @@
 import {List} from 'immutable';
 
-import {Component, Input, OnChanges, SimpleChange, ViewEncapsulation} from "angular2/core";
+import {Component, Input, OnChanges, SimpleChange, ViewEncapsulation} from "@angular/core";
 import {AlertLabel, LabelSeverity} from "./alert_label";
 
 

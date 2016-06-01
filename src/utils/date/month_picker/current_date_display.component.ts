@@ -1,7 +1,7 @@
 import moment = require('moment');
 import {Moment} from 'moment';
 
-import {Component, ViewEncapsulation, ChangeDetectionStrategy, Input} from 'angular2/core';
+import {Component, ViewEncapsulation, ChangeDetectionStrategy, Input} from '@angular/core';
 
 @Component({
     selector: 'current-date-display',

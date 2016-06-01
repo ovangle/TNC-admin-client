@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} from "angular2/core";
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} from "@angular/core";
 import {RESIDENTIAL_STABILITY_VALUES, ResidentialStability, ResidentialStabilityPipe} from "./residential_stability.enum";
 
 @Component({
@@ -24,7 +24,7 @@ export class ResidentialStabilitySelect {
 
     @Input() residentialStability: ResidentialStability;
     @Output() residentialStabilityChange = new EventEmitter<ResidentialStability>();
-    
+
     @Input() disabled: boolean;
     @Input() label: string;
 

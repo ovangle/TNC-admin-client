@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from "angular2/core";
+import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
 
 import {isBlank} from 'caesium-core/lang';
 import {YesnoSelect} from "../../utils/components/yesno_select.component";

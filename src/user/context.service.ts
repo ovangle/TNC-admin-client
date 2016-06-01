@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 
-import {Injectable} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 import {isBlank} from 'caesium-core/lang';
 import {identity} from 'caesium-core/codec';
@@ -40,11 +40,11 @@ export class UserContext {
         var response = this.userManager.fromSession(sessionToken);
         var success = response.handle({select: 200, decoder: this.userManager.modelCodec}).forEach((user) => {
             this.user = user;
-        }, this);
+        });
         var failure = response.handle({select: 500, decoder: identity}).forEach((errors) => {
             console.log('Session invalid: ' + JSON.stringify(errors));
             this.requireLogin();
-        }, this);
+        });
 
         return Promise.all([success, failure]).then((_) => {
             return this.user;

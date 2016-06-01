@@ -1,9 +1,6 @@
-import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from "angular2/core";
+import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
 
 import {ContactInfo} from './contact_info.record';
-import {EmailPipe} from './email.pipe';
-import {PhonePipe} from './phone_number.pipe';
-
 import {PhoneInput} from '../../utils/components/phone_input.component';
 
 @Component({

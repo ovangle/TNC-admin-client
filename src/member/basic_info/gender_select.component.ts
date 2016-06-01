@@ -1,5 +1,5 @@
 
-import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation, EventEmitter} from "angular2/core";
+import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation, EventEmitter} from "@angular/core";
 
 import {Gender, GENDER_VALUES, GenderPipe} from './gender.enum';
 @Component({

@@ -1,5 +1,5 @@
 
-import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 import {ResidenceType, ResidenceTypePipe, RESIDENCE_TYPE_VALUES} from './residence_type.enum';
 
 @Component({

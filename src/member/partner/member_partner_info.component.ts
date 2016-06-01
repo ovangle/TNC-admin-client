@@ -1,11 +1,11 @@
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 
 import {SearchResult} from 'caesium-model/manager';
 
 import {Member} from '../member.model';
 import {MemberSearchBarComponent} from "../search/search_bar.component";
 import {SearchResultDropdown} from '../search/search_result_dropdown.component';
-import {RouterLink} from "angular2/router";
+import {RouterLink} from "@angular/router-deprecated";
 
 @Component({
     selector: 'member-partner-info',

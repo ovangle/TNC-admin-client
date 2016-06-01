@@ -1,4 +1,4 @@
-import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from "angular2/core";
+import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
 
 import {Address, AddressPipe} from './address.record';
 

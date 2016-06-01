@@ -1,7 +1,7 @@
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation,
     ChangeDetectionStrategy, ViewChild, ElementRef
-} from 'angular2/core';
+} from '@angular/core';
 
 import {KeyCode} from '../keycodes.enum';
 import {formatPhoneNumber, DIGIT_PLACEHOLDER} from '../pipes/phone_number.pipe';

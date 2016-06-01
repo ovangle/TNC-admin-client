@@ -1,6 +1,6 @@
 import {Map} from 'immutable';
 
-import {Pipe, PipeTransform} from 'angular2/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 import {enumToString} from 'caesium-model/json_codecs';
 

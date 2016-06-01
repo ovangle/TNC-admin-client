@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
     ChangeDetectorRef, OnChanges, SimpleChange
-} from 'angular2/core';
+} from '@angular/core';
 
 import {StateException} from 'caesium-model/exceptions';
 import {SearchResult} from 'caesium-model/manager';
@@ -58,7 +58,7 @@ export class SearchResultDropdown implements OnChanges {
             result.loadNextPage().forEach((result) => {
                 this.result = result;
                 this._changeDetector.markForCheck();
-            }, this);
+            });
         }
     }
 

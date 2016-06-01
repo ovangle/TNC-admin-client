@@ -3,7 +3,7 @@ import {List} from 'immutable';
 import {
     Component, EventEmitter, Input, Output, ChangeDetectionStrategy, ViewEncapsulation,
     OnChanges, SimpleChange
-} from "angular2/core";
+} from "@angular/core";
 
 import {StateException} from 'caesium-model/exceptions';
 import {isDefined} from 'caesium-core/lang';

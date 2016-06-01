@@ -3,17 +3,16 @@
 
 import 'reflect-metadata';
 
-import {provide} from 'angular2/core';
-import {RequestOptions as BaseRequestOptions, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import {
-    ROUTER_PROVIDERS,
-    LocationStrategy,
-    HashLocationStrategy,
-    PathLocationStrategy,
-    APP_BASE_HREF
-} from 'angular2/router';
+import {provide} from '@angular/core';
+import {RequestOptions as BaseRequestOptions, Headers, HTTP_PROVIDERS} from '@angular/http';
 
-import {bootstrap} from 'angular2/bootstrap';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {
+    LocationStrategy, HashLocationStrategy, PathLocationStrategy, APP_BASE_HREF
+} from '@angular/common';
+
+import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
+
 
 import {API_HOST_HREF, SEARCH_PAGE_SIZE, MANAGER_PROVIDERS} from 'caesium-model/manager';
 

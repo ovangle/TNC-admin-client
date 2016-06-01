@@ -11,7 +11,7 @@ import {List} from 'immutable';
 import {
     Component, ElementRef, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, ViewEncapsulation,
     AfterViewInit, OnChanges
-} from 'angular2/core';
+} from '@angular/core';
 
 import {isDefined} from 'caesium-core/lang';
 

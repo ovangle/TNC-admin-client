@@ -1,5 +1,5 @@
 import {OrderedMap} from 'immutable';
-import {Pipe, PipeTransform} from 'angular2/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {isBlank} from 'caesium-core/lang';
 import {enumToString} from 'caesium-model/json_codecs';
 

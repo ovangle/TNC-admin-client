@@ -1,7 +1,7 @@
 
 import {Iterable} from 'immutable';
 
-import {Injectable} from "angular2/core";
+import {Injectable} from "@angular/core";
 
 export const enum LabelSeverity {
     Info,

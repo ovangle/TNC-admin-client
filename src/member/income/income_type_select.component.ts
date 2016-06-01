@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation, EventEmitter} from '@angular/core';
 import {IncomeType, IncomeTypePipe, INCOME_TYPE_VALUES} from "./income_type.enum";
 
 @Component({

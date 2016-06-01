@@ -1,6 +1,6 @@
 import {Record} from 'immutable';
 
-import {Injectable, Pipe, PipeTransform} from 'angular2/core';
+import {Injectable, Pipe, PipeTransform} from '@angular/core';
 
 import {Codec} from 'caesium-core/codec';
 import {isBlank} from 'caesium-core/lang';

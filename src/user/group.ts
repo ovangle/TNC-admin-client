@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 
 import {Type} from 'caesium-core/lang';
 import {ManagerBase, ManagerOptions, SearchParameter} from "caesium-model/manager";

@@ -7,7 +7,8 @@ import {List} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
     OnInit, OnDestroy, ElementRef
-} from "angular2/core";
+} from '@angular/core';
+
 @Component({
     selector: 'dropdown',
     template: `

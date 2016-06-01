@@ -2,7 +2,7 @@ import {
     Component, Input, Output, ViewEncapsulation, ChangeDetectionStrategy, EventEmitter,
     OnInit
 
-} from 'angular2/core';
+} from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
 
@@ -10,7 +10,7 @@ import {Member, MemberManager} from '../member.model';
 import {Partner, NonMemberPartner} from "./partner.record";
 import {MemberPartnerInfo} from "./member_partner_info.component";
 import {NonMemberPartnerInfo} from './non_member_partner_info.component';
-import {RadioButtonState} from "angular2/common";
+import {RadioButtonState} from "@angular/common";
 import {PartnershipStatus, PartnershipStatusInput} from "./partnership_status_input.component";
 import {StateException} from "caesium-model/exceptions";
 
