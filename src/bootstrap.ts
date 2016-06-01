@@ -15,7 +15,7 @@ import {
 
 import {bootstrap} from 'angular2/bootstrap';
 
-import {API_HOST_HREF} from 'caesium-model/manager';
+import {API_HOST_HREF, SEARCH_PAGE_SIZE, MANAGER_PROVIDERS} from 'caesium-model/manager';
 
 import {loadAppConfig} from './config';
 import {MainApp} from './app';
@@ -47,5 +47,7 @@ loadAppConfig().then((appConfig) => {
         provide(LocationStrategy, {useClass: locationStrategyCls}),
         provide(APP_BASE_HREF, {useValue: appConfig.router.appBaseHref}),
         provide(API_HOST_HREF, {useValue: appConfig.api.serverHref}),
+        provide(SEARCH_PAGE_SIZE, {useValue: appConfig.api.searchPageSize}),
+        MANAGER_PROVIDERS
     ]);
 });

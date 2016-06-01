@@ -4,7 +4,8 @@ export interface AppConfig {
         locationStrategy: string;
     },
     api: {
-        serverHref: string
+        serverHref: string,
+        searchPageSize: number
     },
     google: {
         apiKey: string,
