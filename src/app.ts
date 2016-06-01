@@ -18,7 +18,7 @@ import {LoginPage} from './user/login_page.component';
     providers: [UserManager, UserContext]
 })
 @RouteConfig([
-    {path: '/', redirectTo: ['Dashboard']},
+    {path: '/', redirectTo: ['Dashboard', 'Member', 'Search']},
     {path: '/login', component: LoginPage, as: 'Login'},
     {path: '/dashboard/...', component: DashboardComponent, as: 'Dashboard'}
 ])
