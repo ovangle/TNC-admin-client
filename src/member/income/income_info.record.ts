@@ -1,5 +1,5 @@
-import {List, Iterable} from 'immutable';
-import {AlertLabel, LabelSeverity, CheckForAlertLabels} from "../../utils/alert_label/alert_label.ts";
+import {List, Iterable, Record} from 'immutable';
+import {AlertLabel, LabelSeverity, CheckForAlertLabels} from "../../utils/alert_label/alert_label";
 
 import {bool, num, recordCodec} from 'caesium-model/json_codecs';
 import {IncomeSource, incomeSourceCodec} from './income_source.record';
@@ -7,11 +7,13 @@ import {
     ProofOfLowIncome, isPensionerConcessionCardSighted, isLowIncomeHealthCareCardSighted, noProofSighted
 } from "./proof_of_low_income.flags";
 
-export class IncomeInfo extends Immutable.Record({
+const _INCOME_RECORD = Record({
     isLowIncome: false,
     proofOfLowIncomeFlags: ProofOfLowIncome.NoProofSighted,
     incomeSource: new IncomeSource()
-}) implements CheckForAlertLabels {
+});
+
+export class IncomeInfo extends _INCOME_RECORD implements CheckForAlertLabels {
 
     isLowIncome: boolean;
     proofOfLowIncomeFlags: number;

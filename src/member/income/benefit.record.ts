@@ -5,9 +5,9 @@ import {isBlank} from 'caesium-core/lang';
 import {Codec} from 'caesium-core/codec';
 import {BenefitType, benefitTypeCodec} from './benefit_type.enum';
 
-const _BenefitRecord = Record({type: BenefitType.NotDisclosed, otherType: null});
+const _BENEFIT_RECORD = Record({type: BenefitType.NotDisclosed, otherType: null});
 
-export class Benefit extends _BenefitRecord {
+export class Benefit extends _BENEFIT_RECORD {
     type: BenefitType;
     otherType: string;
 }

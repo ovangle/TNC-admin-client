@@ -1,8 +1,12 @@
+import {Record} from 'immutable';
+
 import {isBlank} from 'caesium-core/lang';
 import {str, recordCodec} from "caesium-model/json_codecs";
 import {Pipe, PipeTransform} from "angular2/core";
 
-export class Address extends Immutable.Record({street: null, city: null, postcode: null}) {
+const _ADDRESS_RECORD = Record({street: null, city: null, postcode: null});
+
+export class Address extends _ADDRESS_RECORD {
     street: string;
     city: string;
     postcode: string;

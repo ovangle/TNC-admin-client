@@ -1,8 +1,9 @@
 import {Record} from 'immutable';
 import {date, num, str, recordCodec} from "caesium-model/json_codecs";
 
-export class FileNote
-extends Record({by: null, at: new Date(), message: ''}) {
+const _FILE_NOTE_RECORD = Record({by: null, at: new Date(), message: ''});
+
+export class FileNote extends _FILE_NOTE_RECORD {
     /// The id of the user who added the file note
     by: number;
     at: Date;

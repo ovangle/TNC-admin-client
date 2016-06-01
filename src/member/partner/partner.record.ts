@@ -16,7 +16,7 @@ export interface Partner {
     income: IncomeInfo;
 }
 
-const _PartnerRecord = Record({
+const _PARTNER_RECORD = Record({
     firstName: null,
     lastName: null,
     gender: null,
@@ -24,7 +24,7 @@ const _PartnerRecord = Record({
     income: new IncomeInfo()
 });
 
-export class NonMemberPartner extends _PartnerRecord implements Partner {
+export class NonMemberPartner extends _PARTNER_RECORD implements Partner {
     firstName: string;
     lastName: string;
     gender: Gender;

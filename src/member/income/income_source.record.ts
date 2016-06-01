@@ -1,3 +1,5 @@
+import {Record} from 'immutable';
+
 import {Injectable, Pipe, PipeTransform} from 'angular2/core';
 
 import {Codec} from 'caesium-core/codec';
@@ -7,8 +9,12 @@ import {EncodingException} from 'caesium-model/exceptions';
 import {IncomeType, incomeTypeCodec, IncomeTypePipe} from './income_type.enum';
 import {Benefit, benefitCodec, BenefitPipe} from './benefit.record';
 
+const _INCOME_SOURCE_RECORD = Record({
+    type: IncomeType.None,
+    benefit: new Benefit()
+});
 
-export class IncomeSource extends Immutable.Record({type: IncomeType.None, benefit: null}) {
+export class IncomeSource extends _INCOME_SOURCE_RECORD {
     type: IncomeType;
     /** The benefit (or `null` if the type is not CENTRELINK_BENEFIT) */
     benefit: Benefit;

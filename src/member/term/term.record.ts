@@ -4,7 +4,7 @@ import {Moment} from 'moment/moment';
 
 import {Iterable, List, Record} from 'immutable';
 
-import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../utils/alert_label/alert_label.ts';
+import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../utils/alert_label/alert_label';
 
 import {MemberTermType, memberTermTypeCodec} from './term_type.enum';
 import {date, recordCodec} from "caesium-model/json_codecs";
@@ -41,9 +41,9 @@ function memberTermDuration(type: MemberTermType): _TermDuration {
     }
 }
 
-const _TermRecord = Record({type: MemberTermType.Temporary, joined: new Date(), renewed: null});
+const _TERM_RECORD = Record({type: MemberTermType.Temporary, joined: new Date(), renewed: null});
 
-export class MemberTerm extends _TermRecord implements CheckForAlertLabels {
+export class MemberTerm extends _TERM_RECORD implements CheckForAlertLabels {
 
     type: MemberTermType;
     /**
