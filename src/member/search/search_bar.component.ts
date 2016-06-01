@@ -30,6 +30,8 @@ import {SearchResultTable} from "./search_result_table.component";
         </div>    
         </form>
         
+        <ng-content></ng-content>
+        
         
         <!--
         <div *ngIf="resultDisplay === 'DROPDOWN'">
@@ -47,12 +49,6 @@ import {SearchResultTable} from "./search_result_table.component";
         -->
     `,
     directives: [SearchResultDropdown, SearchResultTable],
-    providers: [
-        //TODO: Remove. Should only need to provide MemberManager
-        provide(ModelHttp, {useClass: MemberHttp}),
-        ManagerOptions,
-        MemberManager
-    ],
     styles: [`
     :host { 
         display: block;
@@ -73,34 +69,11 @@ import {SearchResultTable} from "./search_result_table.component";
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberSearchBarComponent implements OnDestroy {
-    resultDisplayTypes = Set<string>(['DROPDOWN', 'TABLE']);
-
-    @Input() resultDisplay:string;
-
-    name: NgControl;
-
-    search:Search<Member>;
-
-    resultChange: Observable<SearchResult<Member>>;
-
-    _memberManager:MemberManager;
-    _changeDetector:ChangeDetectorRef;
-
-    constructor(memberManager:MemberManager, changeDetector:ChangeDetectorRef) {
-        this._memberManager = memberManager;
-        this._changeDetector = changeDetector;
-
-        var resultChange = new Subject<SearchResult<Member>>();
-        this.search = memberManager.search();
-        this.search.resultChange.subscribe(resultChange);
-
-        this.resultChange = resultChange;
-    }
-
-    ngOnDestroy() {
-        console.log('Search.onDestroy');
-        this.search.dispose();
+export class MemberSearchBarComponent {
+    @Input() search: Search<Member>;
+    
+    onInit() {
+        console.log('MemberSearchBarComponent.onInit');
     }
 
     _rawSearchChange(value:string) {

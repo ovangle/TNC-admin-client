@@ -3,7 +3,7 @@ import {
 } from "angular2/core";
 
 import {Router, RouteParams, RouterLink} from "angular2/router";
-import {ModelHttp} from 'caesium-model/manager';
+import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {AlertLabels} from '../utils/alert_labels.component';
 
@@ -36,10 +36,15 @@ import {HTTP_PROVIDERS} from "angular2/http";
                 <div class="col-md-5">
                     <member-basic-info [member]="member" 
                                        (memberChange)="member = $event"></member-basic-info>
-                    <contact-info [contactInfo]="member.contact"></contact-info>
-                    <member-term [term]="member.term"></member-term>
                     <income-info [incomeInfo]="member.income"></income-info>
                 </div>
+                <div class="col-md-4">
+                    <contact-info [contactInfo]="member.contact"></contact-info>
+                </div>
+                <div class="col-md-3">
+                    <member-term [term]="member.term"></member-term>
+                </div>
+                
                 <div class="col-md-7">
                     <partner-info [member]="member"
                                   (memberChange)="member = $event"></partner-info> 
@@ -93,8 +98,9 @@ import {HTTP_PROVIDERS} from "angular2/http";
         IncomeInfoComponent, PartnerInfoComponent, RouterLink
     ],
     providers: [
-        HTTP_PROVIDERS,
+        //TODO: Remove. Should only need to provide MemberManager
         provide(ModelHttp, {useClass: MemberHttp}),
+        ManagerOptions,
         MemberManager
     ],
     encapsulation: ViewEncapsulation.Native,
@@ -116,14 +122,7 @@ export class MemberDetailsComponent implements OnInit {
     private _changeDetector: ChangeDetectorRef;
 
     ngOnInit() {
-        console.log('MemberDetailsComponent.ngOnInit()');
-        let id = Number.parseInt(this.routeParams.get('id'));
-        var response = this.memberManager.getById(id);
-        response.handle({select: 200, decoder: this.memberManager.modelCodec})
-            .forEach((member: Member) => {
-                this.member = member;
-                this._changeDetector.markForCheck();
-            }, this);
+
     }
 
     constructor(
@@ -143,6 +142,7 @@ export class MemberDetailsComponent implements OnInit {
         var response = this.memberManager.getById(id);
         response.handle({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
             this.member = member;
+            this._changeDetector.markForCheck();
         }, this);
         //TODO: handle not found.
     }

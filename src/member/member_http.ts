@@ -22,12 +22,12 @@ export class MemberHttp extends ModelHttp {
         return this.http.get('/members.json').map((response: Response) => {
             var members = response.json()['items'];
 
-            var idMatch = options.endpoint.match(/\d+/);
+            var idMatch = options.endpoint.toString().match(/\d+/);
             if (idMatch) {
                 return getMemberById(members, Number.parseInt(idMatch[0]));
             }
 
-            if (options.endpoint === 'search') {
+            if (options.params) {
                 return searchMembers(members, options.params);
             }
 
@@ -76,9 +76,7 @@ function searchMembers(members: Array<JsonObject>, params: {[param: string]: str
         matchers.push((member: JsonObject) => matchPartialId(member, params['id']));
     }
 
-    if (params['name']) {
-        matchers.push((member: JsonObject) => matchName(member, params['name']));
-    }
+    matchers.push((member: JsonObject) => matchName(member, params['name'] || ''));
 
     for (let member of members) {
         for (let matcher of matchers) {
@@ -92,9 +90,9 @@ function searchMembers(members: Array<JsonObject>, params: {[param: string]: str
     return {
         status: 200,
         body: {
-            pageId: pageId,
+            page_id: pageId,
             items: matches.slice((pageId -1) * PAGE_SIZE, pageId * PAGE_SIZE),
-            lastPage: pageId * PAGE_SIZE >= matches.length
+            last_page: pageId * PAGE_SIZE >= matches.length
         }
     };
 }

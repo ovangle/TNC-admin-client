@@ -1,11 +1,12 @@
 import {
-    Component, ChangeDetectionStrategy, ViewEncapsulation, provide, AfterViewChecked,
+    Component, ChangeDetectionStrategy, ViewEncapsulation, provide, AfterViewInit,
     ViewChild
 } from 'angular2/core';
 import {HTTP_PROVIDERS} from "angular2/http";
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-import {ModelHttp} from "caesium-model/manager";
+import {ROUTER_DIRECTIVES, RouteConfig, Router, RouterOutlet} from 'angular2/router';
+import {ModelHttp, ManagerOptions} from "caesium-model/manager";
 
+import {MemberManager} from './member.model';
 import {MemberSearchComponent} from "./search/search.component";
 import {MemberHttp} from "./member_http";
 import {MemberDetailsComponent} from "./details.component";
@@ -17,10 +18,12 @@ import {MemberDetailsComponent} from "./details.component";
             <router-outlet></router-outlet>
         </div>
     `,
-    directives: [ROUTER_DIRECTIVES, MemberSearchComponent],
+    directives: [ROUTER_DIRECTIVES],
     providers: [
-        HTTP_PROVIDERS,
-        provide(ModelHttp, {useClass: MemberHttp})
+        //TODO: Remove. Should only need to provide MemberManager
+        provide(ModelHttp, {useClass: MemberHttp}),
+        ManagerOptions,
+        MemberManager
     ],
     styles: [`
     :host { 
@@ -45,17 +48,12 @@ import {MemberDetailsComponent} from "./details.component";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RouteConfig([
-    {path: '/', component: MemberSearchComponent, name: 'Search', useAsDefault: true},
+    {path: '/search', component: MemberSearchComponent, name: 'Search', useAsDefault: true},
     {path: '/:id', component: MemberDetailsComponent, name: 'MemberDetail'},
 ])
-export class MemberHome implements AfterViewChecked {
-    @ViewChild(MemberSearchComponent) searchComponent: MemberSearchComponent;
-    @ViewChild(MemberDetailsComponent) detailsComponent: MemberDetailsComponent;
-
-    ngAfterViewChecked() {
-        if (this.searchComponent) {
-            this.searchComponent.resultDisplay = 'TABLE';
-        }
+export class MemberHome {
+    ngOnInit() {
+        console.log('MemberHome.onInit()');
     }
 }
 

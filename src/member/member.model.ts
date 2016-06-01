@@ -178,44 +178,37 @@ function partialNameMatcher(modelValue: MemberName, paramValue: Set<string>): bo
     var lowerMemberName = {
         firstName: modelValue.firstName.toLowerCase(),
         lastName: modelValue.lastName.toLowerCase(),
-        aliases: modelValue.aliases.map((value) => value.toLowerCase()).toSet()
     }
+
+    console.log('partialNameMatcher');
+    console.log('\tlower member name: ', JSON.stringify(lowerMemberName));
 
     var lowercaseParams = paramValue.valueSeq().map((value) => value.toLowerCase());
 
-    return lowercaseParams.every((param) => {
+    console.log('\tparams', lowercaseParams.toArray())
+
+    var match = lowercaseParams.every((param) => {
         return lowerMemberName.firstName.includes(param)
             || lowerMemberName.lastName.includes(param)
-            || lowerMemberName.aliases.some((alias) => alias.includes(param));
     });
+    console.log('\tis match: ', match);
+    return match;
 }
 
-function partialNameRefiner(currentParamValue: Set<string>, previousParamValue: Set<string>) {
+function partialNameRefiner(previousParamValue: Set<string>, currentParamValue: Set<string>) {
+
+    var lowerCurrParam = currentParamValue.map((param) => param.toLowerCase()).toSet();
     var lowerPrevParam = previousParamValue.map((param) => param.toLowerCase()).toSet();
-    return currentParamValue
-        .map((currentParam) => currentParam.toLowerCase())
-        .every((currentParam) => lowerPrevParam.some((prevParam) => currentParam.includes(prevParam)));
+
+    function partialNameComponentRefiner(curr:string):boolean {
+        return lowerPrevParam.contains(curr)
+            || lowerPrevParam.some((prevParam) => prevParam.includes(curr));
+    }
+
+    return lowerCurrParam
+        .every((currParam) => partialNameComponentRefiner(currParam));
 }
 
-
-
-const _MEMBER_SEARCH_PARAMETERS: SearchParameter[] = [
-    {
-        name: 'id',
-        encoder: identityConverter,
-        accessor: (member: Member) => member.id,
-        matcher: (modelValue: string|number, paramValue: string) => {
-            return modelValue.toString().startsWith(paramValue)
-        }
-    },
-    {
-        name: 'name',
-        encoder: (nameMatches: Set<string>) => nameMatches.join(','),
-        accessor: (member: Member) => ({firstName: member.firstName, lastName: member.lastName, aliases: Set<string>([])}),
-        matcher: partialNameMatcher,
-        refiner: partialNameRefiner
-    }
-]
 
 @Injectable()
 export class MemberManager extends ManagerBase<Member> {
@@ -243,7 +236,6 @@ export class MemberManager extends ManagerBase<Member> {
                 accessor: (member:Member) => ({
                     firstName: member.firstName,
                     lastName: member.lastName,
-                    aliases: Set<string>([])
                 }),
                 matcher: partialNameMatcher,
                 refiner: partialNameRefiner

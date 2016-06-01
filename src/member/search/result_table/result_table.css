@@ -35,7 +35,8 @@ button.btn {
 }
 
 .table-body {
-    overflow: scroll;
+    height: calc(100% - 35px);
+    overflow-y: auto;
 }
 
 .table-body > ul > .table-row {

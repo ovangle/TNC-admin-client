@@ -8,11 +8,23 @@ import {MemberTerm} from './term.record';
 @Component({
     selector: 'member-term',
     template: `
-        <h3>Membership term</h3>
-        <label>Type</label>{{term.type | termType }}<br/>
-        <label>Joined</label>{{ term.joined | date }}<br/>
-        <label>Renewed</label>{{ term.renewed | date | default: 'Never'}}<br/>
-        <label>Expires</label>{{ term.endDate | date }}<br/>
+        <div class="form-group">
+            <label>Type</label><br/>
+            <div class="form-control-static">{{term.type | termType }}</div>
+            
+        </div>
+        <div class="form-group">
+            <label>Joined</label><br/>
+            <div class="form-control-static">{{ term.joined | date }}</div>
+        </div>
+        <div class="form-group">
+        <label>Renewed</label><br/>
+            <div class="form-control-static">{{ term.renewed | date | default: 'Never'}}</div>
+        </div>
+        <div class="form-group">
+            <label>Expires</label><br/>
+            <div class="form-control-static">{{ term.endDate | date }}</div>
+        </div>
     `,
     pipes: [MemberTermTypePipe, DefaultPipe],
     styles: [`

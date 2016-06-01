@@ -6,6 +6,8 @@ import {GenderSelect} from '../basic_info/gender_select.component';
 import {Gender} from "../basic_info/gender.enum";
 import {ContactInfo} from "../contact/contact_info.record";
 import {IncomeInfo} from "../income/income_info.record";
+import {IncomeInfoComponent} from '../income/income_info.component';
+import {ContactInfoComponent} from "../contact/contact_info.component";
 
 @Component({
     selector: 'non-member-partner-info',
@@ -22,17 +24,17 @@ import {IncomeInfo} from "../income/income_info.record";
                    (genderChange)="_genderChanged($event)">
     </gender-select>
     
-    <contact-info [contactInfo]="partner.contactInfo"
+    <contact-info [contactInfo]="partner.contact"
                   (contactInfoChange)="_contactInfoChanged($event)"
                   [disabled]="disabled">
     </contact-info>
     
-    <income-info [incomeInfo]="partner.incomeInfo"
+    <income-info [incomeInfo]="partner.income"
                  (incomeInfoChange)="_incomeInfoChanged($event)"
                  [disabled]="disabled">
     </income-info>
     `,
-    directives: [NameInput, GenderSelect],
+    directives: [NameInput, GenderSelect, ContactInfoComponent, IncomeInfoComponent],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -65,13 +67,13 @@ export class NonMemberPartnerInfo {
 
     _contactInfoChanged(contactInfo: ContactInfo) {
         this.partnerChange.emit(
-            <NonMemberPartner>this.partner.set('contactInfo', contactInfo)
+            <NonMemberPartner>this.partner.set('contact', contactInfo)
         );
     }
 
     _incomeInfoChanged(incomeInfo: IncomeInfo) {
         this.partnerChange.emit(
-            <NonMemberPartner>this.partner.set('incomeInfo', incomeInfo)
+            <NonMemberPartner>this.partner.set('income', incomeInfo)
         );
 
     }

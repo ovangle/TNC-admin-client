@@ -1,6 +1,6 @@
 
 import {Component, ViewEncapsulation, ChangeDetectionStrategy} from "angular2/core";
-import {ROUTER_DIRECTIVES, RouterLink, RouteConfig, RouterOutlet} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouterLink, RouteConfig, RouterOutlet, Router} from 'angular2/router';
 
 import {AdminHome} from '../admin/home.component';
 
@@ -71,12 +71,14 @@ import {MemberRenewalScript} from "../member/renew.component";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RouteConfig([
-    {path: '/member/...', component: MemberHome, as: 'Member', useAsDefault: true},
+    {path: '/member/...', component: MemberHome, as: 'Member'},
     {path: '/admin', component: AdminHome, as: 'Admin'}
 ])
 export class DashboardComponent {
-    ngOnInit() {
-        console.log('dashboard.ngOnInit()');
+    /*
+    constructor(router: Router) {
+        router.navigate(['Member', 'Search']);
     }
+    */
 
 }
