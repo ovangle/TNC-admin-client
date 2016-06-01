@@ -4,10 +4,11 @@ import {ContactInfo} from './contact_info.record';
 import {EmailPipe} from './email.pipe';
 import {PhonePipe} from './phone_number.pipe';
 
+import {PhoneInput} from '../../utils/components/phone_input.component';
+
 @Component({
     selector: 'contact-info',
     template: `
-        <h3>Contact Info</h3>
         <form>
         <div class="form-group">
             <label for="email">Email</label>
@@ -17,36 +18,26 @@ import {PhonePipe} from './phone_number.pipe';
                    [disabled]="disabled">
         </div>
         
-        <div class="form-group">
-            <label for="phone">Phone</label> 
-            <input type="text" name="phone" class="form-control"
-                   [ngModel]="contactInfo.phone" 
-                   (ngModelChange)="_phoneChange($event)"
-                   [disabled]="disabled">
-        </div>
-        
-        <div class="form-group">
-            <label for="mobile">Mobile</label> 
-            <input type="text" name="mobile" class="form-control"
-                   [ngModel]="contactInfo.mobile"
-                   (ngModelChange)="_mobileChange($event)"
-                   [disabled]="disabled">
-        </div>
+        <phone-input [label]="'Phone'"
+                     [format]="'(dd) dddd dddd'"
+                     [phoneNumber]="contactInfo.phone"
+                     (phoneNumberChange)="_phoneChange($event)"
+                     [disabled]="disabled"></phone-input>
+        <phone-input [label]="'Mobile'"
+                     [format]="'dddd dddd dddd'"
+                     [phoneNumber]="contactInfo.phone"
+                     (phoneNumberChange)="_mobileChange($event)"
+                     [disabled]="disabled">
+        </phone-input>
         </form>
-        
-        <!--
-        <span *ngIf="contactInfo.email" [innerHtml]="contactInfo.email | email | valueOr: 'Unknown'"></span><br/>
-        <label>Phone</label>{{ contactInfo.phone | phone: 'landline' | valueOr: 'Unknown'}}<br/>
-        <label>Mobile</label>{{ contactInfo.mobile | phone: 'mobile' | valueOr: 'Unknown' }}<br/>
-        -->
     `,
+    directives: [PhoneInput],
     styles: [`
     label { width: 10rem;
     `],
     styleUrls: [
         'assets/css/bootstrap.css'
     ],
-    pipes: [EmailPipe, PhonePipe],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -66,7 +57,7 @@ export class ContactInfoComponent {
             <ContactInfo>this.contactInfo.set('phone', value)
         );
     }
-    
+
     _mobileChange(value: string) {
         this.contactInfoChange.emit(
             <ContactInfo>this.contactInfo.set('mobile', value)
