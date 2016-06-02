@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
 import {identity} from 'caesium-core/codec';

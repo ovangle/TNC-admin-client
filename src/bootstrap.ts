@@ -10,9 +10,7 @@ import {bootstrap} from '@angular/platform-browser-dynamic';
 import {
     LocationStrategy, HashLocationStrategy, PathLocationStrategy, APP_BASE_HREF
 } from '@angular/common';
-
-import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
-
+import { ROUTER_PROVIDERS } from '@angular/router';
 
 import {API_HOST_HREF, SEARCH_PAGE_SIZE, MANAGER_PROVIDERS} from 'caesium-model/manager';
 

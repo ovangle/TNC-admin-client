@@ -1,5 +1,3 @@
-
-
 import {Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 
 import {Search, SearchResult} from 'caesium-model/manager';
@@ -40,9 +38,5 @@ export class MemberSearchComponent {
             this.result = result;
             this._changeDetector.markForCheck();
         });
-    }
-    
-    ngOnInit() {
-        console.log('MemberSearchComponent.ngOnInit');
     }
 }

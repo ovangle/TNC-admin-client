@@ -5,13 +5,13 @@ import {SearchResult} from 'caesium-model/manager';
 import {Member} from '../member.model';
 import {MemberSearchBarComponent} from "../search/search_bar.component";
 import {SearchResultDropdown} from '../search/search_result_dropdown.component';
-import {RouterLink} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 
 @Component({
     selector: 'member-partner-info',
     template: `
         <div *ngIf="member">
-            <a [routerLink]="['Dashboard', 'Member', member.id]"></a>
+            <a [routerLink]="['/member', member.id]"></a>
             <button>Change</button><button>Remove</button>
         </div>
         
@@ -26,7 +26,7 @@ import {RouterLink} from "@angular/router-deprecated";
             </member-search-result-dropdown>
         </div>
     `,
-    directives: [MemberSearchBarComponent, SearchResultDropdown, RouterLink],
+    directives: [MemberSearchBarComponent, SearchResultDropdown, ROUTER_DIRECTIVES],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

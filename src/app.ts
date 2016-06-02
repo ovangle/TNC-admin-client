@@ -1,26 +1,44 @@
 import {Component} from "@angular/core";
-import {ROUTER_DIRECTIVES, RouteConfig, Router, RouterLink} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 
-import {DashboardComponent} from './layout/dashboard.component';
+import {NavBarComponent} from './layout/nav_bar.component'
 import {UserManager} from './user/user';
 import {UserContext} from './user/context.service';
 import {LoginPage} from './user/login_page.component';
 
+import {MemberHome} from './member/home.component';
+
 @Component({
     selector: 'main-app',
     template: `
-        <router-outlet></router-outlet>
+        <header>
+            <nav-bar></nav-bar>
+        </header>
+        <main class="flex">
+            <router-outlet></router-outlet>
+        </main>
     `,
     styles: [`
-        :host { height: 100%; display: block; }
+    :host {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        background-color: #fff;
+    }
     `],
-    directives: [ROUTER_DIRECTIVES, RouterLink],
+    styleUrls: [
+        'assets/css/bootstrap.css',
+        'assets/css/flex.css'
+    ],
+    directives: [ROUTER_DIRECTIVES, NavBarComponent],
     providers: [UserManager, UserContext]
 })
-@RouteConfig([
-    {path: '/', redirectTo: ['Dashboard', 'Member', 'Search']},
-    {path: '/login', component: LoginPage, as: 'Login'},
-    {path: '/dashboard/...', component: DashboardComponent, as: 'Dashboard'}
+@Routes([
+    {path: '/login',  component: LoginPage},
+    {path: '/member', component: MemberHome},
 ])
 export class MainApp {
     private userContext: UserContext;

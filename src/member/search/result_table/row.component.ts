@@ -1,5 +1,5 @@
 import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
-import {RouterLink} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 
 import {Expander} from "../../../layout/expander.component";
 import {DefaultPipe} from '../../../utils/pipes/default.pipe';
@@ -29,7 +29,7 @@ import {AlertLabels} from "../../../utils/alert_labels.component";
             <alert-labels *ngIf="!colHeader" class="table-cell" [model]="item"></alert-labels>
         </header>
         <main *ngIf="!colHeader" class="layout horizontal">
-            <a [routerLink]="['MemberDetail', {id: item.id}]">View</a>
+            <a [routerLink]="['/member', item.id]">View</a>
         </main>
     </expander>
     `,
@@ -66,7 +66,7 @@ import {AlertLabels} from "../../../utils/alert_labels.component";
         'assets/css/bootstrap.css',
         'assets/css/flex.css'
     ],
-    directives: [Expander, AlertLabels, RouterLink],
+    directives: [Expander, AlertLabels, ROUTER_DIRECTIVES],
     pipes: [AddressPipe, DefaultPipe],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

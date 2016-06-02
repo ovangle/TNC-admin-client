@@ -2,7 +2,7 @@ import {
     Component, ChangeDetectionStrategy, ViewEncapsulation, provide, AfterViewInit,
     ViewChild
 } from '@angular/core';
-import {ROUTER_DIRECTIVES, RouteConfig, Router, RouterOutlet} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 import {ModelHttp, ManagerOptions} from "caesium-model/manager";
 
 import {MemberManager} from './member.model';
@@ -26,9 +26,8 @@ import {MemberDetailsComponent} from "./details.component";
     ],
     styles: [`
     :host { 
-        position: absolute;
-        top: 0; bottom: 0;
-        right: 0; left: 0;
+        display: block;
+        height: 100%;
     }
     
     .container {
@@ -46,9 +45,9 @@ import {MemberDetailsComponent} from "./details.component";
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@RouteConfig([
-    {path: '/search', component: MemberSearchComponent, name: 'Search', useAsDefault: true},
-    {path: '/:id', component: MemberDetailsComponent, name: 'MemberDetail'},
+@Routes([
+    {path: '/', component: MemberSearchComponent},
+    {path: '/:id', component: MemberDetailsComponent},
 ])
 export class MemberHome {
     ngOnInit() {

@@ -2,7 +2,7 @@ import {
     Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, provide, NgZone
 } from "@angular/core";
 
-import {Router, RouteParams, RouterLink} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES, OnActivate, RouteSegment} from "@angular/router";
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {AlertLabels} from '../utils/alert_labels.component';
@@ -24,9 +24,9 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
             <div *ngIf="displayPageHeader" class="page-header">
                 <h1>
                     {{member.firstName}} {{member.lastName}} <small>{{member.id}}</small>
-                    <button class="btn" [routerLink]="['Search']">
+                    <a class="btn btn-danger" [routerLink]="['/member']">
                         <i class="fa fa-close"></i>
-                    </button>
+                    </a>
                 </h1>     
                 <alert-labels [model]="member"></alert-labels>
             </div>
@@ -71,7 +71,7 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
         overflow: auto;
     }
     
-    h1 > button.btn {
+    h1 > a.btn {
         float: right; 
     }    
     
@@ -94,7 +94,7 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
     ],
     directives: [
         AlertLabels, MemberBasicInfoComponent, ContactInfoComponent, MemberTermComponent,
-        IncomeInfoComponent, PartnerInfoComponent, RouterLink
+        IncomeInfoComponent, PartnerInfoComponent, ROUTER_DIRECTIVES
     ],
     providers: [
         //TODO: Remove. Should only need to provide MemberManager
@@ -105,7 +105,7 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberDetailsComponent implements OnInit {
+export class MemberDetailsComponent implements OnActivate {
     @Input() member: Member;
 
     /**
@@ -114,35 +114,26 @@ export class MemberDetailsComponent implements OnInit {
      */
     @Input() displayPageHeader: boolean = true;
 
-    private router: Router;
-    private routeParams: RouteParams;
     private memberManager: MemberManager;
     private _zone: NgZone;
     private _changeDetector: ChangeDetectorRef;
 
-    ngOnInit() {
-
-    }
-
-    constructor(
-        router: Router,
-        routeParams: RouteParams,
-        memberManager: MemberManager,
-        changeDetector: ChangeDetectorRef,
-        zone: NgZone
-    ) {
-        this.router = router;
-        this.routeParams = routeParams;
-        this.memberManager = memberManager;
-        this._changeDetector = changeDetector;
-        this._zone = zone;
-
-        let id = Number.parseInt(this.routeParams.get('id'));
+    routerOnActivate(curr: RouteSegment) {
+        var id = Number.parseInt(curr.parameters['id']);
         var response = this.memberManager.getById(id);
         response.handle({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
             this.member = member;
             this._changeDetector.markForCheck();
         });
-        //TODO: handle not found.
+    }
+
+    constructor(
+        memberManager: MemberManager,
+        changeDetector: ChangeDetectorRef,
+        zone: NgZone
+    ) {
+        this.memberManager = memberManager;
+        this._changeDetector = changeDetector;
+        this._zone = zone;
     }
 }

@@ -24,6 +24,6 @@ const APP_PATHS = {
     "@angular/platform-browser-dynamic": "/node_modules/@angular/platform-browser-dynamic/index.js",
     "@angular/platform-browser-dynamic/*": "/node_modules/@angular/platform-browser-dynamic/*.js",
     
-    "@angular/router-deprecated": "/node_modules/@angular/router-deprecated/index.js",
-    "@angular/router-deprecated/*": "/node_modules/@angular/router-deprecated/*.js"
+    "@angular/router": "/node_modules/@angular/router/index.js",
+    "@angular/router/*": "/node_modules/@angular/router/*.js",
 };
