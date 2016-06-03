@@ -11,7 +11,7 @@ import {Gender, GENDER_VALUES, GenderPipe} from './gender.enum';
                 [disabled]="disabled"
                 class="form-control"
                 [ngModel]="gender"
-                (ngModelChange)="genderChange($event)">
+                (ngModelChange)="genderChange.emit($event)">
             <option value="null">Unknown</option>
             <option *ngFor="let value of genderValues" [value]="value">{{value | gender}}</option>
         </select>
@@ -27,14 +27,9 @@ import {Gender, GENDER_VALUES, GenderPipe} from './gender.enum';
 export class GenderSelect {
     genderValues = GENDER_VALUES;
 
-    @Input() gender: Gender;
+    @Input() gender:Gender;
     @Output() genderChange = new EventEmitter<Gender>();
 
-    @Input() label: string;
-    @Input() disabled: boolean;
-
-    genderChanged(newValue: any) {
-        this.gender = newValue;
-        this.genderChange.emit(newValue);
-    }
+    @Input() label:string;
+    @Input() disabled:boolean;
 }
