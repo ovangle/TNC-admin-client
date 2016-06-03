@@ -2,13 +2,13 @@ import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetecti
 
 import {SearchResult} from 'caesium-model/manager';
 
-import {Member} from '../member.model';
-import {MemberSearchBarComponent} from "../search/search_bar.component";
-import {SearchResultDropdown} from '../search/search_result_dropdown.component';
+import {Member} from '../member/member.model';
+import {MemberSearchBarComponent} from "../member/search/search_bar.component";
+import {SearchResultDropdown} from '../member/search/search_result_dropdown.component';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
 @Component({
-    selector: 'member-partner-info',
+    selector: 'member-partner-details',
     template: `
         <div *ngIf="member">
             <a [routerLink]="['/member', member.id]"></a>
@@ -17,7 +17,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
         
         <div *ngIf="!member">
             <member-search-bar [resultDisplay]="'DROPDOWN'"
-                           (resultChange)="_searchResultChange($event)">
+                               (resultChange)="_searchResultChange($event)">
             </member-search-bar>
             
             <member-search-result-dropdown
@@ -30,7 +30,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberPartnerInfo {
+export class MemberPartnerDetails {
     @Input() partner: Member;
     @Output() partnerChange = new EventEmitter<Member>();
 

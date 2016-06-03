@@ -14,7 +14,9 @@ import {MemberBasicInfoComponent} from './basic_info/basic_info.component';
 import {ContactInfoComponent} from './contact/contact_info.component';
 import {IncomeInfoComponent} from './income/income_info.component';
 import {MemberTermComponent} from './term/term.component';
-import {PartnerInfoComponent} from './partner/partner_info.component';
+
+import {PartnerDetailsComponent} from 'partner/partner_details.component';
+import {PartnerManager} from 'partner/partner.manager';
 
 
 @Component({
@@ -30,23 +32,28 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
                 </h1>     
                 <alert-labels [model]="member"></alert-labels>
             </div>
-            <div class="main">
-            <div class="row">
-                <div class="col-md-5">
-                    <member-basic-info [member]="member" 
+            <div class="col-md-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" class="active"><a href="javascript:void()">Basic</a></li>
+                    <li role="presentation">Partner</li>
+                    <li role="presentation">Dependents</li>
+                </ul>
+            </div>
+            <div class="col-md-5">
+                <member-basic-info [member]="member"
                                        (memberChange)="member = $event"></member-basic-info>
-                    <income-info [incomeInfo]="member.income"></income-info>
-                </div>
-                <div class="col-md-4">
-                    <contact-info [contactInfo]="member.contact"></contact-info>
-                </div>
+                <income-info [incomeInfo]="member.income"></income-info>
+            </div>
+            <div class="col-md-4">
+                <contact-info [contactInfo]="member.contact"></contact-info>
+            </div>
                 <div class="col-md-3">
                     <member-term [term]="member.term"></member-term>
                 </div>
                 
                 <div class="col-md-7">
-                    <partner-info [member]="member"
-                                  (memberChange)="member = $event"></partner-info> 
+                    <member-partner-details [member]="member"
+                                            (memberChange)="member = $event"></member-partner-details> 
                     <!-- 
                     <h3>Client assistance log</h3>       
                     <input placeholder="filters" type="text">
@@ -59,8 +66,6 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
                         </li>
                     </ul>
                     -->
-                </div>
-            </div>
         </div>
     `,
     styles: [`
@@ -94,13 +99,14 @@ import {PartnerInfoComponent} from './partner/partner_info.component';
     ],
     directives: [
         AlertLabels, MemberBasicInfoComponent, ContactInfoComponent, MemberTermComponent,
-        IncomeInfoComponent, PartnerInfoComponent, ROUTER_DIRECTIVES
+        IncomeInfoComponent, PartnerDetailsComponent, ROUTER_DIRECTIVES
     ],
     providers: [
         //TODO: Remove. Should only need to provide MemberManager
         provide(ModelHttp, {useClass: MemberHttp}),
         ManagerOptions,
-        MemberManager
+        MemberManager,
+        PartnerManager
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

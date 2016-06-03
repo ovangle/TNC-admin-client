@@ -1,11 +1,11 @@
 import moment = require('moment');
-import {Observable} from 'rxjs/Observable';
 
 import {Injectable, Pipe, Type} from '@angular/core';
 
 import {Iterable, List, Set} from 'immutable';
 
-import {isBlank, isDefined} from 'caesium-core/lang';
+import {isDefined} from 'caesium-core/lang';
+import {identityConverter} from "caesium-core/converter";
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
 import {ManagerBase, ManagerOptions, ModelHttp, Search, SearchParameter} from 'caesium-model/manager';
 import {StateException} from 'caesium-model/exceptions';
@@ -13,19 +13,19 @@ import {bool, num, str, date, enumToString, JsonObject} from "caesium-model/json
 
 import {AlertLabel, CheckForAlertLabels} from '../utils/alert_label/alert_label';
 
+import {Partner} from 'partner/partner.model';
+import {PartnerManager} from 'partner/partner.manager';
+
 import {Gender,genderCodec} from './basic_info/gender.enum';
 import {Address, addressCodec} from './basic_info/address.record';
 import {ResidentialStatus, residentialStatusCodec} from './basic_info/residential_status.record';
 import {ContactInfo, contactInfoCodec} from './contact/contact_info.record';
 import {IncomeInfo, incomeInfoCodec} from "./income/income_info.record";
 import {memberTermCodec, MemberTerm} from "./term/term.record";
-import {Partner, NonMemberPartner, nonMemberPartnerCodec, checkForPartnerAlertLabels} from "./partner/partner.record";
-import {PartnershipStatus} from './partner/partnership_status_input.component';
-import {toStringConverter, identityConverter} from "caesium-core/converter";
+
 
 @Model({kind: 'member::Member'})
-export class Member extends ModelBase
-implements CheckForAlertLabels, Partner {
+export class Member extends ModelBase implements CheckForAlertLabels {
     @Property({codec: str})
     firstName: string;
 
@@ -83,26 +83,10 @@ implements CheckForAlertLabels, Partner {
     /**
      * The id of the member that is a partner of this member.
      */
-    @RefProperty({refName: 'memberPartner'})
+    @RefProperty({refName: 'partner'})
     partnerId: number;
 
-    memberPartner: Member;
-
-
-    //TODO: Need to be able to override the name on the property so that this can be serialized as 'partner'.
-    // Then we can have the cleaner serialized output of
-    // { ...
-    //   partnerId: 13477 (or partner: { <non-member-partner> }
-    //   ... }
-    @Property({
-        codec: nonMemberPartnerCodec,
-        defaultValue: () => new NonMemberPartner()
-    })
-    nonMemberPartner: NonMemberPartner;
-
-    get partner(): Partner {
-        return this.nonMemberPartner || this.memberPartner;
-    }
+    partner: Partner;
 
     checkForAlertLabels(): Iterable<number, AlertLabel | Iterable<number,any>> {
         var unresolvedLabels = List([
@@ -113,59 +97,21 @@ implements CheckForAlertLabels, Partner {
         ]);
         var resolvedLabels: Iterable<number, AlertLabel | Iterable<number, any>>;
         if (isDefined(this.partner)) {
-            resolvedLabels = checkForPartnerAlertLabels(this.partner);
+            resolvedLabels = this.partner.checkForAlertLabels();
         } else {
             resolvedLabels = List<AlertLabel>();
         }
         return unresolvedLabels.concat(resolvedLabels);
     }
 
-    resolvePartner(memberManager: MemberManager) {
+    resolvePartner(partnerManager: PartnerManager) {
         // TODO: Should not require a literal object to be passed into the function.
-        return this.resolveProperty(memberManager, 'partnerId', {});
+        return this.resolveProperty(partnerManager, 'partnerId', {});
     }
 
     set(propName: string, value: any): Member {
-        if (propName === 'partner') {
-            return this.setPartner(value);
-        }
         return <Member>super.set(propName, value);
     }
-
-    /**
-     * Set the partner
-     * @param partner
-     * @returns {Member}
-     */
-    setPartner(partner: Partner): Member {
-        if (isBlank(partner) && this.isPartnered) {
-            // We can't automatically set isPartnered -- we don't know whether the member is not partnered
-            // or not disclosed.
-            throw new StateException('Cannot set \'partner\' to blank value: member.isPartnered is true');
-        }
-
-        if (partner instanceof Member) {
-            return this
-                .set('isPartnered', true)
-                .set('memberPartner', partner);
-        }
-        if (partner instanceof NonMemberPartner) {
-            return this
-                .set('isPartnered', true)
-                .set('nonMemberPartner', partner);
-        }
-
-        throw new TypeError(`Not a Member or a NonMemberPartner: ${partner}`);
-    }
-
-    get partnershipStatus(): PartnershipStatus {
-        var status: PartnershipStatus = {isPartnered: this.isPartnered};
-        if (this.isPartnered) {
-            status.isMember = !isBlank(this.partnerId);
-        }
-        return status;
-    }
-
 }
 
 export interface MemberName {
