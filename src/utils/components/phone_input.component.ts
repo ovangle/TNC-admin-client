@@ -35,7 +35,7 @@ export class PhoneInput {
 
     @Input()
     set phoneNumber(value: string) {
-        this._phoneNumber = formatPhoneNumber(value, this.format);
+        this._phoneNumber = formatPhoneNumber(value || '', this.format);
     }
 
     /// Only emit a new phone number when we have a complete phone number.
