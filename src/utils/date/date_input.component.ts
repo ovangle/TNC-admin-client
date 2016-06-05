@@ -14,30 +14,32 @@ const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
 @Component({
     selector: 'date-input',
     template: `
-    <label for="date-input">{{label}}</label>
-    <div class="input-group">
-        <input name="date-input" type="text" class="form-control" 
-            [placeholder]="_fullPlaceholder"
-            [ngModel]="_moment?.format('DD/MM/YYYY')"
-            (focus)="highlightInput($event)"
-            (blur)="tryParseDate($event)"
-            [disabled]="disabled">
-        <div class="input-group-btn">
-            <button class="btn btn-default" 
-                    (mousedown)="suppress($event)" 
-                    (click)="togglePicker()"
-                    [disabled]="disabled">
-                <i class="fa fa-calendar"></i>
-            </button>
+    <div class="form-group">
+        <label for="date-input">{{label}}</label>
+        <div class="input-group">
+            <input name="date-input" type="text" class="form-control"
+                [placeholder]="_fullPlaceholder"
+                [ngModel]="_moment?.format('DD/MM/YYYY')"
+                (focus)="highlightInput($event)"
+                (blur)="tryParseDate($event)"
+                [disabled]="disabled">
+            <div class="input-group-btn">
+                <button class="btn btn-default"
+                        (mousedown)="suppress($event)"
+                        (click)="togglePicker()"
+                        [disabled]="disabled">
+                    <i class="fa fa-calendar"></i>
+                </button>
+            </div>
         </div>
+        <dropdown [active]="_dropdownActive"
+                  [alignRight]="true"
+                  (closeRequest)="_dropdownActive = false">
+            <date-picker [date]="_moment"
+                         (dateChange)="pickerDateChange($event)">
+            </date-picker> 
+        </dropdown>    
     </div>
-    <dropdown [active]="_dropdownActive"
-              [alignRight]="true"
-              (closeRequest)="_dropdownActive = false">
-        <date-picker [date]="_moment"
-                     (dateChange)="pickerDateChange($event)">
-        </date-picker> 
-    </dropdown>    
     `,
     directives: [DatePicker, Dropdown],
     styles: [`
