@@ -1,11 +1,10 @@
 import {
-    Component, ChangeDetectionStrategy, ViewEncapsulation, provide, AfterViewInit,
-    ViewChild
+    Component, ChangeDetectionStrategy, ViewEncapsulation, provide
 } from '@angular/core';
 import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 import {ModelHttp, ManagerOptions} from "caesium-model/manager";
 
-import {MemberManager} from './member.model';
+import {MemberManager} from './member.manager';
 import {MemberSearchComponent} from "./search/search.component";
 import {MemberHttp} from "./member_http";
 import {MemberDetailsComponent} from "./details.component";
@@ -50,8 +49,9 @@ import {MemberDetailsComponent} from "./details.component";
     {path: '/:id', component: MemberDetailsComponent},
 ])
 export class MemberHome {
-    ngOnInit() {
-        console.log('MemberHome.onInit()');
+    routerOnActivate() {
+        console.log('member home')
     }
+
 }
 

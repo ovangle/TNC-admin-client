@@ -21,7 +21,7 @@ import {isBlank} from 'caesium-core/lang';
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class YesnoSelect {
+export class YesNoSelect {
     _NULL_VALUE = {};
 
     @Input() value: boolean;

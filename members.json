@@ -3,8 +3,10 @@
     {
       "kind": "member::Member",
       "id": 104349,
-      "first_name": "Kirmei kiritai",
-      "last_name": "Martin",
+      "name": {
+        "first_name": "Kirmei kiritai",
+        "last_name": "Martin"
+      },
       "gender": "FEMALE",
       "date_of_birth": "1985-08-03T00:00:00.000Z",
       "aboriginal_or_torres_strait_islander": false,
@@ -22,9 +24,11 @@
         "phone": "0478031488"
       },
       "income": {
-        "is_low_income": true,
         "proof_of_low_income_flags": 1,
-        "income_source": "CENTRELINK_BENEFIT [NEWSTART]"
+        "type": "CENTRELINK_BENEFIT",
+        "benefit": {
+          "type": "NEWSTART"
+        }
       },
       "term": {
         "type": "TEMPORARY",
@@ -36,8 +40,10 @@
     {
       "kind": "member::Member",
       "id": 104441,
-      "first_name": "Francis",
-      "last_name": "Clements",
+      "name": {
+        "first_name": "Francis",
+        "last_name": "Clements"
+      },
       "gender": "MALE",
       "date_of_birth": "1950-04-03T00:00:00.000Z",
       "aboriginal_or_torres_strait_islander": false,
@@ -57,7 +63,8 @@
       "income": {
         "is_low_income": true,
         "proof_of_low_income_flags": 2,
-        "income_source": "CENTRELINK_BENEFIT [AGED]"
+        "primary_income": "CENTRELINK_BENEFIT",
+        "benefit": {"type": "AGED"}
       },
       "term": {
         "type": "TEMPORARY",

@@ -60,8 +60,8 @@ function searchMembers(members: Array<JsonObject>, params: {[param: string]: str
     }
 
     function matchNameComponent(member: JsonObject, partialName: string) {
-        return member['first_name'].includes(partialName)
-            || member['last_name'].includes(partialName);
+        return member['name']['first_name'].includes(partialName)
+            || member['name']['last_name'].includes(partialName);
     }
 
     function matchName(member: JsonObject, partialName: string) {

@@ -1,28 +1,27 @@
 import {Model, Property} from 'caesium-model/model';
 import {str} from 'caesium-model/json_codecs';
 
-import {Gender, genderCodec} from '../basic_info/gender.enum';
+import {
+    Name, NAME_CODEC,
+    Gender, GENDER_CODEC,
+    Contact, CONTACT_CODEC,
+    Income, INCOME_CODEC
+} from '../basic';
 
 import {Partner} from './partner.model';
-import {contactInfoCodec, ContactInfo} from "../contact/contact_info.record";
-import {incomeInfoCodec, IncomeInfo} from "../income/income_info.record";
-
 
 @Model({kind: 'partner::NonMemberPartner', superType: Partner})
 export abstract class NonMemberPartner extends Partner {
-    @Property({codec: str})
-    firstName: string;
+    @Property({codec: NAME_CODEC})
+    name:Name;
 
-    @Property({codec: str})
-    lastName: string;
+    @Property({codec: GENDER_CODEC})
+    gender:Gender;
 
-    @Property({codec: genderCodec})
-    gender: Gender;
+    @Property({codec: CONTACT_CODEC})
+    contact: Contact;
 
-    @Property({codec: contactInfoCodec})
-    contact: ContactInfo;
-
-    @Property({codec: incomeInfoCodec})
-    income: IncomeInfo;
+    @Property({codec: INCOME_CODEC})
+    income: Income;
 
 }

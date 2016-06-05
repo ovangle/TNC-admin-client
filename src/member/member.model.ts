@@ -8,31 +8,31 @@ import {isDefined} from 'caesium-core/lang';
 import {identityConverter} from "caesium-core/converter";
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
 import {ManagerBase, ManagerOptions, ModelHttp, Search, SearchParameter} from 'caesium-model/manager';
-import {StateException} from 'caesium-model/exceptions';
-import {bool, num, str, date, enumToString, JsonObject} from "caesium-model/json_codecs";
+import {bool, date} from "caesium-model/json_codecs";
 
 import {AlertLabel, CheckForAlertLabels} from '../utils/alert_label/alert_label';
 
-import {Partner} from 'partner/partner.model';
-import {PartnerManager} from 'partner/partner.manager';
+import {Partner} from './partner/partner.model';
+import {PartnerManager} from './partner/partner.manager';
 
-import {Gender,genderCodec} from './basic_info/gender.enum';
-import {Address, addressCodec} from './basic_info/address.record';
-import {ResidentialStatus, residentialStatusCodec} from './basic_info/residential_status.record';
-import {ContactInfo, contactInfoCodec} from './contact/contact_info.record';
-import {IncomeInfo, incomeInfoCodec} from "./income/income_info.record";
+import {
+    Name, NAME_CODEC,
+    Gender, GENDER_CODEC,
+    Address, ADDRESS_CODEC,
+    ResidentialStatus, RESIDENTIAL_STATUS_CODEC,
+    Contact, CONTACT_CODEC,
+    Income, INCOME_CODEC
+} from './basic';
+
 import {memberTermCodec, MemberTerm} from "./term/term.record";
 
 
 @Model({kind: 'member::Member'})
 export class Member extends ModelBase implements CheckForAlertLabels {
-    @Property({codec: str})
-    firstName: string;
+    @Property({codec: NAME_CODEC, defaultValue: () => new Name()})
+    name: Name;
 
-    @Property({codec: str})
-    lastName: string;
-
-    @Property({codec: genderCodec})
+    @Property({codec: GENDER_CODEC})
     gender: Gender;
 
     @Property({codec: date})
@@ -45,28 +45,28 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     registerConsent: boolean;
 
     @Property({
-        codec: addressCodec,
+        codec: ADDRESS_CODEC,
         defaultValue: () => new Address()
     })
     address: Address;
 
     @Property({
-        codec: residentialStatusCodec,
+        codec: RESIDENTIAL_STATUS_CODEC,
         defaultValue: () => new ResidentialStatus()
     })
     residentialStatus: ResidentialStatus;
 
     @Property({
-        codec: contactInfoCodec,
-        defaultValue: () => new ContactInfo()
+        codec: CONTACT_CODEC,
+        defaultValue: () => new Contact()
     })
-    contact: ContactInfo;
+    contact: Contact;
 
     @Property({
-        codec: incomeInfoCodec,
-        defaultValue: () => new IncomeInfo()
+        codec: INCOME_CODEC,
+        defaultValue: () => new Income()
     })
-    income: IncomeInfo;
+    income: Income;
 
     @Property({
         codec: memberTermCodec,
@@ -114,81 +114,3 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     }
 }
 
-export interface MemberName {
-    firstName: string;
-    lastName: string;
-    aliases: Set<string>;
-}
-
-function partialNameMatcher(modelValue: MemberName, paramValue: Set<string>): boolean {
-    var lowerMemberName = {
-        firstName: modelValue.firstName.toLowerCase(),
-        lastName: modelValue.lastName.toLowerCase(),
-    }
-
-    console.log('partialNameMatcher');
-    console.log('\tlower member name: ', JSON.stringify(lowerMemberName));
-
-    var lowercaseParams = paramValue.valueSeq().map((value) => value.toLowerCase());
-
-    console.log('\tparams', lowercaseParams.toArray())
-
-    var match = lowercaseParams.every((param) => {
-        return lowerMemberName.firstName.includes(param)
-            || lowerMemberName.lastName.includes(param)
-    });
-    console.log('\tis match: ', match);
-    return match;
-}
-
-function partialNameRefiner(previousParamValue: Set<string>, currentParamValue: Set<string>) {
-
-    var lowerCurrParam = currentParamValue.map((param) => param.toLowerCase()).toSet();
-    var lowerPrevParam = previousParamValue.map((param) => param.toLowerCase()).toSet();
-
-    function partialNameComponentRefiner(curr:string):boolean {
-        return lowerPrevParam.contains(curr)
-            || lowerPrevParam.some((prevParam) => prevParam.includes(curr));
-    }
-
-    return lowerCurrParam
-        .every((currParam) => partialNameComponentRefiner(currParam));
-}
-
-
-@Injectable()
-export class MemberManager extends ManagerBase<Member> {
-    constructor(options: ManagerOptions) {
-        super(options);
-    }
-
-    getModelType(): Type { return Member; }
-
-    getSearchParameters(): SearchParameter[] {
-        return [
-            // Search based on the initial segements of the id
-            {
-                name: 'id',
-                encoder: identityConverter,
-                accessor: (member:Member) => member.id,
-                matcher: (modelValue:string|number, paramValue:string) => {
-                    return modelValue.toString().startsWith(paramValue)
-                }
-            },
-            // matches a set of components to substrings of the different components of the name.
-            {
-                name: 'name',
-                encoder: (nameMatches:Set<string>) => nameMatches.join(','),
-                accessor: (member:Member) => ({
-                    firstName: member.firstName,
-                    lastName: member.lastName,
-                }),
-                matcher: partialNameMatcher,
-                refiner: partialNameRefiner
-            }
-        ];
-    }
-
-
-
-}

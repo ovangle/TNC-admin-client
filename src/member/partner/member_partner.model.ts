@@ -4,9 +4,7 @@ import {Model, ModelBase, RefProperty} from "caesium-model/model";
 import {isDefined} from 'caesium-core/lang';
 
 import {Member} from '../member.model';
-import {Gender} from '../basic_info/gender.enum';
-import {ContactInfo} from '../contact/contact_info.record';
-import {IncomeInfo} from '../income/income_info.record';
+import {Name, Gender, Contact, Income} from '../basic';
 import {Partner} from './partner.model';
 import {ModelResolutionError} from "caesium-model/exceptions";
 import {AlertLabel} from "../../utils/alert_label/alert_label";
@@ -19,16 +17,10 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     member: Member;
 
     // @DelegateProperty({delegate: 'member', propName: 'firstName'})
-    get firstName(): string {
-        this._assertMemberResolved();
-        return this.member.firstName;
+    get name(): Name {
+        return this.member.name;
     }
 
-    // @DelegateProperty({delegate: 'member', propName: 'lastName'})
-    get lastName(): string {
-        this._assertMemberResolved();
-        return this.member.lastName;
-    }
 
     // @DelegateProperty({delegate: 'member', propName: 'gender'})
     get gender(): Gender {
@@ -37,13 +29,13 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     }
 
     // @DelegateProperty({delegate: 'member', propName: 'contact'})
-    get contact(): ContactInfo {
+    get contact(): Contact {
         this._assertMemberResolved();
         return this.member.contact;
     }
 
     // @DelegateProperty({delegate: 'member', propName: 'income'})
-    get income(): IncomeInfo {
+    get income(): Income {
         this._assertMemberResolved();
         return this.member.income;
     }
@@ -51,10 +43,8 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     get(propNameOrRefName: string): any {
         this._assertMemberResolved();
         switch(propNameOrRefName) {
-            case 'firstName':
-                return this.firstName;
-            case 'lastName':
-                return this.lastName;
+            case 'name':
+                return this.name;
             case 'gender':
                 return this.gender;
             case 'contact':
@@ -70,11 +60,8 @@ export abstract class MemberPartner extends ModelBase implements Partner{
         var mutatedMember: Member;
         this._assertMemberResolved();
         switch(propNameOrRefName) {
-            case 'firstName':
-                mutatedMember = this.member.set('firstName', value);
-                break;
-            case 'lastName':
-                mutatedMember = this.member.set('lastName', value);
+            case 'name':
+                mutatedMember = this.member.set('name', value);
                 break;
             case 'gender':
                 mutatedMember = this.member.set('gender', value);

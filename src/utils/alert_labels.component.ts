@@ -1,10 +1,10 @@
 import {Component, Input, ViewEncapsulation, DoCheck, ChangeDetectionStrategy} from '@angular/core';
 import {List} from 'immutable';
 
-import {AlertLabel, CheckForAlertLabels} from './alert_label/alert_label';
+import {AlertLabel, LabelSeverity, CheckForAlertLabels} from './alert_label/alert_label';
 import {AlertLabelComponent} from "./alert_label/alert_label.component";
 
-export {AlertLabel, LabelSeverity} from './alert_label/alert_label';
+export {AlertLabel, LabelSeverity, CheckForAlertLabels};
 
 @Component({
     selector: 'alert-labels',

@@ -2,30 +2,29 @@ import {
     Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, provide, NgZone
 } from "@angular/core";
 
-import {ROUTER_DIRECTIVES, OnActivate, RouteSegment} from "@angular/router";
+import {ROUTER_DIRECTIVES, OnActivate, RouteSegment, Routes} from "@angular/router";
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {AlertLabels} from '../utils/alert_labels.component';
 
-import {Member, MemberManager} from './member.model';
+import {Member} from './member.model';
+import {MemberManager} from './member.manager';
 import {MemberHttp} from './member_http';
+import {MemberDetailsPageService} from './details_page.service';
 
-import {MemberBasicInfoComponent} from './basic_info/basic_info.component';
-import {ContactInfoComponent} from './contact/contact_info.component';
-import {IncomeInfoComponent} from './income/income_info.component';
 import {MemberTermComponent} from './term/term.component';
 
-import {PartnerDetailsComponent} from 'partner/partner_details.component';
-import {PartnerManager} from 'partner/partner.manager';
+import {PartnerDetailsComponent} from './partner/partner_details.page';
+import {MemberBasicDetails, NamePipe} from "./basic";
 
 
 @Component({
     selector: 'member-details',
     template: `
-        <div *ngIf="member" class="container-fluid"> 
-            <div *ngIf="displayPageHeader" class="page-header">
+        <div class="container-fluid"> 
+            <div *ngIf="member" class="page-header">
                 <h1>
-                    {{member.firstName}} {{member.lastName}} <small>{{member.id}}</small>
+                    {{member.name | name}} <small>{{member.id}}</small>
                     <a class="btn btn-danger" [routerLink]="['/member']">
                         <i class="fa fa-close"></i>
                     </a>
@@ -34,38 +33,21 @@ import {PartnerManager} from 'partner/partner.manager';
             </div>
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><a href="javascript:void()">Basic</a></li>
-                    <li role="presentation">Partner</li>
-                    <li role="presentation">Dependents</li>
+                    <li [ngClass]="{'active': _isBasicPageActive}">
+                        <a [routerLink]="'./'">Basic</a>
+                    </li>    
+                    <li role="presentation">
+                        <a [routerLink]="'./partner'">Partner</a>
+                    </li>
+                    <li role="presentation">
+                        <a [routerLink]="'./dependents'">Dependents</a>
+                    </li>
                 </ul>
             </div>
+            
             <div class="col-md-5">
-                <member-basic-info [member]="member"
-                                       (memberChange)="member = $event"></member-basic-info>
-                <income-info [incomeInfo]="member.income"></income-info>
+                <router-outlet></router-outlet>
             </div>
-            <div class="col-md-4">
-                <contact-info [contactInfo]="member.contact"></contact-info>
-            </div>
-                <div class="col-md-3">
-                    <member-term [term]="member.term"></member-term>
-                </div>
-                
-                <div class="col-md-7">
-                    <member-partner-details [member]="member"
-                                            (memberChange)="member = $event"></member-partner-details> 
-                    <!-- 
-                    <h3>Client assistance log</h3>       
-                    <input placeholder="filters" type="text">
-                    <ul class="list-unstyled">
-                        <li>#Date #Staffmember Issued food voucher $20<br/>
-                            <small>#NotesAboutContact</small>
-                        </li>
-                        <li>#Date #Staffmember Issued EAPA voucher $250<br/>
-                            <small>#NotesAboutContact</small>
-                        </li>
-                    </ul>
-                    -->
         </div>
     `,
     styles: [`
@@ -98,48 +80,53 @@ import {PartnerManager} from 'partner/partner.manager';
         'assets/css/font-awesome.css'
     ],
     directives: [
-        AlertLabels, MemberBasicInfoComponent, ContactInfoComponent, MemberTermComponent,
-        IncomeInfoComponent, PartnerDetailsComponent, ROUTER_DIRECTIVES
+        AlertLabels, MemberTermComponent, PartnerDetailsComponent, ROUTER_DIRECTIVES
     ],
+    pipes: [ NamePipe ],
     providers: [
         //TODO: Remove. Should only need to provide MemberManager
         provide(ModelHttp, {useClass: MemberHttp}),
         ManagerOptions,
         MemberManager,
-        PartnerManager
+        MemberDetailsPageService
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@Routes([
+    {path: '/', component: MemberBasicDetails},
+    {path: '/partner', component: PartnerDetails}
+])
 export class MemberDetailsComponent implements OnActivate {
     @Input() member: Member;
 
-    /**
-     * Whether the page header should be displayed.
-     * @type {boolean}
-     */
-    @Input() displayPageHeader: boolean = true;
-
     private memberManager: MemberManager;
-    private _zone: NgZone;
-    private _changeDetector: ChangeDetectorRef;
+    private _memberDetailsPageService: MemberDetailsPageService;
+    
+    get _isBasicPageActive(): boolean {
+        return this._memberDetailsPageService.activePage === MemberBasicDetails;
+    }
+    
+    _isPartnerPageActive(): boolean {
+        return this._memberDetailsPageService.activePage === MemberPartnerDetails; 
+    }
 
     routerOnActivate(curr: RouteSegment) {
+        console.log('MemberDetails.routerOnActivate');
         var id = Number.parseInt(curr.parameters['id']);
+        this._memberDetailsPageService.setMemberId(id);
+        
         var response = this.memberManager.getById(id);
-        response.handle({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
+        return response.handle<Member>({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
             this.member = member;
-            this._changeDetector.markForCheck();
         });
     }
 
     constructor(
         memberManager: MemberManager,
-        changeDetector: ChangeDetectorRef,
-        zone: NgZone
+        memberDetailsPageService: MemberDetailsPageService
     ) {
         this.memberManager = memberManager;
-        this._changeDetector = changeDetector;
-        this._zone = zone;
+        this._memberDetailsPageService = memberDetailsPageService
     }
 }

@@ -1,12 +1,11 @@
 import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 
-import {NameInput} from "../basic_info/name_input.component";
-import {GenderSelect} from '../basic_info/gender_select.component';
-import {Gender} from "../basic_info/gender.enum";
-import {ContactInfo} from "../contact/contact_info.record";
-import {IncomeInfo} from "../income/income_info.record";
-import {IncomeInfoComponent} from '../income/income_info.component';
-import {ContactInfoComponent} from "../contact/contact_info.component";
+import {
+    Name, NameInput,
+    Gender, GenderSelect,
+    Contact, ContactInput,
+    Income, IncomeInput
+} from '../basic';
 
 import {Partner} from './partner.model';
 import {NonMemberPartner} from './non_member_partner.model';
@@ -16,7 +15,7 @@ import {NonMemberPartner} from './non_member_partner.model';
     template: `
     <name-input [label]="'Name'" 
                 [disabled]="disabled"
-                [name]="name"
+                [name]="partner.name"
                 (nameChange)="_nameChanged($event)">
     </name-input>
         
@@ -26,17 +25,21 @@ import {NonMemberPartner} from './non_member_partner.model';
                    (genderChange)="_genderChanged($event)">
     </gender-select>
     
-    <contact-info [contactInfo]="partner.contact"
-                  (contactInfoChange)="_contactInfoChanged($event)"
-                  [disabled]="disabled">
+    <contact-input
+            [contact]="partner.contact"
+            (contactChange)="_contactChanged($event)"
+            [label]="'Contact'"
+            [disabled]="disabled">
     </contact-info>
     
-    <income-info [incomeInfo]="partner.income"
-                 (incomeInfoChange)="_incomeInfoChanged($event)"
-                 [disabled]="disabled">
+    <income-input 
+            [income]="partner.income"
+            (incomeChange)="_incomeChanged($event)"
+            [label]="'Income'"
+            [disabled]="disabled">
     </income-info>
     `,
-    directives: [NameInput, GenderSelect, ContactInfoComponent, IncomeInfoComponent],
+    directives: [NameInput, GenderSelect, ContactInput, IncomeInput],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -46,19 +49,10 @@ export class NonMemberPartnerDetails {
 
     @Input() disabled: boolean;
 
-    get name(): {firstName: string, lastName: string} {
-        return {
-            firstName: this.partner.firstName,
-            lastName: this.partner.lastName
-        };
-    }
-
-    _nameChanged(name: {firstName: string, lastName: string}) {
+    _nameChanged(name: Name) {
         this.partnerChange.emit(
-            <NonMemberPartner>this.partner
-                .set('firstName', name.firstName)
-                .set('lastName', name.lastName)
-        )
+            <NonMemberPartner>this.partner.set('name', name)
+        );
     }
 
     _genderChange(gender: Gender) {
@@ -67,16 +61,15 @@ export class NonMemberPartnerDetails {
         );
     }
 
-    _contactInfoChanged(contactInfo: ContactInfo) {
+    _contactChanged(contact: Contact) {
         this.partnerChange.emit(
-            <NonMemberPartner>this.partner.set('contact', contactInfo)
+            <NonMemberPartner>this.partner.set('contact', contact)
         );
     }
 
-    _incomeInfoChanged(incomeInfo: IncomeInfo) {
+    _incomeChanged(income: Income) {
         this.partnerChange.emit(
-            <NonMemberPartner>this.partner.set('income', incomeInfo)
+            <NonMemberPartner>this.partner.set('income', income)
         );
-
     }
 }

@@ -2,7 +2,8 @@ import {Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef
 
 import {Search, SearchResult} from 'caesium-model/manager';
 
-import {Member, MemberManager} from '../member.model';
+import {Member} from '../member.model';
+import {MemberManager} from '../member.manager';
 import {MemberSearchBarComponent} from "./search_bar.component";
 import {SearchResultTable} from "./search_result_table.component";
 

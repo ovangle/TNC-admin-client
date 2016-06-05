@@ -1,17 +1,10 @@
 import {Set, List} from 'immutable';
-
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-
 import {
-    Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
-    OnInit, ChangeDetectorRef, provide, OnDestroy
+    Component, Input, ViewEncapsulation, ChangeDetectionStrategy,
 } from "@angular/core";
-import {NgControl} from "@angular/common";
-import {ModelHttp, Search, SearchResult, ManagerOptions} from 'caesium-model/manager';
+import {Search} from 'caesium-model/manager';
 
-import {MemberHttp} from '../member_http';
-import {Member, MemberManager} from '../member.model';
+import {Member} from '../member.model';
 
 import {SearchResultDropdown} from './search_result_dropdown.component';
 import {SearchResultTable} from "./search_result_table.component";
@@ -31,22 +24,6 @@ import {SearchResultTable} from "./search_result_table.component";
         </form>
         
         <ng-content></ng-content>
-        
-        
-        <!--
-        <div *ngIf="resultDisplay === 'DROPDOWN'">
-            <search-result-dropdown [result]="result">
-            </search-result-dropdown>
-        </div>
-        
-        <div *ngIf="resultDisplay === 'TABLE'" class="result-table-container">
-            <search-result-table [result]="result"></search-result-table>
-        </div>
-        
-        <div *ngIf="!resultDisplayTypes.contains(resultDisplay)">
-            No result display set ({{resultDisplay}})
-        </div>
-        -->
     `,
     directives: [SearchResultDropdown, SearchResultTable],
     styles: [`
@@ -71,10 +48,6 @@ import {SearchResultTable} from "./search_result_table.component";
 })
 export class MemberSearchBarComponent {
     @Input() search: Search<Member>;
-    
-    onInit() {
-        console.log('MemberSearchBarComponent.onInit');
-    }
 
     _rawSearchChange(value:string) {
         var searchComponents = value.split(/\s+/).filter((component) => !!component);

@@ -1,5 +1,5 @@
 import {
-    Component, ContentChildren, Input, ViewEncapsulation, Query, QueryList, ElementRef,
+    Component, Input, ViewEncapsulation, Query, QueryList, ElementRef,
     SimpleChange, OnChanges, Renderer
 } from '@angular/core';
 

@@ -5,7 +5,7 @@ import {Expander} from "../../../layout/expander.component";
 import {DefaultPipe} from '../../../utils/pipes/default.pipe';
 
 import {Member} from '../../member.model';
-import {AddressPipe} from "../../basic_info/address.record";
+import {AddressPipe} from '../../basic';
 import {AlertLabels} from "../../../utils/alert_labels.component";
 
 @Component({
