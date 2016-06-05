@@ -1,5 +1,5 @@
 import {OrderedMap} from 'immutable';
-import {enumToString} from '../../../../../caesium-model/json_codecs';
+import {enumToString} from 'caesium-model/json_codecs';
 
 export const enum CarerRelType {
     NotDisclosed,

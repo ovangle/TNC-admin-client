@@ -1,5 +1,5 @@
 import {Model, ModelBase, Property} from 'caesium-model/model';
-import {str} from '../../../../../caesium-model/json_codecs';
+import {str} from 'caesium-model/json_codecs';
 
 import {Carer} from './carer.model';
 

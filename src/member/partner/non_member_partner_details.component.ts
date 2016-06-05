@@ -1,12 +1,12 @@
 import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 
-import {NameInput} from "../member/basic_info/name_input.component";
-import {GenderSelect} from '../member/basic_info/gender_select.component';
-import {Gender} from "../member/basic_info/gender.enum";
-import {ContactInfo} from "../member/contact/contact_info.record";
-import {IncomeInfo} from "../member/income/income_info.record";
-import {IncomeInfoComponent} from '../member/income/income_info.component';
-import {ContactInfoComponent} from "../member/contact/contact_info.component";
+import {NameInput} from "../basic_info/name_input.component";
+import {GenderSelect} from '../basic_info/gender_select.component';
+import {Gender} from "../basic_info/gender.enum";
+import {ContactInfo} from "../contact/contact_info.record";
+import {IncomeInfo} from "../income/income_info.record";
+import {IncomeInfoComponent} from '../income/income_info.component';
+import {ContactInfoComponent} from "../contact/contact_info.component";
 
 import {Partner} from './partner.model';
 import {NonMemberPartner} from './non_member_partner.model';

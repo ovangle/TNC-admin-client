@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
-import {Codec, union, JsonObject} from '../../../../../caesium-model/json_codecs';
+import {Codec, union, JsonObject} from 'caesium-model/json_codecs';
 
 import {Carer} from './carer.model';
 import {MemberCarer} from './member_carer.model';

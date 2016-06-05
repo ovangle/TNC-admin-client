@@ -2,7 +2,7 @@ import {Observable} from 'rxjs/Observable';
 import {List} from 'immutable';
 
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
-import {str, date} from '../../../../caesium-model/json_codecs';
+import {str, date} from 'caesium-model/json_codecs';
 
 import {CarerRel} from './carer_rel/carer_rel.model';
 

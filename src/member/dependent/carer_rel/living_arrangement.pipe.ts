@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {ArgumentError} from '../../../../../caesium-model/exceptions';
+import {ArgumentError} from 'caesium-model/exceptions';
 
 import {LivingArrangement} from './living_arrangement.model';
 

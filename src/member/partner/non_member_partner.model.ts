@@ -1,11 +1,11 @@
 import {Model, Property} from 'caesium-model/model';
-import {str} from '../../../../caesium-model/json_codecs';
+import {str} from 'caesium-model/json_codecs';
 
-import {Gender, genderCodec} from '../member/basic_info/gender.enum';
+import {Gender, genderCodec} from '../basic_info/gender.enum';
 
 import {Partner} from './partner.model';
-import {contactInfoCodec, ContactInfo} from "../member/contact/contact_info.record";
-import {incomeInfoCodec, IncomeInfo} from "../member/income/income_info.record";
+import {contactInfoCodec, ContactInfo} from "../contact/contact_info.record";
+import {incomeInfoCodec, IncomeInfo} from "../income/income_info.record";
 
 
 @Model({kind: 'partner::NonMemberPartner', superType: Partner})

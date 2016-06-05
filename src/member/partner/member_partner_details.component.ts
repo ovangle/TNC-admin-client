@@ -1,11 +1,11 @@
 import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
+import {ROUTER_DIRECTIVES} from "@angular/router";
 
 import {SearchResult} from 'caesium-model/manager';
 
-import {Member} from '../member/member.model';
-import {MemberSearchBarComponent} from "../member/search/search_bar.component";
-import {SearchResultDropdown} from '../member/search/search_result_dropdown.component';
-import {ROUTER_DIRECTIVES} from "@angular/router";
+import {Member} from '../member.model';
+import {MemberSearchBarComponent} from "../search/search_bar.component";
+import {SearchResultDropdown} from '../search/search_result_dropdown.component';
 
 @Component({
     selector: 'member-partner-details',

@@ -2,11 +2,11 @@ import {Iterable} from 'immutable';
 
 import {Model, ModelBase} from 'caesium-model/model';
 
-import {AlertLabel} from '../utils/alert_labels.component';
+import {AlertLabel} from '../../utils/alert_labels.component';
 
-import {Gender} from '../member/basic_info/gender.enum';
-import {ContactInfo} from '../member/contact/contact_info.record';
-import {IncomeInfo} from '../member/income/income_info.record';
+import {Gender} from '../basic_info/gender.enum';
+import {ContactInfo} from '../contact/contact_info.record';
+import {IncomeInfo} from '../income/income_info.record';
 
 
 @Model({kind: 'partner::Partner' /*abstract: true*/})

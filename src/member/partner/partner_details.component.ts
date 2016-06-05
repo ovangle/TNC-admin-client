@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEnc
 
 import {isBlank} from 'caesium-core/lang';
 
-import {YesnoSelect} from '../utils/components/yesno_select.component';
+import {YesnoSelect} from '../../utils/components/yesno_select.component';
 
 import {Partner} from './partner.model';
 import {PartnerManager} from './partner.manager';

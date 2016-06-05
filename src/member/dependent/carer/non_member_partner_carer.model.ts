@@ -1,8 +1,8 @@
 import {Observable} from 'rxjs/Observable';
 import {Model, ModelBase, RefProperty} from "caesium-model/model";
 
-import {NonMemberPartner} from '../../member/partner/non_member_partner.model';
-import {PartnerManager} from '../../member/partner/partner.manager';
+import {NonMemberPartner} from '../../partner/non_member_partner.model';
+import {PartnerManager} from '../../partner/partner.manager';
 
 import {Carer} from './carer.model';
 

@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {ArgumentError} from '../../../../../caesium-model/exceptions';
+import {ArgumentError} from 'caesium-model/exceptions';
 import {CarerRelType} from './carer_rel_type.model';
 
 @Pipe({name: 'carerRelType'})
