@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 import {Model, ModelBase, RefProperty} from "caesium-model/model";
 
-import {NonMemberPartner} from '../../partner/non_member_partner.model';
+import {NonMemberPartner} from '../../partner/non_member_partner/non_member_partner.model';
 import {PartnerManager} from '../../partner/partner.manager';
 
 import {Carer} from './carer.model';
@@ -17,6 +17,6 @@ export abstract class NonMemberPartnerCarer extends Carer {
     partner: NonMemberPartner;
 
     resolvePartner(partnerManager: PartnerManager): Observable<NonMemberPartnerCarer> {
-        return this.resolveProperty(partnerManager, 'partner', {});
+        return <Observable<NonMemberPartnerCarer>>this.resolveProperty(partnerManager, 'partner');
     }
 }

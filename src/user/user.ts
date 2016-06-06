@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {isBlank} from 'caesium-core/lang';
+import {Type} from 'caesium-core/lang';
 
 import {Model, Property, ModelBase} from 'caesium-model/model';
 import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
@@ -52,7 +52,7 @@ export class UserManager extends ManagerBase<User> {
 
 
     getModelType() { return User; }
-
+    getModelSubtypes(): Type[] { return []; }
     getSearchParameters(): SearchParameter[] {
         return undefined;
     }

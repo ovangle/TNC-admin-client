@@ -9,14 +9,9 @@ import {OtherCarer} from './other_carer.model';
 
 @Injectable()
 export class CarerManager extends ManagerBase<Carer> {
-    getModelType() {
-        //TODO (caesium-model): need to support managers of abstract models.
-        return Carer;
-    }
-
-    getSearchParameters():SearchParameter[] {
-        return undefined;
-    }
+    getModelType() { return Carer; }
+    getModelSubtypes() { return [MemberCarer, NonMemberPartnerCarer, OtherCarer]; }
+    getSearchParameters():SearchParameter[] { return undefined; }
 
     constructor(options: ManagerOptions) {
         super(options);

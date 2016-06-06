@@ -23,8 +23,6 @@ export class UserGroupManager extends ManagerBase<UserGroup> {
     }
 
     getModelType(): Type { return UserGroup; }
-    
+    getModelSubtypes(): Type[] { return []; } 
     getSearchParameters(): SearchParameter[] { return void 0; }
-
-
 }

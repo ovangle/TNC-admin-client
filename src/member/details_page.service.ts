@@ -34,6 +34,10 @@ export class MemberDetailsPageService {
         this.id = id;
     }
 
+    defaultMember() {
+        return this._memberManager.create(Member, {});
+    }
+
     getMember(): Promise<Member> {
         if (!isDefined(this.id)) {
             throw new StateException('No member ID set');

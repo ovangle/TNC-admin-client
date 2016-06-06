@@ -2,6 +2,7 @@ import {Set} from 'immutable';
 
 import {Injectable} from '@angular/core';
 
+import {Type} from 'caesium-core/lang';
 import {identityConverter} from 'caesium-core/converter';
 import {ManagerOptions, ManagerBase, SearchParameter} from 'caesium-model/manager';
 
@@ -15,7 +16,7 @@ export class MemberManager extends ManagerBase<Member> {
     }
 
     getModelType() { return Member; }
-
+    getModelSubtypes(): Type[] { return []; }
     getSearchParameters(): SearchParameter[] {
         return [
             // Search based on the initial segements of the id

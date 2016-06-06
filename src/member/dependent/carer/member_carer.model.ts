@@ -13,7 +13,6 @@ export abstract class MemberCarer extends ModelBase implements Carer {
     member: Member;
 
     resolveMember(memberManager: MemberManager): Observable<MemberCarer> {
-        //TODO (caesium-model): resolveProperty needs to be fixed.
-        return this.resolveProperty(memberManager, 'member', {});
+        return <Observable<MemberCarer>>this.resolveProperty(memberManager, 'member');
     }
 }

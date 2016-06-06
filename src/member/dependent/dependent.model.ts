@@ -6,7 +6,7 @@ import {str, date} from 'caesium-model/json_codecs';
 
 import {CarerRel} from './carer_rel/carer_rel.model';
 
-@Model({kind: 'dependent::Dependent'})
+@Model({kind: 'dependent::Dependent', isAbstract: true})
 export abstract class Dependent extends ModelBase {
     // @BackRefProperty({to: CarerRel, refName: 'carer', multi: true})
     // carers: List<CarerRel>;

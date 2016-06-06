@@ -97,7 +97,7 @@ export class MemberBasicDetails implements OnActivate {
                 changeDetector: ChangeDetectorRef) {
         this._memberDetailsPageService = memberDetailsPageService;
         this._changeDetector = changeDetector;
-        this.member = memberDetailsPageService._memberManager.create({});
+        this.member = memberDetailsPageService.defaultMember();
     }
 
     routerOnActivate(curr: RouteSegment) {

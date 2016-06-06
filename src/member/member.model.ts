@@ -1,13 +1,10 @@
 import moment = require('moment');
+import {Observable} from 'rxjs'
 
-import {Injectable, Pipe, Type} from '@angular/core';
-
-import {Iterable, List, Set} from 'immutable';
+import {Iterable, List} from 'immutable';
 
 import {isDefined} from 'caesium-core/lang';
-import {identityConverter} from "caesium-core/converter";
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
-import {ManagerBase, ManagerOptions, ModelHttp, Search, SearchParameter} from 'caesium-model/manager';
 import {bool, date} from "caesium-model/json_codecs";
 
 import {AlertLabel, CheckForAlertLabels} from '../utils/alert_label/alert_label';
@@ -104,9 +101,8 @@ export class Member extends ModelBase implements CheckForAlertLabels {
         return unresolvedLabels.concat(resolvedLabels);
     }
 
-    resolvePartner(partnerManager: PartnerManager) {
-        // TODO: Should not require a literal object to be passed into the function.
-        return this.resolveProperty(partnerManager, 'partnerId', {});
+    resolvePartner(partnerManager: PartnerManager): Observable<Member> {
+        return <Observable<Member>>this.resolveProperty(partnerManager, 'partnerId');
     }
 
     set(propName: string, value: any): Member {
