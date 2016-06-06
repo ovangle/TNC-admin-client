@@ -20,7 +20,7 @@ export const enum CarerRelType {
     Sibling,
 
     /**
-     * The dependent is a grandparent, uncle, aunty or other relation
+     * The dependent is a grandparent, uncle, aunt or other relation
      * to the dependent
      */
     OtherRelation,
