@@ -1,10 +1,12 @@
 import {Iterable, List} from 'immutable';
+import {Observable} from 'rxjs/Observable';
 
 import {isDefined} from 'caesium-core/lang';
 import {Model, ModelBase, RefProperty} from "caesium-model/model";
 import {ModelResolutionError} from "caesium-model/exceptions";
 
 import {Member} from '../../member.model';
+import {MemberManager} from '../../member.manager';
 import {Name, Gender, Contact, Income} from '../../basic';
 import {Partner} from '../partner.model';
 import {AlertLabel} from "../../../utils/alert_label/alert_label";
@@ -80,12 +82,16 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     }
 
     private _assertMemberResolved() {
-        if (!isDefined(this.member))
+        if (!this.isResolved('member'))
             throw new ModelResolutionError('member not resolved');
     }
 
     checkForAlertLabels(): Iterable.Indexed<AlertLabel | Iterable.Indexed<any>> {
         // TODO: Implementation
         return List<AlertLabel>();
+    }
+
+    resolveMember(memberManager: MemberManager): Observable<MemberPartner> {
+        return <Observable<MemberPartner>>this.resolveProperty(memberManager, 'member');
     }
 }

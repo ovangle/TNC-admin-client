@@ -24,7 +24,7 @@ import {PartnerHttp} from './partner_http';
     selector: 'partner-details',
     template: `
         <yesno-select [label]="'Is partnered'"
-                      [value]="isPartnered"
+                      [value]="member.isPartnered"
                       (valueChange)="_isPartneredChanged($event)">
         </yesno-select>
         
@@ -89,16 +89,13 @@ export class PartnerDetails {
         this._changeDetector = changeDetector;
     }
 
-    get isPartnered(): boolean {
-        return this.member.isPartnered;
-    }
 
     get isMemberPartner() {
-        return this.isPartnered && this.member.partner instanceof MemberPartner;
+        return this.member.isPartnered && this.member.partner instanceof MemberPartner;
     }
 
     get isNonMemberPartner() {
-        return this.isPartnered && this.member.partner instanceof NonMemberPartner;
+        return this.member.isPartnered && this.member.partner instanceof NonMemberPartner;
     }
 
     routerOnActivate(segment: RouteSegment) {
@@ -111,13 +108,9 @@ export class PartnerDetails {
         });
     }
 
-    _isPartneredChanged(isPartnered: boolean) {
-        this.member = this.member.set('isPartnered', isPartnered);
-    }
-
-    _isMemberPartnerChanged(isMemberPartner: boolean) {
+    _initializeMemberPartner(isMemberPartner?: boolean) {
         var partner: Partner;
-        if (isMemberPartner && !this.isMemberPartner) {
+        if (isMemberPartner && !this.isNonMemberPartner) {
             partner = this._partnerManager.create(MemberPartner, {
                 'member': this._memberDetailsPageService.defaultMember()
             });
@@ -126,6 +119,15 @@ export class PartnerDetails {
             partner = this._partnerManager.create(NonMemberPartner, {});
         }
         this.member = this.member.set('partner', partner);
+    }
+
+    _isPartneredChanged(isPartnered: boolean) {
+        this.member = this.member.set('isPartnered', isPartnered);
+        this._initializeMemberPartner(false);
+    }
+
+    _isMemberPartnerChanged(isMemberPartner: boolean) {
+        this._initializeMemberPartner(isMemberPartner);
     }
 
     _memberPartnerChanged(partner: MemberPartner) {

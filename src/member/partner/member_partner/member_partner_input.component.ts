@@ -1,9 +1,10 @@
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
-    ChangeDetectorRef
+    ChangeDetectorRef, SimpleChange
 } from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
+import {isDefined} from 'caesium-core/lang';
 import {Search, SearchResult} from 'caesium-model/manager';
 
 import {Member} from '../../member.model';
@@ -26,7 +27,7 @@ import {MemberPartner} from './member_partner.model';
             <button>Change</button><button>Remove</button>
         </div>
         
-        <partner-input [partner]="partner"
+        <partner-input [partner]="_resolvedPartner"
                        (partnerChange)="partnerChange.emit($event)"
                        [disabled]="disabled">
         </partner-input>
@@ -57,6 +58,8 @@ export class MemberPartnerDetails {
 
     @Input() disabled: boolean;
 
+    _resolvedPartner: MemberPartner;
+
     search: Search<Member>;
     private _memberManager: MemberManager;
     private _changeDetector: ChangeDetectorRef;
@@ -78,8 +81,12 @@ export class MemberPartnerDetails {
         });
     }
 
-    ngOnInit() {
-        console.log('member', this.partner.member);
+    ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+        if (isDefined(this.partner)) {
+            this.partner.resolveMember(this._memberManager).forEach((partner) => {
+                this._resolvedPartner = partner;
+            }).then((_) => this._changeDetector.markForCheck());
+        }
     }
 
     _selectionChanged(member: Member) {
