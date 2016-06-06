@@ -7,7 +7,7 @@ import {AlertLabel, CheckForAlertLabels} from '../../utils/alert_labels.componen
 import {Name, Gender, Contact, Income} from '../basic';
 
 
-@Model({kind: 'partner::Partner' /*abstract: true*/})
+@Model({kind: 'partner::Partner', isAbstract: true})
 export abstract class Partner extends ModelBase implements CheckForAlertLabels {
     name: Name;
     gender: Gender;

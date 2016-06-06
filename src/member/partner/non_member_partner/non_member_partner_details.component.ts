@@ -5,9 +5,9 @@ import {
     Gender, GenderSelect,
     Contact, ContactInput,
     Income, IncomeInput
-} from '../basic';
+} from '../../basic';
 
-import {Partner} from './partner.model';
+import {Partner} from '../partner.model';
 import {NonMemberPartner} from './non_member_partner.model';
 
 @Component({
@@ -30,14 +30,14 @@ import {NonMemberPartner} from './non_member_partner.model';
             (contactChange)="_contactChanged($event)"
             [label]="'Contact'"
             [disabled]="disabled">
-    </contact-info>
+    </contact-input>
     
     <income-input 
             [income]="partner.income"
             (incomeChange)="_incomeChanged($event)"
             [label]="'Income'"
             [disabled]="disabled">
-    </income-info>
+    </income-input>
     `,
     directives: [NameInput, GenderSelect, ContactInput, IncomeInput],
     encapsulation: ViewEncapsulation.Native,

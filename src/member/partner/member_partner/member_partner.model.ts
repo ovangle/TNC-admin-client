@@ -1,13 +1,13 @@
 import {Iterable, List} from 'immutable';
 
-import {Model, ModelBase, RefProperty} from "caesium-model/model";
 import {isDefined} from 'caesium-core/lang';
-
-import {Member} from '../member.model';
-import {Name, Gender, Contact, Income} from '../basic';
-import {Partner} from './partner.model';
+import {Model, ModelBase, RefProperty} from "caesium-model/model";
 import {ModelResolutionError} from "caesium-model/exceptions";
-import {AlertLabel} from "../../utils/alert_label/alert_label";
+
+import {Member} from '../../member.model';
+import {Name, Gender, Contact, Income} from '../../basic';
+import {Partner} from '../partner.model';
+import {AlertLabel} from "../../../utils/alert_label/alert_label";
 
 @Model({kind: 'partner::MemberPartner', superType: Partner})
 export abstract class MemberPartner extends ModelBase implements Partner{

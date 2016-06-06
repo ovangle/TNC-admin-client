@@ -6,9 +6,9 @@ import {
     Gender, GENDER_CODEC,
     Contact, CONTACT_CODEC,
     Income, INCOME_CODEC
-} from '../basic';
+} from '../../basic';
 
-import {Partner} from './partner.model';
+import {Partner} from '../partner.model';
 
 @Model({kind: 'partner::NonMemberPartner', superType: Partner})
 export abstract class NonMemberPartner extends Partner {
@@ -23,5 +23,4 @@ export abstract class NonMemberPartner extends Partner {
 
     @Property({codec: INCOME_CODEC})
     income: Income;
-
 }

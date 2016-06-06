@@ -1,30 +1,34 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation} from "@angular/core";
+import 'rxjs/add/operator/toPromise';
 
-import {isBlank} from 'caesium-core/lang';
+import {Component, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef} from "@angular/core";
+import {RouteSegment} from '@angular/router';
 
 import {YesNoSelect} from '../../utils/components/yesno_select.component';
 
+import {Member} from '../member.model';
+import {MemberDetailsPageService} from '../details_page.service';
+
 import {Partner} from './partner.model';
 import {PartnerManager} from './partner.manager';
-import {MemberPartner} from './member_partner.model';
-import {NonMemberPartner} from './non_member_partner.model';
-import {NonMemberPartnerDetails} from './non_member_partner_details.component';
-import {MemberPartnerDetails} from './member_partner_details.component';
+import {NonMemberPartner, NonMemberPartnerDetails} from './non_member_partner';
+import {MemberPartner, MemberPartnerDetails} from './member_partner';
 
 @Component({
     selector: 'member-partner-details',
     template: `
         <yesno-select [label]="'Is partnered'"
-                      [value]="isPartnered">
-                      (valueChange)="_isPartneredChanged($event)"
+                      [value]="isPartnered"
+                      (valueChange)="_isPartneredChanged($event)">
         </yesno-select>
         
-        <label *ngIf="isPartnered">
-            <input type="checkbox" class="checkbox"
-                   [ngModel]="isMemberPartner" 
-                   (ngModelChange)="_isMemberPartnerChange($event)">
-            Partner is TNC member  
-        </label>
+        <div class="checkbox">
+            <label *ngIf="isPartnered">
+                <input type="checkbox" 
+                       [ngModel]="isMemberPartner" 
+                       (ngModelChange)="_isMemberPartnerChanged($event)">
+                Partner is TNC member  
+            </label>
+        </div>
         
         <div *ngIf="isNonMemberPartner">
             <non-member-partner-details
@@ -51,17 +55,35 @@ import {MemberPartnerDetails} from './member_partner_details.component';
         MemberPartnerDetails,
         NonMemberPartnerDetails
     ],
+    providers: [PartnerManager],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Native
 })
-export class PartnerDetailsComponent {
-    @Input() isPartnered: boolean;
-    @Output() isPartneredChange = new EventEmitter<boolean>();
+export class PartnerDetails {
+    member: Member;
 
-    @Input() partner: Partner;
-    @Output() partnerChange = new EventEmitter<Partner>();
+    _partnerManager: PartnerManager;
+    _memberDetailsPageService: MemberDetailsPageService;
+    _changeDetector: ChangeDetectorRef;
 
-    @Input() disabled: boolean;
+    constructor(
+        partnerManager: PartnerManager,
+        memberDetailsPageService: MemberDetailsPageService,
+        changeDetector: ChangeDetectorRef
+    ) {
+        this._partnerManager = partnerManager;
+        this._memberDetailsPageService = memberDetailsPageService;
+        this.member = memberDetailsPageService.defaultMember();
+        this._changeDetector = changeDetector;
+    }
+
+    get isPartnered(): boolean {
+        return this.member.isPartnered;
+    }
+
+    get partner(): Partner {
+        return this.member.partner;
+    }
 
     get isMemberPartner() {
         return this.isPartnered && this.partner instanceof MemberPartner;
@@ -71,32 +93,29 @@ export class PartnerDetailsComponent {
         return this.isPartnered && this.partner instanceof NonMemberPartner;
     }
 
-    _partnerManager: PartnerManager;
-
-    constructor(partnerManager: PartnerManager) {
-        this._partnerManager = partnerManager;
+    routerOnActivate(segment: RouteSegment) {
+        this._memberDetailsPageService.activePage = PartnerDetails;
+        this._memberDetailsPageService.getMember().then((member) => {
+            return member.resolvePartner(this._partnerManager).toPromise();
+        }).then((member: Member) => {
+            this.member = member;
+            this._changeDetector.markForCheck();
+        });
     }
 
-    _isPartneredChanged(isPartner: boolean) {
-        if (isPartner && !this.isNonMemberPartner) {
-            this.partnerChange.emit(
-                this._partnerManager.create({})
-            );
-        }
-        this.isPartneredChange.emit(isPartner);
+    _isPartneredChanged(isPartnered: boolean) {
+        this.member = this.member.set('isPartnered', isPartnered);
     }
 
     _isMemberPartnerChanged(isMemberPartner: boolean) {
+        var partner: Partner;
         if (isMemberPartner && !this.isMemberPartner) {
-            this.partnerChange.emit(
-                this._partnerManager.create({'member': null})
-            );
+            partner = this._partnerManager.create(MemberPartner, {});
         }
         if (!isMemberPartner && !this.isNonMemberPartner) {
-            this.partnerChange.emit(
-                this._partnerManager.create({})
-            );
+            partner = this._partnerManager.create(NonMemberPartner, {});
         }
+        this.member = this.member.set('partner', partner);
     }
 
 }
