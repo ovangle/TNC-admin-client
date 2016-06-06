@@ -101,7 +101,7 @@ export class MemberBasicDetails implements OnActivate {
     }
 
     routerOnActivate(curr: RouteSegment) {
-        this._memberDetailsPageService.activeRoute = MemberBasicDetails;
+        this._memberDetailsPageService.activePage = MemberBasicDetails;
         this._memberDetailsPageService.getMember().then((member) => {
             this.member = member;
             this._changeDetector.markForCheck();
