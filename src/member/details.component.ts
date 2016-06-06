@@ -14,7 +14,8 @@ import {MemberDetailsPageService} from './details_page.service';
 
 import {MemberTermComponent} from './term/term.component';
 
-import {PartnerDetailsComponent} from './partner/partner_details.page';
+import {PartnerDetails} from './partner/partner_details.page';
+import {DependentDetails} from './dependent/dependent_details.page';
 import {MemberBasicDetails, NamePipe} from "./basic";
 
 
@@ -36,11 +37,11 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                     <li [ngClass]="{'active': _isBasicPageActive}">
                         <a [routerLink]="'./'">Basic</a>
                     </li>    
-                    <li role="presentation">
+                    <li [ngClass]="{'active': _isPartnerPageActive}">
                         <a [routerLink]="'./partner'">Partner</a>
                     </li>
-                    <li role="presentation">
-                        <a [routerLink]="'./dependents'">Dependents</a>
+                    <li [ngClass]="{'active': _isDependentPageActive}">
+                        <a [routerLink]="'./dependent'">Dependents</a>
                     </li>
                 </ul>
             </div>
@@ -80,7 +81,7 @@ import {MemberBasicDetails, NamePipe} from "./basic";
         'assets/css/font-awesome.css'
     ],
     directives: [
-        AlertLabels, MemberTermComponent, PartnerDetailsComponent, ROUTER_DIRECTIVES
+        AlertLabels, MemberTermComponent, ROUTER_DIRECTIVES
     ],
     pipes: [ NamePipe ],
     providers: [
@@ -95,27 +96,32 @@ import {MemberBasicDetails, NamePipe} from "./basic";
 })
 @Routes([
     {path: '/', component: MemberBasicDetails},
-    {path: '/partner', component: PartnerDetails}
+    {path: '/partner', component: PartnerDetails},
+    {path: '/dependent', component: DependentDetails}
 ])
 export class MemberDetailsComponent implements OnActivate {
     @Input() member: Member;
 
     private memberManager: MemberManager;
     private _memberDetailsPageService: MemberDetailsPageService;
-    
+
     get _isBasicPageActive(): boolean {
         return this._memberDetailsPageService.activePage === MemberBasicDetails;
     }
-    
-    _isPartnerPageActive(): boolean {
-        return this._memberDetailsPageService.activePage === MemberPartnerDetails; 
+
+    get _isPartnerPageActive(): boolean {
+        return this._memberDetailsPageService.activePage === PartnerDetails;
+    }
+
+    get _isDependentsPageActive(): boolean {
+        return this._memberDetailsPageService.activePage === DependentDetails;
     }
 
     routerOnActivate(curr: RouteSegment) {
         console.log('MemberDetails.routerOnActivate');
         var id = Number.parseInt(curr.parameters['id']);
         this._memberDetailsPageService.setMemberId(id);
-        
+
         var response = this.memberManager.getById(id);
         return response.handle<Member>({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
             this.member = member;
