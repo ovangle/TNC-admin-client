@@ -11,7 +11,7 @@ export class Name extends _NAME_RECORD {
 }
 
 export const NAME_CODEC = recordCodec<Name>(
-    {first: str, last: str, alias: str}, 
+    {firstName: str, lastName: str, alias: str},
     (args) => new Name(args)
 );
 
