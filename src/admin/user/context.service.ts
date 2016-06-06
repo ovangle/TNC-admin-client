@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {isBlank} from 'caesium-core/lang';
 import {identity} from 'caesium-core/codec';
 
-import {User, UserManager} from './user';
+import {User, UserManager} from './user.model';
 import {loadToken, saveToken, isExpired} from './session';
 
 

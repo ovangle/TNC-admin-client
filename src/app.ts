@@ -2,9 +2,9 @@ import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 
 import {NavBarComponent} from './layout/nav_bar.component'
-import {UserManager} from './user/user';
-import {UserContext} from './user/context.service';
-import {LoginPage} from './user/login_page.component';
+import {UserManager} from './admin/user/user.model';
+import {UserContext} from './admin/user/context.service';
+import {LoginPage} from './admin/user/login_page.component';
 
 import {MemberHome} from './member/home.component';
 

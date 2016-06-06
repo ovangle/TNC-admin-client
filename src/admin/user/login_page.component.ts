@@ -4,7 +4,7 @@ import {isDefined} from 'caesium-core/lang';
 import {identity} from "caesium-core/codec";
 
 import {UserContext} from './context.service';
-import {User, UserManager} from './user';
+import {User, UserManager} from './user.model';
 
 @Component({
     selector: 'login-page',
