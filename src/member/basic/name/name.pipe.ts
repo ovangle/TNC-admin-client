@@ -6,7 +6,7 @@ import {Name} from './name.model';
 
 function capitalizeFirstLetter(name: string) {
     var name = name || '';
-    var names = name.split(/\w/);
+    var names = name.split(/\W+/);
     return names.map((n) => {
         return n.charAt(0).toUpperCase() + n.slice(1);
     }).join(' ');
