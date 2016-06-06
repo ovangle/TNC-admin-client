@@ -16,7 +16,9 @@ import {Member} from '../member.model';
     template: `
         <dropdown [active]="active" [fullWidth]="true">
             <ul class="list-unstyled">
-                <li *ngFor="let item of result.items.toArray()">
+                <li *ngFor="let item of result.items.toArray()"
+                    [ngClass]="{'selected': item.id === selection.id}"
+                    (click)="select(item)">
                     {{item.id}}: {{item.firstName}} {{item.lastName}}
                 </li>
             </ul>
@@ -35,6 +37,10 @@ import {Member} from '../member.model';
         overflow-y: auto;
         margin-bottom: 0;
     }
+ 
+    li.selected {
+        background-color: blue;
+    }
     `],
     styleUrls: [
         'assets/css/bootstrap.css'
@@ -43,6 +49,9 @@ import {Member} from '../member.model';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchResultDropdown implements OnChanges {
+    @Input() selection: Member;
+    @Output() selectionChange = new EventEmitter<Member>();
+
     @Input() active: boolean = true;
     @Input() result: SearchResult<Member>;
 
@@ -60,6 +69,10 @@ export class SearchResultDropdown implements OnChanges {
                 this._changeDetector.markForCheck();
             });
         }
+    }
+
+    select(item: Member) {
+        this.selectionChange.emit(item);
     }
 
 }

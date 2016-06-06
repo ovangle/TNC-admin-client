@@ -1,6 +1,9 @@
 import 'rxjs/add/operator/toPromise';
 
-import {Component, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef} from "@angular/core";
+import {
+    Component, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef,
+    provide
+} from "@angular/core";
 import {RouteSegment} from '@angular/router';
 
 import {YesNoSelect} from '../../utils/components/yesno_select.component';
@@ -13,8 +16,12 @@ import {PartnerManager} from './partner.manager';
 import {NonMemberPartner, NonMemberPartnerDetails} from './non_member_partner';
 import {MemberPartner, MemberPartnerDetails} from './member_partner';
 
+//TODO: Remove
+import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
+import {PartnerHttp} from './partner_http';
+
 @Component({
-    selector: 'member-partner-details',
+    selector: 'partner-details',
     template: `
         <yesno-select [label]="'Is partnered'"
                       [value]="isPartnered"
@@ -33,16 +40,16 @@ import {MemberPartner, MemberPartnerDetails} from './member_partner';
         <div *ngIf="isNonMemberPartner">
             <non-member-partner-details
                 [disabled]="disabled"
-                [partner]="partner"
-                (partnerChange)="partnerChange.emit($event)">
+                [partner]="member.partner"
+                (partnerChange)="_nonMemberPartnerChanged($event)">
             </non-member-partner-details>
         </div>    
         
         <div *ngIf="isMemberPartner">
             <member-partner-details 
                 [disabled]="disabled"
-                [partner]="partner" 
-                (partnerChange)="partnerChange.emit($event)">
+                [partner]="member.partner" 
+                (partnerChange)="_memberPartnerChanged($event)">
             </member-partner-details>
         </div>
     `,
@@ -55,7 +62,12 @@ import {MemberPartner, MemberPartnerDetails} from './member_partner';
         MemberPartnerDetails,
         NonMemberPartnerDetails
     ],
-    providers: [PartnerManager],
+    providers: [
+        //TODO: Remove. Should only need to provide MemberManager [
+        provide(ModelHttp, {useClass: PartnerHttp}),
+        ManagerOptions,
+        PartnerManager
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Native
 })
@@ -81,16 +93,12 @@ export class PartnerDetails {
         return this.member.isPartnered;
     }
 
-    get partner(): Partner {
-        return this.member.partner;
-    }
-
     get isMemberPartner() {
-        return this.isPartnered && this.partner instanceof MemberPartner;
+        return this.isPartnered && this.member.partner instanceof MemberPartner;
     }
 
     get isNonMemberPartner() {
-        return this.isPartnered && this.partner instanceof NonMemberPartner;
+        return this.isPartnered && this.member.partner instanceof NonMemberPartner;
     }
 
     routerOnActivate(segment: RouteSegment) {
@@ -110,7 +118,9 @@ export class PartnerDetails {
     _isMemberPartnerChanged(isMemberPartner: boolean) {
         var partner: Partner;
         if (isMemberPartner && !this.isMemberPartner) {
-            partner = this._partnerManager.create(MemberPartner, {});
+            partner = this._partnerManager.create(MemberPartner, {
+                'member': this._memberDetailsPageService.defaultMember()
+            });
         }
         if (!isMemberPartner && !this.isNonMemberPartner) {
             partner = this._partnerManager.create(NonMemberPartner, {});
@@ -118,4 +128,11 @@ export class PartnerDetails {
         this.member = this.member.set('partner', partner);
     }
 
+    _memberPartnerChanged(partner: MemberPartner) {
+        this.member = this.member.set('partner', partner);
+    }
+
+    _nonMemberPartnerChanged(partner: NonMemberPartner) {
+        this.member = this.member.set('partner', partner);
+    }
 }

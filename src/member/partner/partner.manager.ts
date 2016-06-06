@@ -11,8 +11,6 @@ import {Partner} from './partner.model';
 import {NonMemberPartner} from './non_member_partner';
 import {MemberPartner} from './member_partner';
 
-//TODO (caesium-model): Need to support abstract models.
-
 @Injectable()
 export class PartnerManager extends ManagerBase<Partner> {
     constructor(options: ManagerOptions) {

@@ -1,0 +1,27 @@
+{
+  "items": [
+    {
+      "kind": "member.partner::NonMemberPartner",
+      "id": 100000,
+      "name": {
+        "first_name": "John",
+        "last_name": "Smith"
+      },
+      "gender": "MALE",
+      "contact": {
+        "phone": "0243903089",
+        "email": "email@example.com"
+      }
+    },
+    {
+      "kind": "member.partner::MemberPartner",
+      "id": 100001,
+      "member_id": 100002
+    },
+    {
+      "kind": "member.partner::MemberPartner",
+      "id": 100002,
+      "member_id": 100003
+    }
+  ]
+}

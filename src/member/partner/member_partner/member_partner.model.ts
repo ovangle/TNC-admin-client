@@ -9,7 +9,7 @@ import {Name, Gender, Contact, Income} from '../../basic';
 import {Partner} from '../partner.model';
 import {AlertLabel} from "../../../utils/alert_label/alert_label";
 
-@Model({kind: 'partner::MemberPartner', superType: Partner})
+@Model({kind: 'member.partner::MemberPartner', superType: Partner})
 export abstract class MemberPartner extends ModelBase implements Partner{
     @RefProperty({refName: 'member'})
     memberId: number;
@@ -20,7 +20,6 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     get name(): Name {
         return this.member.name;
     }
-
 
     // @DelegateProperty({delegate: 'member', propName: 'gender'})
     get gender(): Gender {
@@ -41,7 +40,9 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     }
 
     get(propNameOrRefName: string): any {
-        this._assertMemberResolved();
+        if (propNameOrRefName !== 'member' && propNameOrRefName !== 'memberId') {
+            this._assertMemberResolved();
+        }
         switch(propNameOrRefName) {
             case 'name':
                 return this.name;

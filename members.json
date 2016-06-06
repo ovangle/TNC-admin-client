@@ -72,6 +72,32 @@
         "renewed": "2016-05-26T00:00:00.000Z"
       },
       "is_partnered": false
+    },
+    {
+      "kind": "member::Member",
+      "id": 100002,
+      "name": {
+        "first_name": "Billy",
+        "last_name": "Harris"
+      },
+      "gender": "MALE",
+      "date_of_birth": "1976-05-17T00:00:00.000Z",
+      "aboriginal_or_torres_strait_islander": false,
+      "is_partnered": true,
+      "partner_id": 100002
+    },
+    {
+      "kind": "member::Member",
+      "id": 100003,
+      "name": {
+        "first_name": "Jean",
+        "last_name": "Harris"
+      },
+      "gender": "FEMALE",
+      "date_of_birth": "1980-09-09T00:00:00.000Z",
+      "aboriginal_or_torres_strait_islander": true,
+      "is_partnered": true,
+      "partner_id": 100001
     }
   ]
 }

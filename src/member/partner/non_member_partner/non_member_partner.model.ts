@@ -10,17 +10,29 @@ import {
 
 import {Partner} from '../partner.model';
 
-@Model({kind: 'partner::NonMemberPartner', superType: Partner})
+@Model({kind: 'member.partner::NonMemberPartner', superType: Partner})
 export abstract class NonMemberPartner extends Partner {
-    @Property({codec: NAME_CODEC})
+    @Property({
+        codec: NAME_CODEC,
+        defaultValue: () => new Name()
+    })
     name:Name;
 
-    @Property({codec: GENDER_CODEC})
+    @Property({
+        codec: GENDER_CODEC,
+        defaultValue: () => Gender.NotDisclosed
+    })
     gender:Gender;
 
-    @Property({codec: CONTACT_CODEC})
+    @Property({
+        codec: CONTACT_CODEC,
+        defaultValue: () => new Contact()
+    })
     contact: Contact;
 
-    @Property({codec: INCOME_CODEC})
+    @Property({
+        codec: INCOME_CODEC, 
+        defaultValue: () => new Income()
+    })
     income: Income;
 }
