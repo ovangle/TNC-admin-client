@@ -46,6 +46,14 @@ abstract class MenuOptionsService {
     `,
     directives: [ROUTER_DIRECTIVES],
     styles: [`
+    :host {
+        display: block;
+    }    
+    
+    nav {
+        display: inline-block;
+    }    
+    
     button.navbar-toggle {
         padding: 6px 10px;
     }

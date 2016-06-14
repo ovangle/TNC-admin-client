@@ -30,7 +30,7 @@ const _LIVING_ARRANGEMENT_SERIALIZED_VALUES = OrderedMap<LivingArrangement,strin
     [LivingArrangement.FullTime, 'FULL_TIME'],
     [LivingArrangement.PartTime, 'PART_TIME'],
     [LivingArrangement.Occasional, 'OCCASIONAL'],
-    [LivingArrangement.Never], 'NEVER'
+    [LivingArrangement.Never, 'NEVER']
 ]);
 
 export const LIVING_ARRANGEMENT_VALUES = _LIVING_ARRANGEMENT_SERIALIZED_VALUES.keySeq().toList();

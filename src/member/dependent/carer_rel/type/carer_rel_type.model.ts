@@ -36,6 +36,7 @@ const _CARER_REL_TYPE_SERIALIZED_VALUES= OrderedMap<CarerRelType,string>([
     [CarerRelType.Parent, 'PARENT'],
     [CarerRelType.PartnerOfParent, 'PARTNER_OF_PARENT'],
     [CarerRelType.Sibling, 'SIBLING'],
+    //TODO: Other relationship should have a description
     [CarerRelType.OtherRelation, 'OTHER_RELATION'],
     [CarerRelType.NoFamilialRelation, 'NO_FAMILIAL_RELATION']
 ]);

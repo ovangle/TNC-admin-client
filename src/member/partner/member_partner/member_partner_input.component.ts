@@ -21,28 +21,28 @@ import {MemberPartner} from './member_partner.model';
 @Component({
     selector: 'member-partner-details',
     template: `
-    <div *ngIf="!!(partner.member.id)">
-        <div>
-            <a [routerLink]="['/member', partner.member.id]">{{partner.name | name}}</a>
-            <button>Change</button><button>Remove</button>
+        <div *ngIf="!!(partner?.partnerId)">
+            <div>
+                <a [routerLink]="['/member', partner.partnerId]">{{partner.name | name}}</a>
+                <button>Change</button><button>Remove</button>
+            </div>
+            
+            <partner-input [partner]="partner"
+                           (partnerChange)="partnerChange.emit($event)"
+                           [disabled]="disabled">
+            </partner-input>
         </div>
-        
-        <partner-input [partner]="_resolvedPartner"
-                       (partnerChange)="partnerChange.emit($event)"
-                       [disabled]="disabled">
-        </partner-input>
-    </div>
-        
-    <div *ngIf="!(partner.member.id)">
-        <member-search-bar (resultChange)="_searchResultChange($event)">
-        </member-search-bar>
+            
+        <div *ngIf="!(partner?.partnerId)">
+            <member-search-bar (resultChange)="_searchResultChange($event)">
+            </member-search-bar>
 
-        <member-search-result-dropdown
-                [selection]="partner.member"
-                (selectionChange)="_selectionChanged($event)"
-                [result]="_result">
-        </member-search-result-dropdown>
-    </div>
+            <member-search-result-dropdown
+                    [selection]="partner._partner"
+                    (selectionChange)="_selectionChanged($event)"
+                    [result]="_result">
+            </member-search-result-dropdown>
+        </div>
     `,
     directives: [
         PartnerInput, MemberSearchBarComponent, SearchResultDropdown,
@@ -57,8 +57,6 @@ export class MemberPartnerDetails {
     @Output() partnerChange = new EventEmitter<MemberPartner>();
 
     @Input() disabled: boolean;
-
-    _resolvedPartner: MemberPartner;
 
     search: Search<Member>;
     private _memberManager: MemberManager;
@@ -83,15 +81,20 @@ export class MemberPartnerDetails {
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (isDefined(this.partner)) {
-            this.partner.resolveMember(this._memberManager).forEach((partner) => {
-                this._resolvedPartner = partner;
-            }).then((_) => this._changeDetector.markForCheck());
+            if (this.partner.isResolved('_partner')) {
+                this.partner = this.partner;
+            } else {
+                this.partner.resolve(this._memberManager).forEach((partner) => {
+                    this.partner = partner;
+                    this._changeDetector.markForCheck();
+                })
+            }
         }
     }
 
     _selectionChanged(member: Member) {
         this.partnerChange.emit(
-            <MemberPartner>this.partner.set('member', member)
+            <MemberPartner>this.partner.set('_partner', member)
         );
     }
 }

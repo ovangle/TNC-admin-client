@@ -9,13 +9,12 @@ import {AlertLabels} from '../utils/alert_labels.component';
 
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
-import {MemberHttp} from './member_http';
 import {MemberDetailsPageService} from './details_page.service';
 
 import {MemberTermComponent} from './term/term.component';
 
 import {PartnerDetails} from './partner/partner_details.page';
-import {DependentDetails} from './dependent/dependent_details.page';
+import {DependentList} from './dependent/dependent_list.page';
 import {MemberBasicDetails, NamePipe} from "./basic";
 
 
@@ -40,13 +39,13 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                     <li [ngClass]="{'active': _isPartnerPageActive}">
                         <a [routerLink]="'./partner'">Partner</a>
                     </li>
-                    <li [ngClass]="{'active': _isDependentPageActive}">
+                    <li [ngClass]="{'active': _isDependentsPageActive}">
                         <a [routerLink]="'./dependent'">Dependents</a>
                     </li>
                 </ul>
             </div>
             
-            <div class="col-md-5">
+            <div class="col-md-9">
                 <router-outlet></router-outlet>
             </div>
         </div>
@@ -85,9 +84,6 @@ import {MemberBasicDetails, NamePipe} from "./basic";
     ],
     pipes: [ NamePipe ],
     providers: [
-        //TODO: Remove. Should only need to provide MemberManager
-        provide(ModelHttp, {useClass: MemberHttp}),
-        ManagerOptions,
         MemberManager,
         MemberDetailsPageService
     ],
@@ -97,7 +93,7 @@ import {MemberBasicDetails, NamePipe} from "./basic";
 @Routes([
     {path: '/', component: MemberBasicDetails},
     {path: '/partner', component: PartnerDetails},
-    {path: '/dependent', component: DependentDetails}
+    {path: '/dependent', component: DependentList}
 ])
 export class MemberDetailsComponent implements OnActivate {
     @Input() member: Member;
@@ -114,7 +110,7 @@ export class MemberDetailsComponent implements OnActivate {
     }
 
     get _isDependentsPageActive(): boolean {
-        return this._memberDetailsPageService.activePage === DependentDetails;
+        return this._memberDetailsPageService.activePage === DependentList;
     }
 
     routerOnActivate(curr: RouteSegment) {

@@ -1,0 +1,271 @@
+<form>
+    <eapa-assessment-form-question [questionId]="'1'">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isNoRelationToAssessor"
+                       (ngModelChange)="_isNoRelationToAssessorChanged($event)">
+                The customer being assessed is not you, a relative or a friend
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'2'">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.billSighted"
+                       (ngModelChange)="_billSightedChanged($event)">
+                An original or duplicate copy of the current energy bill has been sighted
+            </label>
+        </div>
+
+        <div class="alert alert-info">
+            If the household is connected to both electricity and natural gas,
+            bills for each <em>SHOULD</em> be presented, as the EAPA limits
+            apply to the household.
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'3'">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isNameOnBill"
+                       (ngModelChange)="_isNameOnBillChanged($event)">
+                The member's name, <em>({{member.name | name }})</em> is the same as
+                the name on the bill.
+            </label>
+        </div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isAddressOnBill"
+                       (ngModelChange)="_isAddressOnBillChanged($event)">
+                The member's address, <em>({{member.address | address}})</em> is the same as
+                the address on the bill.
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'4'">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isResidentialElectricityOrGasAccount"
+                       (ngModelChange)="_isResidentialElectricityOrGasAccountChanged($event)">
+                The bill is for a <em>residential</em> electricity or natural gas account
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'5 (a)'">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isExperiencingFinancialHardship"
+                       (ngModelChange)="_isExperiencingFinancialHardshipChanged($event)">
+                The member is experiencing financial hardship and a file note detailing the circumstances
+                has been attached to the member
+                <!-- TODO: Link/enter the file note. -->
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'5 (b)'">
+        <p>The customer has demonstrated that they do not have enough money to pay their bill and:</p>
+
+        <p><b>EITHER</b></p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isDenyingBasicNeeds"
+                       (ngModelChange)="_isDenyingBasicNeedsChanged($event)">
+                are denying basic needs
+            </label>
+        </div>
+        <p><b>OR</b></p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isFacingDisconnection"
+                       (ngModelChange)="_isFacingDisconnectionChanged($event)">
+                may face disconnection
+            </label>
+        </div>
+        <p><b>OR</b></p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isDisconnected"
+                       (ngModelChange)="_isDisconnectedChanged($event)">
+                has been disconnected
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'6'">
+
+        <p>
+            Reasonable attempts have been made to contact the customer's retailer
+            to check:
+        </p>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.hasContactedRetailerToCheckAssistanceOptions"
+                       (ngModelChange)="_hasContactedRetailerToCheckAssistanceOptionsChanged($event)">
+                All other assistance options have been explored
+            </label>
+        </div>
+
+        <div class="alert alert-info">
+            <!-- TODO: Should be tooltip? -->
+            Other assistance objects to consider:
+            <ul>
+                <li>Payment plans offered by the retailer;</li>
+                <li>Centrepay;</li>
+                <li>Payment extensions; or</li>
+                <li>Support through the retailer's hardship program</li>
+            </ul>
+        </div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.hasContactedRetailerToCheckEnergyRebates"
+                       (ngModelChange)="_hasContactedRetailerToCheckEnergyRebates($event)">
+                That the customer is receiving all energy rebates for which they
+                entitled
+            </label>
+        </div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.hasContactedRetailerToCheckUpdatedBalance"
+                       (ngModelChange)="_hasContactedRetailerToCheckUpdatedBalanceChanged($event)">
+                The updated balance and breakdown of charges on the customer's
+                account
+            </label>
+        </div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.hasContactedRetailerToCheckEAPAPayments"
+                       (ngModelChange)="_hasContactedRetailerToCheckEAPAPaymentsChanged($event)">
+                Details of any EAPA received during the current financial year.
+            </label>
+        </div>
+
+        <div class="alert alert-danger">
+            <p>You <b>MUST</b> phone the hardship department or dedicated CWO number
+                listed on the energy provider list for <b>EVERY</b> client.</p>
+
+            <p>Discuss the client's energy consumption, EAPA history, payment plan and
+                the amount of assistance that is appropriate for the client.</p>
+
+            <p>If the hardship department/CWO number is busy or there is a long wait,
+                you <em>MAY</em> opt to obtain a balance from the automated system,
+                <b>AFTER</b> all reasonable attempts have been made to speak to an
+                operator.
+            </p>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="'7'">
+        If the client
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isReceivingOverLimitOnCurrentBill"
+                       (ngModelChange)="_isReceivingOverLimitOnBillChanged($event)">
+                is receiving more than $250 towards this bill
+            </label>
+        </div>
+        <p>OR</p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isReceivingOverLimitForFinancialYear"
+                       (ngModelChange)="_isReceivingOverLimitForFinancialYearChanged($event)">
+                has received more than $500 in EAPA assistance during the
+                current financial year.
+            </label>
+        </div>
+        <p>OR</p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isReceivingMoreThanTwice"
+                       (ngModelChange)="_isReceivingMoreThanTwiceChanged($event)">
+                has received EAPA assistance more than twice during the
+                current financial year.
+            </label>
+        </div>
+
+        <div class="form-group" *ngIf="assessment.requiresLimitExemption">
+            <label for="limit-exemption-description">Explain why you are exceeding these limits</label>
+            <textarea id="limit-exemption-description"
+                      [ngModel]="assessment.limitExemptionDescription"
+                      (ngModelChange)="_limitExemptionDescriptionChanged($event)">
+            </textarea>
+        </div>
+
+        <!-- TODO: Require permission from USER-GROUP client assistance before approving voucher. -->
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="8">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.signedPrivacyAgreement"
+                       (ngModelChange)="_signedPrivacyAgreementChanged($event)">
+                <!-- TODO: Need to link eapa privacy notice -->
+                The customer has read and signed, the <a href="#eapa-privacy-notice">EAPA privacy notice.</a>
+            </label>
+            <!-- TODO: Form upload? -->
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="9">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.isBillStamped"
+                       (ngModelChange)="_isBillStampedChanged($event)">
+                The bill has been stamped with the EAPA stamp, with all details provided and all vouchers
+                have been filled in and stamped with your organisation's stamp.
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="10">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.understoodVoucherProcessing"
+                       (ngModelChange)="_understoodVoucherProcessingChanged($event)">
+                The member has been advised, and has understood, the voucher validity period
+                and voucher processing.
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+
+    <eapa-assessment-form-question [questionId]="11">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="assessment.consentToRetainData"
+                       (ngModelChange)="_consentToRetainDataChanged($event)">
+                The customer consents to retaining the information they have provided for
+                a period of two years.
+            </label>
+        </div>
+    </eapa-assessment-form-question>
+</form>
+
+

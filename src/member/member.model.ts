@@ -9,9 +9,6 @@ import {bool, date} from "caesium-model/json_codecs";
 
 import {AlertLabel, CheckForAlertLabels} from '../utils/alert_label/alert_label';
 
-import {Partner} from './partner/partner.model';
-import {PartnerManager} from './partner/partner.manager';
-
 import {
     Name, NAME_CODEC,
     Gender, GENDER_CODEC,
@@ -20,6 +17,8 @@ import {
     Contact, CONTACT_CODEC,
     Income, INCOME_CODEC
 } from './basic';
+import {Carer, CarerManager} from './carer';
+import {Partner, PartnerManager} from './partner';
 
 import {memberTermCodec, MemberTerm} from "./term/term.record";
 
@@ -82,8 +81,11 @@ export class Member extends ModelBase implements CheckForAlertLabels {
      */
     @RefProperty({refName: 'partner'})
     partnerId: number;
-
     partner: Partner;
+
+    @RefProperty({refName: 'carer'})
+    carerId: number;
+    carer: Carer;
 
     checkForAlertLabels(): Iterable<number, AlertLabel | Iterable<number,any>> {
         var unresolvedLabels = List([
@@ -103,6 +105,10 @@ export class Member extends ModelBase implements CheckForAlertLabels {
 
     resolvePartner(partnerManager: PartnerManager): Observable<Member> {
         return <Observable<Member>>this.resolveProperty(partnerManager, 'partnerId');
+    }
+
+    resolveCarer(carerManager: CarerManager): Observable<Member> {
+        return <Observable<Member>>this.resolveProperty(carerManager, 'carerId');
     }
 
     set(propName: string, value: any): Member {

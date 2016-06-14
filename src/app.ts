@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
 import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
 
 import {NavBarComponent} from './layout/nav_bar.component'
@@ -21,20 +21,29 @@ import {MemberHome} from './member/home.component';
     styles: [`
     :host {
         height: 100%;
-        display: flex;
+        display: block;
         flex-direction: column;
+        overflow: hidden;
     }
 
     header {
         background-color: #fff;
     }
+    
+    p { margin: 0; padding: 0; }
+    
+    main {
+        height: calc(100% - 80px);
+    }    
     `],
     styleUrls: [
         'assets/css/bootstrap.css',
         'assets/css/flex.css'
     ],
     directives: [ROUTER_DIRECTIVES, NavBarComponent],
-    providers: [UserManager, UserContext]
+    providers: [UserManager, UserContext],
+    encapsulation: ViewEncapsulation.Native,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Routes([
     {path: '/login',  component: LoginPage},

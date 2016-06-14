@@ -1,4 +1,6 @@
-import {Model, Property} from 'caesium-model/model';
+import {Observable} from 'rxjs/Observable';
+
+import {Model, Property, RefProperty} from 'caesium-model/model';
 import {str} from 'caesium-model/json_codecs';
 
 import {
@@ -7,7 +9,7 @@ import {
     Contact, CONTACT_CODEC,
     Income, INCOME_CODEC
 } from '../../basic';
-
+import {Carer, CarerManager} from '../../carer';
 import {Partner} from '../partner.model';
 
 @Model({kind: 'member.partner::NonMemberPartner', superType: Partner})
@@ -31,8 +33,16 @@ export abstract class NonMemberPartner extends Partner {
     contact: Contact;
 
     @Property({
-        codec: INCOME_CODEC, 
+        codec: INCOME_CODEC,
         defaultValue: () => new Income()
     })
     income: Income;
+
+    @RefProperty({refName: 'carer'})
+    carerId: number;
+    carer: Carer;
+
+    resolveCarer(carerManager: CarerManager): Observable<NonMemberPartner> {
+        return <Observable<NonMemberPartner>>this.resolveProperty(carerManager, 'carer');
+    }
 }

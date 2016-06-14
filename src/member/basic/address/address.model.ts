@@ -1,7 +1,7 @@
 import {Record} from 'immutable';
 import {str, recordCodec} from "caesium-model/json_codecs";
 
-const _ADDRESS_RECORD = Record({street: null, city: null, postcode: null});
+const _ADDRESS_RECORD = Record({street: '', city: '', postcode: ''});
 
 export class Address extends _ADDRESS_RECORD {
     street: string;

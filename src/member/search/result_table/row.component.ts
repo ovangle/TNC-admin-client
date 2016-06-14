@@ -5,7 +5,7 @@ import {Expander} from "../../../layout/expander.component";
 import {DefaultPipe} from '../../../utils/pipes/default.pipe';
 
 import {Member} from '../../member.model';
-import {AddressPipe} from '../../basic';
+import {AddressPipe, NamePipe} from '../../basic';
 import {AlertLabels} from "../../../utils/alert_labels.component";
 
 @Component({
@@ -16,12 +16,9 @@ import {AlertLabels} from "../../../utils/alert_labels.component";
             <span *ngIf="colHeader" class="table-cell col-id col-header">Member ID</span>
             <span *ngIf="!colHeader" class="table-cell col-id col-header">{{item.id}}</span>
             
-            <span *ngIf="colHeader" class="table-cell col-firstName col-header">First name</span>
-            <span *ngIf="!colHeader" class="table-cell col-firstName">{{item.firstName}}</span>
+            <span *ngIf="colHeader" class="table-cell col-name col-header">Name</span>
+            <span *ngIf="!colHeader" class="table-cell col-name">{{item.name | name}}</span>
             
-            <span *ngIf="colHeader" class="table-cell col-lastName col-header">Last name</span>
-            <span *ngIf="!colHeader" class="table-cell col-lastName">{{item.lastName}}</span>
-           
             <span *ngIf="colHeader" class="table-cell col-address col-header">Address</span>
             <span *ngIf="!colHeader" class="table-cell col-address">
                 {{ item.address | address | default:'Unknown'}} 
@@ -52,8 +49,8 @@ import {AlertLabels} from "../../../utils/alert_labels.component";
         min-width: 100px;
     }
 
-    .col-firstName, .col-lastName {
-        width: 10rem;
+    .col-name {
+        width: 20rem;
     }
 
     .col-address {
@@ -67,7 +64,7 @@ import {AlertLabels} from "../../../utils/alert_labels.component";
         'assets/css/flex.css'
     ],
     directives: [Expander, AlertLabels, ROUTER_DIRECTIVES],
-    pipes: [AddressPipe, DefaultPipe],
+    pipes: [AddressPipe, DefaultPipe, NamePipe],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

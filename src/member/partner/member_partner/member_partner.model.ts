@@ -1,48 +1,57 @@
 import {Iterable, List} from 'immutable';
 import {Observable} from 'rxjs/Observable';
 
-import {isDefined} from 'caesium-core/lang';
 import {Model, ModelBase, RefProperty} from "caesium-model/model";
 import {ModelResolutionError} from "caesium-model/exceptions";
+
+import {AlertLabel} from "../../../utils/alert_label/alert_label";
 
 import {Member} from '../../member.model';
 import {MemberManager} from '../../member.manager';
 import {Name, Gender, Contact, Income} from '../../basic';
+import {Carer, CarerManager} from '../../carer';
 import {Partner} from '../partner.model';
-import {AlertLabel} from "../../../utils/alert_label/alert_label";
 
 @Model({kind: 'member.partner::MemberPartner', superType: Partner})
-export abstract class MemberPartner extends ModelBase implements Partner{
-    @RefProperty({refName: 'member'})
-    memberId: number;
-
-    member: Member;
+export abstract class MemberPartner extends Partner {
+    @RefProperty({refName: '_partner'})
+    partnerId: number;
+    _partner: Member;
 
     // @DelegateProperty({delegate: 'member', propName: 'firstName'})
     get name(): Name {
-        return this.member.name;
+        return this._partner.name;
     }
 
     // @DelegateProperty({delegate: 'member', propName: 'gender'})
     get gender(): Gender {
         this._assertMemberResolved();
-        return this.member.gender;
+        return this._partner.gender;
     }
 
     // @DelegateProperty({delegate: 'member', propName: 'contact'})
     get contact(): Contact {
         this._assertMemberResolved();
-        return this.member.contact;
+        return this._partner.contact;
     }
 
     // @DelegateProperty({delegate: 'member', propName: 'income'})
     get income(): Income {
         this._assertMemberResolved();
-        return this.member.income;
+        return this._partner.income;
+    }
+
+    // @DelegateProperty({delegate: 'member', propName: 'carer'})
+    get carer(): Carer {
+        this._assertMemberResolved();
+        return this._partner.carer;
     }
 
     get(propNameOrRefName: string): any {
-        if (propNameOrRefName !== 'member' && propNameOrRefName !== 'memberId') {
+        if (propNameOrRefName !== 'id'
+            && propNameOrRefName !== '_partner'
+            && propNameOrRefName !== 'partnerId'
+        ) {
             this._assertMemberResolved();
         }
         switch(propNameOrRefName) {
@@ -61,7 +70,12 @@ export abstract class MemberPartner extends ModelBase implements Partner{
 
     set(propNameOrRefName: string, value: any): /* this */ModelBase {
         var mutatedMember: Member;
-        this._assertMemberResolved();
+        if (propNameOrRefName !== 'id'
+            && propNameOrRefName !== '_partner'
+            && propNameOrRefName !== 'partnerId'
+        ) {
+            this._assertMemberResolved();
+        }
         switch(propNameOrRefName) {
             case 'name':
                 mutatedMember = this.member.set('name', value);
@@ -82,7 +96,7 @@ export abstract class MemberPartner extends ModelBase implements Partner{
     }
 
     private _assertMemberResolved() {
-        if (!this.isResolved('member'))
+        if (!this.isResolved('_partner'))
             throw new ModelResolutionError('member not resolved');
     }
 
@@ -91,7 +105,13 @@ export abstract class MemberPartner extends ModelBase implements Partner{
         return List<AlertLabel>();
     }
 
-    resolveMember(memberManager: MemberManager): Observable<MemberPartner> {
-        return <Observable<MemberPartner>>this.resolveProperty(memberManager, 'member');
+    resolve(memberManager: MemberManager): Observable<MemberPartner> {
+        return <Observable<MemberPartner>>this.resolveProperty(memberManager, '_partner');
+    }
+
+    resolveCarer(carerManager: CarerManager): Observable<MemberPartner> {
+        this._assertMemberResolved();
+        return this.member.resolveCarer(carerManager)
+            .map((member) => <MemberPartner>this.set('member', member));
     }
 }

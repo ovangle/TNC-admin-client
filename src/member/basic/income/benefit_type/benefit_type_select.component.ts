@@ -3,7 +3,7 @@ import {
     PipeTransform
 } from '@angular/core'
 
-import {EnumSelect} from '../../../../../utils/components/enum_select.component';
+import {EnumSelect} from '../../../../utils/components/enum_select.component';
 
 import {BenefitType, BENEFIT_TYPE_VALUES} from './benefit_type.model';
 import {BenefitTypePipe} from './benefit_type.pipe';

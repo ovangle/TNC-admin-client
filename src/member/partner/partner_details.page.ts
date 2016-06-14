@@ -29,7 +29,7 @@ import {PartnerHttp} from './partner_http';
         </yesno-select>
         
         <div class="checkbox">
-            <label *ngIf="isPartnered">
+            <label *ngIf="member.isPartnered">
                 <input type="checkbox" 
                        [ngModel]="isMemberPartner" 
                        (ngModelChange)="_isMemberPartnerChanged($event)">
@@ -48,6 +48,7 @@ import {PartnerHttp} from './partner_http';
         <div *ngIf="isMemberPartner">
             <member-partner-details 
                 [disabled]="disabled"
+                [member]="member"
                 [partner]="member.partner" 
                 (partnerChange)="_memberPartnerChanged($event)">
             </member-partner-details>
@@ -62,12 +63,7 @@ import {PartnerHttp} from './partner_http';
         MemberPartnerDetails,
         NonMemberPartnerDetails
     ],
-    providers: [
-        //TODO: Remove. Should only need to provide MemberManager [
-        provide(ModelHttp, {useClass: PartnerHttp}),
-        ManagerOptions,
-        PartnerManager
-    ],
+    providers: [PartnerManager],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Native
 })
@@ -112,7 +108,7 @@ export class PartnerDetails {
         var partner: Partner;
         if (isMemberPartner && !this.isNonMemberPartner) {
             partner = this._partnerManager.create(MemberPartner, {
-                'member': this._memberDetailsPageService.defaultMember()
+                '_partner': this._memberDetailsPageService.defaultMember()
             });
         }
         if (!isMemberPartner && !this.isNonMemberPartner) {

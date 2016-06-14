@@ -1,32 +1,27 @@
-import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
+import {Record} from 'immutable';
+import {recordCodec, model} from 'caesium-model/json_codecs';
 
 import {Dependent} from '../dependent.model';
-import {Carer} from '../carer/carer.model';
+import {Carer} from '../../carer/carer.model';
 
-import {CarerRelType, CARER_REL_TYPE_CODEC} from './carer_rel_type.model';
-import {LivingArrangement, LIVING_ARRANGEMENT_CODEC} from './living_arrangement.model';
+import {CarerRelType, CARER_REL_TYPE_CODEC} from './type/carer_rel_type.model';
+import {LivingArrangement, LIVING_ARRANGEMENT_CODEC} from './living_arrangement/living_arrangement.model';
 
-@Model({kind: 'dependent::CarerRel'})
-export abstract class CarerRel extends ModelBase {
-    @RefProperty({refName: 'dependent'})
-    dependentId: number;
-    dependent: Dependent;
-    
-    @RefProperty({refName: 'carer'})
-    carerId: number;
+const _CARER_REL_RECORD = Record({
+    carer: null,
+    livingArrangement: LivingArrangement.Never,
+    relationType: CarerRelType.NotDisclosed
+});
+
+export class CarerRel extends _CARER_REL_RECORD {
     carer: Carer;
-
-    @Property({
-        codec: CARER_REL_TYPE_CODEC,
-        defaultValue: () => CarerRelType.NotDisclosed
-    })
-    type: CarerRelType;
-
-    @Property({
-        codec: LIVING_ARRANGEMENT_CODEC,
-        defaultValue: () => LivingArrangement.NotDisclosed
-    })
-    livingArrangment: LivingArrangement;
-
+    livingArrangement: LivingArrangement;
+    relationType: CarerRelType;
 }
+
+export const CARER_REL_CODEC = recordCodec<CarerRel>({
+    carer: model<Carer>(Carer),
+    livingArrangement: LIVING_ARRANGEMENT_CODEC,
+    relationType: CARER_REL_TYPE_CODEC
+}, (args) => new CarerRel(args));
 

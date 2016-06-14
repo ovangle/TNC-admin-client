@@ -1,4 +1,4 @@
-export * from './income/benefit';
+export * from './income/benefit_type';
 export * from './income/proof_of_low_income';
 export * from './income/type';
 

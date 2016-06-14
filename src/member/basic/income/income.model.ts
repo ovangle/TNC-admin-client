@@ -1,22 +1,24 @@
 import {Iterable, Record, List} from 'immutable';
 
-import {recordCodec} from 'caesium-model/json_codecs';
+import {recordCodec, str} from 'caesium-model/json_codecs';
 
 import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../../utils/alert_label/alert_label';
 
-import {Benefit, BENEFIT_CODEC} from './benefit';
+import {BenefitType, BENEFIT_TYPE_CODEC} from './benefit_type';
 import {IncomeType, INCOME_TYPE_CODEC} from './type';
 import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_CODEC} from './proof_of_low_income';
 
 const _INCOME_RECORD = Record({
     type: IncomeType.NotDisclosed,
-    benefit: new Benefit(),
+    benefitType: BenefitType.None,
+    benefitOtherDescription: null,
     proofOfLowIncome: ProofOfLowIncome.NoProof
 });
 
 export class Income extends _INCOME_RECORD implements CheckForAlertLabels {
     type: IncomeType;
-    benefit: Benefit;
+    benefitType: BenefitType;
+    benefitOtherDescription: string;
     proofOfLowIncome: ProofOfLowIncome;
 
     checkForAlertLabels():Iterable.Indexed<AlertLabel|Iterable.Indexed<any>> {
@@ -29,7 +31,8 @@ export class Income extends _INCOME_RECORD implements CheckForAlertLabels {
 export const INCOME_CODEC = recordCodec<Income>(
     {
         type: INCOME_TYPE_CODEC,
-        benefit: BENEFIT_CODEC,
+        benefitType: BENEFIT_TYPE_CODEC,
+        benefitOtherDescriptions: str,
         proofOfLowIncome: PROOF_OF_LOW_INCOME_CODEC
     },
     (args) => new Income(args)

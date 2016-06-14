@@ -6,7 +6,6 @@ import {ModelHttp, ManagerOptions} from "caesium-model/manager";
 
 import {MemberManager} from './member.manager';
 import {MemberSearchComponent} from "./search/search.component";
-import {MemberHttp} from "./member_http";
 import {MemberDetailsComponent} from "./details.component";
 
 @Component({
@@ -17,12 +16,7 @@ import {MemberDetailsComponent} from "./details.component";
         </div>
     `,
     directives: [ROUTER_DIRECTIVES],
-    providers: [
-        //TODO: Remove. Should only need to provide MemberManager
-        provide(ModelHttp, {useClass: MemberHttp}),
-        ManagerOptions,
-        MemberManager
-    ],
+    providers: [MemberManager],
     styles: [`
     :host { 
         display: block;
@@ -49,9 +43,5 @@ import {MemberDetailsComponent} from "./details.component";
     {path: '/:id', component: MemberDetailsComponent},
 ])
 export class MemberHome {
-    routerOnActivate() {
-        console.log('member home')
-    }
-
 }
 

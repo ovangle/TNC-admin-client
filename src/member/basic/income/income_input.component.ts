@@ -4,7 +4,7 @@ import {
 
 import {IncomeType, IncomeTypeSelect} from './type';
 import {ProofOfLowIncome, ProofOfLowIncomeSelect} from './proof_of_low_income';
-import {Benefit, BenefitInput} from './benefit';
+import {BenefitType, BenefitTypeSelect} from './benefit_type';
 import {Income} from './income.model';
 
 @Component({
@@ -20,12 +20,19 @@ import {Income} from './income.model';
             [disabled]="disabled">
         </income-type-select>
         
-        <benefit-input
-            [benefit]="income.benefit"
-            (benefitChange)="_benefitChanged($event)"
-            [label]="'Centrelink benefit'"
-            [disabled]="disabled">
-        </benefit-input>  
+        <benefit-type-select 
+            [label]="'Type'"
+            [disabled]="disabled"
+            [benefitType]="income.benefitType"
+            (benefitTypeChange)="_benefitTypeChanged($event)">
+        </benefit-type-select>        
+    
+        <div *ngIf="_isOtherBenefitType" class="form-control">
+            <label for="other-type-input">Description</label>
+            <input type="text" id="other-type-input"
+                [ngModel]="income.benefitOtherDescription" 
+                (ngModelChange)="_benefitOtherDescriptionChanged($event)">
+        </div>
         
         <proof-of-low-income-select
             [proofOfLowIncome]="income.proofOfLowIncome"
@@ -35,7 +42,7 @@ import {Income} from './income.model';
         </proof-of-low-income-select>
     </fieldset>
     `,
-    directives: [ProofOfLowIncomeSelect, IncomeTypeSelect, BenefitInput],
+    directives: [ProofOfLowIncomeSelect, IncomeTypeSelect, BenefitTypeSelect],
     styles: [``],
     styleUrls: [
         'assets/css/bootstrap.css'
@@ -50,8 +57,8 @@ export class IncomeInput {
     @Input() label: string;
     @Input() disabled: boolean;
 
-    get _isBenefitType(): boolean {
-        return this.income.type === IncomeType.CentrelinkBenefit;
+    get _isOtherBenefitType(): boolean {
+        return this.income.benefitType === BenefitType.Other;
     }
 
     _incomeTypeChanged(type: IncomeType) {
@@ -60,10 +67,17 @@ export class IncomeInput {
         );
     }
 
-    _benefitChanged(benefit: Benefit) {
+    _benefitTypeChanged(benefitType: BenefitType) {
         this.incomeChange.emit(
-            <Income>this.income.set('benefit', benefit)
+            <Income>this.income.set('benefitType', benefitType)
         );
+    }
+
+    _benefitOtherDescriptionChanged(otherDescription: string) {
+        this.incomeChange.emit(
+            <Income>this.income.set('benefitOtherDescription', otherDescription)
+        )
+
     }
 
     _proofOfLowIncomeChanged(proofOfLowIncome: ProofOfLowIncome) {
