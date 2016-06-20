@@ -15,6 +15,7 @@ import {Name, NameInput} from './name';
 import {Gender, GenderSelect} from './gender';
 import {ResidentialStatus, ResidentialStatusInput} from './residential_status';
 import {Income, IncomeInput} from './income';
+import {EnergyAccount, EnergyAccountInput} from './energy_account';
 
 
 /**
@@ -73,6 +74,13 @@ import {Income, IncomeInput} from './income';
             (incomeChange)="_incomeChanged($event)"
             [label]="'Income'"
             [disabled]="disabled"></income-input>
+            
+    <energy-account-input
+            [energyAccount]="member.energyAccount"
+            (energyAccountChange)="_energyAccountChanged($event)"
+            [label]="'Energy account'"
+            [disabled]="disabled">
+    </energy-account-input>
     `,
     directives: [
         NameInput,
@@ -138,6 +146,10 @@ export class MemberBasicDetails implements OnActivate {
 
     _aboriginalOrTorresStraitIslanderChanged(aboriginalOrTorresStraitIslander: boolean) {
         this.member = this.member.set('aboriginalOrTorresStraitIslander', aboriginalOrTorresStraitIslander);
+    }
+
+    _energyAccountChanged(energyAccount: EnergyAccount) {
+        this.member = this.member.set('energyAccount', energyAccount);
     }
 
 }

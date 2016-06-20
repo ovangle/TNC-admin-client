@@ -15,7 +15,8 @@ import {
     Address, ADDRESS_CODEC,
     ResidentialStatus, RESIDENTIAL_STATUS_CODEC,
     Contact, CONTACT_CODEC,
-    Income, INCOME_CODEC
+    Income, INCOME_CODEC,
+    EnergyAccount, ENERGY_ACCOUNT_CODEC
 } from './basic';
 import {Carer, CarerManager} from './carer';
 import {Partner, PartnerManager} from './partner';
@@ -75,6 +76,12 @@ export class Member extends ModelBase implements CheckForAlertLabels {
      */
     @Property({codec: bool, allowNull: true})
     isPartnered: boolean;
+    
+    @Property({
+        codec: ENERGY_ACCOUNT_CODEC,
+        defaultValue: () => new EnergyAccount()
+    })
+    energyAccount: EnergyAccount;
 
     /**
      * The id of the member that is a partner of this member.
