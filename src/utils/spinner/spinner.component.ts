@@ -20,7 +20,7 @@ import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} fr
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Spinner {
-    _defaultColor = 'rgb(255,255,255,0.2)'
+    _defaultColor = 'rgb(255,255,255,0.2)';
 
     // A css indicator for the size. If not provided, defaults to
     // the current font size.

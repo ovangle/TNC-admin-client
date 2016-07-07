@@ -2,8 +2,8 @@ import {Component, Input, ChangeDetectionStrategy, ViewEncapsulation} from '@ang
 
 import {DefaultPipe} from '../../utils/pipes/default.pipe';
 
-import {MemberTermTypePipe} from './term_type.enum';
-import {MemberTerm} from './term.record';
+import {MemberTermTypePipe} from './type';
+import {MemberTerm} from './term.model';
 
 @Component({
     selector: 'member-term',
@@ -11,7 +11,6 @@ import {MemberTerm} from './term.record';
         <div class="form-group">
             <label>Type</label><br/>
             <div class="form-control-static">{{term.type | termType }}</div>
-            
         </div>
         <div class="form-group">
             <label>Joined</label><br/>

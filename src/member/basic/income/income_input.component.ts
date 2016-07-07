@@ -12,39 +12,52 @@ import {Income} from './income.model';
     template: `
     <fieldset>
         <legend>{{label}}</legend>
+        <div class="layout horizontal">
+            <income-type-select 
+                class="flex-2"
+                [incomeType]="income.type" 
+                (incomeTypeChange)="propChanged('type', $event)"
+                [label]="'Primary income'"
+                [disabled]="disabled">
+            </income-type-select>
+            
+            <proof-of-low-income-select
+                class="flex-2 input-right"
+                [proofOfLowIncome]="income.proofOfLowIncome"
+                (proofOfLowIncomeChange)="propChanged('proofOfLowIncome', $event)"
+                [label]="'Proof of low income'"
+                [disabled]="disabled">
+            </proof-of-low-income-select>
         
-        <income-type-select 
-            [incomeType]="income.type" 
-            (incomeTypeChange)="_incomeTypeChanged($event)"
-            [label]="'Primary income'"
-            [disabled]="disabled">
-        </income-type-select>
+            <benefit-type-select 
+                [ngClass]="{
+                    'input-right': true,
+                    'flex-2': !_isOtherBenefitType,
+                    'flex-1': _isOtherBenefitType
+                }"
+                [label]="'Centrelink benefit'"
+                [disabled]="disabled"
+                [benefitType]="income.benefitType"
+                (benefitTypeChange)="propChanged('benefitType', $event)">
+            </benefit-type-select>        
         
-        <benefit-type-select 
-            [label]="'Type'"
-            [disabled]="disabled"
-            [benefitType]="income.benefitType"
-            (benefitTypeChange)="_benefitTypeChanged($event)">
-        </benefit-type-select>        
-    
-        <div *ngIf="_isOtherBenefitType" class="form-control">
-            <label for="other-type-input">Description</label>
-            <input type="text" id="other-type-input"
-                [ngModel]="income.benefitOtherDescription" 
-                (ngModelChange)="_benefitOtherDescriptionChanged($event)">
+            <div *ngIf="_isOtherBenefitType" class="form-group input-right flex-1">
+                <label for="other-type-input">Other description</label>
+                <input type="text" class="form-control" id="other-type-input"
+                    [ngModel]="income.benefitOtherDescription" 
+                    (ngModelChange)="propChanged('benefitOtherDescription', $event)">
+            </div>
         </div>
-        
-        <proof-of-low-income-select
-            [proofOfLowIncome]="income.proofOfLowIncome"
-            (proofOfLowIncomeChange)="_proofOfLowIncomechanged($event)"
-            [label]="'Proof of low income'"
-            [disabled]="disabled">
-        </proof-of-low-income-select>
-    </fieldset>
+      </fieldset>
     `,
     directives: [ProofOfLowIncomeSelect, IncomeTypeSelect, BenefitTypeSelect],
-    styles: [``],
+    styles: [`
+    .input-right {
+        margin-left: 30px;
+    }    
+    `],
     styleUrls: [
+        'assets/css/flex.css',
         'assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
@@ -61,30 +74,9 @@ export class IncomeInput {
         return this.income.benefitType === BenefitType.Other;
     }
 
-    _incomeTypeChanged(type: IncomeType) {
+    private propChanged(prop: string, value: any) {
         this.incomeChange.emit(
-            <Income>this.income.set('type', type)
+            <Income>this.income.set(prop, value)
         );
     }
-
-    _benefitTypeChanged(benefitType: BenefitType) {
-        this.incomeChange.emit(
-            <Income>this.income.set('benefitType', benefitType)
-        );
-    }
-
-    _benefitOtherDescriptionChanged(otherDescription: string) {
-        this.incomeChange.emit(
-            <Income>this.income.set('benefitOtherDescription', otherDescription)
-        )
-
-    }
-
-    _proofOfLowIncomeChanged(proofOfLowIncome: ProofOfLowIncome) {
-        this.incomeChange.emit(
-            <Income>this.income.set('proofOfLowIncome', proofOfLowIncome)
-        );
-    }
-
-
 }

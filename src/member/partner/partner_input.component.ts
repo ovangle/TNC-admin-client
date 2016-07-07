@@ -14,29 +14,33 @@ import {Partner} from './partner.model';
 @Component({
     selector: 'partner-input',
     template: `
+    <fieldset>
+        <legend>{{label}}</legend>
+        
         <name-input [label]="'Name'"
                     [disabled]="disabled"
                     [name]="partner.name"
-                    (nameChange)="_nameChanged($event)">
+                    (nameChange)="propChanged('name', $event)">
         </name-input>
         
         <gender-select [label]="'Gender'"
                        [disabled]="disabled"
                        [gender]="partner.gender"
-                       (genderChange)="_genderChanged($event)">
+                       (genderChange)="propChanged('gender', $event)">
         </gender-select>
         
         <contact-input [label]="'Contact'"
                        [disabled]="disabled"
                        [contact]="partner.contact"
-                       (contactChange)="_contactChanged($event)">
+                       (contactChange)="propChanged('contact', $event)">
         </contact-input>
         
         <income-input [label]="'Income'"
                       [disabled]="disabled"
                       [income]="partner.income"
-                      (incomeChange)="_incomeChanged($event)">
+                      (incomeChange)="propChanged('income', $event)">
         </income-input>
+    </fieldset>
     `,
     directives: [NameInput, ContactInput, IncomeInput, GenderSelect],
     encapsulation: ViewEncapsulation.Native,
@@ -46,7 +50,14 @@ export class PartnerInput {
     @Input() partner: Partner;
     @Output() partnerChange = new EventEmitter<Partner>();
 
+    @Input() label: string;
     @Input() disabled: boolean;
+
+    private propChanged(prop: string, value: any) {
+        this.partnerChange.emit(
+            <Partner>this.partner.set(prop, value)
+        );
+    }
 
     _nameChanged(name: Name) {
         this.partnerChange.emit(

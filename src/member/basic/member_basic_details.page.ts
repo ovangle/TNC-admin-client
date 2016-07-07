@@ -1,13 +1,15 @@
+import {Subscription} from 'rxjs/Subscription';
+
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation
 } from '@angular/core';
-import {RouteSegment, OnActivate} from '@angular/router';
 
 import {YesNoSelect} from '../../utils/components/yesno_select.component';
 import {DateInput} from '../../utils/date/date_input.component';
 
 import {Member} from '../member.model';
-import {MemberDetailsPageService} from '../details_page.service';
+import {MemberContext} from '../details_context.service';
+import {MemberManager} from '../member.manager';
 
 import {Address, AddressInput} from './address';
 import {Contact, ContactInput} from './contact';
@@ -16,7 +18,6 @@ import {Gender, GenderSelect} from './gender';
 import {ResidentialStatus, ResidentialStatusInput} from './residential_status';
 import {Income, IncomeInput} from './income';
 import {EnergyAccount, EnergyAccountInput} from './energy_account';
-
 
 /**
  * Member basic details.
@@ -27,57 +28,58 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
     selector: 'member-basic-details',
     template: `
     <name-input [name]="member.name"
-                (nameChange)="_nameChanged($event)"
+                (nameChange)="propChanged('name', $event)"
                 [label]="'Name'"
                 [disabled]="disabled">
     </name-input> 
                    
     <gender-select [gender]="member.gender"                
-                   (genderChange)="_genderChanged($event)"
+                   (genderChange)="propChanged('gender', $event)"
                    [label]="'Gender'"
                    [disabled]="disabled">
     </gender-select>
     
     <date-input [date]="member.dateOfBirth"
-                (dateChange)="_dateOfBirthChanged($event)"
+                (dateChange)="propChanged('dateOfBirth', $event)"
+                [defaultToday]="false"
                 [label]="'Date of birth'"
                 [disabled]="disabled">
     </date-input>
     
     <yesno-select [value]="member.aboriginalOrTorresStraitIslander"
-                  (valueChange)="_aboriginalOrTorresStraitIslanderChanged($event)"
+                  (valueChange)="propChanged('aboriginalOrTorresStraitIslander', $event)"
                   [label]="'Aboriginal/Torres Strait Islander'"
                   [disabled]="disabled"></yesno-select>
     
     <address-input [address]="member.address"           
-                   (addressChange)="_addressChanged($event)"
+                   (addressChange)="propChanged('address', $event)"
                    [label]="'Address'"
                    [disabled]="disabled">
     </address-input>
+    
+    <contact-input
+            [contact]="member.contact"
+            (contactChange)="propChanged('contact', $event)"
+            [label]="'Contact'"
+            [disabled]="disabled">
+    </contact-input>
                    
     <residential-status-input
             [residentialStatus]="member.residentialStatus"
-            (residentialStatusChange)="_residentialStatusChanged($event)"
+            (residentialStatusChange)="propChanged('residentialStatus', $event)"
             [label]="'Residential status'"
             [disabled]="disabled">
     </residential-status-input>               
     
-    <contact-input
-            [contact]="member.contact"
-            (contactChange)="_contactChanged($event)"
-            [label]="'Contact'"
-            [disabled]="disabled">
-    </contact-input>
-    
     <income-input
             [income]="member.income"
-            (incomeChange)="_incomeChanged($event)"
+            (incomeChange)="propChanged('income', $event)"
             [label]="'Income'"
             [disabled]="disabled"></income-input>
             
     <energy-account-input
             [energyAccount]="member.energyAccount"
-            (energyAccountChange)="_energyAccountChanged($event)"
+            (energyAccountChange)="propChanged('energyAccount', $event)"
             [label]="'Energy account'"
             [disabled]="disabled">
     </energy-account-input>
@@ -86,6 +88,7 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
         NameInput,
         AddressInput,
         GenderSelect,
+        EnergyAccountInput,
         ResidentialStatusInput,
         ContactInput,
         IncomeInput,
@@ -95,61 +98,34 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberBasicDetails implements OnActivate {
+export class MemberBasicDetails {
     member: Member;
 
-    private _memberDetailsPageService: MemberDetailsPageService;
-    private _changeDetector: ChangeDetectorRef;
+    private memberChange: Subscription;
 
-    constructor(memberDetailsPageService: MemberDetailsPageService,
-                changeDetector: ChangeDetectorRef) {
-        this._memberDetailsPageService = memberDetailsPageService;
-        this._changeDetector = changeDetector;
-        this.member = memberDetailsPageService.defaultMember();
+    constructor(private memberManager: MemberManager,
+                private changeDetector: ChangeDetectorRef,
+                private context: MemberContext
+    ) {
+        this.member = memberManager.create(Member, {});
     }
 
-    routerOnActivate(curr: RouteSegment) {
-        this._memberDetailsPageService.activePage = MemberBasicDetails;
-        this._memberDetailsPageService.getMember().then((member) => {
-            this.member = member;
-            this._changeDetector.markForCheck();
-        })
+    ngOnInit() {
+        this.context.activePage = MemberBasicDetails;
+        this.memberChange = this.context.memberChange
+            .subscribe(member => {
+                this.member = member;
+                this.changeDetector.markForCheck();
+            });
     }
 
-    _nameChanged(name: Name) {
-        this.member = this.member.set('name', name);
+    ngOnDestroy() {
+        if (!this.memberChange.isUnsubscribed) {
+            this.memberChange.unsubscribe();
+        }
     }
 
-    _addressChanged(address: Address) {
-        this.member = this.member.set('address', address);
+    propChanged(prop: string, value: any) {
+        this.member = this.member.set(prop, value);
     }
-
-    _genderChanged(gender: Gender) {
-        this.member = this.member.set('gender', gender);
-    }
-
-    _residentialStatusChanged(residentialStatus: ResidentialStatus) {
-        this.member = this.member.set('residentialStatus', residentialStatus);
-    }
-
-    _contactChanged(contact: Contact) {
-        this.member = this.member.set('contact', contact);
-    }
-
-    _incomeChanged(income: Income) {
-        this.member = this.member.set('income', income);
-    }
-
-    _dateOfBirthChanged(dateOfBirth: Date) {
-        this.member = this.member.set('dateOfBirth', dateOfBirth);
-    }
-
-    _aboriginalOrTorresStraitIslanderChanged(aboriginalOrTorresStraitIslander: boolean) {
-        this.member = this.member.set('aboriginalOrTorresStraitIslander', aboriginalOrTorresStraitIslander);
-    }
-
-    _energyAccountChanged(energyAccount: EnergyAccount) {
-        this.member = this.member.set('energyAccount', energyAccount);
-    }
-
 }

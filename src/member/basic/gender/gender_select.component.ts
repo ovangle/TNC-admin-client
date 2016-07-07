@@ -12,7 +12,8 @@ import {GenderPipe} from './gender.pipe';
 @Component({
     selector: 'gender-select',
     template: `
-    <enum-select [enumValues]="genderValues"
+    <enum-select [id]="'gender-select'"
+                 [enumValues]="genderValues"
                  [enumPipe]="genderPipe" 
                  [label]="label"
                  [disabled]="disabled"

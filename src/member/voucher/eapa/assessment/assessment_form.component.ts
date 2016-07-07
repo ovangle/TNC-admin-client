@@ -91,7 +91,7 @@ export class EAPAAssessmentForm {
         )
     }
 
-    _hasContactedRetailerToCheckEAPAPaymentsChanged(value:boolean) {
+    _hasContactedRetailerToCheckEapaPaymentsChanged(value:boolean) {
         this.assessmentChange.emit(
             <EAPAAssessment>this.assessment.set('hasContactedRetailerToCheckEAPAPayments', value)
         )

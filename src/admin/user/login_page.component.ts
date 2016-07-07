@@ -1,36 +1,51 @@
+import {Map} from 'immutable';
 import {Component, ViewEncapsulation} from '@angular/core';
 
 import {isDefined} from 'caesium-core/lang';
 import {identity} from "caesium-core/codec";
 
 import {UserContext} from './context.service';
-import {User, UserManager} from './user.model';
+import {User} from './user.model';
+import {UserManager} from './user.manager';
 
 @Component({
     selector: 'login-page',
     template: `
-        <form class="layout vertical">
-            <div class="layout horizontal">
-                <label for="username">Username</label>
-                <input type="text" name="username" [(ngModel)]="username">
-            </div>
+        <div class="container">
+        <div class="col-xs-2 col-sm-4"></div>
+        <div class="login-body col-xs-8 col-sm-4 layout horizontal">
+            <form (submit)="login()" class="flex">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control"
+                            [(ngModel)]="username">
+                </div>    
             
-            <div class="layout horizontal">
-                <label for="password">Password</label>
-                <input type="text" name="password" [(ngModel)]="password">
-            </div>
-            
-            <input type="submit" value="Login">
-        </form>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" class="form-control"
+                           [(ngModel)]="password">
+                </div>
+                
+                <input class="btn btn-primary" type="submit" value="Login">
+            </form>
+        </div>
+        </div>
     `,
     styles: [`
     :host { 
         display: block; 
         height: 100%;
     }
+    
+    .login-body {
+        height: 100%;
+    }    
+    
     `],
     styleUrls: [
-        'assets/css/flex.css'
+        'assets/css/flex.css',
+        'assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native
 })
@@ -53,23 +68,18 @@ export class LoginPage {
         this.userContext = userContext;
     }
 
-    onSubmit(): Promise<any> {
+    login(): Promise<any> {
         var loginDetails = {username: this.username, password: this.password};
         var response = this.userManager.login(loginDetails);
 
-        var success = response.handle<User>({select: 200, decoder: this.userManager.modelCodec})
-            .forEach((user) => this.userContext.setUser(user));
-
-        var loginFailure = response.handle<any>({select: 401, decoder: identity})
-            .forEach((errors) => {
-                if (isDefined(errors['username'])) {
-                    this.usernameError = errors['username'];
-                }
-                if (isDefined(errors['passwrod'])) {
-                    this.passwordError = errors['password'];
-                }
+        response.handle<any>({select: 401, decoder: identity})
+            .forEach((errors:Map<string,any>) => {
+                this.usernameError = errors.get('username');
+                this.passwordError = errors.get('password');
             });
-        return Promise.all([success, loginFailure]);
+
+        return response.handle<User>({select: 200, decoder: this.userManager.modelCodec})
+            .forEach((user:User) => this.userContext.setUser(user));
     }
 
 }

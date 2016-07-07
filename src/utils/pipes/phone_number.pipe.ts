@@ -27,6 +27,10 @@ export function formatPhoneNumber(source: string, format: string) {
     // Remove any non numeric chars from the source string.
     source = source.replace(/\D/g, '');
 
+    if (source === '') {
+        return source;
+    }
+
     var formatted = '';
     var sourceIndex = 0, fmtIndex = 0;
     var fmtChar: string;

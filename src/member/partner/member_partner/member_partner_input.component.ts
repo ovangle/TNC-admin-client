@@ -11,7 +11,6 @@ import {Member} from '../../member.model';
 import {MemberManager} from '../../member.manager';
 import {NamePipe} from '../../basic';
 
-import {MemberSearchBarComponent} from "../../search/search_bar.component";
 import {SearchResultDropdown} from '../../search/search_result_dropdown.component';
 
 import {PartnerInput} from '../partner_input.component';
@@ -45,7 +44,7 @@ import {MemberPartner} from './member_partner.model';
         </div>
     `,
     directives: [
-        PartnerInput, MemberSearchBarComponent, SearchResultDropdown,
+        PartnerInput, SearchResultDropdown,
         ROUTER_DIRECTIVES
     ],
     pipes: [NamePipe],

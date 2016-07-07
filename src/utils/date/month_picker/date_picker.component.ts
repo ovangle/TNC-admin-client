@@ -96,6 +96,9 @@ export class DatePicker implements OnInit, OnDestroy {
     get date(): Date { return this._selected.toDate(); }
     set date(value: Date) {
         this._selected = moment(value);
+        if (!this._selected.isValid()) {
+            this._selected = moment();
+        }
         this._displayMoment = this._selected.clone();
     }
 

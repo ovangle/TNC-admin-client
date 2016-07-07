@@ -1,4 +1,3 @@
-
 import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
@@ -6,6 +5,7 @@ import {isBlank} from 'caesium-core/lang';
 @Component({
     selector: 'yesno-select',
     template: `
+    <div class="form-group">
         <label for="yesno-select">{{label}}</label>
         <select name="yesno-select" 
                 class="form-control" 
@@ -14,8 +14,9 @@ import {isBlank} from 'caesium-core/lang';
                 [disabled]="disabled">
             <option [ngValue]="true">Yes</option>
             <option [ngValue]="false">No</option>
-            <option [ngValue]="_NULL_VALUE">Not Disclosed</option> 
+            <option *ngIf="allowNull" [ngValue]="_NULL_VALUE">Not Disclosed</option> 
         </select>      
+    </div>    
     `,
     styleUrls: ['assets/css/bootstrap.css'],
     encapsulation: ViewEncapsulation.Native,
@@ -24,6 +25,7 @@ import {isBlank} from 'caesium-core/lang';
 export class YesNoSelect {
     _NULL_VALUE = {};
 
+    @Input() allowNull: boolean = true;
     @Input() value: boolean;
     @Output() valueChange = new EventEmitter<boolean>();
 

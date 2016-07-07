@@ -1,20 +1,25 @@
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import {Subscription} from 'rxjs/Subscription';
+
 import {
-    Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, provide, NgZone
+    Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, provide, NgZone
 } from "@angular/core";
 
-import {ROUTER_DIRECTIVES, OnActivate, RouteSegment, Routes} from "@angular/router";
+import {ROUTER_DIRECTIVES, ActivatedRoute} from "@angular/router";
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {AlertLabels} from '../utils/alert_labels.component';
 
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
-import {MemberDetailsPageService} from './details_page.service';
+import {MemberContext} from './details_context.service';
 
 import {MemberTermComponent} from './term/term.component';
 
 import {PartnerDetails} from './partner/partner_details.page';
 import {DependentList} from './dependent/dependent_list.page';
+import {VoucherList} from './voucher/voucher_list.page';
 import {MemberBasicDetails, NamePipe} from "./basic";
 
 
@@ -31,16 +36,20 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                 </h1>     
                 <alert-labels [model]="member"></alert-labels>
             </div>
+            
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
-                    <li [ngClass]="{'active': _isBasicPageActive}">
-                        <a [routerLink]="'./'">Basic</a>
+                    <li [ngClass]="{'active': isBasicPageActive}">
+                        <a [routerLink]="['./basic']">Basic</a>
                     </li>    
-                    <li [ngClass]="{'active': _isPartnerPageActive}">
-                        <a [routerLink]="'./partner'">Partner</a>
+                    <li [ngClass]="{'active': isPartnerPageActive}">
+                        <a [routerLink]="['./partner']">Partner</a>
                     </li>
-                    <li [ngClass]="{'active': _isDependentsPageActive}">
-                        <a [routerLink]="'./dependent'">Dependents</a>
+                    <li [ngClass]="{'active': isDependentsPageActive}">
+                        <a [routerLink]="['./dependents']">Dependents</a>
+                    </li>
+                    <li [ngClass]="{'active': isVoucherPageActive}">
+                        <a [routerLink]="['./vouchers']">Vouchers</a> 
                     </li>
                 </ul>
             </div>
@@ -85,50 +94,64 @@ import {MemberBasicDetails, NamePipe} from "./basic";
     pipes: [ NamePipe ],
     providers: [
         MemberManager,
-        MemberDetailsPageService
+        MemberContext
     ],
     encapsulation: ViewEncapsulation.Native,
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
-@Routes([
-    {path: '/', component: MemberBasicDetails},
-    {path: '/partner', component: PartnerDetails},
-    {path: '/dependent', component: DependentList}
-])
-export class MemberDetailsComponent implements OnActivate {
-    @Input() member: Member;
+export class MemberDetailsComponent implements OnInit, OnDestroy {
+    isDirty: boolean = false;
+    member: Member;
 
-    private memberManager: MemberManager;
-    private _memberDetailsPageService: MemberDetailsPageService;
-
-    get _isBasicPageActive(): boolean {
-        return this._memberDetailsPageService.activePage === MemberBasicDetails;
-    }
-
-    get _isPartnerPageActive(): boolean {
-        return this._memberDetailsPageService.activePage === PartnerDetails;
-    }
-
-    get _isDependentsPageActive(): boolean {
-        return this._memberDetailsPageService.activePage === DependentList;
-    }
-
-    routerOnActivate(curr: RouteSegment) {
-        console.log('MemberDetails.routerOnActivate');
-        var id = Number.parseInt(curr.parameters['id']);
-        this._memberDetailsPageService.setMemberId(id);
-
-        var response = this.memberManager.getById(id);
-        return response.handle<Member>({select: 200, decoder: this.memberManager.modelCodec}).forEach((member) => {
-            this.member = member;
-        });
-    }
+    private routeParams: Subscription;
+    private memberChange: Subscription;
 
     constructor(
-        memberManager: MemberManager,
-        memberDetailsPageService: MemberDetailsPageService
+        private memberManager: MemberManager,
+        private context: MemberContext,
+        private route: ActivatedRoute
     ) {
-        this.memberManager = memberManager;
-        this._memberDetailsPageService = memberDetailsPageService
     }
+
+
+    ngOnInit() {
+        this.routeParams = this.route.params
+            .map(params => Number.parseInt(params['id']))
+            .switchMap(id => {
+                return this.memberManager.getById(id)
+                    .handle({select: 200, decoder: this.memberManager.modelCodec});
+            })
+            .subscribe(member => {
+                this.context.setMember(member, true);
+            });
+
+        this.memberChange = this.context.memberChange.subscribe((member) => {
+            this.member = member;
+        })
+    }
+
+    ngOnDestroy() {
+        if (!this.routeParams.isUnsubscribed) {
+            this.routeParams.unsubscribe();
+        }
+        if (!this.memberChange.isUnsubscribed) {
+            this.memberChange.unsubscribe();
+        }
+    }
+
+    private get isBasicPageActive(): boolean {
+        return this.context.activePage === MemberBasicDetails;
+    }
+
+    private get isPartnerPageActive(): boolean {
+        return this.context.activePage === PartnerDetails;
+    }
+
+    private get isDependentsPageActive(): boolean {
+        return this.context.activePage === DependentList;
+    }
+
+    private get isVoucherPageActive(): boolean {
+        return this.context.activePage === VoucherList;
+    }
+
 }

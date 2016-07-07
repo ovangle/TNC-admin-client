@@ -36,8 +36,8 @@ export interface OtherSelection {
     selector: 'other-select',
     template: `
         <div class="form-group">
-            <label for="other-select">{{label}}</label>
-            <div class="layout horizontal">
+            <label>{{label}}</label>
+                
             <select name="other-select" class="form-control" 
                     [disabled]="disabled"
                     [ngModel]="selection.option"
@@ -49,7 +49,6 @@ export interface OtherSelection {
                     [disabled]="disabled"
                     [ngModel]="selection.otherValue"
                     (ngModelChange)="_otherValueChanged($event)">
-            </div>
         </div>
     `,
     styles: [`

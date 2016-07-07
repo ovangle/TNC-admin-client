@@ -3,62 +3,81 @@ import {Record} from 'immutable';
 import {recordCodec, bool, str} from 'caesium-model/json_codecs';
 
 export const _EAPA_ASSESSMENT_RECORD = Record({
-    isMemberNoRelationToAssessor: false,
+    // Question 1
+    isNoRelationToAssessor: false,
+
+    // Question 2
     billSighted: false,
 
-    isMemberNameOnBill: false,
-    isMemberAddressOnBill: false,
-    isResidentialElectricityOrGasAccount: false,
-    isMemberExperiencingFinancialHardship: false,
-    isMemberDenyingBasicNeeds: false,
-    isMemberFacingDisconnection: false,
+    // Question 3
+    isNameOnBill: false,
+    isAddressOnBill: false,
 
-    hasContactedRetailerToCheckPaymentPlans: false,
+    // Question 4
+    isResidentialElectricityOrGasAccount: false,
+
+    // Question 5 (a)
+    isExperiencingFinancialHardship: false,
+
+    // Question 5 (b)
+    isDenyingBasicNeeds: false,
+    isFacingDisconnection: false,
+    isDisconnected: false,
+
+    // Question 6
+    hasContactedRetailerToCheckAssistanceOptions: false,
     hasContactedRetailerToCheckEnergyRebates: false,
     hasContactedRetailerToCheckUpdatedBalance: false,
-    hasContactedRetailerToCheckEAPAPayments: false,
+    hasContactedRetailerToCheckEapaPayments: false,
 
-    isMemberReceivingOver250OnCurrentBill: false,
-    isMemberReceivingOver500OverFinancialYear: false,
-    isMemberRecieivingExemptionDescription: '',
+    // Question 7
+    isReceivingOverLimitOnCurrentBill: false,
+    isReceivingOverLimitForFinancialYear: false,
+    isReceivingMoreThanTwice: false,
 
-    hasMemberAgreedtoPrivacyNotice: false,
+    limitExemptionDescription: '',
 
+    // Question 8
+    signedPrivacyAgreement: false,
+
+    // Question 9
     isBillStamped: false,
 
-    hasMemberUnderstoodVoucherValidity: false,
+    // Question 10
+    understoodVoucherProcessing: false,
 
-    hasMemberConsentedToRetainingForm: false
+    // Question 11
+    consentToRetainData: false
 });
 
 export class EAPAAssessment extends _EAPA_ASSESSMENT_RECORD {
 
     // Question 1
-    isMemberNoRelationToAssessor: boolean;
+    isNoRelationToAssessor: boolean;
 
     // Question 2
     billSighted: boolean;
 
     // Question 3
-    isMemberNameOnBill: boolean;
-    isMemberAddressOnBill: boolean;
+    isNameOnBill: boolean;
+    isAddressOnBill: boolean;
 
     // Question 4
     isResidentialElectricityOrGasAccount: boolean;
 
     // Question 5 (a)
-    isMemberExperiencingFinancialHardship: boolean;
+    isExperiencingFinancialHardship: boolean;
 
     // Question 5 (b)
-    isMemberDenyingBasicNeeds: boolean;
-    isMemberFacingDisconnection: boolean;
-    isMemberDisconnected: boolean;
+    isDenyingBasicNeeds: boolean;
+    isFacingDisconnection: boolean;
+    isDisconnected: boolean;
 
     // Question 6
     hasContactedRetailerToCheckAssistanceOptions: boolean;
     hasContactedRetailerToCheckEnergyRebates: boolean;
     hasContactedRetailerToCheckUpdatedBalance: boolean;
-    hasContactedRetailerToCheckEAPAPayments: boolean;
+    hasContactedRetailerToCheckEapaPayments: boolean;
 
     // Question 7
     isReceivingOverLimitOnCurrentBill: boolean;
@@ -86,29 +105,48 @@ export class EAPAAssessment extends _EAPA_ASSESSMENT_RECORD {
 }
 
 export const EAPA_ASSESSMENT_CODEC = recordCodec<EAPAAssessment>({
-    isMemberNoRelationToAssessor: bool,
-    billSighted: bool,
-    isMemberNameOnBill: bool,
-    isMemberAddressOnBill: bool,
-    isResidentialElectricityOrGasAccount: bool,
-    isMemberExperiencingFinancialHardship: bool,
-    isMemberDenyingBasicNeeds: bool,
-    isMemberFacingDisconnection: bool,
+    // Question 1
+    isNoRelationToAssessor: bool,
 
-    hasContactedRetailerToCheckPaymentPlans: bool,
+    // Question 2
+    billSighted: bool,
+
+    // Question 3
+    isNameOnBill: bool,
+    isAddressOnBill: bool,
+
+    // Question 4
+    isResidentialElectricityOrGasAccount: bool,
+
+    // Question 5 (a)
+    isExperiencingFinancialHardship: bool,
+
+    // Question 5 (b)
+    isDenyingBasicNeeds: bool,
+    isFacingDisconnection: bool,
+    isDisconnected: bool,
+
+    // Question 6
+    hasContactedRetailerToCheckAssistanceOptions: bool,
     hasContactedRetailerToCheckEnergyRebates: bool,
     hasContactedRetailerToCheckUpdatedBalance: bool,
-    hasContactedRetailerToCheckEAPAPayments: bool,
+    hasContactedRetailerToCheckEapaPayments: bool,
 
-    isMemberReceivingOver250OnCurrentBill: bool,
-    isMemberReceivingOver500OverFinancialYear: bool,
-    isMemberRecieivingExemptionDescription: str,
+    // Question 7
+    isReceivingOverLimitOnCurrentBill: bool,
+    isReceivingOverLimitForFinancialYear: bool,
+    isReceivingMoreThanTwice: bool,
+    limitExemptionDescription: str,
 
-    hasMemberAgreedtoPrivacyNotice: bool,
+    // Question 8
+    signedPrivacyAgreement: bool,
 
+    // Question 9
     isBillStamped: bool,
 
-    hasMemberUnderstoodVoucherValidity: bool,
+    // Question 10
+    understoodVoucherProcessing: bool,
 
-    hasMemberConsentedToRetainingForm: bool
+    // Question 11
+    consentToRetainData: bool,
 }, (args) => new EAPAAssessment(args));

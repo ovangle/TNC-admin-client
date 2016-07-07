@@ -1,72 +1,61 @@
-import {Injectable} from '@angular/core';
+import {List, Map, Set} from 'immutable';
 
-import {Type} from 'caesium-core/lang';
+import {memoize} from 'caesium-core/decorators';
 
 import {Model, Property, ModelBase} from 'caesium-model/model';
-import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
-import {str, map, list, model, identity} from "caesium-model/json_codecs";
+import {bool, str, list, model, identity} from "caesium-model/json_codecs";
 
-import {UserGroup} from './group';
-import {Response} from "caesium-model/manager/request/interfaces";
 
-const MATCH_TOKEN = /^([-a-f0-9]+)::([0-9]+)$/i;
+import {UserGroup} from '../user_group';
+import {StaffMember} from '../staff/staff.model';
+import {PermissionMap, mergePermissionMaps, PERMISSION_MAP_CODEC} from '../permissions';
+
+export interface AbstractUser {
+    username: string;
+    groups: List<UserGroup>;
+
+    set(propName: string, value: any): AbstractUser;
+}
 
 @Model({kind: 'user::User'})
-export abstract class User extends ModelBase {
+export abstract class User extends ModelBase implements AbstractUser {
     @Property({codec: str})
     username: string;
 
-    @Property({
-        codec: list(model(UserGroup)),
-        defaultValue: () => Immutable.List<UserGroup>()
-    })
-    groups: Immutable.List<UserGroup>;
+    /// There is only ever one admin user, so this will usually be false.
+    /// It is not possible to set the admin user from within the application.
+    @Property({codec: bool, readOnly: true})
+    isAdmin: boolean;
 
-    @Property({
-        codec: map(str),
-        defaultValue: () => Immutable.Map<string,string>(),
-        readOnly: true
-    })
-    permissions: Immutable.Map<string,string>;
+    @Property({codec: list(model(UserGroup)), defaultValue: List})
+    groups: List<UserGroup>;
 
-    @Property({codec: identity, readOnly: true})
-    session: SessionToken;
+    @Property({codec: PERMISSION_MAP_CODEC, defaultValue: Map})
+    extraPermissions: PermissionMap;
+
+    @Property({codec: model(StaffMember)})
+    staffMember: StaffMember;
+
+    get permissions(): PermissionMap {
+        return this._getPermissions();
+    }
+
+    @memoize()
+    _getPermissions(): PermissionMap {
+        var groupPermissions = this.groups.map((group) => group.permissions).toArray();
+        return mergePermissionMaps(this.extraPermissions, ...groupPermissions);
+    }
+
+    checkPermission(key: string, action: string) {
+        return this.permissions.get(key, Set<string>()).contains(action);
+    }
+
+    set(propName: string, value: any): User {
+        return <User>super.set(propName, value);
+    }
 }
 
 export interface LoginDetails {
     username: string;
     password: string;
-}
-
-export interface SessionToken {
-    key: string;
-    expires: Date;
-
-}
-
-@Injectable()
-export class UserManager extends ManagerBase<User> {
-    constructor(options: ManagerOptions) {
-        super(options);
-    }
-
-
-    getModelType() { return User; }
-    getModelSubtypes(): Type[] { return []; }
-    getSearchParameters(): SearchParameter[] {
-        return undefined;
-    }
-
-    fromSession(sessionToken:SessionToken): Response {
-        // TODO: Simplifies when we move to typescript 2.0
-        var request = this._requestFactory.put('session', identity);
-        request.setRequestBody(sessionToken);
-        return request.send();
-    }
-
-    login(loginDetails:LoginDetails): Response {
-        var request = this._requestFactory.put('login', identity);
-        request.setRequestBody(loginDetails);
-        return request.send();
-    }
 }

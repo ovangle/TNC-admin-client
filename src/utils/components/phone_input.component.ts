@@ -2,24 +2,33 @@ import {
     Component, Input, Output, EventEmitter, ViewEncapsulation,
     ChangeDetectionStrategy, ViewChild, ElementRef
 } from '@angular/core';
+import {FormControl, REACTIVE_FORM_DIRECTIVES, ValidatorFn, Validators} from '@angular/forms';
 
 import {KeyCode} from '../keycodes.enum';
 import {formatPhoneNumber, DIGIT_PLACEHOLDER} from '../pipes/phone_number.pipe';
 
 
-
 @Component({
     selector: 'phone-input',
     template: `
-    <div class="form-group">
-        <label for="phone">{{label}}</label>
+    <div class="form-group" [ngClass]="{
+        'has-errors': control.touched && !control.valid
+    }">
+        <label class="control-label" for="phone">{{label}}</label>
         <input #phoneInput name="phone" type="tel" 
             class="form-control"
             [disabled]="disabled"
-            [value]="_phoneNumber"
-            (keyup)="_phoneNumberChange($event)">
+            [formControl]="control"
+            (keyup)="_phoneNumberChanged($event)">
+        <span class="help-block" *ngIf="control.touched && control.errors?.required">
+            A value is required 
+        </span>
+        <span class="help-block" *ngIf="control.touched && control.errors?.phoneNumberInvalid">
+            Invalid phone number 
+        </span>
     </div>
     `,
+    directives: [REACTIVE_FORM_DIRECTIVES],
     styles: [],
     styleUrls: [
         'assets/css/bootstrap.css'
@@ -31,29 +40,34 @@ export class PhoneInput {
     @Input() format:string;
     @Input() label: string;
 
-    _phoneNumber: string;
-
-    @Input()
-    set phoneNumber(value: string) {
-        this._phoneNumber = formatPhoneNumber(value || '', this.format);
-    }
+    @Input() phoneNumber: string;
 
     /// Only emit a new phone number when we have a complete phone number.
     @Output() phoneNumberChange = new EventEmitter<string>();
+    @Output() validityChange = new EventEmitter<boolean>();
 
+    @Input() required: boolean = false;
     @Input() disabled:boolean = false;
 
-    @ViewChild('phoneInput') _input: ElementRef;
+    control: FormControl;
 
-    _handleKeyUp(event: KeyboardEvent) {
-        var input: HTMLInputElement = this._input.nativeElement;
+    ngOnInit() {
+        var validators: any[] = [
+            phoneNumberValidator(this.format)
+        ];
+        if (this.required) {
+            validators.push(Validators.required)
+        }
+        this.control = new FormControl(this.phoneNumber || '', validators);
 
-        return true;
+        this.control.registerOnChange((value: string) => {
+            this.phoneNumberChange.emit(value);
+            this.validityChange.emit(this.control.valid);
+        });
     }
 
-
-    _phoneNumberChange(event: KeyboardEvent) {
-        var input = this._input.nativeElement;
+    _phoneNumberChanged(event: KeyboardEvent) {
+        var input = event.target as HTMLInputElement;
         if (input.disabled) {
             return true;
         }
@@ -71,12 +85,8 @@ export class PhoneInput {
 
         var formatted = formatPhoneNumber(input.value, this.format);
 
-        if (formatted === input.value) {
-            this.phoneNumberChange.emit(formatted);
-            return true;
-        }
-
-        input.value = formatted;
+        //input.value = formatted;
+        this.control.updateValue(formatted, {emitEvent: true});
 
         if (caretAtEnd) {
             caretPosition = input.value.length;
@@ -88,4 +98,17 @@ export class PhoneInput {
     }
 
 }
+
+function phoneNumberValidator(phoneFormat: string): ValidatorFn {
+    return (control: FormControl) => {
+        if (control.value.length > 0 && control.value.length !== phoneFormat.length) {
+            return {
+                phoneNumberInvalid: true
+            };
+        }
+        return null;
+
+    }
+}
+
 

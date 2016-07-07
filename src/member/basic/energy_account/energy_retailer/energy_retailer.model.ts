@@ -2,7 +2,7 @@ import {OrderedMap} from 'immutable'
 import {enumToString} from 'caesium-model/json_codecs'
 
 // TODO: This (and some other enums) should be exported by the server
-// and stored as database values. We can't be sure that we have the entire
+// and stored as database selectedValues. We can't be sure that we have the entire
 // list of energy retailers.
 // Will do for initial implementation
 

@@ -1,40 +1,67 @@
+import {Set} from 'immutable';
+
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
+ViewChild
 } from '@angular/core';
+import {FormControl} from '@angular/forms';
+
+import {isDefined} from 'caesium-core/lang';
 
 import {Contact} from './contact.model';
 import {PhoneInput} from '../../../utils/components/phone_input.component';
 
+
+const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+
 @Component({
     selector: 'contact-input',
     template: `
-    <fieldset>
-        <legend>{{label}}</legend>
-        <div class="form-group">
-            <label for="email">Email</label>
+    <div class="layout horizontal">
+        <div class="form-group email-input flex"
+            [ngClass]="{
+                'has-error': emailControl.touched && !emailControl.valid
+            }">
+            <label class="control-label" for="email">Email</label>
             <input type="email" id="email" class="form-control"
                    [ngModel]="contact.email" 
-                   (ngModelChange)="_emailChanged($event)"
-                   [disabled]="disabled">
+                   (ngModelChange)="propChanged('email', $event)"
+                   [disabled]="disabled"
+                   #emailControl="ngModel"
+                   pattern="${EMAIL_REGEXP.source}">
+            <span class="help-block" *ngIf="emailControl.touched && emailControl.errors?.pattern">
+                Email is not valid 
+            </span>      
         </div>
-            
-        <phone-input [label]="'Phone'"
-            [format]="'(dd) dddd dddd'"
-            [phoneNumber]="contact.phone"
-            (phoneNumberChange)="_phoneChanged($event)"
-            [disabled]="disabled"></phone-input>
-        <phone-input [label]="'Mobile'"
-            [format]="'dddd dddd dddd'"
-            [phoneNumber]="contact.mobile"
-            (phoneNumberChange)="_mobileChanged($event)"
-            [disabled]="disabled">
+
+        <phone-input class="flex"
+                [label]="'Phone'"
+                [format]="'(dd) dddd dddd'"
+                [phoneNumber]="contact.phone"
+                (phoneNumberChange)="propChanged('phone', $event)"
+                (validityChange)="propValidityChanged('phone', $event)"
+                [disabled]="disabled">
         </phone-input>
-    </fieldset>
+
+        <phone-input class="flex"
+                [label]="'Mobile'"
+                [format]="'dddd ddd ddd'"
+                [phoneNumber]="contact.mobile"
+                (phoneNumberChange)="propChanged('mobile', $event)"
+                (validityChange)="propValidityChanged('mobile', $event)"
+                [disabled]="disabled">
+        </phone-input>
+    </div>
     `,
     directives: [PhoneInput],
-    styles: [``],
+    styles: [`
+    phone-input {
+        margin-left: 30px;
+    }
+    `],
     styleUrls: [
-        'assets/css/bootstrap.css'   
+        'assets/css/flex.css',
+        'assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -42,26 +69,30 @@ import {PhoneInput} from '../../../utils/components/phone_input.component';
 export class ContactInput {
     @Input() contact: Contact;
     @Output() contactChange = new EventEmitter<Contact>();
-    
+    @Output() validityChange = new EventEmitter<boolean>();
+
     @Input() label: string;
     @Input() disabled: boolean;
 
-    _emailChanged(email: string) {
+    @ViewChild('emailControl') emailControl: FormControl;
+
+    private _validity = Set<string>(['email', 'phone', 'mobile']);
+
+    private propChanged(prop: string, value: string) {
+        if (isDefined(this.emailControl) && prop === 'email') {
+            this.propValidityChanged('email', this.emailControl.valid);
+        }
         this.contactChange.emit(
-            <Contact>this.contact.set('email', email)
+            <Contact>this.contact.set(prop, value)
         );
     }
 
-    _phoneChanged(phoneNumber: string) {
-        this.contactChange.emit(
-            <Contact>this.contact.set('phone', phoneNumber)
-        );
+    private propValidityChanged(prop: string, value: boolean) {
+        if (value) {
+            this._validity = this._validity.remove(prop);
+        } else {
+            this._validity = this._validity.add(prop);
+        }
+        this.validityChange.emit(this._validity.isEmpty());
     }
-
-    _mobileChanged(mobileNumber: string) {
-        this.contactChange.emit(
-            <Contact>this.contact.set('mobile', mobileNumber)
-        );
-    }
-
 }

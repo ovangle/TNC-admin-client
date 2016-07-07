@@ -21,7 +21,7 @@ import {
 import {Carer, CarerManager} from './carer';
 import {Partner, PartnerManager} from './partner';
 
-import {memberTermCodec, MemberTerm} from "./term/term.record";
+import {MEMBER_TERM_CODEC, MemberTerm} from "./term/term.model";
 
 
 @Model({kind: 'member::Member'})
@@ -29,13 +29,13 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     @Property({codec: NAME_CODEC, defaultValue: () => new Name()})
     name: Name;
 
-    @Property({codec: GENDER_CODEC})
+    @Property({codec: GENDER_CODEC, defaultValue: () => Gender.NotDisclosed})
     gender: Gender;
 
     @Property({codec: date})
     dateOfBirth: Date;
 
-    @Property({codec: bool})
+    @Property({codec: bool, allowNull: true, defaultValue: () => null})
     aboriginalOrTorresStraitIslander: boolean;
 
     @Property({codec: bool, defaultValue: () => false})
@@ -66,7 +66,7 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     income: Income;
 
     @Property({
-        codec: memberTermCodec,
+        codec: MEMBER_TERM_CODEC,
         defaultValue: () => new MemberTerm()
     })
     term: MemberTerm;
@@ -74,9 +74,9 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     /**
      * Does the member have a partner? (null === NOT_DISCLOSED)
      */
-    @Property({codec: bool, allowNull: true})
+    @Property({codec: bool, allowNull: true, defaultValue: () => null})
     isPartnered: boolean;
-    
+
     @Property({
         codec: ENERGY_ACCOUNT_CODEC,
         defaultValue: () => new EnergyAccount()
@@ -86,11 +86,11 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     /**
      * The id of the member that is a partner of this member.
      */
-    @RefProperty({refName: 'partner'})
+    @RefProperty({refName: 'partner', required: false})
     partnerId: number;
     partner: Partner;
 
-    @RefProperty({refName: 'carer'})
+    @RefProperty({refName: 'carer', required: false})
     carerId: number;
     carer: Carer;
 

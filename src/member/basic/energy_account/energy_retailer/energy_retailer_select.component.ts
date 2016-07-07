@@ -13,6 +13,7 @@ import {EnergyRetailerPipe} from './energy_retailer.pipe';
     <enum-select [label]="label"
                  [disabled]="disabled"
                  [enumValues]="energyRetailerValues"
+                 [enumPipe]="_energyRetailerPipe"
                  [value]="value"
                  (valueChange)="energyRetailerChange.emit($event)">
     </enum-select>

@@ -12,23 +12,31 @@ import {ResidentialStability, ResidentialStabilitySelect} from './stability';
     <fieldset>
         <legend>{{label}}</legend>
         
-        <residence-type-select
-            [label]="'Type'"
-            [disabled]="disabled"
-            [residenceType]="residentialStatus.type"
-            (residenceTypeChange)="_typeChanged($event)">
-        </residence-type-select>
-        
-        <residential-stability-select
-            [label]="'Stability'"
-            [disabled]="disabled"
-            [residentialStability]="residentialStatus.stability"
-            (residentialStabilityChange)="_stabilityChanged($event)">
-        </residential-stability-select>
+        <div class="layout horizontal">
+            <residence-type-select
+                class="flex"
+                [label]="'Type'"
+                [disabled]="disabled"
+                [residenceType]="residentialStatus.type"
+                (residenceTypeChange)="propChanged('type', $event)">
+            </residence-type-select>
+            
+            <residential-stability-select
+                class="flex input-right"
+                [label]="'Stability'"
+                [disabled]="disabled"
+                [residentialStability]="residentialStatus.stability"
+                (residentialStabilityChange)="propChanged('stability', $event)">
+            </residential-stability-select>
+        </div>
     </fieldset>
     `,
     directives: [ResidenceTypeSelect, ResidentialStabilitySelect],
-    styles: [``],
+    styles: [`
+    .input-right {
+        margin-left: 30px;
+    }
+    `],
     styleUrls: [
         'assets/css/flex.css',
         'assets/css/bootstrap.css'
@@ -43,15 +51,9 @@ export class ResidentialStatusInput {
     @Input() label: string;
     @Input() disabled: boolean;
 
-    _typeChanged(type: ResidenceType) {
+    private propChanged(prop: string, value: any) {
         this.residentialStatusChange.emit(
-            <ResidentialStatus>(this.residentialStatus.set('type', type))
-        );
-    }
-
-    _stabilityChanged(stability: ResidentialStability) {
-        this.residentialStatusChange.emit(
-            <ResidentialStatus>(this.residentialStatus.set('stability', stability))
+            <ResidentialStatus>(this.residentialStatus.set(prop, value))
         );
     }
 }

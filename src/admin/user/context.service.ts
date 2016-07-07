@@ -1,19 +1,21 @@
-import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
+import {Subject} from 'rxjs/Subject';
+import {Map} from 'immutable';
 
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
 import {identity} from 'caesium-core/codec';
+import {JsonObject} from 'caesium-model/json_codecs';
 
-import {User, UserManager} from './user.model';
-import {loadToken, saveToken, isExpired} from './session';
+import {User} from './user.model';
+import {UserManager} from './user.manager';
 
 
 @Injectable()
 export class UserContext {
 
-    sessionToken: string;
 
     router: Router;
 
@@ -22,43 +24,27 @@ export class UserContext {
      */
     user: User;
 
-    private userManager: UserManager;
+    userChange = new Subject<User>();
 
-    constructor(userManager: UserManager, router: Router) {
+    constructor(private userManager: UserManager) {
         this.user = null;
-        this.router = router;
-        this.userManager = userManager;
     }
 
     get loggedIn(): boolean { return !isBlank(this.user); }
 
-    initialize(): Promise<User> {
-        var sessionToken = loadToken();
-        if (!sessionToken || isExpired(sessionToken)) {
-            return this.requireLogin();
-        }
-        var response = this.userManager.fromSession(sessionToken);
-        var success = response.handle({select: 200, decoder: this.userManager.modelCodec}).forEach((user) => {
-            this.user = user;
-        });
-        var failure = response.handle({select: 500, decoder: identity}).forEach((errors) => {
-            console.log('Session invalid: ' + JSON.stringify(errors));
-            this.requireLogin();
-        });
-
-        return Promise.all([success, failure]).then((_) => {
-            return this.user;
-        })
+    initialize(): Promise<boolean> {
+        return this.userManager.initialize()
+            .forEach(user => this.setUser(user))
+            .then((_) => !isBlank(this.user));
     }
 
-    setUser(user: User): Promise<any> {
-        saveToken(user.session);
+    setUser(user: User) {
+        this.userChange.next(user);
         this.user = user;
-        return this.router.navigate(['Dashboard']);
     }
 
-    requireLogin(): Promise<any> {
-        return this.router.navigate(['Login']);
+    checkPermission(key: string, action: string): boolean {
+        return this.user
+            && (this.user.isAdmin || this.user.checkPermission(key, action));
     }
-
 }

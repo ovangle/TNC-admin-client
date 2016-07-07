@@ -4,7 +4,7 @@ import {ModelBase, Model, Property, RefProperty} from 'caesium-model/model';
 import {User} from '../../admin';
 import {Member} from '../member.model';
 
-@Model({kind: 'member.voucher', isAbstract: true})
+@Model({kind: 'member.voucher::Voucher', isAbstract: true})
 export abstract class Voucher extends ModelBase {
     /**
      * The member who this voucher is being issued to.
@@ -24,5 +24,7 @@ export abstract class Voucher extends ModelBase {
      * The date that this voucher was issued
      */
     @Property({codec: date})
-    dateOfIssue: Date;
+    dateIssued: Date;
+
+    abstract getDisplayType(): string;
 }

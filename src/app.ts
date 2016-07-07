@@ -1,12 +1,12 @@
-import {Component, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
-import {ROUTER_DIRECTIVES, Routes} from '@angular/router';
+import {Component, ViewEncapsulation, OnInit} from "@angular/core";
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 
+import {isBlank} from 'caesium-core/lang';
+
+import {ModalDialogComponent, ModalDialogService} from './utils/modal_dialog';
 import {NavBarComponent} from './layout/nav_bar.component'
-import {UserManager} from './admin/user/user.model';
+import {UserManager} from './admin/user/user.manager';
 import {UserContext} from './admin/user/context.service';
-import {LoginPage} from './admin/user/login_page.component';
-
-import {MemberHome} from './member/home.component';
 
 @Component({
     selector: 'main-app',
@@ -17,6 +17,7 @@ import {MemberHome} from './member/home.component';
         <main class="flex">
             <router-outlet></router-outlet>
         </main>
+        <modal-dialog></modal-dialog>
     `,
     styles: [`
     :host {
@@ -40,21 +41,22 @@ import {MemberHome} from './member/home.component';
         'assets/css/bootstrap.css',
         'assets/css/flex.css'
     ],
-    directives: [ROUTER_DIRECTIVES, NavBarComponent],
-    providers: [UserManager, UserContext],
-    encapsulation: ViewEncapsulation.Native,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    directives: [ROUTER_DIRECTIVES, NavBarComponent, ModalDialogComponent],
+    providers: [UserManager, UserContext, ModalDialogService],
+    encapsulation: ViewEncapsulation.Native
 })
-@Routes([
-    {path: '/login',  component: LoginPage},
-    {path: '/member', component: MemberHome},
-])
-export class MainApp {
-    private userContext: UserContext;
+export class MainApp implements OnInit {
+    constructor(
+        private userContext: UserContext,
+        private router: Router
+    ) { }
 
-    constructor(userContext: UserContext) {
-        this.userContext = userContext;
-        //this.userContext.initialize();
+    ngOnInit() {
+        this.userContext.initialize().then((success) => {
+            if (!success) {
+                this.router.navigate(['/login']);
+            }
+        })
     }
 
 }

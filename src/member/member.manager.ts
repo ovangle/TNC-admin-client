@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {Type} from 'caesium-core/lang';
 import {identityConverter} from 'caesium-core/converter';
 import {ManagerOptions, ManagerBase, SearchParameter} from 'caesium-model/manager';
+import {Response} from 'caesium-model/manager/request/interfaces';
 
 import {Name} from './basic';
 import {Member} from './member.model';
@@ -37,6 +38,13 @@ export class MemberManager extends ManagerBase<Member> {
                 refiner: partialNameRefiner
             }
         ];
+    }
+
+    save(member: Member): Response {
+        var request = this._requestFactory.post('', this.modelCodec);
+        request.setRequestBody(member);
+        return request.send();
+
     }
 }
 

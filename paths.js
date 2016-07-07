@@ -15,15 +15,18 @@ const APP_PATHS = {
     "@angular/common": "/node_modules/@angular/common/index.js",
     "@angular/common/*": "/node_modules/@angular/common/*.js",
 
+    "@angular/forms": "/node_modules/@angular/forms/index.js",
+    "@angular/forms/*": "/node_modules/@angular/forms/*.js",
+
     "@angular/compiler": "/node_modules/@angular/compiler/index.js",
     "@angular/compiler/*": "/node_modules/@angular/compiler/*.js",
-    
+
     "@angular/platform-browser": "/node_modules/@angular/platform-browser/index.js",
     "@angular/platform-browser/*": "/node_modules/@angular/platform-browser/*.js",
-    
+
     "@angular/platform-browser-dynamic": "/node_modules/@angular/platform-browser-dynamic/index.js",
     "@angular/platform-browser-dynamic/*": "/node_modules/@angular/platform-browser-dynamic/*.js",
-    
+
     "@angular/router": "/node_modules/@angular/router/index.js",
     "@angular/router/*": "/node_modules/@angular/router/*.js",
 };

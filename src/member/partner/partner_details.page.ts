@@ -1,24 +1,21 @@
-import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/switchMap';
+import {Subscription} from 'rxjs/Subscription';
 
 import {
     Component, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef,
     provide
 } from "@angular/core";
-import {RouteSegment} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 import {YesNoSelect} from '../../utils/components/yesno_select.component';
 
 import {Member} from '../member.model';
-import {MemberDetailsPageService} from '../details_page.service';
+import {MemberContext} from '../details_context.service';
 
 import {Partner} from './partner.model';
 import {PartnerManager} from './partner.manager';
 import {NonMemberPartner, NonMemberPartnerDetails} from './non_member_partner';
 import {MemberPartner, MemberPartnerDetails} from './member_partner';
-
-//TODO: Remove
-import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
-import {PartnerHttp} from './partner_http';
 
 @Component({
     selector: 'partner-details',
@@ -27,6 +24,7 @@ import {PartnerHttp} from './partner_http';
                       [value]="member.isPartnered"
                       (valueChange)="_isPartneredChanged($event)">
         </yesno-select>
+        
         
         <div class="checkbox">
             <label *ngIf="member.isPartnered">
@@ -70,21 +68,14 @@ import {PartnerHttp} from './partner_http';
 export class PartnerDetails {
     member: Member;
 
-    _partnerManager: PartnerManager;
-    _memberDetailsPageService: MemberDetailsPageService;
-    _changeDetector: ChangeDetectorRef;
+    private memberChange: Subscription;
 
     constructor(
-        partnerManager: PartnerManager,
-        memberDetailsPageService: MemberDetailsPageService,
-        changeDetector: ChangeDetectorRef
+        private partnerManager: PartnerManager,
+        private context: MemberContext,
+        private changeDetector: ChangeDetectorRef
     ) {
-        this._partnerManager = partnerManager;
-        this._memberDetailsPageService = memberDetailsPageService;
-        this.member = memberDetailsPageService.defaultMember();
-        this._changeDetector = changeDetector;
     }
-
 
     get isMemberPartner() {
         return this.member.isPartnered && this.member.partner instanceof MemberPartner;
@@ -94,25 +85,31 @@ export class PartnerDetails {
         return this.member.isPartnered && this.member.partner instanceof NonMemberPartner;
     }
 
-    routerOnActivate(segment: RouteSegment) {
-        this._memberDetailsPageService.activePage = PartnerDetails;
-        this._memberDetailsPageService.getMember().then((member) => {
-            return member.resolvePartner(this._partnerManager).toPromise();
-        }).then((member: Member) => {
-            this.member = member;
-            this._changeDetector.markForCheck();
-        });
+    ngOnInit() {
+        this.context.activePage = PartnerDetails;
+        this.context.memberChange
+            .switchMap(member => member.resolvePartner(this.partnerManager))
+            .subscribe(member => {
+                this.member = member;
+                this.changeDetector.markForCheck();
+            });
+    }
+
+    ngOnDestroy() {
+        if (!this.memberChange.isUnsubscribed) {
+            this.memberChange.unsubscribe();
+        }
     }
 
     _initializeMemberPartner(isMemberPartner?: boolean) {
         var partner: Partner;
         if (isMemberPartner && !this.isNonMemberPartner) {
-            partner = this._partnerManager.create(MemberPartner, {
-                '_partner': this._memberDetailsPageService.defaultMember()
+            partner = this.partnerManager.create(MemberPartner, {
+                '_partner': this.context.defaultMember()
             });
         }
         if (!isMemberPartner && !this.isNonMemberPartner) {
-            partner = this._partnerManager.create(NonMemberPartner, {});
+            partner = this.partnerManager.create(NonMemberPartner, {});
         }
         this.member = this.member.set('partner', partner);
     }

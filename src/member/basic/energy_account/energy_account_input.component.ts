@@ -18,7 +18,7 @@ import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
                                 
         <div class="form-group">
             <label for="account-number-input">Account number</label> 
-            <input type="text" 
+            <input type="text" class="form-control"
                    [ngModel]="energyAccount.accountNumber"
                    (ngModelChange)="_accountNumberChange($event)">
         </div>                          

@@ -19,7 +19,7 @@ export class EnergyRetailerPipe implements PipeTransform {
 
     transform(value: any, ...args: any[]) {
         var displayValues = EnergyRetailerPipe._DISPLAY_VALUES;
-        if (displayValues.contains(value)) {
+        if (displayValues.keySeq().contains(value)) {
             return displayValues.get(value);
         }
         throw new ArgumentError('Invalid EnergyRetailer value: ' + value);
