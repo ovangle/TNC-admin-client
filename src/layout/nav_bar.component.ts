@@ -57,6 +57,10 @@ abstract class MenuOptionsService {
         display: block;
     }    
     
+    nav.navbar-default {
+        margin-bottom: 0;
+    }
+    
     nav {
         display: inline-block;
     }    
