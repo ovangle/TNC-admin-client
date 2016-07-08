@@ -7,7 +7,7 @@ import {Iterable, List, Record} from 'immutable';
 import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../utils/alert_label/alert_label';
 
 import {MemberTermType, MEMBER_TERM_TYPE_CODEC} from './type';
-import {date, recordCodec} from "caesium-model/json_codecs";
+import {dateTime, recordCodec} from "caesium-model/json_codecs";
 
 /**
  * Return the end of the financial year containing the given date.
@@ -37,7 +37,7 @@ function memberTermDuration(type: MemberTermType): _TermDuration {
         case MemberTermType.General:
             return untilEndOfFinancialYear;
         default:
-            throw new TypeError('Invalid value for member term type: ${type}');
+            throw new TypeError(`Invalid value for member term type: ${type}`);
     }
 }
 
@@ -98,8 +98,8 @@ export class MemberTerm extends _TERM_RECORD implements CheckForAlertLabels {
 export const MEMBER_TERM_CODEC = recordCodec<MemberTerm>(
     {
         type: MEMBER_TERM_TYPE_CODEC,
-        joined: date,
-        renewed: date
+        joined: dateTime,
+        renewed: dateTime
     },
     (args) => new MemberTerm(args)
 );
