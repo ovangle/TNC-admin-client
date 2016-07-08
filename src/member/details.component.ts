@@ -9,6 +9,7 @@ import {
 import {ROUTER_DIRECTIVES, ActivatedRoute} from "@angular/router";
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
+import {PageHeader} from '../layout/page_header.component';
 import {AlertLabels} from '../utils/alert_labels.component';
 
 import {Member} from './member.model';
@@ -27,17 +28,26 @@ import {MemberBasicDetails, NamePipe} from "./basic";
     selector: 'member-details',
     template: `
         <div class="container-fluid"> 
-            <div *ngIf="member" class="page-header">
-                <h1>
-                    {{member.name | name}} <small>{{member.id}}</small>
+            <page-header
+                *ngIf="member"
+                [title]="member?.name | name"
+                [subtitle]="member?.id">
+                <div class="btn-group">
+                    <button class="btn btn-primary" 
+                            [disabled]="saveDisabled"
+                            (click)="save()">
+                        <i class="fa fa-save"></i> Save
+                    </button>
                     <a class="btn btn-danger" [routerLink]="['/member']">
-                        <i class="fa fa-close"></i>
+                        <i class="fa fa-close"></i> Close
                     </a>
-                </h1>     
-                <alert-labels [model]="member"></alert-labels>
-            </div>
-            
-            <div class="col-md-3">
+                </div>
+                
+                <div class="page-header-extra">
+                    <alert-labels [model]="member"></alert-labels> 
+                </div>
+            </page-header>
+            <div class="col-sm-3">
                 <ul class="nav nav-pills nav-stacked">
                     <li [ngClass]="{'active': isBasicPageActive}">
                         <a [routerLink]="['./basic']">Basic</a>
@@ -54,7 +64,7 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                 </ul>
             </div>
             
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 <router-outlet></router-outlet>
             </div>
         </div>
@@ -89,6 +99,7 @@ import {MemberBasicDetails, NamePipe} from "./basic";
         'assets/css/font-awesome.css'
     ],
     directives: [
+        PageHeader,
         AlertLabels, MemberTermComponent, ROUTER_DIRECTIVES
     ],
     pipes: [ NamePipe ],
@@ -99,11 +110,12 @@ import {MemberBasicDetails, NamePipe} from "./basic";
     encapsulation: ViewEncapsulation.Native,
 })
 export class MemberDetailsComponent implements OnInit, OnDestroy {
-    isDirty: boolean = false;
     member: Member;
 
     private routeParams: Subscription;
     private memberChange: Subscription;
+
+    private saveDisabled: boolean = true;
 
     constructor(
         private memberManager: MemberManager,
@@ -111,7 +123,6 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute
     ) {
     }
-
 
     ngOnInit() {
         this.routeParams = this.route.params

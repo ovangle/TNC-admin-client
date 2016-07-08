@@ -2,13 +2,14 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
-import {Map} from 'immutable';
+import {List, Map} from 'immutable';
 
-import {Component, ViewEncapsulation} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, ViewEncapsulation, EventEmitter} from "@angular/core";
 import {Response as HttpResponse} from '@angular/http';
 
 import {map, str} from 'caesium-model/json_codecs';
+
+import {PageHeader} from '../layout/page_header.component';
 
 import {DateInput} from '../utils/date/date_input.component';
 import {YesNoSelect} from "../utils/components/yesno_select.component";
@@ -27,16 +28,12 @@ import {Member} from './member.model';
     selector: 'member-signup',
     template: `
     <div class="container">
-        <div class="page-header">
-            <h1>Member signup</h1> 
-            
-            <div class="btn-group">
-                <button class="btn btn-primary" (click)="save()"
-                        [disabled]="!isValid">
-                    <i class="fa fa-save"></i> Save
-               </button>
-            </div>
-        </div> 
+        <page-header title="Member signup">
+            <button [disabled]="!isValid" (click)="save()">
+                <i class="fa fa-save"></i>
+                Save
+            </icon-button>
+        </page-header>
         <div class="input-container">
             <div class="row">
                 <member-term-type-select  
@@ -154,6 +151,7 @@ import {Member} from './member.model';
         'assets/css/bootstrap.css'
     ],
     directives: [
+        PageHeader, IconButton,
         NameInput, GenderSelect, DateInput, YesNoSelect,
         AddressInput, ContactInput, MemberTermTypeSelect,
         IncomeInput, ResidentialStatusInput
@@ -176,7 +174,6 @@ export class MemberSignupComponent {
     get isValid() {
         return this._propValidity.valueSeq().every((v) => v);
     }
-
 
     constructor(
         private memberManager: MemberManager,
