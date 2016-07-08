@@ -4,7 +4,7 @@ import {Moment} from 'moment';
 import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {FormControl, REACTIVE_FORM_DIRECTIVES, Validators} from '@angular/forms';
 
-import {isBlank} from 'caesium-core/lang';
+import {isBlank, isDefined} from 'caesium-core/lang';
 
 import {Dropdown} from '../../layout/dropdown.component';
 import {DatePicker} from "./month_picker/date_picker.component";
@@ -74,6 +74,7 @@ export class DateInput implements OnInit {
     @Input() disabled: boolean;
 
     @Input() date: Date;
+
     @Output() dateChange = new EventEmitter<Date>();
     @Output() validityChange = new EventEmitter<boolean>();
 
@@ -85,7 +86,7 @@ export class DateInput implements OnInit {
             validators.push(Validators.required);
         }
 
-        this.control = new FormControl(this.date, validators);
+        this.control = new FormControl(formatDate(this.date), validators);
         this.control.valueChanges.forEach((date: string) => {
             if (this.control.valid) {
                 this.dateChange.emit(tryParseDate(this.control.value).toDate());
@@ -96,6 +97,12 @@ export class DateInput implements OnInit {
         if (this.defaultToday && isBlank(this.date)) {
             var date = moment().format('DD/MM/YYYY');
             this.control.updateValue(date, {emitEvent: true});
+        }
+    }
+
+    ngOnChanges(changes: any) {
+        if (isDefined(this.control) && changes.date) {
+            this.control.updateValue(formatDate(this.date));
         }
     }
 
@@ -145,4 +152,11 @@ function dateValidator(control: FormControl): {[key: string]: any} {
         }
     }
     return null;
+}
+
+function formatDate(date: Date) {
+    if (isBlank(date))
+        return '';
+    var m = moment(date);
+    return m.format('DD/MM/YYYY');
 }

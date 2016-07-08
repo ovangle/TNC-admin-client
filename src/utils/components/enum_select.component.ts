@@ -3,8 +3,9 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
     PipeTransform
 } from '@angular/core'
-
 import {FormControl, REACTIVE_FORM_DIRECTIVES, Validators, ValidatorFn} from '@angular/forms';
+
+import {isDefined} from 'caesium-core/lang';
 
 @Component({
     selector: 'enum-select',
@@ -56,5 +57,11 @@ export class EnumSelect {
             this.valueChange.emit(value);
             this.validityChange.emit(this.control.valid);
         });
+    }
+
+    ngOnChanges(changes: any) {
+        if (changes.value && isDefined(this.control)) {
+            this.control.updateValue(this.value);
+        }
     }
 }
