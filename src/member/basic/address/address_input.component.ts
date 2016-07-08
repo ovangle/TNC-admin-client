@@ -1,8 +1,9 @@
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
 } from '@angular/core';
+import {REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, AbstractControl} from '@angular/forms';
 
-import {REACTIVE_FORM_DIRECTIVES, FormGroup, AbstractControl} from '@angular/forms';
+import {isDefined} from 'caesium-core/lang';
 
 import {Address} from './address.model';
 import {AddressFormBuilder} from './address.form';
@@ -83,15 +84,14 @@ export class AddressInput {
     @Input() required: boolean = false;
 
     private addressGroup: FormGroup;
-    private get postcodeControl(): AbstractControl {
-
-        return this.addressGroup.controls['postcode'];
+    private get postcodeControl(): FormControl {
+        return <FormControl>this.addressGroup.controls['postcode'];
     }
-    private get streetControl(): AbstractControl {
-        return this.addressGroup.controls['street'];
+    private get streetControl(): FormControl {
+        return <FormControl>this.addressGroup.controls['street'];
     }
-    private get cityControl(): AbstractControl {
-        return this.addressGroup.controls['city'];
+    private get cityControl(): FormControl {
+        return <FormControl>this.addressGroup.controls['city'];
     }
 
     constructor(private addressFormBuilder: AddressFormBuilder) {}
@@ -104,6 +104,15 @@ export class AddressInput {
             this.addressChange.emit(new Address(value));
             this.validityChange.emit(this.addressGroup.valid);
         });
+    }
+
+    ngOnChanges(changes: any) {
+        if (isDefined(this.addressGroup) && changes.address) {
+            var address = changes.address.currentValue;
+            this.streetControl.updateValue(address.street);
+            this.cityControl.updateValue(address.city);
+            this.postcodeControl.updateValue(address.postcode);
+        }
     }
 
     private propChanged(prop: string, value: any) {
