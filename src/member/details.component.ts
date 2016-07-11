@@ -1,12 +1,14 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 
 import {
-    Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef, provide, NgZone
+    Component, OnInit, ViewEncapsulation, ChangeDetectorRef
 } from "@angular/core";
 
 import {ROUTER_DIRECTIVES, ActivatedRoute} from "@angular/router";
+import {isBlank} from 'caesium-core/lang';
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {PageHeader} from '../layout/page_header.component';
@@ -18,6 +20,7 @@ import {MemberContext} from './details_context.service';
 
 import {MemberTermComponent} from './term/term.component';
 
+import {MemberFileNotes} from './file_notes/file_notes.page';
 import {PartnerDetails} from './partner/partner_details.page';
 import {DependentList} from './dependent/dependent_list.page';
 import {VoucherList} from './voucher/voucher_list.page';
@@ -58,13 +61,16 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                     <li [ngClass]="{'active': isDependentsPageActive}">
                         <a [routerLink]="['./dependents']">Dependents</a>
                     </li>
+                    <li [ngClass]="{'active': isFilenotesPageActive}">
+                        <a [routerLink]="['./filenotes']">File notes</a>
+                    </li>
                     <li [ngClass]="{'active': isVoucherPageActive}">
                         <a [routerLink]="['./vouchers']">Vouchers</a> 
                     </li>
                 </ul>
             </div>
             
-            <div class="col-sm-9">
+            <div class="col-sm-9 page-container">
                 <router-outlet></router-outlet>
             </div>
         </div>
@@ -74,7 +80,7 @@ import {MemberBasicDetails, NamePipe} from "./basic";
         height: 100%;
         width: 100%;
         display: block;
-        overflow: auto;
+        overflow: hidden;
     }
     
     h1 > a.btn {
@@ -84,6 +90,19 @@ import {MemberBasicDetails, NamePipe} from "./basic";
     li {
         padding: 8px;
         
+    }
+    
+    div.container-fluid {
+        height: 100%;
+    }    
+    
+    .page-container {
+        height: calc(100% - 160px);
+    }
+    
+    div.col-sm-3 {
+        height: 100%;
+        overflow: scroll;
     }
     
     alert-labels {
@@ -109,13 +128,12 @@ import {MemberBasicDetails, NamePipe} from "./basic";
     ],
     encapsulation: ViewEncapsulation.Native,
 })
-export class MemberDetailsComponent implements OnInit, OnDestroy {
-    member: Member;
+export class MemberDetailsComponent implements OnInit {
+    get member(): Member { return this.context.member; }
 
-    private routeParams: Subscription;
-    private memberChange: Subscription;
-
-    private saveDisabled: boolean = true;
+    private get saveDisabled(): boolean {
+        return !(this.context.isDirty && this.context.isValid);
+    }
 
     constructor(
         private memberManager: MemberManager,
@@ -125,28 +143,19 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.routeParams = this.route.params
+        this.route.params
             .map(params => Number.parseInt(params['id']))
             .switchMap(id => {
-                return this.memberManager.getById(id)
-                    .handle({select: 200, decoder: this.memberManager.modelCodec});
+                if (isBlank(this.member) || this.member.id !== +id) {
+                    return this.memberManager.getById(id)
+                        .handle({select: 200, decoder: this.memberManager.modelCodec})
+                }
+                return Observable.of(this.member);
             })
-            .subscribe(member => {
+            .forEach(member => {
                 this.context.setMember(member, true);
+                console.log('context member', this.context.member);
             });
-
-        this.memberChange = this.context.memberChange.subscribe((member) => {
-            this.member = member;
-        })
-    }
-
-    ngOnDestroy() {
-        if (!this.routeParams.isUnsubscribed) {
-            this.routeParams.unsubscribe();
-        }
-        if (!this.memberChange.isUnsubscribed) {
-            this.memberChange.unsubscribe();
-        }
     }
 
     private get isBasicPageActive(): boolean {
@@ -163,6 +172,15 @@ export class MemberDetailsComponent implements OnInit, OnDestroy {
 
     private get isVoucherPageActive(): boolean {
         return this.context.activePage === VoucherList;
+    }
+
+    private get isFilenotesPageActive(): boolean {
+        return this.context.activePage === MemberFileNotes;
+    }
+
+
+    save() {
+        return this.context.saveMember();
     }
 
 }

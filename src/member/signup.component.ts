@@ -4,7 +4,7 @@ import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import {List, Map} from 'immutable';
 
-import {Component, ViewEncapsulation, EventEmitter} from "@angular/core";
+import {Component, ViewEncapsulation, EventEmitter, ChangeDetectionStrategy} from "@angular/core";
 import {Response as HttpResponse} from '@angular/http';
 
 import {map, str} from 'caesium-model/json_codecs';
@@ -151,7 +151,7 @@ import {Member} from './member.model';
         'assets/css/bootstrap.css'
     ],
     directives: [
-        PageHeader, IconButton,
+        PageHeader,
         NameInput, GenderSelect, DateInput, YesNoSelect,
         AddressInput, ContactInput, MemberTermTypeSelect,
         IncomeInput, ResidentialStatusInput
@@ -159,7 +159,8 @@ import {Member} from './member.model';
     providers: [
         MemberManager
     ],
-    encapsulation: ViewEncapsulation.Native
+    encapsulation: ViewEncapsulation.Native,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberSignupComponent {
 

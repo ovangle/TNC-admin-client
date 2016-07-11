@@ -46,32 +46,21 @@ export class VoucherList {
     member: Member;
     vouchers: List<Voucher>;
 
-    private memberChange: Subscription;
-
     constructor(
         private context: MemberContext,
         private voucherManager: VoucherManager,
-        private changeDetector: ChangeDetectorRef
+        private changeDetector: ChangeDetectorRef,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
-        this.context.activePage = VoucherList;
-        this.memberChange = this.context.memberChange
-            .switchMap(member => {
-                this.member = member;
-                return this.voucherManager.getVouchersForMember(member)
-            })
-            .subscribe((vouchers) => {
-                this.vouchers = vouchers;
-                this.changeDetector.markForCheck();
-            });
+        this.route.params.forEach(params => {
+            this.context.activePage = VoucherList;
+            //TODO: Voucher search.
+            this.changeDetector.markForCheck();
+        });
     }
 
-   ngOnDestroy() {
-       if (!this.memberChange.isUnsubscribed) {
-           this.memberChange.unsubscribe();
-       }
-   }
 
     _handleVoucherChanged(voucher: Voucher, index: number) {
         this.vouchers = this.vouchers.set(index, voucher);

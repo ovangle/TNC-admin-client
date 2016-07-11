@@ -1,8 +1,9 @@
 import {List, Map, Set} from 'immutable';
 
+import {forwardRef} from '@angular/core';
 import {memoize} from 'caesium-core/decorators';
 
-import {Model, Property, ModelBase} from 'caesium-model/model';
+import {Model, Property, RefProperty, ModelBase} from 'caesium-model/model';
 import {bool, str, list, model, identity} from "caesium-model/json_codecs";
 
 
@@ -27,13 +28,14 @@ export abstract class User extends ModelBase implements AbstractUser {
     @Property({codec: bool, readOnly: true})
     isAdmin: boolean;
 
-    @Property({codec: list(model(UserGroup)), defaultValue: List})
+    @Property({codec: list(model(forwardRef(() => UserGroup))), defaultValue: List})
     groups: List<UserGroup>;
 
     @Property({codec: PERMISSION_MAP_CODEC, defaultValue: Map})
     extraPermissions: PermissionMap;
 
-    @Property({codec: model(StaffMember)})
+    @RefProperty({refName: 'staffMember', refType: forwardRef(() => StaffMember)})
+    staffMemberId: number;
     staffMember: StaffMember;
 
     get permissions(): PermissionMap {

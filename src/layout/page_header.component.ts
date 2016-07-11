@@ -30,7 +30,6 @@ import {AsyncPipe} from '@angular/common';
     h1 {
         display: inline-block;
     }    
-   
     .btn-group-container {
         margin-top: 22px;
         float: right;

@@ -1,8 +1,12 @@
 import {Subscription} from 'rxjs/Subscription';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation
+    Component, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation,
+    ViewChild
 } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
+import {isDefined} from 'caesium-core/lang';
 
 import {YesNoSelect} from '../../utils/components/yesno_select.component';
 import {DateInput} from '../../utils/date/date_input.component';
@@ -10,6 +14,8 @@ import {DateInput} from '../../utils/date/date_input.component';
 import {Member} from '../member.model';
 import {MemberContext} from '../details_context.service';
 import {MemberManager} from '../member.manager';
+
+import {FileNoteSearch} from '../file_notes/file_note_search.component';
 
 import {Address, AddressInput} from './address';
 import {Contact, ContactInput} from './contact';
@@ -27,6 +33,12 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
 @Component({
     selector: 'member-basic-details',
     template: `
+    <file-note-search
+            [member]="member"
+            [pinned]="true">
+            
+    </file-note-search>
+
     <name-input [name]="member.name"
                 (nameChange)="propChanged('name', $event)"
                 [label]="'Name'"
@@ -84,6 +96,14 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
             [disabled]="disabled">
     </energy-account-input>
     `,
+    styles: [`
+    :host {
+        display: block;
+        height: 100%;
+        overflow-y: auto; 
+        padding-right: 1.2rem;
+    }
+    `],
     directives: [
         NameInput,
         AddressInput,
@@ -93,36 +113,35 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
         ContactInput,
         IncomeInput,
         DateInput,
-        YesNoSelect
+        YesNoSelect,
+        FileNoteSearch
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberBasicDetails {
-    member: Member;
+    get member(): Member { return this.context.member; }
+    set member(member: Member) {
+        this.context.setMember(member);
+    }
 
-    private memberChange: Subscription;
+    @ViewChild(FileNoteSearch) fileNotes: FileNoteSearch;
 
     constructor(private memberManager: MemberManager,
                 private changeDetector: ChangeDetectorRef,
-                private context: MemberContext
+                private context: MemberContext,
+                private route: ActivatedRoute
     ) {
         this.member = memberManager.create(Member, {});
     }
 
     ngOnInit() {
-        this.context.activePage = MemberBasicDetails;
-        this.memberChange = this.context.memberChange
-            .subscribe(member => {
-                this.member = member;
-                this.changeDetector.markForCheck();
-            });
-    }
-
-    ngOnDestroy() {
-        if (!this.memberChange.isUnsubscribed) {
-            this.memberChange.unsubscribe();
-        }
+        this.route.params.forEach((routeParams: any) => {
+            this.context.activePage = MemberBasicDetails;
+            if (isDefined(this.fileNotes))
+                this.fileNotes.resetSearch();
+            this.changeDetector.markForCheck();
+        });
     }
 
     propChanged(prop: string, value: any) {

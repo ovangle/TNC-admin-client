@@ -31,7 +31,7 @@ function nameRefiner(previousNameFragments: Set<string>, currentNameFragments: S
 
 }
 
-export const SEARCH_NAME: SearchParameter = {
+export const NAME_SEARCH: SearchParameter = {
     name: 'name',
     encoder: (fragments: Set<string>) => fragments.join(','),
     accessor: (value: {name: Name}) => value.name,

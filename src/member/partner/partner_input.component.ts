@@ -58,29 +58,4 @@ export class PartnerInput {
             <Partner>this.partner.set(prop, value)
         );
     }
-
-    _nameChanged(name: Name) {
-        this.partnerChange.emit(
-            <Partner>this.partner.set('name', name)
-        );
-    }
-
-    _genderChanged(gender: Gender) {
-        this.partnerChange.emit(
-            <Partner>this.partner.set('gender', gender)
-        );
-    }
-
-    _contactChanged(contact: Contact) {
-        this.partnerChange.emit(
-            <Partner>this.partner.set('contact', contact)
-        );
-    }
-
-    _incomeChanged(income: Income) {
-        this.partnerChange.emit(
-            <Partner>this.partner.set('income', income)
-        );
-    }
-
 }

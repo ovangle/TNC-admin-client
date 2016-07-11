@@ -33,8 +33,7 @@ import {DependentListItem} from './dependent_list_item.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentList {
-
-    member: Member;
+    get member(): Member { return this.context.member; }
     dependents: List<Dependent>;
 
     private routeChange: Subscription;
@@ -51,15 +50,14 @@ export class DependentList {
     }
 
     ngOnInit() {
-        this.context.activePage = DependentList;
-        this.memberChange = this.context.memberChange
-            .switchMap(member => {
-                this.member = member;
-                return this.carerManager.getDependents(member.carer);
-            })
-            .subscribe(dependents => {
+        this.route.params.forEach(params => {
+            this.context.activePage = DependentList;
+
+            this.carerManager.getDependents(this.member.carer).forEach((dependents) => {
                 this.dependents = dependents;
             });
+        })
+
     }
 
     ngOnDestroy() {

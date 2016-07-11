@@ -66,14 +66,13 @@ import {MemberPartner, MemberPartnerDetails} from './member_partner';
     encapsulation: ViewEncapsulation.Native
 })
 export class PartnerDetails {
-    member: Member;
-
-    private memberChange: Subscription;
+    get member(): Member { return this.context.member; }
 
     constructor(
         private partnerManager: PartnerManager,
         private context: MemberContext,
-        private changeDetector: ChangeDetectorRef
+        private changeDetector: ChangeDetectorRef,
+        private route: ActivatedRoute
     ) {
     }
 
@@ -86,27 +85,17 @@ export class PartnerDetails {
     }
 
     ngOnInit() {
-        this.context.activePage = PartnerDetails;
-        this.context.memberChange
-            .switchMap(member => member.resolvePartner(this.partnerManager))
-            .subscribe(member => {
-                this.member = member;
-                this.changeDetector.markForCheck();
-            });
+        this.route.params.forEach(params => {
+            this.context.activePage = PartnerDetails;
+            this.changeDetector.markForCheck();
+        });
     }
 
-    ngOnDestroy() {
-        if (!this.memberChange.isUnsubscribed) {
-            this.memberChange.unsubscribe();
-        }
-    }
 
     _initializeMemberPartner(isMemberPartner?: boolean) {
         var partner: Partner;
         if (isMemberPartner && !this.isNonMemberPartner) {
-            partner = this.partnerManager.create(MemberPartner, {
-                '_partner': this.context.defaultMember()
-            });
+            partner = this.partnerManager.create(MemberPartner, {});
         }
         if (!isMemberPartner && !this.isNonMemberPartner) {
             partner = this.partnerManager.create(NonMemberPartner, {});

@@ -17,7 +17,7 @@ import {StaffInductionSurvey} from './induction_survey';
 
 @Model({kind: 'staff::StaffMember'})
 export abstract class StaffMember extends ModelBase {
-    @RefProperty({refName: 'user'})
+    @RefProperty({refName: 'user', refType: User})
     userId:number;
     user:User;
 

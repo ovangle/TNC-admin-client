@@ -86,11 +86,11 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     /**
      * The id of the member that is a partner of this member.
      */
-    @RefProperty({refName: 'partner', required: false})
+    @RefProperty({refName: 'partner', refType: Partner, required: false})
     partnerId: number;
     partner: Partner;
 
-    @RefProperty({refName: 'carer', required: false})
+    @RefProperty({refName: 'carer', refType: Carer, required: false})
     carerId: number;
     carer: Carer;
 

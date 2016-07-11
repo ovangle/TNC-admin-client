@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 
 import {Codec} from 'caesium-core/codec';
 
-import {ModelMetadata} from 'caesium-model/model/metadata';
-import {createModelFactory} from 'caesium-model/model/factory';
 import {union, JsonObject} from 'caesium-model/json_codecs';
 import {ManagerBase, ManagerOptions, SearchParameter} from "caesium-model/manager";
+
+import {ID_SEARCH} from '../../utils/search';
+import {NAME_SEARCH} from '../basic';
 
 import {Partner} from './partner.model';
 import {NonMemberPartner} from './non_member_partner';
@@ -17,14 +18,13 @@ export class PartnerManager extends ManagerBase<Partner> {
         super(options);
     }
 
-    get modelCodec(): Codec<Partner,JsonObject> {
-        return union(NonMemberPartner, MemberPartner);
-    }
-
     getModelType() { return Partner; }
     getModelSubtypes() { return [MemberPartner, NonMemberPartner]; }
 
-    getSearchParameters():SearchParameter[] { return undefined; }
-
+    getSearchParameters():SearchParameter[] {
+        return [
+            NAME_SEARCH
+        ];
+    }
 }
 

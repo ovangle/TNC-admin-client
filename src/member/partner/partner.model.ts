@@ -21,7 +21,6 @@ export abstract class Partner extends ModelBase implements CheckForAlertLabels {
     @BackRefProperty({to: Member, refProp: 'partnerId'})
     member: Member;
 
-
     abstract checkForAlertLabels(): Iterable.Indexed<AlertLabel|Iterable.Indexed<any>>;
 
     abstract resolveCarer(carerManager: CarerManager): Observable<Partner>;

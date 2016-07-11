@@ -9,14 +9,14 @@ export abstract class Voucher extends ModelBase {
     /**
      * The member who this voucher is being issued to.
      */
-    @RefProperty({refName: 'member'})
+    @RefProperty({refName: 'member', refType: Member})
     memberId: number;
     member: Member;
 
     /**
      * The user who signed this voucher
      */
-    @RefProperty({refName: 'user'})
+    @RefProperty({refName: 'user', refType: User})
     userId: number;
     user: User;
 

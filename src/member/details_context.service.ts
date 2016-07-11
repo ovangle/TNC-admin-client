@@ -1,6 +1,6 @@
 import {Subject} from 'rxjs/Subject';
 
-import {Injectable, forwardRef, Inject} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {Type} from 'caesium-core/lang';
 
@@ -18,14 +18,21 @@ import {MemberManager} from './member.manager';
 export class MemberContext {
     activePage:Type;
 
-    memberChange = new Subject<Member>();
+    isDirty = false;
+    isValid = true;
 
-    //TODO: Remove this.
-    defaultMember() {
-        throw 'NotImplemented: MemberContext.defaultMember()';
-    }
+    member: Member;
+
+    constructor(private memberManager: MemberManager) { }
 
     setMember(member:Member, isInitialValue:boolean = false) {
-        this.memberChange.next(member);
+        this.member = member;
+        this.isDirty = !isInitialValue;
+        console.log('context member 2: ', this.member);
     }
+
+    saveMember() {
+        throw 'saveMember not implemented';
+    }
+
 }

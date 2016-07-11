@@ -5,12 +5,14 @@ import {MemberDetailsComponent} from './details.component';
 import {MemberSignupComponent} from './signup.component';
 import {PartnerDetails} from './partner';
 import {MemberBasicDetails} from './basic';
+import {MemberFileNotes} from './file_notes/file_notes.page';
 import {DependentList} from './dependent/dependent_list.page';
 import {VoucherList} from './voucher/voucher_list.page';
 
 export const MEMBER_DETAILS_ROUTES: RouterConfig = [
     {path: '', redirectTo: 'basic', terminal: true},
     {path: 'basic', component: MemberBasicDetails},
+    {path: 'filenotes', component: MemberFileNotes},
     {path: 'partner', component: PartnerDetails},
     {path: 'dependents', component: DependentList},
     {path: 'vouchers', component: VoucherList}

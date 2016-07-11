@@ -33,7 +33,7 @@ import {MemberResultTableRow} from './result_table_row.component';
     </div>
     `,
     directives: [MemberResultTableRow, ResultContainer, Spinner],
-    host: {'(window:resize)': '_onHostResize($event)'},
+    //host: {'(window:resize)': '_onHostResize($event)'},
     styles: [`
     div.table-body {
         height: calc(100% - 35px); 

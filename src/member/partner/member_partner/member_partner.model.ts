@@ -14,7 +14,7 @@ import {Partner} from '../partner.model';
 
 @Model({kind: 'member.partner::MemberPartner', superType: Partner})
 export abstract class MemberPartner extends Partner {
-    @RefProperty({refName: '_partner'})
+    @RefProperty({refName: '_partner', refType: Partner})
     partnerId: number;
     _partner: Member;
 

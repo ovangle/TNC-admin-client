@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Type} from 'caesium-core/lang';
 import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
 
-import {SEARCH_NAME} from '../../member/basic/name/name.search_param.metadata';
+import {NAME_SEARCH} from '../../member/basic/name/name.search_param.metadata';
 
 import {StaffMember} from './staff.model';
 
@@ -36,6 +36,6 @@ export class StaffManager extends ManagerBase<StaffMember> {
 }
 
 const _STAFF_MEMBER_SEARCH_PARAMS: SearchParameter[] = [
-    SEARCH_NAME
+    NAME_SEARCH
 ];
 

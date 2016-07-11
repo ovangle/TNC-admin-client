@@ -38,7 +38,7 @@ export abstract class NonMemberPartner extends Partner {
     })
     income: Income;
 
-    @RefProperty({refName: 'carer'})
+    @RefProperty({refName: 'carer', refType: Carer})
     carerId: number;
     carer: Carer;
 

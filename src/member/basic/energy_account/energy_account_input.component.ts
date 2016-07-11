@@ -1,3 +1,5 @@
+import {Map} from 'immutable';
+
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
@@ -11,7 +13,7 @@ import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
     <fieldset>
         <legend>{{label}}</legend>
         <energy-retailer-select [energyRetailer]="energyAccount.retailer" 
-                                (energyRetailerChange)="_retailerChanged($event)"
+                                (energyRetailerChange)="propChanged('retailer', $event)"
                                 [label]="'Retailer'"
                                 [disabled]="disabled">
         </energy-retailer-select>
@@ -20,7 +22,7 @@ import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
             <label for="account-number-input">Account number</label> 
             <input type="text" class="form-control"
                    [ngModel]="energyAccount.accountNumber"
-                   (ngModelChange)="_accountNumberChange($event)">
+                   (ngModelChange)="propChanged('accountNumber', $event)">
         </div>                          
        
     </fieldset>
@@ -36,21 +38,29 @@ import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
 export class EnergyAccountInput {
     @Input() energyAccount: EnergyAccount;
     @Output() energyAccountChange= new EventEmitter<EnergyAccount>();
+    @Output() validityChange = new EventEmitter<boolean>();
 
     @Input() label: string;
     @Input() disabled: boolean;
 
-    _retailerChanged(energyRetailer: EnergyRetailer) {
+    private _propValidity = Map<string,boolean>({
+        energyAccount: true,
+        accountNumber: true
+    });
+
+    get isValid(): boolean {
+        return this._propValidity.valueSeq().every((v) => v);
+    }
+
+    propChanged(prop: string, value: any) {
         this.energyAccountChange.emit(
-            <EnergyAccount>(this.energyAccount.set('retailer', energyRetailer))
+            <EnergyAccount>this.energyAccount.set(prop, value)
         );
     }
 
-    _accountNumberChanged(accountNumber: string) {
-        this.energyAccountChange.emit(
-            <EnergyAccount>(this.energyAccount.set('accountNumber', accountNumber))
-        );
+    propValidityChanged(prop: string, validity: boolean) {
+        this._propValidity = this._propValidity.set(prop, validity);
+        this.validityChange.emit(this.isValid);
     }
-
 
 }
