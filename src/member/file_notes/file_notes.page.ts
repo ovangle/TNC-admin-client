@@ -70,7 +70,7 @@ export class MemberFileNotes {
     }
 
     addNote(note: FileNote) {
-        this.insertedNotes = this.insertedNotes.insert(0, note);
+        //this.insertedNotes = this.insertedNotes.insert(0, note);
         this.fileNotes.resetSearch();
     }
 }

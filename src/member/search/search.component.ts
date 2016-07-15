@@ -32,6 +32,7 @@ import {MemberSearchResultTable} from "./result_table/result_table.component";
     ],
     styles: [`
     :host {
+        margin-top: 20px;
         display: block;
         height: 100%;
     }    

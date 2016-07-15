@@ -1,9 +1,10 @@
-import {Component, ViewEncapsulation, OnInit} from "@angular/core";
+import {Component, ViewEncapsulation, OnInit, Input} from "@angular/core";
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
 
-import {ModalDialogComponent, ModalDialogService} from './utils/modal_dialog';
+import {ModalDialog} from './utils/modal';
+import {/* ModalDialogComponent,*/ ModalDialogService} from './utils/modal_dialog';
 import {NavBarComponent} from './layout/nav_bar.component'
 import {UserManager} from './admin/user/user.manager';
 import {UserContext} from './admin/user/context.service';
@@ -17,7 +18,7 @@ import {UserContext} from './admin/user/context.service';
         <main class="flex">
             <router-outlet></router-outlet>
         </main>
-        <modal-dialog></modal-dialog>
+        <modal-dialog class="modalopen"></modal-dialog>
     `,
     styles: [`
     :host {
@@ -41,8 +42,8 @@ import {UserContext} from './admin/user/context.service';
         'assets/css/bootstrap.css',
         'assets/css/flex.css'
     ],
-    directives: [ROUTER_DIRECTIVES, NavBarComponent, ModalDialogComponent],
-    providers: [UserManager, UserContext, ModalDialogService],
+    directives: [ROUTER_DIRECTIVES, NavBarComponent, ModalDialog],
+    providers: [UserManager, UserContext, /* TOOD: Remove */ ModalDialogService],
     encapsulation: ViewEncapsulation.Native
 })
 export class MainApp implements OnInit {
@@ -52,11 +53,7 @@ export class MainApp implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.userContext.initialize().then((success) => {
-            if (!success) {
-                this.router.navigate(['/login']);
-            }
-        })
+        this.userContext.initialize();
     }
 
 }

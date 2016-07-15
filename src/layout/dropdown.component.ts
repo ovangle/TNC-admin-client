@@ -9,6 +9,8 @@ import {
     OnInit, OnDestroy, ElementRef
 } from '@angular/core';
 
+import {MouseEventsOutsideElement} from '../utils/events/mouse_events_outside_element.service';
+
 @Component({
     selector: 'dropdown',
     template: `
@@ -20,6 +22,7 @@ import {
             <content></content>
         </div>
     `,
+    providers: [MouseEventsOutsideElement],
     styles: [`
     :host { 
         position: relative;
@@ -54,37 +57,51 @@ export class Dropdown implements OnInit, OnDestroy {
 
     @Output() closeRequest = new EventEmitter<void>();
 
-    _subscriptions = List<Subscription>();
+    _clickOutsideDropdown: Subscription;
+    _keypressEvent: Subscription;
 
     private _element: ElementRef;
 
-    constructor(element: ElementRef) {
+    constructor(private mouseEventsOutsideElement: MouseEventsOutsideElement,
+        element: ElementRef) {
         this._element = element;
     }
 
+    ngAfterViewInit() {
+        var elem1 = (this.mouseEventsOutsideElement as any).elementRef.nativeElement;
+        var elem2 = this._element.nativeElement;
+        console.log('Is same element ref', elem1, elem2, elem1 === elem2);
+    }
+
     ngOnInit() {
-        var clickOutsideDropdown = Observable.fromEvent(document, 'mousedown')
+        this._clickOutsideDropdown =  this.mouseEventsOutsideElement.onMousedown.subscribe((event: MouseEvent) => {
+            this.closeRequest.emit(null);
+        });
+        /*
+        this._clickOutsideDropdown = Observable.fromEvent(document, 'mousedown')
             .filter((event: MouseEvent) => {
                 var host = this._element.nativeElement;
                 return (event as any).path.every((elem: Node) => elem !== host)
             }).subscribe((event) => this.closeRequest.emit(null));
+            */
 
-        var closeKeypress = Observable.fromEvent(document, 'keyup')
+        this._keypressEvent = Observable.fromEvent(document, 'keyup')
             .filter((event: KeyboardEvent) => {
                 return event.which === 27 /* esc */
                     || event.which === 13 /* enter */
                     || event.which === 9 /* tab */;
             }).subscribe((event) => this.closeRequest.emit(null));
 
-        this._subscriptions = this._subscriptions.push(
-            clickOutsideDropdown,
-            closeKeypress
-        );
     }
 
     ngOnDestroy() {
-        this._subscriptions
-            .filter((subscription) => !subscription.isUnsubscribed)
-            .forEach((subscription) => subscription.unsubscribe());
+        console.log('dropdown on destroy');
+        if (!this._clickOutsideDropdown.isUnsubscribed) {
+            this._clickOutsideDropdown.unsubscribe();
+        }
+        if (!this._keypressEvent.isUnsubscribed) {
+            this._keypressEvent.unsubscribe();
+        }
+
     }
 }

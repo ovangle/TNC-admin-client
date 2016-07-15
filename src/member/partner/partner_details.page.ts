@@ -17,9 +17,13 @@ import {PartnerManager} from './partner.manager';
 import {NonMemberPartner, NonMemberPartnerDetails} from './non_member_partner';
 import {MemberPartner, MemberPartnerDetails} from './member_partner';
 
+import {PartnerInput} from './partner_input.component';
+
 @Component({
     selector: 'partner-details',
     template: `
+        <partner-input [partner]="member?.partner"></partner-input>
+        <!--
         <yesno-select [label]="'Is partnered'"
                       [value]="member.isPartnered"
                       (valueChange)="_isPartneredChanged($event)">
@@ -51,15 +55,17 @@ import {MemberPartner, MemberPartnerDetails} from './member_partner';
                 (partnerChange)="_memberPartnerChanged($event)">
             </member-partner-details>
         </div>
+        -->
     `,
     styles: [``],
     styleUrls: [
         'assets/css/bootstrap.css'
     ],
     directives: [
-        YesNoSelect,
-        MemberPartnerDetails,
-        NonMemberPartnerDetails
+        //YesNoSelect,
+        //MemberPartnerDetails,
+        //NonMemberPartnerDetails
+        PartnerInput
     ],
     providers: [PartnerManager],
     changeDetection: ChangeDetectionStrategy.OnPush,

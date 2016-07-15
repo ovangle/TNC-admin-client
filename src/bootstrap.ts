@@ -15,15 +15,11 @@ import {APP_ROUTER_PROVIDERS} from './app.routes';
 
 import {API_HOST_HREF, SEARCH_PAGE_SIZE, MANAGER_PROVIDERS} from 'caesium-model/manager';
 
+import {COMPONENT_HOST_PROVIDERS} from './utils/component_host';
+import {MODAL_PROVIDERS} from './utils/modal';
+
 import {loadAppConfig} from './config';
 import {MainApp} from './app';
-
-//FIXME: Publish changes to caesium-model and replace this with MODEL_HTTP_PROVIDERS
-const MODEL_HTTP_PROVIDERS = [
-    HTTP_PROVIDERS,
-    {provide:API_HOST_HREF, useValue: 'http://127.0.0.1:8000'}
-];
-
 
 class RequestOptions extends BaseRequestOptions {
     constructor() {
@@ -36,6 +32,7 @@ class RequestOptions extends BaseRequestOptions {
 }
 
 loadAppConfig().then((appConfig) => {
+    var apiHost = appConfig.api.serverHref;
 
     var locationStrategyCls = (appConfig.router.locationStrategy === "hash")
         ? HashLocationStrategy
@@ -49,6 +46,8 @@ loadAppConfig().then((appConfig) => {
         {provide:API_HOST_HREF, useValue: appConfig.api.serverHref},
         {provide:SEARCH_PAGE_SIZE, useValue: appConfig.api.searchPageSize},
         MANAGER_PROVIDERS,
+        COMPONENT_HOST_PROVIDERS,
+        MODAL_PROVIDERS,
         disableDeprecatedForms(),
         provideForms()
     ]);

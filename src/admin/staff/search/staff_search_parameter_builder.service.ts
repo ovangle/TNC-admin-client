@@ -21,6 +21,4 @@ export class StaffSearchParameterBuilder extends ParameterBuilder {
 
         return paramValues;
     }
-
-
 }

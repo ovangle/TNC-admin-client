@@ -4,20 +4,26 @@ import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import {List, Map} from 'immutable';
 
-import {Component, ViewEncapsulation, EventEmitter, ChangeDetectionStrategy} from "@angular/core";
+import {
+    Component, ViewEncapsulation, Input, EventEmitter, ChangeDetectionStrategy,
+    ViewContainerRef, Output, ComponentRef
+} from "@angular/core";
 import {Response as HttpResponse} from '@angular/http';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {map, str} from 'caesium-model/json_codecs';
 
 import {PageHeader} from '../layout/page_header.component';
 
+import {RemoteComponent} from '../utils/component_host';
 import {DateInput} from '../utils/date/date_input.component';
 import {YesNoSelect} from "../utils/components/yesno_select.component";
-import {ModalDialog, ModalDialogService} from '../utils/modal_dialog';
+import {Modal} from '../utils/modal';
 
 import {
-    NameInput, GenderSelect, AddressInput, ContactInput,
-    IncomeInput, ResidentialStatusInput
+    Name, NamePipe, NameInput,
+    GenderSelect, AddressInput, ContactInput,
+    IncomeInput, ResidentialStatusInput,
 } from './basic';
 import {MemberTermType, MemberTermTypeSelect} from './term';
 
@@ -25,14 +31,32 @@ import {MemberManager} from './member.manager';
 import {Member} from './member.model';
 
 @Component({
+    template: `
+        <p><strong>Name:</strong>{{name | name}}</p>
+        <button (click)="click.emit($event)">Click me</button>
+   `,
+    pipes: [NamePipe]
+})
+export class MemberCreatedDialog {
+    @Input() name: Name;
+    @Output() click = new EventEmitter<boolean>();
+}
+
+@Component({
     selector: 'member-signup',
     template: `
     <div class="container">
         <page-header title="Member signup">
-            <button [disabled]="!isValid" (click)="save()">
+            <div class="btn-group">
+            <button class="btn btn-primary" [disabled]="!isValid" (click)="save()">
                 <i class="fa fa-save"></i>
                 Save
-            </icon-button>
+            </button>
+            <a class="btn" [routerLink]="['..']">
+                <i class="fa fa-close"></i>
+                Close
+            </a>    
+            </div>
         </page-header>
         <div class="input-container">
             <div class="row">
@@ -154,7 +178,8 @@ import {Member} from './member.model';
         PageHeader,
         NameInput, GenderSelect, DateInput, YesNoSelect,
         AddressInput, ContactInput, MemberTermTypeSelect,
-        IncomeInput, ResidentialStatusInput
+        IncomeInput, ResidentialStatusInput,
+        ROUTER_DIRECTIVES
     ],
     providers: [
         MemberManager
@@ -178,11 +203,29 @@ export class MemberSignupComponent {
 
     constructor(
         private memberManager: MemberManager,
-        private modalDialog: ModalDialogService
+        private modal: Modal,
+        private vcRef: ViewContainerRef
     ) { }
 
     ngOnInit() {
-        this.member = this.memberManager.create(Member, {});
+        this.member = this.memberManager.create(Member, {
+            name: new Name({
+                'firstName': 'Dread Pirate',
+                'lastName': 'Roberts'
+            })
+        });
+    }
+
+    ngAfterViewInit() {
+        this.modal.activate({
+            remote: {view: this.vcRef, instance: this},
+            type: 'PROMPT',
+            title: 'Member created',
+            body: MemberCreatedDialog,
+            bindings: {
+                '[name]': 'member.name',
+            }
+        });
     }
 
     private propChanged(prop: string, value: any) {
@@ -214,20 +257,9 @@ export class MemberSignupComponent {
             .forEach((member: Member) => {
                 if (member === null)
                     return;
-                this.modalDialog.activate(memberCreatedDialog(member));
             });
     }
+
 }
 
-function memberCreatedDialog(member: Member): ModalDialog {
-    return {
-        title: 'Member created',
-        bodyHTML: `
-            <p><strong>ID:</strong>${member.id}</p>
-            <p><strong>Name:</strong>${member.name}</p>
-            <p><strong>Expires:</strong>${member.term.endDate}</p>
-             
-        `
-    }
-}
 

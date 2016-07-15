@@ -7,6 +7,7 @@ import {LoginPage} from './admin/user/login_page.component';
 import {UserHomePage} from './admin/user/home_page.component';
 
 export const APP_ROUTES: RouterConfig = [
+    {path: '', redirectTo: '/member', terminal: true},
     ...ADMIN_ROUTES,
     ...MEMBER_ROUTES,
     {path: 'login', component: LoginPage},

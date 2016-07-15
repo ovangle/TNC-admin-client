@@ -10,11 +10,14 @@ import {
 } from '../basic';
 
 import {Partner} from './partner.model';
+import {PartnerSearchDropdown} from './search/search_dropdown.component';
 
 @Component({
     selector: 'partner-input',
     template: `
-    <fieldset>
+    <partner-search-dropdown *ngIf="!partner"></partner-search-dropdown>
+
+    <fieldset *ngIf="partner">
         <legend>{{label}}</legend>
         
         <name-input [label]="'Name'"
@@ -42,7 +45,7 @@ import {Partner} from './partner.model';
         </income-input>
     </fieldset>
     `,
-    directives: [NameInput, ContactInput, IncomeInput, GenderSelect],
+    directives: [NameInput, ContactInput, IncomeInput, GenderSelect, PartnerSearchDropdown],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

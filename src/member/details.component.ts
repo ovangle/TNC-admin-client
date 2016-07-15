@@ -13,6 +13,7 @@ import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {PageHeader} from '../layout/page_header.component';
 import {AlertLabels} from '../utils/alert_labels.component';
+import {ModalDialogService} from '../utils/modal_dialog';
 
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
@@ -36,6 +37,11 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                 [title]="member?.name | name"
                 [subtitle]="member?.id">
                 <div class="btn-group">
+                    <button class="btn btn-primary"
+                            (click)="logContact()">
+                        <i class="fa fa-heartbeat"></i>        
+                        Contact 
+                    </button>
                     <button class="btn btn-primary" 
                             [disabled]="saveDisabled"
                             (click)="save()">
@@ -138,7 +144,8 @@ export class MemberDetailsComponent implements OnInit {
     constructor(
         private memberManager: MemberManager,
         private context: MemberContext,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private modalDialog: ModalDialogService
     ) {
     }
 
@@ -178,9 +185,19 @@ export class MemberDetailsComponent implements OnInit {
         return this.context.activePage === MemberFileNotes;
     }
 
-
     save() {
         return this.context.saveMember();
+    }
+
+    logContact() {
+        this.modalDialog.activate({
+            title: 'Log contact',
+            bodyHTML: `
+            <div>
+                Type of contact
+            </div>    
+            `
+        });
     }
 
 }

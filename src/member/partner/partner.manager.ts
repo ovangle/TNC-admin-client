@@ -23,6 +23,7 @@ export class PartnerManager extends ManagerBase<Partner> {
 
     getSearchParameters():SearchParameter[] {
         return [
+            ID_SEARCH,
             NAME_SEARCH
         ];
     }

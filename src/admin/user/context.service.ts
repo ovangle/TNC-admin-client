@@ -15,10 +15,6 @@ import {UserManager} from './user.manager';
 
 @Injectable()
 export class UserContext {
-
-
-    router: Router;
-
     /**
      * The user, if one is logged in, otherwise `null`.
      */
@@ -26,16 +22,28 @@ export class UserContext {
 
     userChange = new Subject<User>();
 
-    constructor(private userManager: UserManager) {
+    constructor(
+        private userManager: UserManager,
+        private router: Router
+    ) {
         this.user = null;
     }
 
     get loggedIn(): boolean { return !isBlank(this.user); }
 
-    initialize(): Promise<boolean> {
+    initialize(): Promise<any> {
         return this.userManager.initialize()
-            .forEach(user => this.setUser(user))
-            .then((_) => !isBlank(this.user));
+            .forEach(user => {
+                if (user === null) {
+                    return this.router.navigate(['/login']).then(success => {
+                        console.log('successfully navigated', success);
+                    }).catch(err => {
+                        console.error('Router error', err);
+                        throw err;
+                    });
+                }
+                return this.setUser(user)
+            });
     }
 
     setUser(user: User) {
