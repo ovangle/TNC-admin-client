@@ -11,6 +11,7 @@ import {AsyncPipe} from '@angular/common';
     selector: 'page-header',
     template: `
     <div class="page-header">
+        <h4 *ngIf="leader">{{leader}}</h4> 
         <h1>
             {{title}} 
             <small>{{subtitle}}</small>
@@ -30,6 +31,11 @@ import {AsyncPipe} from '@angular/common';
     h1 {
         display: inline-block;
     }    
+    
+    .page-header > h4 {
+        color: #999;
+    }
+    
     .btn-group-container {
         margin-top: 22px;
         float: right;
@@ -43,6 +49,7 @@ import {AsyncPipe} from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageHeader {
+    @Input() leader: string;
     @Input() title: string;
     @Input() subtitle: string;
 }

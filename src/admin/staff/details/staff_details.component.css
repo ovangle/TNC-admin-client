@@ -1,0 +1,24 @@
+@import '/assets/css/font-awesome.css';
+@import '/assets/css/bootstrap.css';
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+div.container-fluid {
+    height: 100%;
+}
+
+
+.page-header > h1 {
+    display: inline-block;
+}
+
+.details-body {
+    overflow: auto;
+    height: calc(100% - 178px);
+}
+.mutate-controls {
+    float: right;
+}

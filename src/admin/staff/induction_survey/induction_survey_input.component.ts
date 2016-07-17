@@ -22,26 +22,25 @@ import {StaffTraitsInput} from './traits';
         <legend>Induction</legend>
         
         <yesno-select [value]="survey.hasPreviousExperience"
-                      (valueChange)="_hasPreviousExperienceChanged($event)"
+                      (valueChange)="propChanged('hasPreviousExperience', $event)"
                       [label]="'Previous experience in role'"
                       [allowNull]="false">
         </yesno-select>
         <date-input [label]="'Available to start'"
                     [date]="survey.dateAvailableToStart"
-                    (dateChange)="_dateAvailableToStartChanged($event)"></date-input>
+                    (dateChange)="propChanged('dateAvailableToStart', $event)"></date-input>
     </fieldset> 
-        
         
     <staff-skills-input
         [staffType]="staffType"
         [skills]="survey.skills"
-        (skillsChange)="_skillsChanged($event)">
+        (skillsChange)="propChanged('skills', $event)">
     </staff-skills-input> 
     
     <staff-traits-input
         [staffType]="staffType"
         [traits]="survey.traits"
-        (traitsChange)="_traitsChanged($event)">
+        (traitsChange)="propChanged('traits', $event)">
     </staff-traits-input>
     `,
     directives: [YesNoSelect, StaffSkillsInput, StaffTraitsInput, DateInput],
@@ -70,20 +69,9 @@ export class StaffInductionSurveyInput {
         }
     }
 
-    _hasPreviousExperienceChanged(prevExperience: boolean) {
+    propChanged(prop: string, value: any) {
         this.surveyChange.emit(
-            <StaffInductionSurvey>this.survey.set('hasPreviousExperience', prevExperience)
+            <StaffInductionSurvey>this.survey.set(prop, value)
         );
     }
-
-    _skillsChanged(skills: Set<string>) {
-        console.log(skills.toArray());
-        this.surveyChange.emit(<StaffInductionSurvey>this.survey.set('skills', skills));
-    }
-
-    _traitsChanged(traits: Set<string>) {
-        this.surveyChange.emit(<StaffInductionSurvey>this.survey.set('traits', traits));
-    }
-
-
 }

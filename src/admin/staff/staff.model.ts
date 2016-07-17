@@ -1,6 +1,6 @@
 import {Set} from 'immutable';
 
-import {model} from 'caesium-model/json_codecs';
+import {date, model} from 'caesium-model/json_codecs';
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
 
 import {
@@ -26,6 +26,9 @@ export abstract class StaffMember extends ModelBase {
         defaultValue: () => 'OFFICE_VOLUNTEER'
     })
     type:StaffType;
+
+    @Property({codec: date})
+    dateOfBirth: Date;
 
     @Property({
         codec: NAME_CODEC,

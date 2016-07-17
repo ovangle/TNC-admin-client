@@ -1,0 +1,47 @@
+<div class="container-fluid" *ngIf="staffMember">
+    <page-header *ngIf="staffMember"
+                 [leader]="staffTypeValues.get(staffMember.type)"
+                 [title]="staffMember?.name | name"
+                 [subtitle]="staffMember?.id">
+        <div class="btn-group mutate-controls">
+            <button class="btn btn-default" (click)="save()">
+                <i class="fa fa-save"></i>Save
+            </button>
+            <a class="btn btn-danger" [routerLink]="'../admin'">
+                <i class="fa fa-close"></i>Close
+            </a>
+        </div>
+    </page-header>
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+            <li [ngClass]="{'active': _isMainPageActive}">Basic</li>
+        </ul>
+    </div>
+    <div class="details-body col-md-9">
+        <date-input [label]="'Date of Birth'"
+                    [date]="staffMember.dateOfBirth"
+                    (dateChange)="propChanged('dateOfBirth', $event)"></date-input>
+
+        <address-input [label]="'Address'"
+                       [address]="staffMember.address"
+                       (addressChange)="propChanged('address', $event)">
+        </address-input>
+
+        <contact-input [label]="'Contact'"
+                       [contact]="staffMember.contact"
+                       (contactChange)="propChanged('contact', $event)">
+        </contact-input>
+
+        <staff-availability-input
+                [staffType]="staffMember.type"
+                [availability]="staffMember.availability"
+                (availabilityChange)="propChanged('availability', $event)">
+        </staff-availability-input>
+
+        <staff-induction-survey-input
+                [staffType]="staffMember.type"
+                [survey]="staffMember.inductionSurvey"
+                (surveyChange)="propChanged('inductionSurvey', $event)">
+        </staff-induction-survey-input>
+    </div>
+</div>
