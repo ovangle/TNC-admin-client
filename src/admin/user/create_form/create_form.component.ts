@@ -12,14 +12,14 @@ import {JsonObject} from 'caesium-model/json_codecs';
 import {DateInput} from '../../../utils/date/date_input.component';
 import {ModalDialog} from '../../../utils/modal_dialog/modal_dialog.model';
 import {ModalDialogService} from '../../../utils/modal_dialog/modal_dialog.service';
+import {EnumSelect2} from '../../../utils/enum';
 
 import {
     Name, NameInput,
 } from '../../../member/basic';
 
 import {AbstractUser, UserManager, UserInput} from '../../user';
-
-import {StaffType, StaffTypeSelect} from '../../staff/type';
+import {StaffType} from '../../staff/type';
 
 import {CreateUserRequest, CreateUserResponse, CREATE_USER_RESPONSE_CODEC} from './create_user.model';
 
@@ -39,10 +39,9 @@ import {CreateUserRequest, CreateUserResponse, CREATE_USER_RESPONSE_CODEC} from 
         </div>
     </div>    
     <div class="page">
-    <staff-type-select [label]="'Type'"
-                       [staffType]="user.staffType"
-                       (staffTypeChange)="_staffTypeChanged($event)">
-    </staff-type-select>
+    <enum-select2 [label]="'Type'" 
+                  [value]="user.staffType"
+                  (valueChange)="_staffTypeChanged($event)"></enum-select2>
 
     <name-input [name]="user.staffName"
                 (nameChange)="_nameChanged($event)"></name-input>
@@ -55,7 +54,7 @@ import {CreateUserRequest, CreateUserResponse, CREATE_USER_RESPONSE_CODEC} from 
     </div> 
     `,
     directives: [
-        NameInput, DateInput, StaffTypeSelect, UserInput,
+        NameInput, DateInput, EnumSelect2, UserInput,
         ROUTER_DIRECTIVES
     ],
     styles: [`

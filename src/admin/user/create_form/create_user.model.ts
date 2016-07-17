@@ -12,7 +12,7 @@ import {StaffMember, StaffType, STAFF_TYPE_CODEC} from '../../staff';
 const _CREATE_USER_REQUEST_RECORD = Record({
     username: '',
     groups: List<UserGroup>(),
-    staffType: StaffType.OfficeVolunteer,
+    staffType: 'OFFICE_VOLUNTEER',
     staffName: new Name()
 });
 
@@ -25,7 +25,6 @@ export class CreateUserRequest extends _CREATE_USER_REQUEST_RECORD implements Ab
     set(key: any, value: any): CreateUserRequest {
         return <CreateUserRequest>super.set(key, value);
     }
-
 }
 
 export const CREATE_USER_REQUEST_CODEC = recordCodec<CreateUserRequest>({

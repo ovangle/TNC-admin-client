@@ -15,7 +15,7 @@ import {
     Contact, ContactInput,
 } from '../../member/basic';
 
-import {StaffTypePipe} from './type';
+import {STAFF_TYPE_VALUES} from './type';
 import {StaffAvailability, StaffAvailabilityInput} from './availability';
 import {StaffInductionSurvey, StaffInductionSurveyInput} from './induction_survey';
 
@@ -28,7 +28,7 @@ import {NamePipe} from "../../member/basic/name/name.pipe";
     template: `
     <div class="container-fluid" *ngIf="staffMember">
     <div class="page-header"> 
-        <h4>{{staffMember.type | staffType}}</h4> 
+        <h4>{{staffTypeValues.get(staffMember.type)}}</h4> 
         <h1>{{staffMember.name | name}}
             <small>{{staffMember.id}}</small>
         </h1>
@@ -80,7 +80,7 @@ import {NamePipe} from "../../member/basic/name/name.pipe";
         StaffAvailabilityInput, StaffInductionSurveyInput,
         ROUTER_DIRECTIVES
     ],
-    pipes: [NamePipe, StaffTypePipe],
+    pipes: [NamePipe],
     providers: [StaffManager],
     styles: [`
         :host {

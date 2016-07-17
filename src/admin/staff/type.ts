@@ -1,3 +1,16 @@
-export {StaffType, STAFF_TYPE_VALUES, STAFF_TYPE_CODEC} from './type/staff_type.model';
-export {StaffTypePipe} from './type/staff_type.pipe';
-export {StaffTypeSelect} from './type/staff_type_select.component';
+import {OrderedMap} from 'immutable';
+import {str} from 'caesium-model/json_codecs';
+
+export type StaffType = 'PERMANENT_STAFF'
+     | 'OFFICE_VOLUNTEER'
+     | 'FOODCARE_VOLUNTEER'
+     | 'OTHER_VOLUNTEER';
+
+export const STAFF_TYPE_VALUES = OrderedMap<StaffType, string>([
+    ['PERMANENT_STAFF', 'Permanent staff'],
+    ['OFFICE_VOLUNTEER', 'Office volunteer'],
+    ['FOODCARE_VOLUNTEER', 'Foodcare volunteer'],
+    ['OTHER_VOLUNTEER', 'Other volunteer']
+]);
+
+export const STAFF_TYPE_CODEC = str;

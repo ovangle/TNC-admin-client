@@ -3,9 +3,9 @@ import {List} from 'immutable';
 import {StaffType} from '../../type';
 
 export function predefinedSkills(staffType: StaffType) {
-    if (staffType === StaffType.FoodcareVolunteer) {
+    if (staffType === 'FOODCARE_VOLUNTEER') {
         return FOODCARE_VOLUNTEER_SKILLS;
-    } else if (staffType === StaffType.OfficeVolunteer) {
+    } else if (staffType === 'OFFICE_VOLUNTEER') {
         return OFFICE_VOLUNTEER_SKILLS;
     } else {
         return List<string>();

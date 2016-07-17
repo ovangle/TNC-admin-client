@@ -6,7 +6,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {SearchResult} from 'caesium-model/manager';
 
 import {StaffMember} from '../../staff.model';
-import {StaffTypePipe} from '../../type';
+import {STAFF_TYPE_VALUES} from '../../type';
 import {NamePipe} from "../../../../member/basic";
 
 @Component({
@@ -16,14 +16,14 @@ import {NamePipe} from "../../../../member/basic";
     <span *ngIf="!colHeader" class="table-cell col-id"><a [routerLink]="['.', staffMember.id]">{{staffMember.id}}</a></span>
     
     <span *ngIf="colHeader" class="table-cell col-type col-header">Staff type</span>
-    <span *ngIf="!colHeader" class="table-cell col-type">{{staffMember.type | staffType}}</span>
+    <span *ngIf="!colHeader" class="table-cell col-type">{{staffTypeValues.get(staffMember.type)}}</span>
     
     <span *ngIf="colHeader" class="table-cell col-name col-header">Name</span>
     <span *ngIf="!colHeader" class="table-cell col-name">{{staffMember.name | name}}</span>
     
     `,
     directives: [ROUTER_DIRECTIVES],
-    pipes: [NamePipe, StaffTypePipe],
+    pipes: [NamePipe],
     styles: [`
     :host {
         display: block;
@@ -61,6 +61,8 @@ import {NamePipe} from "../../../../member/basic";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffSearchResultTableRow {
+    private staffTypeValues = STAFF_TYPE_VALUES;
+
     @Input() staffMember: StaffMember;
     @Input() colHeader: boolean = false;
 

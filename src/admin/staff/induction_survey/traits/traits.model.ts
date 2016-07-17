@@ -4,9 +4,9 @@ import {StaffType} from '../../type';
 
 export function predefinedTraits(staffType: StaffType): List<string> {
     switch (staffType) {
-        case StaffType.FoodcareVolunteer:
+        case 'FOODCARE_VOLUNTEER':
             return FOODCARE_VOLUNTEER_TRAITS;
-        case StaffType.OfficeVolunteer:
+        case 'OFFICE_VOLUNTEER':
             return OFFICE_VOLUNTEER_TRAITS;
         default:
             return List<string>();

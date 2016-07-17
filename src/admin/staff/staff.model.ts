@@ -23,7 +23,7 @@ export abstract class StaffMember extends ModelBase {
 
     @Property({
         codec: STAFF_TYPE_CODEC,
-        defaultValue: () => StaffType.OfficeVolunteer
+        defaultValue: () => 'OFFICE_VOLUNTEER'
     })
     type:StaffType;
 
