@@ -34,8 +34,13 @@
     "font-awesome": "^4.6.3"
   },
   "devDependencies": {
-    "typescript": "^1.8.10",
+    "del": "^2.2.1",
+    "gulp": "^3.9.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^2.13.6",
+    "jasmine-core": "^2.4.1",
     "live-server": "^0.8.2",
-    "jasmine-core": "^2.4.1"
+    "merge2": "^1.0.2",
+    "typescript": "^1.8.10"
   }
 }
