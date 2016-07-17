@@ -1,8 +1,10 @@
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/of';
 import {Subject} from 'rxjs/Subject';
-import {Map} from 'immutable';
+import {Observable} from 'rxjs/Observable';
 
 import {Injectable} from '@angular/core';
+import {Response as HttpResponse} from '@angular/http';
 import {Router} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
@@ -12,6 +14,10 @@ import {JsonObject} from 'caesium-model/json_codecs';
 import {User} from './user.model';
 import {UserManager} from './user.manager';
 
+interface LoginErrors {
+    username: {notfound: boolean};
+    password: {invalid: boolean};
+}
 
 @Injectable()
 export class UserContext {
@@ -44,6 +50,29 @@ export class UserContext {
                 }
                 return this.setUser(user)
             });
+    }
+
+    loginUser(loginDetails: {username: string, password: string}): Observable<User | LoginErrors> {
+        var response = this.userManager.login(loginDetails);
+        return response.handle({select: 200, decoder: this.userManager.modelCodec})
+            .map(user => {
+                this.setUser(user);
+                this.router.navigate(['']);
+                return user;
+            })
+            .catch((response: HttpResponse) => {
+                var errors: LoginErrors = {username: null, password: null};
+                if (response.status === 404) {
+                    errors.username = {notfound: true};
+                    return Observable.of<LoginErrors>(errors);
+                } else if (response.status === 403) {
+                    errors.password = {invalid: true};
+                    return Observable.of<LoginErrors>(errors);
+                } else {
+                    return Observable.throw(response);
+                }
+            });
+
     }
 
     setUser(user: User) {
