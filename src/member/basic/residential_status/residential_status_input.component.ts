@@ -2,8 +2,9 @@ import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
 } from '@angular/core';
 
+import {EnumSelect2} from '../../../utils/enum';
 import {ResidentialStatus} from './residential_status.model';
-import {ResidenceType, ResidenceTypeSelect} from './type';
+import {ResidenceType, RESIDENCE_TYPE_VALUES} from './residence_type.model';
 import {ResidentialStability, ResidentialStabilitySelect} from './stability';
 
 @Component({
@@ -13,13 +14,12 @@ import {ResidentialStability, ResidentialStabilitySelect} from './stability';
         <legend>{{label}}</legend>
         
         <div class="layout horizontal">
-            <residence-type-select
-                class="flex"
+            <enum-select2 class="flex"
                 [label]="'Type'"
-                [disabled]="disabled"
-                [residenceType]="residentialStatus.type"
-                (residenceTypeChange)="propChanged('type', $event)">
-            </residence-type-select>
+                [enumValues]="residenceTypeValues"
+                [value]="residentialStatus.type"
+                (valueChange)="propChanged('type', $event)">
+            </enum-select2>
             
             <residential-stability-select
                 class="flex input-right"
@@ -31,7 +31,7 @@ import {ResidentialStability, ResidentialStabilitySelect} from './stability';
         </div>
     </fieldset>
     `,
-    directives: [ResidenceTypeSelect, ResidentialStabilitySelect],
+    directives: [EnumSelect2, ResidentialStabilitySelect],
     styles: [`
     .input-right {
         margin-left: 30px;
@@ -45,6 +45,8 @@ import {ResidentialStability, ResidentialStabilitySelect} from './stability';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResidentialStatusInput {
+    private residenceTypeValues = RESIDENCE_TYPE_VALUES;
+
     @Input() residentialStatus: ResidentialStatus;
     @Output() residentialStatusChange = new EventEmitter<ResidentialStatus>();
 

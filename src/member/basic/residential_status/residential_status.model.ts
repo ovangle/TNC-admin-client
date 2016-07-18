@@ -5,11 +5,11 @@ import {recordCodec} from 'caesium-model/json_codecs';
 import {AlertLabel, CheckForAlertLabels} from "../../../utils/alert_label/alert_label";
 
 import {ResidentialStability, RESIDENTIAL_STABILITY_CODEC} from './stability';
-import {ResidenceType, RESIDENCE_TYPE_CODEC} from './type';
+import {ResidenceType, RESIDENCE_TYPE_CODEC} from './residence_type.model';
 
 const _RESIDENTIAL_STATUS_RECORD = Record({
     stability: ResidentialStability.NotDisclosed,
-    type: ResidenceType.None
+    type: 'NOT_DISCLOSED'
 });
 
 export class ResidentialStatus extends _RESIDENTIAL_STATUS_RECORD implements CheckForAlertLabels {
