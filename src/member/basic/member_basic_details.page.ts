@@ -16,11 +16,12 @@ import {MemberContext} from '../details_context.service';
 import {MemberManager} from '../member.manager';
 
 import {FileNoteSearch} from '../file_notes/file_note_search.component';
+import {EnumSelect2} from '../../utils/enum';
 
 import {Address, AddressInput} from './address';
 import {Contact, ContactInput} from './contact';
 import {Name, NameInput} from './name';
-import {Gender, GenderSelect} from './gender';
+import {Gender, GENDER_VALUES} from './gender.model';
 import {ResidentialStatus, ResidentialStatusInput} from './residential_status';
 import {Income, IncomeInput} from './income';
 import {EnergyAccount, EnergyAccountInput} from './energy_account';
@@ -44,6 +45,11 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
                 [label]="'Name'"
                 [disabled]="disabled">
     </name-input> 
+    
+    <enum-select2 [enumValues]="genderValues"
+                  [label]="'Gender'"
+                  [value]="member.gender"
+                  (valueChange)="propChanged('gender', $event)"></enum-select2>
                    
     <gender-select [gender]="member.gender"                
                    (genderChange)="propChanged('gender', $event)"
@@ -107,14 +113,14 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
     directives: [
         NameInput,
         AddressInput,
-        GenderSelect,
         EnergyAccountInput,
         ResidentialStatusInput,
         ContactInput,
         IncomeInput,
         DateInput,
         YesNoSelect,
-        FileNoteSearch
+        FileNoteSearch,
+        EnumSelect2
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

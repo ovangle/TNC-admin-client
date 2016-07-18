@@ -11,8 +11,10 @@ import {
 import {Response as HttpResponse} from '@angular/http';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 
+
 import {map, str} from 'caesium-model/json_codecs';
 
+import {EnumSelect2} from '../utils/enum';
 import {PageHeader} from '../utils/layout/page_header.component';
 
 import {RemoteComponent} from '../utils/component_host';
@@ -22,7 +24,7 @@ import {Modal} from '../utils/modal';
 
 import {
     Name, NamePipe, NameInput,
-    GenderSelect, AddressInput, ContactInput,
+    GENDER_VALUES, AddressInput, ContactInput,
     IncomeInput, ResidentialStatusInput,
 } from './basic';
 import {MemberTermType, MemberTermTypeSelect} from './term';
@@ -77,11 +79,12 @@ export class MemberCreatedDialog {
             </div>  
            
             <div class="row">
-                <gender-select  
+                <enum-select2
                         class="col-sm-4"
-                        [label]="'Gender'"
-                        [gender]="member.gender"
-                        (genderChange)="propChanged('gender', $event)"></gender-select>
+                        [label]="'Gender'" 
+                        [enumValues]="genderValues"
+                        [value]="member.gender"
+                        (valueChange)="propChanged('gender', $event)"></enum-select2>
                         
                 <date-input class="col-sm-4"
                             [label]="'Date of Birth'" 
@@ -176,9 +179,10 @@ export class MemberCreatedDialog {
     ],
     directives: [
         PageHeader,
-        NameInput, GenderSelect, DateInput, YesNoSelect,
+        NameInput, DateInput, YesNoSelect,
         AddressInput, ContactInput, MemberTermTypeSelect,
         IncomeInput, ResidentialStatusInput,
+        EnumSelect2,
         ROUTER_DIRECTIVES
     ],
     providers: [
@@ -188,6 +192,7 @@ export class MemberCreatedDialog {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberSignupComponent {
+    private genderValues = GENDER_VALUES;
 
     member: Member;
     errors : Map<string,string>;
@@ -208,26 +213,7 @@ export class MemberSignupComponent {
     ) { }
 
     ngOnInit() {
-        this.member = this.memberManager.create(Member, {
-            name: new Name({
-                'firstName': 'Dread Pirate',
-                'lastName': 'Roberts'
-            })
-        });
-    }
-
-    ngAfterViewInit() {
-        /*
-        this.modal.activate({
-            remote: {view: this.vcRef, instance: this},
-            type: 'PROMPT',
-            title: 'Member created',
-            body: MemberCreatedDialog,
-            bindings: {
-                '[name]': 'member.name',
-            }
-        });
-        */
+        this.member = this.memberManager.create(Member, {});
     }
 
     private propChanged(prop: string, value: any) {

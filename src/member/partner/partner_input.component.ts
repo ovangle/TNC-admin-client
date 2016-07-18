@@ -2,11 +2,13 @@ import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
 } from '@angular/core';
 
+import {EnumSelect2} from '../../utils/enum';
+
 import {
     Contact, ContactInput,
     Income, IncomeInput,
     Name, NameInput,
-    Gender, GenderSelect
+    Gender, GENDER_VALUES
 } from '../basic';
 
 import {Partner} from './partner.model';
@@ -26,11 +28,10 @@ import {PartnerSearchDropdown} from './search/search_dropdown.component';
                     (nameChange)="propChanged('name', $event)">
         </name-input>
         
-        <gender-select [label]="'Gender'"
-                       [disabled]="disabled"
-                       [gender]="partner.gender"
-                       (genderChange)="propChanged('gender', $event)">
-        </gender-select>
+        <enum-select2 [label]="'Gender'"
+                      [enumValues]="genderValues"
+                      [value]="partner.gender"
+                      (valueChange)="propChanged('gender', $event)"></enum-select2>
         
         <contact-input [label]="'Contact'"
                        [disabled]="disabled"
@@ -45,11 +46,13 @@ import {PartnerSearchDropdown} from './search/search_dropdown.component';
         </income-input>
     </fieldset>
     `,
-    directives: [NameInput, ContactInput, IncomeInput, GenderSelect, PartnerSearchDropdown],
+    directives: [NameInput, ContactInput, IncomeInput, EnumSelect2, PartnerSearchDropdown],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartnerInput {
+    private genderValues = GENDER_VALUES;
+
     @Input() partner: Partner;
     @Output() partnerChange = new EventEmitter<Partner>();
 

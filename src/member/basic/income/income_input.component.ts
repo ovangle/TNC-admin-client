@@ -2,9 +2,11 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 
+import {EnumSelect2} from '../../../utils/enum';
+
 import {IncomeType, IncomeTypeSelect} from './type';
 import {ProofOfLowIncome, ProofOfLowIncomeSelect} from './proof_of_low_income';
-import {BenefitType, BenefitTypeSelect} from './benefit_type';
+import {BenefitType, BENEFIT_TYPE_VALUES} from './benefit_type.model';
 import {Income} from './income.model';
 
 @Component({
@@ -28,18 +30,18 @@ import {Income} from './income.model';
                 [label]="'Proof of low income'"
                 [disabled]="disabled">
             </proof-of-low-income-select>
+            
+            <enum-select2 class="input-right"
+                    [ngClass]="{
+                        'flex-2': !_isOtherBenefitType,
+                        'flex-1': _isOtherBenefitType
+                    }" 
+                    [enumValues]="benefitTypeValues"
+                    [label]="'Centrelink benefit'"
+                    [value]="income.benefitType"
+                    (valueChange)="propChanged('benefitType', $event)">
+            </enum-select2>
         
-            <benefit-type-select 
-                [ngClass]="{
-                    'input-right': true,
-                    'flex-2': !_isOtherBenefitType,
-                    'flex-1': _isOtherBenefitType
-                }"
-                [label]="'Centrelink benefit'"
-                [disabled]="disabled"
-                [benefitType]="income.benefitType"
-                (benefitTypeChange)="propChanged('benefitType', $event)">
-            </benefit-type-select>        
         
             <div *ngIf="_isOtherBenefitType" class="form-group input-right flex-1">
                 <label for="other-type-input">Other description</label>
@@ -50,7 +52,7 @@ import {Income} from './income.model';
         </div>
       </fieldset>
     `,
-    directives: [ProofOfLowIncomeSelect, IncomeTypeSelect, BenefitTypeSelect],
+    directives: [ProofOfLowIncomeSelect, IncomeTypeSelect],
     styles: [`
     .input-right {
         margin-left: 30px;
@@ -64,6 +66,8 @@ import {Income} from './income.model';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncomeInput {
+    private benefitTypeValues = BENEFIT_TYPE_VALUES;
+
     @Input() income: Income;
     @Output() incomeChange = new EventEmitter<Income>();
 
@@ -71,7 +75,7 @@ export class IncomeInput {
     @Input() disabled: boolean;
 
     get _isOtherBenefitType(): boolean {
-        return this.income.benefitType === BenefitType.Other;
+        return this.income.benefitType === 'OTHER';
     }
 
     private propChanged(prop: string, value: any) {

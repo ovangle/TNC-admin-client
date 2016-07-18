@@ -4,14 +4,16 @@ var ts = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var merge = require('merge2');
 
+gulp.task('clean', function(cb) {
+    return del(['dist'], cb);
+});
+
+gulp.task('default', ['scripts', 'templates', 'styles'], function() {});
+
 /**
  * Typescript compilation
  */
 var tsProject = ts.createProject('tsconfig.json');
-
-gulp.task('clean', function(cb) {
-    return del(['dist'], cb);
-});
 
 gulp.task('scripts', function() {
     var tsResult = tsProject.src()

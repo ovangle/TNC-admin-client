@@ -22,7 +22,7 @@ export abstract class NonMemberPartner extends Partner {
 
     @Property({
         codec: GENDER_CODEC,
-        defaultValue: () => Gender.NotDisclosed
+        defaultValue: () => 'UNKNOWN'
     })
     gender:Gender;
 
