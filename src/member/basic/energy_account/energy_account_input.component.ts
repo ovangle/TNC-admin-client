@@ -4,20 +4,22 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 
+import {EnumSelect2} from '../../../utils/enum';
+
 import {EnergyAccount} from './energy_account.model';
-import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
+import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
 
 @Component({
     selector: 'energy-account-input',
     template: `
     <fieldset>
         <legend>{{label}}</legend>
-        <energy-retailer-select [energyRetailer]="energyAccount.retailer" 
-                                (energyRetailerChange)="propChanged('retailer', $event)"
-                                [label]="'Retailer'"
-                                [disabled]="disabled">
-        </energy-retailer-select>
-                                
+        <enum-select2 [enumValues]="energyRetailerValues"
+                      [label]="Retailer"
+                      [value]="energyAccount.retailer"
+                      (valueChange)="propChanged('retailer', $event)">
+        </enum-select2>
+        
         <div class="form-group">
             <label for="account-number-input">Account number</label> 
             <input type="text" class="form-control"
@@ -27,7 +29,7 @@ import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
        
     </fieldset>
     `,
-    directives: [EnergyRetailerSelect],
+    directives: [EnumSelect2],
     styles: [``],
     styleUrls: [
         'assets/css/bootstrap.css'
@@ -36,6 +38,8 @@ import {EnergyRetailer, EnergyRetailerSelect} from './energy_retailer';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnergyAccountInput {
+    private energyRetailerValues = ENERGY_RETAILER_VALUES;
+
     @Input() energyAccount: EnergyAccount;
     @Output() energyAccountChange= new EventEmitter<EnergyAccount>();
     @Output() validityChange = new EventEmitter<boolean>();

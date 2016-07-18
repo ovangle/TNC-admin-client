@@ -2,11 +2,11 @@ import {Record} from 'immutable';
 
 import {str, recordCodec} from 'caesium-model/json_codecs';
 
-import {EnergyRetailer, ENERGY_RETAILER_CODEC} from './energy_retailer';
+import {EnergyRetailer, ENERGY_RETAILER_CODEC} from './energy_retailer.model';
 
 const _ENERGY_ACCOUNT_RECORD = Record({
-    retailer: EnergyRetailer.NotDisclosed,
-    accountNumber: '',
+    retailer: 'NOT_DISCLOSED',
+    accountNumber: ''
 });
 
 export class EnergyAccount extends _ENERGY_ACCOUNT_RECORD {
