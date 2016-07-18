@@ -217,6 +217,7 @@ export class MemberSignupComponent {
     }
 
     ngAfterViewInit() {
+        /*
         this.modal.activate({
             remote: {view: this.vcRef, instance: this},
             type: 'PROMPT',
@@ -226,6 +227,7 @@ export class MemberSignupComponent {
                 '[name]': 'member.name',
             }
         });
+        */
     }
 
     private propChanged(prop: string, value: any) {
