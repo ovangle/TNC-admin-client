@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import {SearchBar, ParameterBuilder} from '../../../utils/search';
-import {Dropdown} from '../../../layout/dropdown.component';
+import {Dropdown} from '../../../utils/layout/dropdown.component';
 
 import {PartnerSearch} from './partner_search.component';
 import {PartnerParameterBuilder} from './partner_search_parameter_builder.service';

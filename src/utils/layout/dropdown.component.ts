@@ -9,7 +9,7 @@ import {
     OnInit, OnDestroy, ElementRef
 } from '@angular/core';
 
-import {MouseEventsOutsideElement} from '../utils/events/mouse_events_outside_element.service';
+import {MouseEventsOutsideElement} from '../events/mouse_events_outside_element.service';
 
 @Component({
     selector: 'dropdown',

@@ -9,7 +9,7 @@ import {
 import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
 
 import {DateInput} from '../../../utils/date/date_input.component';
-import {PageHeader} from '../../../layout/page_header.component';
+import {PageHeader} from '../../../utils/layout/page_header.component';
 
 import {AddressInput, ContactInput, NamePipe} from '../../../member/basic';
 

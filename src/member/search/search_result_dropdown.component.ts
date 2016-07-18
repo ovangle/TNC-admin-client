@@ -7,7 +7,7 @@ import {
 
 import {StateException} from 'caesium-model/exceptions';
 import {SearchResult} from 'caesium-model/manager';
-import {Dropdown} from '../../layout/dropdown.component';
+import {Dropdown} from '../../utils/layout/dropdown.component';
 
 import {Member} from '../member.model';
 import {NamePipe} from '../basic';

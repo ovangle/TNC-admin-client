@@ -6,7 +6,7 @@ import {FormControl, REACTIVE_FORM_DIRECTIVES, Validators} from '@angular/forms'
 
 import {isBlank, isDefined} from 'caesium-core/lang';
 
-import {Dropdown} from '../../layout/dropdown.component';
+import {Dropdown} from '../layout/dropdown.component';
 import {DatePicker} from "./month_picker/date_picker.component";
 
 const _DATE_FORMAT_STRING = 'dd/mm/yyyy';

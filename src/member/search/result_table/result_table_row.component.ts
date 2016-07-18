@@ -1,7 +1,7 @@
 import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
-import {Expander} from "../../../layout/expander.component";
+import {Expander} from "../../../utils/layout/expander.component";
 import {DefaultPipe} from '../../../utils/pipes/default.pipe';
 
 import {Member} from '../../member.model';

@@ -6,8 +6,8 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
 
-import {UserContext} from '../admin/user/context.service';
-import {Name, NamePipe} from '../member/basic';
+import {UserContext} from '../../admin/user/context.service';
+import {Name, NamePipe} from '../../member/basic';
 
 import {Dropdown} from './dropdown.component';
 

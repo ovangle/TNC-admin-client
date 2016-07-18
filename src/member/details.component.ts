@@ -11,7 +11,7 @@ import {ROUTER_DIRECTIVES, ActivatedRoute} from "@angular/router";
 import {isBlank} from 'caesium-core/lang';
 import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
-import {PageHeader} from '../layout/page_header.component';
+import {PageHeader} from '../utils/layout/page_header.component';
 import {AlertLabels} from '../utils/alert_labels.component';
 import {ModalDialogService} from '../utils/modal_dialog';
 

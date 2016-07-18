@@ -5,7 +5,7 @@ import {isBlank} from 'caesium-core/lang';
 
 import {ModalDialog} from './utils/modal';
 import {/* ModalDialogComponent,*/ ModalDialogService} from './utils/modal_dialog';
-import {NavBarComponent} from './layout/nav_bar.component'
+import {NavBarComponent} from './utils/layout/nav_bar.component'
 import {UserManager} from './admin/user/user.manager';
 import {UserContext} from './admin/user/context.service';
 

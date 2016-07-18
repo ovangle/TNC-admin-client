@@ -13,7 +13,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {map, str} from 'caesium-model/json_codecs';
 
-import {PageHeader} from '../layout/page_header.component';
+import {PageHeader} from '../utils/layout/page_header.component';
 
 import {RemoteComponent} from '../utils/component_host';
 import {DateInput} from '../utils/date/date_input.component';
