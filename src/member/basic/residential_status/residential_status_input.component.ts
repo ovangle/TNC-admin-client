@@ -21,11 +21,11 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
                 (valueChange)="propChanged('type', $event)">
             </enum-select2>
             
-            <enum-select2 class="flex"
+            <enum-select2 class="flex input-right"
                 [label]="'Stability'"
                 [enumValues]="residentialStabilityValues"
                 [value]="residentialStatus.stability"
-                (valueChange)="propChanged('stability', $event)"
+                (valueChange)="propChanged('stability', $event)"></enum-select2>
         </div>
     </fieldset>
     `,
