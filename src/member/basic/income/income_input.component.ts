@@ -17,7 +17,7 @@ import {Income} from './income.model';
         <div class="layout horizontal">
             <enum-select2 class="flex-2"
                 [label]="'Primary income'" 
-                [enumValues]="inputTypeValues"
+                [enumValues]="incomeTypeValues"
                 [value]="income.type"
                 (valueChange)="propChanged('type', $event)">
             </enum-select2>
@@ -26,7 +26,7 @@ import {Income} from './income.model';
                 [enumValues]="proofOfLowIncomeValues" 
                 [label]="'Proof of low income'"
                 [value]="income.proofOfLowIncome"
-                (valueChange)="propChanged('proofOfLowIncome, $event)">
+                (valueChange)="propChanged('proofOfLowIncome', $event)">
             </enum-select2>
             
             <enum-select2 class="input-right"
