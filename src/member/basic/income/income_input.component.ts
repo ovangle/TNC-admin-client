@@ -4,7 +4,7 @@ import {
 
 import {EnumSelect2} from '../../../utils/enum';
 
-import {IncomeType, IncomeTypeSelect} from './type';
+import {IncomeType, INCOME_TYPE_VALUES} from './income_type.model';
 import {ProofOfLowIncome, ProofOfLowIncomeSelect} from './proof_of_low_income';
 import {BenefitType, BENEFIT_TYPE_VALUES} from './benefit_type.model';
 import {Income} from './income.model';
@@ -15,13 +15,12 @@ import {Income} from './income.model';
     <fieldset>
         <legend>{{label}}</legend>
         <div class="layout horizontal">
-            <income-type-select 
-                class="flex-2"
-                [incomeType]="income.type" 
-                (incomeTypeChange)="propChanged('type', $event)"
-                [label]="'Primary income'"
-                [disabled]="disabled">
-            </income-type-select>
+            <enum-select2 class="flex-2"
+                [label]="'Primary income'" 
+                [enumValues]="inputTypeValues"
+                [value]="income.type"
+                (valueChange)="propChanged('type', $event)">
+            </enum-select2>
             
             <proof-of-low-income-select
                 class="flex-2 input-right"
@@ -52,7 +51,7 @@ import {Income} from './income.model';
         </div>
       </fieldset>
     `,
-    directives: [ProofOfLowIncomeSelect, IncomeTypeSelect],
+    directives: [ProofOfLowIncomeSelect, EnumSelect2],
     styles: [`
     .input-right {
         margin-left: 30px;
@@ -67,6 +66,7 @@ import {Income} from './income.model';
 })
 export class IncomeInput {
     private benefitTypeValues = BENEFIT_TYPE_VALUES;
+    private incomeTypeValues = INCOME_TYPE_VALUES;
 
     @Input() income: Income;
     @Output() incomeChange = new EventEmitter<Income>();

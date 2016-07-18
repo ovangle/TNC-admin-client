@@ -5,11 +5,11 @@ import {recordCodec, str} from 'caesium-model/json_codecs';
 import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../../utils/alert_label/alert_label';
 
 import {BenefitType, BENEFIT_TYPE_CODEC} from './benefit_type.model';
-import {IncomeType, INCOME_TYPE_CODEC} from './type';
+import {IncomeType, INCOME_TYPE_CODEC} from './income_type.model';
 import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_CODEC} from './proof_of_low_income';
 
 const _INCOME_RECORD = Record({
-    type: IncomeType.NotDisclosed,
+    type: 'NOT_DISCLOSED',
     benefitType: 'NONE',
     benefitOtherDescription: null,
     proofOfLowIncome: ProofOfLowIncome.NoProof
