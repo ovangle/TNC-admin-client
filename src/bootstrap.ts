@@ -4,7 +4,7 @@
 
 import 'reflect-metadata';
 
-import {Inject, OpaqueToken} from '@angular/core';
+import {enableProdMode} from '@angular/core';
 import {RequestOptions as BaseRequestOptions, Headers, HTTP_PROVIDERS} from '@angular/http';
 
 import {bootstrap} from '@angular/platform-browser-dynamic';
@@ -33,6 +33,10 @@ class RequestOptions extends BaseRequestOptions {
 }
 
 loadAppConfig().then((appConfig) => {
+    if (!appConfig.debug) {
+        enableProdMode();
+    }
+
     var apiHost = appConfig.api.serverHref;
 
     var locationStrategyCls = (appConfig.router.locationStrategy === "hash")

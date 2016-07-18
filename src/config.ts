@@ -1,4 +1,5 @@
 export interface AppConfig {
+    debug?: boolean;
     router: {
         appBaseHref: string;
         locationStrategy: string;
