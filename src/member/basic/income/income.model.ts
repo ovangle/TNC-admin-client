@@ -6,13 +6,13 @@ import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../../utils/ale
 
 import {BenefitType, BENEFIT_TYPE_CODEC} from './benefit_type.model';
 import {IncomeType, INCOME_TYPE_CODEC} from './income_type.model';
-import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_CODEC} from './proof_of_low_income';
+import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_CODEC} from './proof_of_low_income.model';
 
 const _INCOME_RECORD = Record({
     type: 'NOT_DISCLOSED',
     benefitType: 'NONE',
     benefitOtherDescription: null,
-    proofOfLowIncome: ProofOfLowIncome.NoProof
+    proofOfLowIncome: 'NO_PROOF'
 });
 
 export class Income extends _INCOME_RECORD implements CheckForAlertLabels {
@@ -43,7 +43,7 @@ const _INCOME_INFO_LABELS = List<AlertLabel>([
         text: 'No proof of low income',
         severity: LabelSeverity.Warning,
         tooltip: 'Request low income card on member contact',
-        test: (income:Income) => (income.proofOfLowIncome === ProofOfLowIncome.NoProof)
+        test: (income:Income) => (income.proofOfLowIncome === 'NO_PROOF')
     }
 ]);
 
