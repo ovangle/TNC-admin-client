@@ -4,11 +4,11 @@ import {Iterable, List, Record} from 'immutable';
 import {recordCodec} from 'caesium-model/json_codecs';
 import {AlertLabel, CheckForAlertLabels} from "../../../utils/alert_label/alert_label";
 
-import {ResidentialStability, RESIDENTIAL_STABILITY_CODEC} from './stability';
+import {ResidentialStability, RESIDENTIAL_STABILITY_CODEC} from './residential_stability.model';
 import {ResidenceType, RESIDENCE_TYPE_CODEC} from './residence_type.model';
 
 const _RESIDENTIAL_STATUS_RECORD = Record({
-    stability: ResidentialStability.NotDisclosed,
+    stability: 'NOT_DISCLOSED',
     type: 'NOT_DISCLOSED'
 });
 

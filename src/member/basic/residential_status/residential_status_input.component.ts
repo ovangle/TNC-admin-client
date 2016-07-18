@@ -5,7 +5,7 @@ import {
 import {EnumSelect2} from '../../../utils/enum';
 import {ResidentialStatus} from './residential_status.model';
 import {ResidenceType, RESIDENCE_TYPE_VALUES} from './residence_type.model';
-import {ResidentialStability, ResidentialStabilitySelect} from './stability';
+import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_stability.model';
 
 @Component({
     selector: 'residential-status-input',
@@ -21,17 +21,15 @@ import {ResidentialStability, ResidentialStabilitySelect} from './stability';
                 (valueChange)="propChanged('type', $event)">
             </enum-select2>
             
-            <residential-stability-select
-                class="flex input-right"
+            <enum-select2 class="flex"
                 [label]="'Stability'"
-                [disabled]="disabled"
-                [residentialStability]="residentialStatus.stability"
-                (residentialStabilityChange)="propChanged('stability', $event)">
-            </residential-stability-select>
+                [enumValues]="residentialStabilityValues"
+                [value]="residentialStatus.stability"
+                (valueChange)="propChanged('stability', $event)"
         </div>
     </fieldset>
     `,
-    directives: [EnumSelect2, ResidentialStabilitySelect],
+    directives: [EnumSelect2],
     styles: [`
     .input-right {
         margin-left: 30px;
@@ -46,6 +44,7 @@ import {ResidentialStability, ResidentialStabilitySelect} from './stability';
 })
 export class ResidentialStatusInput {
     private residenceTypeValues = RESIDENCE_TYPE_VALUES;
+    private residentialStabilityValues = RESIDENTIAL_STABILITY_VALUES;
 
     @Input() residentialStatus: ResidentialStatus;
     @Output() residentialStatusChange = new EventEmitter<ResidentialStatus>();
