@@ -3,6 +3,7 @@ import {OrderedMap} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
+import {StateException} from 'caesium-model/exceptions';
 import {FormControl, Validators, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {isBlank} from 'caesium-core/lang';
 
@@ -46,6 +47,11 @@ export class EnumSelect2 {
 
 
     ngOnInit() {
+        if (isBlank(this.enumValues)) {
+            throw new StateException(`enum-select: '[enumValues]' must be provided (label: ${this.label})`);
+
+        }
+
         this.control = new FormControl(this.value,
             this.required ? Validators.required : Validators.nullValidator
         );
