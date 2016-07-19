@@ -1,3 +1,4 @@
+import {Map} from 'immutable';
 
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
@@ -24,6 +25,7 @@ import {CreateStaffRequest, CreateStaffResponse, CreateStaffErrors} from './crea
         NameInput, DateInput, EnumSelect2, UserInput,
         ROUTER_DIRECTIVES
     ],
+    providers: [StaffManager],
     styleUrls: ['./create_form.component.css'],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -32,22 +34,32 @@ export class StaffCreateForm {
     private staffTypeValues = STAFF_TYPE_VALUES;
 
     request: CreateStaffRequest;
-    errors: CreateStaffErrors;
+    errors = Map<string,boolean>({
+        name: false
+    });
 
     @Output() createSuccess = new EventEmitter<CreateStaffResponse>();
     @Output() createCancel = new EventEmitter<any>();
 
     constructor(private staffManager: StaffManager,
-                private changeDetector: ChangeDetectorRef,
+                private changeDetector: ChangeDetectorRef
     ) { }
 
-    routerOnActivate() {
+    ngOnInit() {
         this.request = new CreateStaffRequest();
         this.changeDetector.markForCheck();
     }
 
+    get isValid() {
+        return this.errors.valueSeq().every(v => v);
+    }
+
     propChanged(prop: string, value: any) {
         this.request = <CreateStaffRequest>this.request.set(prop, value);
+    }
+
+    propValidityChange(prop: string, value: boolean) {
+        this.errors.set(prop, value);
     }
 
     _userChanged(user: AbstractUser) {
@@ -60,7 +72,7 @@ export class StaffCreateForm {
                 this.createSuccess.emit(response);
                 return;
             } else {
-                this.errors = response;
+                //this.errors = response;
             }
         });
     }

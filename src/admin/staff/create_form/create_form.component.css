@@ -11,13 +11,11 @@ i.fa {
 }
 :host {
     display: block;
-    height: 100%;
-    overflow: auto;
+    overflow-y: scroll;
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
 button + button {
     margin-left: 30px;
-
 }

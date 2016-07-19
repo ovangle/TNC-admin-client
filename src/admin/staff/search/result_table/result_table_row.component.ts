@@ -11,52 +11,11 @@ import {NamePipe} from "../../../../member/basic";
 
 @Component({
     selector: 'staff-search-result-table-row',
-    template: `
-    <span *ngIf="colHeader" class="table-cell col-id col-header">Staff ID</span>
-    <span *ngIf="!colHeader" class="table-cell col-id"><a [routerLink]="['.', staffMember.id]">{{staffMember.id}}</a></span>
-    
-    <span *ngIf="colHeader" class="table-cell col-type col-header">Staff type</span>
-    <span *ngIf="!colHeader" class="table-cell col-type">{{staffTypeValues.get(staffMember.type)}}</span>
-    
-    <span *ngIf="colHeader" class="table-cell col-name col-header">Name</span>
-    <span *ngIf="!colHeader" class="table-cell col-name">{{staffMember.name | name}}</span>
-    
-    `,
+    moduleId: module.id,
+    templateUrl: './result_table_row.component.html',
     directives: [ROUTER_DIRECTIVES],
     pipes: [NamePipe],
-    styles: [`
-    :host {
-        display: block;
-    }
-    
-    header {
-        font-size: 0; 
-        whitespace: nowrap;
-    }    
-    
-    header > * {
-        font-size: 1.2rem;
-    }
-    
-    .col-id {
-        width: 10rem;
-        min-width: 100px;
-    }
-    
-    .col-type {
-        width: 15rem;
-    }
-
-    .col-name {
-        width: 20rem;
-    }
-
-    `],
-    //TODO Move search table css to assets
-    styleUrls: [
-       'src/member/search/result_table/result_table.css',
-       'assets/css/bootstrap.css'
-    ],
+    styleUrls: ['./result_table_row.component.css'],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

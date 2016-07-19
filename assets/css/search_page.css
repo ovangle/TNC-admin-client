@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.search-bar-container {
+    margin-left: 10%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+search-bar {
+    margin-right: 30px;
+}
+
+.search-results {
+    display: block;
+    height: calc(100% - 50px);
+}
+

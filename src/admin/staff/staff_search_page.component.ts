@@ -1,55 +1,53 @@
-import {Map, Set} from 'immutable';
+import {Set} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
+    Component, ChangeDetectionStrategy, ViewEncapsulation,
     ChangeDetectorRef
 } from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {Search} from 'caesium-model/manager';
+import {ParameterBuilder, SearchBar} from '../../utils/search';
 
-import {ParameterBuilder, SearchBar} from '../../../utils/search';
-import {StaffSearchParameterBuilder} from './staff_search_parameter_builder.service';
-
-import {StaffMember} from '../staff.model';
-import {StaffManager} from '../staff.manager';
-
-import {StaffSearchResultTable} from './result_table/result_table.component';
+import {StaffMember} from './staff.model';
+import {StaffManager} from './staff.manager';
+import {StaffSearchResultTable} from './search/result_table.component';
+import {StaffSearchParameterBuilder} from './search/parameter_builder.service';
 
 @Component({
-    selector: 'staff-search',
+    selector: 'staff-search-page',
     template: `
-        <div class="layout horizontal" class="search-bar-container">
-            <search-bar class="flex" (paramValuesChange)=_paramValuesChanged($event)></search-bar>
-            <div class="btn-group">
-                <a class="btn btn-default" [routerLink]="'./staff/create'">Add staff</a> 
-            </div>
-        </div>
-        <staff-search-result-table [search]="search"></staff-search-result-table>
+    <div class="search-bar-container layout horizontal">
+         <search-bar
+            (paramValuesChange)="paramValuesChanged($event)"></search-bar>
+         <a class="btn btn-primary" [routerLink]="['./create']">
+            <i class="fa fa-plus"></i> New staff member
+         </a>   
+    </div>
+    <staff-search-result-table class="search-results" [search]="search">
+    </staff-search-result-table>
     `,
-    directives: [
-        SearchBar,
-        StaffSearchResultTable,
-        ROUTER_DIRECTIVES
-    ],
+    directives: [SearchBar, ROUTER_DIRECTIVES, StaffSearchResultTable],
     providers: [
         StaffManager,
         {provide: ParameterBuilder, useClass: StaffSearchParameterBuilder}
     ],
     styleUrls: [
+        'assets/css/bootstrap.css',
+        'assets/css/font-awesome.css',
         'assets/css/flex.css',
-       'assets/css/bootstrap.css'
+        'assets/css/search_page.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StaffSearch {
-    search: Search<StaffMember>;
+export class StaffSearchPage {
+    private search: Search<StaffMember>;
 
     constructor(
         private staffManager: StaffManager,
         private changeDetector: ChangeDetectorRef
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.search = this.staffManager.search();
@@ -65,6 +63,4 @@ export class StaffSearch {
         if (!nameParam || !nameParam.equals(this.search.getParamValue('name')))
             this.search.setParamValue('name', nameParam);
     }
-
-
 }

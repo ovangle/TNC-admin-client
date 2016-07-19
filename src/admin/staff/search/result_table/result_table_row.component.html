@@ -1,0 +1,10 @@
+
+
+<span *ngIf="colHeader" class="table-cell col-id col-header">Staff ID</span>
+<span *ngIf="!colHeader" class="table-cell col-id"><a [routerLink]="['.', staffMember.id]">{{staffMember.id}}</a></span>
+
+<span *ngIf="colHeader" class="table-cell col-type col-header">Staff type</span>
+<span *ngIf="!colHeader" class="table-cell col-type">{{staffTypeValues.get(staffMember.type)}}</span>
+
+<span *ngIf="colHeader" class="table-cell col-name col-header">Name</span>
+<span *ngIf="!colHeader" class="table-cell col-name">{{staffMember.name | name}}</span>

@@ -4,10 +4,10 @@ import {
 } from '@angular/core';
 
 import {Search} from 'caesium-model/manager';
-import {ResultContainer} from '../../../../utils/search/scrolling_result_container.directive';
-import {StaffMember} from '../../staff.model';
+import {ResultContainer} from '../../../utils/search/scrolling_result_container.directive';
+import {StaffMember} from '../staff.model';
 
-import {StaffSearchResultTableRow} from './result_table_row.component';
+import {StaffSearchResultTableRow} from './result_table/result_table_row.component';
 
 @Component({
     selector: 'staff-search-result-table',

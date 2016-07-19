@@ -15,15 +15,32 @@ import {StaffCreateSuccessAlert} from './create_form/create_success_alert.compon
 @Component({
     selector: 'staff-create-page',
     template: `
-    <page-header title="Create staff">
-        <div class="btn-group">
-            <button class="close"
-                    (click)="cancelCreate()"><i class="fa fa-close"></i></button> 
-        </div> 
-    </page-header>
-    
+    <div class="container">
+        <page-header title="Create staff">
+            <div class="btn-group">
+                <button class="close"
+                        (click)="cancelCreate()"><i class="fa fa-close"></i></button> 
+            </div> 
+        </page-header>
+        <staff-create-form
+            (createSuccess)="confirmCreate($event)"
+            (createCancel)="cancelCreate()">
+        </staff-create-form>
+    </div>
     `,
     directives: [PageHeader, StaffCreateForm, StaffCreateSuccessAlert],
+    styles: [`
+    :host {
+        display: block;
+        height: 100%;
+    }
+    .container {
+        height: 100%;
+    } 
+    staff-create-form {
+        height: calc(100% - 140px);
+    }    
+    `],
     styleUrls: [
         'assets/css/font-awesome.css',
        'assets/css/bootstrap.css'

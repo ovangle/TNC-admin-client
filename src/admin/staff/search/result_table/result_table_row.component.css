@@ -1,0 +1,15 @@
+@import '/assets/css/bootstrap.css';
+@import '/assets/css/search_result_table.css';
+
+.col-id {
+    width: 10rem;
+    min-width: 100px;
+}
+
+.col-type {
+    width: 15rem;
+}
+
+.col-name {
+    width: 20rem;
+}
