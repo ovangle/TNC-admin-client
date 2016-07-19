@@ -29,10 +29,10 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     @Property({codec: NAME_CODEC, defaultValue: () => new Name()})
     name: Name;
 
-    @Property({codec: GENDER_CODEC, defaultValue: () => 'UNKNOWN'})
+    @Property({codec: GENDER_CODEC, defaultValue: () => 'NOT_DISCLOSED'})
     gender: Gender;
 
-    @Property({codec: date})
+    @Property({codec: date, allowNull: true, defaultValue: () => null})
     dateOfBirth: Date;
 
     @Property({codec: bool, allowNull: true, defaultValue: () => null})
