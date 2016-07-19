@@ -8,7 +8,7 @@ import {COMMON_DIRECTIVES} from '@angular/common';
 
 import {ComponentHost, RemoteComponent} from '../../component_host';
 
-import {ModalOptions, ModalType, ModalState} from '../modal_options.model';
+import {ModalOptions} from '../modal_options.model';
 import {Modal} from '../modal.service';
 import {MouseEventsOutsideElement} from '../../events/mouse_events_outside_element.service';
 
@@ -16,20 +16,9 @@ import {MouseEventsOutsideElement} from '../../events/mouse_events_outside_eleme
     selector: 'modal-dialog-content',
     template: `
     <div class="modal-content">
-        <div class="modal-header"><h4>{{title}}</h4></div>
         <div [csSource]="options.remote" 
              [csType]="options.body" 
-             [csBindings]="options.bindings"></div>
-        <div class="modal-footer">
-            <button class="btn btn-primary"
-                    (click)="confirmChange.emit('CONFIRM')">
-                OK
-            </button>
-            <button *ngIf="type === 'PROMPT'" 
-                    class="btn btn-default"
-                    (click)="confirmChange.emit('REJECT')">
-                Cancel
-            </button>
+             [csBindings]="options.bindings">
         </div>
     </div>
     `,
@@ -48,10 +37,9 @@ import {MouseEventsOutsideElement} from '../../events/mouse_events_outside_eleme
 })
 export class ModalDialogContent implements OnInit, OnDestroy {
     @Input() options: ModalOptions;
-    @Output() stateChange = new EventEmitter<ModalState>();
+    @Output() confirm = new EventEmitter<any>();
+    @Output() cancel = new EventEmitter<any>();
 
-    get type(): ModalType { return this.options.type; }
-    get title(): string { return this.options.title; }
     get isBlocking(): boolean { return this.options.isBlocking; }
 
 
@@ -61,17 +49,22 @@ export class ModalDialogContent implements OnInit, OnDestroy {
     private outsideMouseClick: Subscription;
 
     constructor(
-        private context: Modal,
         private mouseEvents: MouseEventsOutsideElement
     ) {}
-
 
     ngOnInit() {
         if (!this.isBlocking) {
             this.outsideMouseClick = this.mouseEvents.onClick.subscribe((_) => {
-                this.stateChange.emit('REJECT');
+                if (this.options.isBlocking) {
+                    console.log('should close modal');
+                    this.cancel.emit(null);
+                }
             });
         }
+    }
+    
+    ngOnChanges(changes: any) {
+        debugger; 
     }
 
     ngOnDestroy() {

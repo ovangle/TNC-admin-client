@@ -1,0 +1,101 @@
+<form (ngSubmit)="save()">
+    <div class="row">
+        <member-term-type-select
+                class="col-sm-4"
+                [termType]="member.term.type"
+                (termTypeChange)="termTypeChanged($event)"
+                [label]="'Membership type'"
+                [required]="true">
+        </member-term-type-select>
+    </div>
+
+    <div class="row">
+        <name-input class="col-sm-12"
+                    [name]="member.name"
+                    (nameChange)="propChanged('name', $event)"
+                    (validityChange)="propValidityChanged('name', $event)">
+        </name-input>
+    </div>
+
+    <div class="row">
+        <enum-select2
+                class="col-sm-4"
+                [label]="'Gender'"
+                [enumValues]="genderValues"
+                [value]="member.gender"
+                (valueChange)="propChanged('gender', $event)"></enum-select2>
+
+        <date-input class="col-sm-4"
+                    [label]="'Date of Birth'"
+                    [date]="member.dateOfBirth"
+                    (dateChange)="propChanged('dateOfBirth', $event)"
+                    (validityChange)="propValidityChanged('dateOfBirth', $event)"
+                    [defaultToday]="false">
+        </date-input>
+
+        <yesno-select class="col-sm-4"
+                      [value]="member.aboriginalOrTorresStraitIslander"
+                      (valueChange)="propChanged('aboriginalOrTorresStraitIslander', $event)"
+                      [label]="'Aboriginal/Torres Strait Islander'"
+                      [disabled]="disabled"></yesno-select>
+    </div>
+
+    <!--
+    <div class="row">
+        <address-input class="col-sm-12"
+                       [address]="member.address"
+                       (addressChange)="propChanged('address', $event)"
+                       [label]="'Address'"
+                       [disabled]="disabled">
+        </address-input>
+    </div>
+    -->
+
+    <div class="row">
+        <contact-input class="col-sm-12"
+                       [contact]="member.contact"
+                       (contactChange)="propChanged('contact', $event)"
+                       [label]="'Contact'"
+                       [disabled]="disabled">
+        </contact-input>
+    </div>
+
+    <div class="row">
+        <income-input class="col-sm-12"
+                      [income]="member.income"
+                      (incomeChange)="propChanged('income', $event)"
+                      [label]="'Income'"
+                      [disabled]="disabled">
+        </income-input>
+    </div>
+
+    <div class="row">
+        <residential-status-input
+                class="col-sm-12"
+                [residentialStatus]="member.residentialStatus"
+                (residentialStatusChange)="propChanged('residentialStatus', $event)"
+                [address]="member.address"
+                (addressChange)="propChanged('address', $event)"
+                [label]="'Residential Status'"
+                [disabled]="disabled">
+        </residential-status-input>
+    </div>
+
+    <div class="row">
+        <partner-details
+                [partner]="member.partner"
+                (partnerChange)="propChanged('partner', $event)">
+        </partner-details>
+    </div>
+
+    <div class="row" class="layout horizontal center-justified">
+        <button class="btn btn-primary"
+                [disabled]="!isValid"
+                (click)="save()">
+            <i class="fa fa-save"></i> Save
+        </button>
+        <button class="btn btn-danger" (click)="cancel()">
+            <i class="fa fa-close"></i> Cancel
+        </button>
+    </div>
+</form>

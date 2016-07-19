@@ -7,7 +7,7 @@ import {
 
 import {isBlank} from 'caesium-core/lang';
 
-import {ModalOptions, ModalState} from './modal_options.model';
+import {ModalOptions} from './modal_options.model';
 import {Modal} from './modal.service';
 import {ModalDialogContent} from './components/content.component';
 
@@ -17,12 +17,9 @@ import {ModalDialogContent} from './components/content.component';
 @Component({
     selector: 'modal-dialog',
     template: `
-    <div class="backdrop" [ngClass]="{'open': open}"></div>
+    <div class="backdrop" [ngClass]="{'open': isOpen}"></div>
     <div class="modal-dialog">
-        <modal-dialog-content *ngIf="open" 
-            [vcRef]="vcRef"
-            [options]="options"
-            (stateChange)="stateChange.emit($event)">
+        <modal-dialog-content *ngIf="isOpen" [options]="options">
         </modal-dialog-content>
     </div>
     `,
@@ -59,20 +56,24 @@ export class ModalDialog {
     /// The dialog options
     options: ModalOptions;
 
-    @Output() stateChange = new EventEmitter<ModalState>();
-
     private _modalActivation: Subscription;
     @ViewChild(ModalDialogContent) content: ModalDialogContent;
 
 
     constructor(
         private changeDetector: ChangeDetectorRef,
-        private context: Modal) {
+        private context: Modal
+    ) {
         context.registerDialogComponent(this);
     }
 
-    get open(): boolean {
+    get isOpen(): boolean {
         return !isBlank(this.options);
+    }
+
+    close() {
+        this.options = null;
+        this.markForCheck();
     }
 
     markForCheck() {

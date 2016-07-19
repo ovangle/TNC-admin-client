@@ -1,15 +1,12 @@
 import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/toPromise';
+import {Observable} from 'rxjs/Observable';
 
-import {
-    Injectable, ReflectiveInjector, ComponentRef, ViewContainerRef,
-    ComponentResolver, ApplicationRef, PlatformRef
-} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {isDefined, Type} from 'caesium-core/lang';
 import {StateException} from 'caesium-model/exceptions';
 
-import {ModalOptions, ModalState} from './modal_options.model';
+import {ModalOptions} from './modal_options.model';
 import {ModalDialog} from './modal_dialog.component';
 
 
@@ -28,16 +25,18 @@ export class Modal {
         this._dialog = modalDialog;
     }
 
-    activate(options: ModalOptions): Promise<ModalState> {
+    activate(options: ModalOptions, close: Observable<any>) {
         if (!isDefined(this._dialog))
             _throwUniqueRegisteredDialogException();
-        if (this._dialog.open) {
+        if (this._dialog.isOpen) {
             throw new StateException('Can only have one open dialog');
         }
 
         this._dialog.options = options;
         this._dialog.markForCheck();
-        return this._dialog.stateChange.first().toPromise();
+        close.forEach((_) => {
+            this._dialog.close();
+        });
     }
 }
 

@@ -1,7 +1,6 @@
-
 import {Modal} from './modal/modal.service';
 
-
+export * from './component_host';
 export {Modal};
 export {ModalDialog} from './modal/modal_dialog.component';
 
