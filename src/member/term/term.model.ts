@@ -71,7 +71,7 @@ export class MemberTerm extends _TERM_RECORD implements CheckForAlertLabels {
      */
     _expires: Date;
 
-    constructor(args: {type?: MemberTermType, joined?: Date, renewed?: Date}) {
+    constructor(args?: {type?: MemberTermType, joined?: Date, renewed?: Date}) {
         super(args);
     }
 
