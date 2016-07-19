@@ -2,7 +2,7 @@ import {RouterConfig} from '@angular/router';
 
 import {MemberSearchComponent} from './search/search.component';
 import {MemberDetailsComponent} from './details.component';
-import {MemberSignupComponent} from './signup.component';
+import {MemberSignupPage} from './signup_page.component';
 import {PartnerDetails} from './partner';
 import {MemberBasicDetails} from './basic';
 import {MemberFileNotes} from './file_notes/file_notes.page';
@@ -23,7 +23,7 @@ export const MEMBER_ROUTES: RouterConfig = [
         path: 'member',
         children: [
             {path: '', component: MemberSearchComponent},
-            {path: 'signup', component: MemberSignupComponent},
+            {path: 'signup', component: MemberSignupPage},
             {path: ':id', component: MemberDetailsComponent, children: MEMBER_DETAILS_ROUTES}
         ]
     }
