@@ -6,7 +6,7 @@ import {Iterable, List, Record} from 'immutable';
 
 import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../utils/alert_label/alert_label';
 
-import {MemberTermType, MEMBER_TERM_TYPE_CODEC} from './type';
+import {MemberTermType, MEMBER_TERM_TYPE_CODEC} from './term_type.model';
 import {dateTime, recordCodec} from "caesium-model/json_codecs";
 
 /**
@@ -23,6 +23,10 @@ function untilEndOfFinancialYear(containingDate: Moment): Moment {
     return moment.utc({year: calendarYear, month: 7});
 }
 
+function immediately(after: Moment): Moment {
+    return after.clone();
+}
+
 function forOneMonth(after: Moment): Moment {
     return after.clone().add(1, 'Months');
 }
@@ -31,10 +35,12 @@ type _TermDuration = (startDate: Moment) => Moment ;
 
 function memberTermDuration(type: MemberTermType): _TermDuration {
     switch (type) {
-        case MemberTermType.Temporary:
+        case 'PARTNER':
+            return immediately;
+        case 'TEMPORARY':
             return forOneMonth;
-        case MemberTermType.Associate:
-        case MemberTermType.General:
+        case 'ASSOCIATE':
+        case 'GENERAL':
             return untilEndOfFinancialYear;
         default:
             throw new TypeError(`Invalid value for member term type: ${type}`);
@@ -42,7 +48,7 @@ function memberTermDuration(type: MemberTermType): _TermDuration {
 }
 
 const _TERM_RECORD = Record({
-    type: MemberTermType.Temporary,
+    type: 'TEMPORARY',
     joined: new Date(),
     renewed: null
 });
@@ -64,6 +70,10 @@ export class MemberTerm extends _TERM_RECORD implements CheckForAlertLabels {
      *
      */
     _expires: Date;
+
+    constructor(args: {type?: MemberTermType, joined?: Date, renewed?: Date}) {
+        super(args);
+    }
 
 
     /**

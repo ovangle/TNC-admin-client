@@ -2,15 +2,15 @@ import {Component, Input, ChangeDetectionStrategy, ViewEncapsulation} from '@ang
 
 import {DefaultPipe} from '../../utils/pipes/default.pipe';
 
-import {MemberTermTypePipe} from './type';
 import {MemberTerm} from './term.model';
+import {MEMBER_TERM_TYPE_VALUES} from './term_type.model';
 
 @Component({
     selector: 'member-term',
     template: `
         <div class="form-group">
             <label>Type</label><br/>
-            <div class="form-control-static">{{term.type | termType }}</div>
+            <div class="form-control-static">{{termTypeValues.get(term.type)}}</div>
         </div>
         <div class="form-group">
             <label>Joined</label><br/>
@@ -25,7 +25,7 @@ import {MemberTerm} from './term.model';
             <div class="form-control-static">{{ term.endDate | date }}</div>
         </div>
     `,
-    pipes: [MemberTermTypePipe, DefaultPipe],
+    pipes: [DefaultPipe],
     styles: [`
         label { width: 10rem; 
     `],
@@ -36,5 +36,6 @@ import {MemberTerm} from './term.model';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberTermComponent {
+    private termTypeValues = MEMBER_TERM_TYPE_VALUES;
     @Input() term: MemberTerm;
 }

@@ -18,7 +18,7 @@ import {EnumSelect2} from '../../utils/enum';
 
 import {Member} from '../member.model';
 import {MemberManager} from '../member.manager';
-import {MemberTermType, MemberTermTypeSelect} from '../term';
+import {MemberTermType, MEMBER_TERM_TYPE_SELECT_VALUES} from '../term';
 import {
     NameInput, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput
 } from '../basic';
@@ -29,7 +29,7 @@ import {
     templateUrl: './signup_form.component.html',
     directives: [
         NameInput, DateInput, YesNoSelect,
-        AddressInput, ContactInput, MemberTermTypeSelect,
+        AddressInput, ContactInput,
         IncomeInput, ResidentialStatusInput,
         EnumSelect2, ROUTER_DIRECTIVES
     ],
@@ -39,6 +39,7 @@ import {
 })
 export class MemberSignupForm {
     private genderValues = GENDER_VALUES;
+    private termTypeValues = MEMBER_TERM_TYPE_SELECT_VALUES;
 
     private member: Member;
     private errors = Map<string,boolean>({

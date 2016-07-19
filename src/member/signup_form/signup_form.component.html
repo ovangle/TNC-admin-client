@@ -1,12 +1,11 @@
 <form (ngSubmit)="save()">
     <div class="row">
-        <member-term-type-select
-                class="col-sm-4"
-                [termType]="member.term.type"
-                (termTypeChange)="termTypeChanged($event)"
+        <enum-select2 class="col-sm-4"
                 [label]="'Membership type'"
-                [required]="true">
-        </member-term-type-select>
+                [enumValues]="termTypeValues"
+                [value]="member.term.type"
+                (valueChange)="termTypeChanged($event)">
+        </enum-select2>
     </div>
 
     <div class="row">
