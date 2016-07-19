@@ -1,0 +1,27 @@
+<form (ngSubmit)="save()">
+    <enum-select2
+            [label]="'Type'"
+            [enumValues]="staffTypeValues"
+            [value]="request.staffType"
+            (valueChange)="propChanged('staffType', $event)"></enum-select2>
+
+    <name-input
+        [name]="request.staffName"
+        (validityChange)="propValidityChange('name', $event)"
+        (nameChange)="propChanged('staffName', $event)"></name-input>
+
+    <user-input
+        [name]="request.staffName"
+        [user]="request"
+        (userChange)="_userChanged($event)">
+    </user-input>
+
+    <div class="row layout horizontal center-justified">
+        <button (click)="save()">
+            <i class="fa fa-save"></i> Save
+        </button>
+        <button (click)="cancel()">
+            <i class="fa fa-close"></i> Cancel
+        </button>
+    </div>
+</form>

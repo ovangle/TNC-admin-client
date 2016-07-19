@@ -13,7 +13,6 @@ import {ModelHttp, ManagerOptions} from 'caesium-model/manager';
 
 import {PageHeader} from '../utils/layout/page_header.component';
 import {AlertLabels} from '../utils/alert_labels.component';
-import {ModalDialogService} from '../utils/modal_dialog';
 
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
@@ -144,8 +143,7 @@ export class MemberDetailsComponent implements OnInit {
     constructor(
         private memberManager: MemberManager,
         private context: MemberContext,
-        private route: ActivatedRoute,
-        private modalDialog: ModalDialogService
+        private route: ActivatedRoute
     ) {
     }
 
@@ -188,16 +186,17 @@ export class MemberDetailsComponent implements OnInit {
     save() {
         return this.context.saveMember();
     }
-
+    /*
     logContact() {
         this.modalDialog.activate({
             title: 'Log contact',
             bodyHTML: `
             <div>
                 Type of contact
-            </div>    
+            </div>
             `
         });
     }
+    */
 
 }

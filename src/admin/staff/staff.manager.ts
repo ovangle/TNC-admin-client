@@ -1,10 +1,20 @@
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
+import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
+import {Response as HttpResponse} from '@angular/http';
 
 import {Type} from 'caesium-core/lang';
 import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
 
 import {NAME_SEARCH} from '../../member/basic/name/name.search_param.metadata';
 
+import {
+    CreateStaffRequest, CREATE_STAFF_REQUEST_CODEC,
+    CreateStaffResponse, CREATE_STAFF_RESPONSE_CODEC,
+    CreateStaffErrors
+} from './create_form/create_staff.model';
 import {StaffMember} from './staff.model';
 
 
@@ -23,10 +33,17 @@ export class StaffManager extends ManagerBase<StaffMember> {
         return _STAFF_MEMBER_SEARCH_PARAMS;
     }
 
-    post(staff: StaffMember) {
-        var request = this._requestFactory.post('', this.modelCodec);
-        request.setRequestBody(staff);
-        return request.send();
+    post(createRequest: CreateStaffRequest): Observable<CreateStaffResponse | CreateStaffErrors>  {
+        var request = this._requestFactory.post('', CREATE_STAFF_REQUEST_CODEC);
+        request.setRequestBody(createRequest);
+        return request.send()
+            .handle({select: 201, decoder: this.modelCodec})
+            .catch((response: HttpResponse) => {
+                if (response.status === 400) {
+                    return Observable.of(response.json());
+                }
+                return Observable.throw(response);
+            });
     }
 
     getById(id: any) {

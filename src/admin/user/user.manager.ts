@@ -14,7 +14,6 @@ import {identity, model} from 'caesium-model/json_codecs';
 
 import {Name} from '../../member/basic';
 
-import {CreateUserRequest, CREATE_USER_REQUEST_CODEC} from './create_form/create_user.model';
 import {User, LoginDetails} from './user.model';
 
 @Injectable()
@@ -64,11 +63,5 @@ export class UserManager extends ManagerBase<User> {
         });
         var response = request.send();
         return response.handle<string>({select: 200, decoder: (body) => body['username']});
-    }
-
-    post(user: CreateUserRequest): Response {
-        var request = this._requestFactory.post('', CREATE_USER_REQUEST_CODEC);
-        request.setRequestBody(user);
-        return request.send();
     }
 }

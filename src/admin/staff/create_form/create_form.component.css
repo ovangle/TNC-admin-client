@@ -1,0 +1,23 @@
+@import '/assets/css/flex.css';
+@import '/assets/css/bootstrap.css';
+@import '/assets/css/font-awesome.css';
+
+.btn-group {
+    float: right;
+    margin-top: 20px;
+}
+i.fa {
+    margin-right: 0.5em;
+}
+:host {
+    display: block;
+    height: 100%;
+    overflow: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+button + button {
+    margin-left: 30px;
+
+}

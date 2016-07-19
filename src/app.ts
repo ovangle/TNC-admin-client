@@ -1,10 +1,7 @@
 import {Component, ViewEncapsulation, OnInit, Input} from "@angular/core";
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 
-import {isBlank} from 'caesium-core/lang';
-
 import {ModalDialog} from './utils/modal';
-import {/* ModalDialogComponent,*/ ModalDialogService} from './utils/modal_dialog';
 import {NavBarComponent} from './utils/layout/nav_bar.component'
 import {UserManager} from './admin/user/user.manager';
 import {UserContext} from './admin/user/context.service';
@@ -32,8 +29,6 @@ import {UserContext} from './admin/user/context.service';
         background-color: #fff;
     }
     
-    p { margin: 0; padding: 0; }
-    
     main {
         height: calc(100% - 80px);
     }    
@@ -43,7 +38,7 @@ import {UserContext} from './admin/user/context.service';
         'assets/css/flex.css'
     ],
     directives: [ROUTER_DIRECTIVES, NavBarComponent, ModalDialog],
-    providers: [UserManager, UserContext, /* TOOD: Remove */ ModalDialogService],
+    providers: [UserManager, UserContext],
     encapsulation: ViewEncapsulation.Native
 })
 export class MainApp implements OnInit {
