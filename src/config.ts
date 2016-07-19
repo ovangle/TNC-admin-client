@@ -19,8 +19,8 @@ export function loadAppConfig(): Promise<AppConfig> {
     request.send();
 
     return new Promise((resolve, reject) => {
-        request.onload = (evt:ProgressEvent) => resolve(JSON.parse(request.responseText));
-        request.onerror = (evt: ProgressEvent) => reject(
+        request.onload = (evt) => resolve(JSON.parse(request.responseText));
+        request.onerror = (evt) => reject(
             `Could not load application configuration data (server returned ${request.status}):\n`
             + request.responseText
         );
