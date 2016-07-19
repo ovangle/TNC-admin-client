@@ -77,14 +77,12 @@ import {
 })
 export class Expander implements OnChanges {
     @Input('disabled') isDisabled: boolean = false;
-
     @Input('hidden') isHidden: boolean = true;
 
     private mains: QueryList<ElementRef>;
     private _renderer: Renderer;
 
     ngOnChanges(changes: { [attr: string]: SimpleChange}) {
-        console.log(changes);
         if (changes['isHidden']) {
             this._setMainExpanded(changes['isHidden'].currentValue);
         }
