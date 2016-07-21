@@ -23,7 +23,7 @@ import {MemberSearchResultTable} from './search/result_table.component';
         <search-bar
             (paramValuesChange)="paramValuesChanged($event)">
         </search-bar>    
-        <a class="btn btn-primary" [routerLink]="['./create']">
+        <a class="btn btn-primary" [routerLink]="['./signup']">
             <i class="fa fa-plus"></i> Signup
         </a>    
     </div>    
