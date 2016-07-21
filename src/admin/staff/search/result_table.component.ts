@@ -29,23 +29,7 @@ import {StaffSearchResultTableRow} from './result_table/result_table_row.compone
     directives: [
         ResultContainer, StaffSearchResultTableRow
     ],
-    styles: [`
-    div.table-body {
-        height: calc(100% - 35px);
-    }
-    ul.list-unstyled {
-        height: 100%;
-        overflow-y: auto;
-    }
-    div.loading {
-        background-color: #f8f8f8;
-        text-align: center;
-        vertical-align: center;
-    }   
-    `],
-    //TODO: Move result_table css to assets
     styleUrls: [
-       'src/member/search/result_table/result_table.css',
        'assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,

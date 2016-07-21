@@ -6,11 +6,11 @@ import {
 } from '@angular/core';
 import {Search} from 'caesium-model/manager';
 
-import {ResultContainer} from '../../../utils/search';
-import {Spinner} from '../../../utils/spinner/spinner.component';
+import {ResultContainer} from '../../utils/search';
+import {Spinner} from '../../utils/spinner/spinner.component';
 
-import {Member} from '../../member.model';
-import {MemberResultTableRow} from './result_table_row.component';
+import {Member} from '../member.model';
+import {MemberResultTableRow} from './result_table/result_table_row.component';
 
 @Component({
     selector: 'member-search-result-table',
@@ -33,21 +33,9 @@ import {MemberResultTableRow} from './result_table_row.component';
     </div>
     `,
     directives: [MemberResultTableRow, ResultContainer, Spinner],
-    //host: {'(window:resize)': '_onHostResize($event)'},
-    styles: [`
-    div.table-body {
-        height: calc(100% - 35px); 
-        overflow-y: scroll;
-    }    
-    div.loading {
-        background-color: #f8f8f8;
-        text-align: center;
-        vertical-align: center;
-    }
-    `],
     styleUrls: [
         'assets/css/bootstrap.css',
-        'src/member/search/result_table/result_table.css'
+        'assets/css/search_result_table.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -55,6 +43,7 @@ import {MemberResultTableRow} from './result_table_row.component';
 export class MemberSearchResultTable {
     @Input() search: Search<Member>;
 
-    constructor() {
+    bodyScroll() {
+
     }
 }

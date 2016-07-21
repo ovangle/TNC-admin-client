@@ -27,6 +27,12 @@ div.loading, .table-cell {
     display: inline-block;
 }
 
+div.loading {
+    background-color: #f8f8f8;
+    text-align: center;
+    vertical-align: center;
+}
+
 .table-cell.col-header {
     vertical-align: bottom;
     font-weight: 800;
@@ -34,6 +40,7 @@ div.loading, .table-cell {
 }
 
 .table-body {
+    height: calc(100% - 35px);
     overflow-y: auto;
 }
 
@@ -68,3 +75,4 @@ header {
 header > * {
     font-size: 1.2rem;
 }
+

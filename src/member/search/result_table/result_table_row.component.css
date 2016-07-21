@@ -1,0 +1,17 @@
+@import '/assets/css/bootstrap.css';
+@import '/assets/css/flex.css';
+@import '/assets/css/search_result_table.css';
+
+.col-id {
+    width: 10rem;
+    min-width: 100px;
+}
+
+.col-name {
+    width: 20rem;
+}
+
+.col-address {
+    width: 30rem;
+    min-width: 20rem;
+}

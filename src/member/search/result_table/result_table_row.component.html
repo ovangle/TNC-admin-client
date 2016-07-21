@@ -1,0 +1,29 @@
+<expander [disabled]="colHeader" [hidden]="true">
+    <header>
+        <span *ngIf="colHeader" class="table-cell col-id col-header">Member ID</span>
+        <span *ngIf="!colHeader" class="table-cell col-id col-header">
+                <a [routerLink]="['./', member.id]">{{member.id}}</a>
+            </span>
+
+        <span *ngIf="colHeader" class="table-cell col-name col-header">Name</span>
+        <span *ngIf="!colHeader" class="table-cell col-name">{{member.name | name}}</span>
+
+        <span *ngIf="colHeader" class="table-cell col-address col-header">Address</span>
+        <span *ngIf="!colHeader" class="table-cell col-address">
+                {{ member.address | address | default:'Unknown'}}
+            </span>
+        <alert-labels *ngIf="!colHeader" class="table-cell" [model]="member"></alert-labels>
+    </header>
+    <main *ngIf="!colHeader" class="layout vertical">
+        <div>
+            <span>Phone</span>{{member.contact.phone | phone: ['(dd) dddd dddd']}}
+        </div>
+        <div>
+            <span>Mobile</span>{{member.contact.mobile | phone:  ['dddd ddd ddd']}}
+        </div>
+        <div>
+            <span>Email</span>
+            <a [href]="member.contact.emailHref">{{member.contact.email}}</a>
+        </div>
+    </main>
+</expander>
