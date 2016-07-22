@@ -2,8 +2,9 @@
     <header>
         <span *ngIf="colHeader" class="table-cell col-id col-header">Member ID</span>
         <span *ngIf="!colHeader" class="table-cell col-id col-header">
-                <a [routerLink]="['./', member.id]">{{member.id}}</a>
-            </span>
+            <a *ngIf="!isDropdown" [routerLink]="['./', member.id]">{{member.id}}</a>
+            <span *ngIf="isDropdown">{{member.id}}</span>
+        </span>
 
         <span *ngIf="colHeader" class="table-cell col-name col-header">Name</span>
         <span *ngIf="!colHeader" class="table-cell col-name">{{member.name | name}}</span>
@@ -12,7 +13,8 @@
         <span *ngIf="!colHeader" class="table-cell col-address">
                 {{ member.address | address | default:'Unknown'}}
             </span>
-        <alert-labels *ngIf="!colHeader" class="table-cell" [model]="member"></alert-labels>
+
+        <alert-labels *ngIf="!colHeader && showAlertLabels" class="table-cell" [model]="member"></alert-labels>
     </header>
     <main *ngIf="!colHeader" class="layout vertical">
         <div>

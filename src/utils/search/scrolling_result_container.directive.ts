@@ -23,6 +23,12 @@ export class ResultContainer<T> implements OnChanges {
         @Host() private elementRef: ElementRef,
         private changeDetector: ChangeDetectorRef) { }
 
+    ngOnInit() {
+        this.search.resultChange.forEach((_) => {
+            this.changeDetector.markForCheck();
+        })
+    }
+
     ngOnChanges(changes: any) {
         if (changes.search) {
             this.loadNextResultPage();

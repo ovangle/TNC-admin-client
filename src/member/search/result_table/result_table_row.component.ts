@@ -22,4 +22,5 @@ import {PhoneNumberPipe} from "../../../utils/pipes/phone_number.pipe";
 export class MemberResultTableRow {
     @Input() colHeader: boolean = false;
     @Input() member: Member;
+    @Input() isDropdown: boolean = true;
 }

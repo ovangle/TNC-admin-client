@@ -1,3 +1,5 @@
+import 'rxjs/add/operator/debounceTime';
+
 import {Map, Set} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
@@ -18,7 +20,7 @@ import {ParameterBuilder} from './parameter_builder.service';
             
         <input type="text" class="form-control"
                [ngModel]="_rawSearch"
-               (ngModelChange)="_rawSearchChange($event)">
+               (ngModelChange)="_rawSearchChange.emit($event)">
     </div>
     `,
     directives: [],
@@ -33,17 +35,17 @@ import {ParameterBuilder} from './parameter_builder.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBar {
-    @Output() paramValuesChange = new EventEmitter<Map<string,any>>();
+    private _rawSearchChange = new EventEmitter<string>();
+
+    @Output() get paramValuesChange() {
+        return this._rawSearchChange
+            .debounceTime(200)
+            .map(value => this._paramBuilder.buildParamValues(this._searchFragments(value)));
+    }
 
     constructor(private _paramBuilder: ParameterBuilder) {}
 
     _searchFragments(rawSearch: string) {
         return Set<string>(rawSearch.split(/\W+/));
-    }
-
-    _rawSearchChange(value: string) {
-        this.paramValuesChange.emit(
-            this._paramBuilder.buildParamValues(this._searchFragments(value))
-        );
     }
 }
