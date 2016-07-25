@@ -19,7 +19,7 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
         <address-input *ngIf="address"
                 [label]="'Address'"
                 [address]="address"
-                (addressChange)="this.addressChange.emit($event)">
+                (addressChange)="addressChange.emit($event)">
         </address-input>
 
         <div class="layout horizontal">
