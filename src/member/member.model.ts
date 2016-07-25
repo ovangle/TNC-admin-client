@@ -87,7 +87,7 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
     /**
      * The id of the member that is a partner of this member.
      */
-    @RefProperty({refName: 'partner', refType: Partner, allowNull: true})
+    @RefProperty({refName: 'partner', refType: Member, allowNull: true})
     partnerId: number;
     partner: Member;
 
@@ -111,8 +111,8 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
         return unresolvedLabels.concat(resolvedLabels);
     }
 
-    resolvePartner(partnerManager: PartnerManager): Observable<Member> {
-        return <Observable<Member>>this.resolveProperty(partnerManager, 'partnerId');
+    resolvePartner(memberManager: MemberManager): Observable<Member> {
+        return <Observable<Member>>this.resolveProperty(memberManager, 'partnerId');
     }
 
 
