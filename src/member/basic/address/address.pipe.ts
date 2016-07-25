@@ -9,8 +9,19 @@ export class AddressPipe implements PipeTransform {
         if (isBlank(value))
             return value;
         if (value instanceof Address) {
-            return `${value.street}, ${value.city}\u00A0${value.postcode}`
+            let formatted = value.street;
+            if (value.city !== '') {
+                formatted += (', ' + value.city);
+            }
+            if (value.postcode !== '') {
+                formatted += ('\u00A0' + value.postcode);
+            }
+            return formatted;
         }
         throw new TypeError(`Not an address: ${value}`);
+    }
+
+    private _cityPostcode(address: Address) {
+        return `${address.city}\u00A0${address.postcode}`
     }
 }
