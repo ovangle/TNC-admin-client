@@ -21,7 +21,7 @@ import {MemberContext} from './member_context.service';
 import {MemberTermComponent} from './term/term.component';
 
 import {MemberFileNotes} from './file_notes/file_notes.page';
-import {PartnerDetails} from './partner/partner_details.page';
+//import {PartnerDetails} from './partner/partner_details.page';
 import {VoucherList} from './voucher/voucher_list.page';
 import {MemberBasicDetails, NamePipe} from "./basic";
 
@@ -167,7 +167,8 @@ export class MemberDetailsComponent implements OnInit {
     }
 
     private get isPartnerPageActive(): boolean {
-        return this.context.activePage === PartnerDetails;
+        return false;
+        //return this.context.activePage === PartnerDetails;
     }
 
     private get isDependentsPageActive(): boolean {

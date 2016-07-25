@@ -19,7 +19,6 @@ import {
     EnergyAccount, ENERGY_ACCOUNT_CODEC
 } from './basic';
 import {Carer} from './dependents/carer.model';
-import {Partner, PartnerManager} from './partner';
 
 import {MEMBER_TERM_CODEC, MemberTerm} from "./term/term.model";
 import {Dependent} from './dependents/dependent.model';
@@ -116,9 +115,6 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
         return <Observable<Member>>this.resolveProperty(partnerManager, 'partnerId');
     }
 
-    resolveCarer(memberManager: MemberManager): Observable<Member> {
-        return Observable.of<Member>(this);
-    }
 
     set(propName: string, value: any): Member {
         return <Member>super.set(propName, value);
@@ -128,7 +124,11 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
         return !this.name.isAnonymous;
     }
 
-    isCarerResolved = false;
 
+    /// Implementation of carer interface
+    isCarerResolved = true;
+    resolveCarer(memberManager: MemberManager): Observable<Member> {
+        return Observable.of<Member>(this);
+    }
 }
 

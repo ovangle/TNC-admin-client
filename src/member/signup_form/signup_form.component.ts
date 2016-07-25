@@ -22,7 +22,7 @@ import {MemberTermType, MEMBER_TERM_TYPE_SELECT_VALUES} from '../term';
 import {
     NameInput, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput
 } from '../basic';
-import {PartnerInput} from '../partner2/partner_input.component';
+import {PartnerInput} from '../partner/partner_input.component';
 import {DependentListInput} from '../dependents/dependent_list_input.component'
 
 @Component({
