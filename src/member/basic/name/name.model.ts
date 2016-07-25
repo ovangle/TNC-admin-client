@@ -17,11 +17,24 @@ export class Name extends _NAME_RECORD {
                 .set('alias', this.alias.toLowerCase());
         });
     }
+
+    get isAnonymous(): boolean {
+        return this.firstName !== '' && this.lastName !== '';
+    }
 }
 
 export const NAME_CODEC = recordCodec<Name>(
     {firstName: str, lastName: str, alias: str},
     (args) => new Name(args)
 );
+
+export interface NameErrors {
+    firstName?: {
+        required?: boolean
+    };
+    lastName?: {
+        required?: boolean
+    }
+}
 
 

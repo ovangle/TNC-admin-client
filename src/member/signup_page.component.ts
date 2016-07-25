@@ -53,6 +53,7 @@ import {Member} from './member.model';
         overflow-y: auto;
         padding-left: 1.2rem;
         padding-right: 1.2rem;
+        padding-bottom: 300px;
     }
     `],
     styleUrls: [

@@ -1,11 +1,11 @@
 import moment = require('moment');
-import {Observable} from 'rxjs'
+import {Observable} from 'rxjs/Observable';
 
 import {Iterable, List} from 'immutable';
 
 import {isDefined} from 'caesium-core/lang';
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
-import {bool, date} from "caesium-model/json_codecs";
+import {bool, date, model, list} from "caesium-model/json_codecs";
 
 import {AlertLabel, CheckForAlertLabels} from '../utils/alert_label/alert_label';
 
@@ -18,14 +18,16 @@ import {
     Income, INCOME_CODEC,
     EnergyAccount, ENERGY_ACCOUNT_CODEC
 } from './basic';
-import {Carer, CarerManager} from './carer';
+import {Carer} from './dependents/carer.model';
 import {Partner, PartnerManager} from './partner';
 
 import {MEMBER_TERM_CODEC, MemberTerm} from "./term/term.model";
+import {Dependent} from './dependents/dependent.model';
+import {MemberManager} from './member.manager';
 
 
 @Model({kind: 'member::Member'})
-export class Member extends ModelBase implements CheckForAlertLabels {
+export class Member extends ModelBase implements CheckForAlertLabels, Carer {
     @Property({codec: NAME_CODEC, defaultValue: () => new Name()})
     name: Name;
 
@@ -86,13 +88,13 @@ export class Member extends ModelBase implements CheckForAlertLabels {
     /**
      * The id of the member that is a partner of this member.
      */
-    @RefProperty({refName: 'partner', refType: Partner, required: false})
+    @RefProperty({refName: 'partner', refType: Partner, allowNull: true})
     partnerId: number;
-    partner: Partner;
+    partner: Member;
 
-    @RefProperty({refName: 'carer', refType: Carer, required: false})
-    carerId: number;
-    carer: Carer;
+    @Property({codec: list(model(Dependent)), defaultValue: List})
+    dependents: List<Dependent>;
+
 
     checkForAlertLabels(): Iterable<number, AlertLabel | Iterable<number,any>> {
         var unresolvedLabels = List([
@@ -114,12 +116,19 @@ export class Member extends ModelBase implements CheckForAlertLabels {
         return <Observable<Member>>this.resolveProperty(partnerManager, 'partnerId');
     }
 
-    resolveCarer(carerManager: CarerManager): Observable<Member> {
-        return <Observable<Member>>this.resolveProperty(carerManager, 'carerId');
+    resolveCarer(memberManager: MemberManager): Observable<Member> {
+        return Observable.of<Member>(this);
     }
 
     set(propName: string, value: any): Member {
         return <Member>super.set(propName, value);
     }
+
+    hasValidName(): boolean {
+        return !this.name.isAnonymous;
+    }
+
+    isCarerResolved = false;
+
 }
 

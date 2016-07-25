@@ -12,7 +12,7 @@ import {YesNoSelect} from '../../utils/components/yesno_select.component';
 import {DateInput} from '../../utils/date/date_input.component';
 
 import {Member} from '../member.model';
-import {MemberContext} from '../details_context.service';
+import {MemberContext} from '../member_context.service';
 import {MemberManager} from '../member.manager';
 
 import {FileNoteSearch} from '../file_notes/file_note_search.component';
@@ -126,6 +126,8 @@ import {EnergyAccount, EnergyAccountInput} from './energy_account';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberBasicDetails {
+    private genderValues = GENDER_VALUES;
+
     get member(): Member { return this.context.member; }
     set member(member: Member) {
         this.context.setMember(member);

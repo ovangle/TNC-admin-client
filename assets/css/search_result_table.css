@@ -39,16 +39,16 @@ div.loading {
     border-top: 0;
 }
 
-.table-body {
+ul.table-body {
     height: calc(100% - 35px);
     overflow-y: auto;
 }
 
-.table-body > ul > .table-row {
+ul.table-body > .table-row {
     border-top: 1px solid #ddd;
 }
 
-.table-body > ul > .table-row:first-child {
+ul.table-body > .table-row:first-child {
     border-top: 0;
 }
 

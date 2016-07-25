@@ -11,6 +11,8 @@ import {Dropdown} from '../utils/layout/dropdown.component';
 
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
+import {MemberCard} from './member_card.component';
+
 
 import {MemberSearchResultTable} from './search/result_table.component';
 import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
@@ -18,21 +20,32 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
 @Component({
     selector: 'member-select',
     template: `
-    <search-bar 
-        (paramValuesChange)="paramValuesChanged($event)"
-        (focus)="_dropdownActive= true"
-    ></search-bar>
-    <dropdown [active]="_dropdownActive" [fullWidth]="true"
-              (closeRequest)="_dropdownActive = false">
-        <member-search-result-table 
-            [isDropdown]="true"
-            [search]="search"
-            (rowClick)="selectMember($event)"
-        ></member-search-result-table>
-    </dropdown>
+    <div class="form-group">
+        <label *ngIf="label" class="control-label">{{label}}</label>
+        <div *ngIf="member" class="layout horizontal">
+            <member-card class="flex" 
+                    [member]="member" 
+                    [isRemovable]="true"
+                    (remove)="clearSelection()"></member-card>
+        </div>
+        <div *ngIf="!member">
+            <search-bar
+                (paramValuesChange)="paramValuesChanged($event)"
+                (focus)="_dropdownActive= true"
+            ></search-bar>
+                <dropdown [active]="_dropdownActive" [fullWidth]="true"
+                          (closeRequest)="_dropdownActive = false">
+                    <member-search-result-table 
+                        [isDropdown]="true"
+                        [search]="search"
+                        (rowClick)="selectMember($event)">
+                    </member-search-result-table>
+            </dropdown>
+        </div>
+    </div>
     `,
     directives: [
-        SearchBar, Dropdown, MemberSearchResultTable
+        SearchBar, Dropdown, MemberSearchResultTable, MemberCard
     ],
     providers: [
         MemberManager,
@@ -58,6 +71,7 @@ export class MemberSelect {
 
     private _dropdownActive = false;
 
+    @Input() label: string;
     @Input() member: Member;
     @Output() memberChange = new EventEmitter<Member>();
 
@@ -84,5 +98,9 @@ export class MemberSelect {
     private selectMember(member: Member) {
         this._dropdownActive = false;
         this.memberChange.emit(member);
+    }
+
+    private clearSelection() {
+        this.memberChange.emit(null);
     }
 }

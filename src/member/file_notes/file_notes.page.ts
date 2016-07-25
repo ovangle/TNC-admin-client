@@ -7,7 +7,7 @@ import {
 import {ActivatedRoute} from '@angular/router';
 import {isDefined} from 'caesium-core/lang';
 
-import {MemberContext} from '../details_context.service';
+import {MemberContext} from '../member_context.service';
 import {Member} from '../member.model';
 
 import {FileNote} from './file_note.model';

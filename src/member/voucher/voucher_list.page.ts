@@ -11,7 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 
 import {Member} from '../member.model';
 
-import {MemberContext} from "../details_context.service";
+import {MemberContext} from "../member_context.service";
 
 import {Voucher} from './voucher.model';
 import {VoucherManager} from './voucher.manager';

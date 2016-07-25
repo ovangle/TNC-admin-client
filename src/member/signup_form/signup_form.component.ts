@@ -2,7 +2,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
-import {Map} from 'immutable';
+import {List, Map} from 'immutable';
 
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
@@ -22,16 +22,17 @@ import {MemberTermType, MEMBER_TERM_TYPE_SELECT_VALUES} from '../term';
 import {
     NameInput, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput
 } from '../basic';
+import {PartnerInput} from '../partner2/partner_input.component';
+import {DependentListInput} from '../dependents/dependent_list_input.component'
 
 @Component({
     selector: 'member-signup-form',
     moduleId: module.id,
     templateUrl: './signup_form.component.html',
     directives: [
-        NameInput, DateInput, YesNoSelect,
-        AddressInput, ContactInput,
-        IncomeInput, ResidentialStatusInput,
-        EnumSelect2, ROUTER_DIRECTIVES
+        NameInput, DateInput, YesNoSelect, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput,
+        PartnerInput, EnumSelect2, ROUTER_DIRECTIVES,
+        DependentListInput
     ],
     styleUrls: ['./signup_form.component.css'],
     encapsulation: ViewEncapsulation.Native,
@@ -43,8 +44,17 @@ export class MemberSignupForm {
 
     private member: Member;
     private errors = Map<string,boolean>({
-        name: false
+        name: false,
+        partner: true
     });
+
+    private get _carers(): List<Member> {
+        var carers = [this.member];
+        if (this.member.partner !== null) {
+            carers.push(this.member.partner);
+        }
+        return List<Member>(carers);
+    }
 
     @Output() signupSuccess = new EventEmitter<Member>();
     @Output() signupCancel = new EventEmitter<any>();
@@ -55,9 +65,10 @@ export class MemberSignupForm {
         return this.errors.valueSeq().every(v => v);
     }
 
-
     ngOnInit() {
-        this.member = this.memberManager.create(Member, {});
+        this.member = this.memberManager.create(Member, {
+            partner: null
+        });
     }
 
     private propChanged(prop: string, value: any) {

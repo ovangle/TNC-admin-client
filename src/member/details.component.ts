@@ -16,13 +16,12 @@ import {AlertLabels} from '../utils/alert_labels.component';
 
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
-import {MemberContext} from './details_context.service';
+import {MemberContext} from './member_context.service';
 
 import {MemberTermComponent} from './term/term.component';
 
 import {MemberFileNotes} from './file_notes/file_notes.page';
 import {PartnerDetails} from './partner/partner_details.page';
-import {DependentList} from './dependent/dependent_list.page';
 import {VoucherList} from './voucher/voucher_list.page';
 import {MemberBasicDetails, NamePipe} from "./basic";
 
@@ -172,7 +171,8 @@ export class MemberDetailsComponent implements OnInit {
     }
 
     private get isDependentsPageActive(): boolean {
-        return this.context.activePage === DependentList;
+        return false;
+        //return this.context.activePage === DependentList;
     }
 
     private get isVoucherPageActive(): boolean {

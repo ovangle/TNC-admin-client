@@ -81,13 +81,28 @@
     </div>
 
     <div class="row">
-        <partner-details
+        <partner-input2
+                class="col-sm-12"
+                [label]="'Partner'"
+                [member]="member"
                 [partner]="member.partner"
-                (partnerChange)="propChanged('partner', $event)">
-        </partner-details>
+                (partnerChange)="propChanged('partner', $event)"
+                (validityChange)="propValidityChanged('partner', $event)">
+        </partner-input2>
     </div>
 
-    <div class="row" class="layout horizontal center-justified">
+    <div class="row">
+        <dependent-list-input
+                class="col-sm-12"
+                [label]="'Dependents'"
+                [carers]="_carers"
+                [dependents]="member.dependents"
+                (dependentsChange)="propChanged('dependents', $event)">
+        </dependent-list-input>
+    </div>
+
+
+    <div class="row" class="form-buttons layout horizontal center-justified">
         <button class="btn btn-primary"
                 [disabled]="!isValid"
                 (click)="save()">
