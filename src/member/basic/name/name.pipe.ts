@@ -18,6 +18,9 @@ export class NamePipe implements PipeTransform {
         if (isBlank(value))
             return value;
         if (value instanceof Name) {
+            if (!value.isAnonymous) {
+                return 'Anonymous';
+            }
             var fmt = capitalizeFirstLetter(value.firstName);
             fmt += ' ';
 
