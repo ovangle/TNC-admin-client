@@ -3,6 +3,8 @@ import {RouterConfig} from '@angular/router';
 import {MemberSearchPage} from './search_page.component';
 import {MemberDetailsComponent} from './details.component';
 import {MemberSignupPage} from './signup_page.component';
+import {MemberRenewalPage} from './renewal_page.component';
+
 import {MemberBasicDetails} from './basic';
 import {MemberFileNotes} from './file_notes/file_notes.page';
 import {VoucherList} from './voucher/voucher_list.page';
@@ -13,7 +15,7 @@ export const MEMBER_DETAILS_ROUTES: RouterConfig = [
     {path: 'filenotes', component: MemberFileNotes},
     //{path: 'partner', component: PartnerDetails},
     //{path: 'dependents', component: DependentList},
-    {path: 'vouchers', component: VoucherList}
+    {path: 'vouchers', component: VoucherList},
 ];
 
 export const MEMBER_ROUTES: RouterConfig = [
@@ -22,6 +24,7 @@ export const MEMBER_ROUTES: RouterConfig = [
         children: [
             {path: '', component: MemberSearchPage},
             {path: 'signup', component: MemberSignupPage},
+            {path: 'renew/:id', component: MemberRenewalPage},
             {path: ':id', component: MemberDetailsComponent, children: MEMBER_DETAILS_ROUTES}
         ]
     }

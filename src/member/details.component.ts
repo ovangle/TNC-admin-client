@@ -48,6 +48,9 @@ import {MemberBasicDetails, NamePipe} from "./basic";
                     <a class="btn btn-danger" [routerLink]="['/member']">
                         <i class="fa fa-close"></i> Close
                     </a>
+                    <a class="btn btn-primary" [routerLink]="['..', 'renew', member.id || '']">
+                        Renew
+                    </a>
                 </div>
                 
                 <div class="page-header-extra">
