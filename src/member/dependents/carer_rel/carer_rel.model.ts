@@ -13,7 +13,7 @@ import {MemberManager} from '../../member.manager';
 const _CARER_REL_RECORD = Record({
     carer: null,
     livingArrangement: 'NOT_DISCLOSED',
-    relationType: 'NO_RELATION',
+    relationType: 'NOT_DISCLOSED',
 });
 
 export class CarerRel extends _CARER_REL_RECORD {

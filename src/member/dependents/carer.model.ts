@@ -28,6 +28,8 @@ export interface Carer {
     hasValidName(): boolean;
     isCarerResolved: boolean;
     resolveCarer(memberManager: MemberManager): Observable<Member>;
+
+    equals(object: Object):boolean;
 }
 
 const _UNRESOLVED_CARER_RECORD = Record({
@@ -48,6 +50,13 @@ class _UnresolvedCarerRecord extends _UNRESOLVED_CARER_RECORD implements Carer {
 
     hasValidName() {
         return !this.name.isAnonymous;
+    }
+
+    equals(object: Object): boolean {
+        if (isBlank(object) || !(object instanceof _UnresolvedCarerRecord))
+            return false;
+        var _record = <_UnresolvedCarerRecord>(object);
+        return super.equals(_record);
     }
 }
 

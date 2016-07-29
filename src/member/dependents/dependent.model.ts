@@ -11,7 +11,7 @@ import {Carer} from './carer.model';
 @Model({kind: 'member.dependent::Dependent'})
 export abstract class Dependent extends ModelBase {
     // Used internally to set the carer rels.
-    @Property({codec: list(CARER_REL_CODEC), defaultValue: List, readOnly: true})
+    @Property({codec: list(CARER_REL_CODEC), defaultValue: List})
     carerRels: List<CarerRel>;
 
     @Property({codec: NAME_CODEC, defaultValue: () => new Name()})
@@ -20,7 +20,7 @@ export abstract class Dependent extends ModelBase {
     @Property({codec: GENDER_CODEC, defaultValue: () => 'NOT_DISCLOSED'})
     gender: Gender;
 
-    @Property({codec: date, allowNull: true})
+    @Property({codec: date, allowNull: true, defaultValue: () => null})
     dateOfBirth: Date;
 
     setCarers(carers: List<Carer>): Dependent {
@@ -30,6 +30,9 @@ export abstract class Dependent extends ModelBase {
 
         let updatedCarerRels = carers.map(carer => {
             var currentRel = this.getCarerRel(carer);
+            if (currentRel.carer.equals(carer)) {
+                return currentRel;
+            }
             return currentRel.set('carer', carer);
         }).toList();
 

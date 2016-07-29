@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
+import {DateInput} from '../../utils/date/date_input.component';
 import {EnumSelect2} from '../../utils/enum';
 
 import {Member} from '../member.model';
@@ -25,11 +26,14 @@ import {DependentManager} from './dependent.manager';
             (nameChange)="propChanged('name', $event)"></name-input>
         
         <div class="layout horizontal">
-            <enum-select2 [enumValues]="genderValues"
+            <enum-select2 class="flex"
+                          [label]="'Gender'"
+                          [enumValues]="genderValues"
                           [value]="dependent.gender"
                           (valueChanged)="propChanged('gender', $event)"></enum-select2>
                           
-            <date-input [label]="'Date of Birth'" 
+            <date-input class="flex"
+                        [label]="'Date of Birth'" 
                         [value]="dependent.dateOfBirth"                
                         (valueChange)="propChanged('dateOfBirth', $event)"
                         [defaultToday]="false">
@@ -38,21 +42,38 @@ import {DependentManager} from './dependent.manager';
         </div>
         
         <ul class="list-unstyled">
-            <li *ngFor="let carerRel of dependent.carerRels; let i=index"> 
+            <li *ngFor="let carerRel of dependent.carerRels.toArray(); let i=index"> 
                 <carer-rel-input
                     [carerRel]="carerRel"
                     (carerRelChange)="carerRelChanged(i, $event)">
                 </carer-rel-input>
             </li>
         </ul>
+        
+        <div class="layout horizontal center-justified">
+            <button class="btn btn-primary" (click)="save()" >
+                <i class="fa fa-save"></i> Save
+            </button>
+            <button class="btn" (click)="cancel.emit(true)">
+                <i class="fa fa-close"></i> Reset
+            </button>
+        </div>
     </div>
     `,
     directives: [
-        NameInput, CarerRelInput, EnumSelect2
+        NameInput, CarerRelInput, EnumSelect2, DateInput
     ],
     pipes: [NamePipe],
+    styles: [`
+    enum-select2 + date-input, 
+    button + button {
+        margin-left: 30px;
+    }
+    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        'assets/css/bootstrap.css',
+        'assets/css/flex.css',
+        'assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -62,6 +83,9 @@ export class DependentInput {
     @Input() carers: List<Carer>;
 
     private dependent: Dependent;
+
+    @Output() commit = new EventEmitter<Dependent>();
+    @Output() cancel = new EventEmitter<any>();
 
     constructor(
         private dependentManager: DependentManager
@@ -89,12 +113,14 @@ export class DependentInput {
     }
 
     private carerRelChanged(index: number, rel: CarerRel) {
+        console.log('carer rel changed');
         var carerRels = this.dependent.carerRels.set(index, rel);
         this.propChanged('carerRels', carerRels);
     }
 
     save() {
-        // Check which
+        return this.dependentManager.save(this.dependent).forEach(dep => {
+        })
 
     }
 }

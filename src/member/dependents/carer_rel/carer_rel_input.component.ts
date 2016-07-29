@@ -54,6 +54,7 @@ export class CarerRelInput {
     }
 
     private propChanged(prop: string, value: any) {
+        console.log('propChanged', prop, ' ', value);
         this.carerRelChange.emit(
             <CarerRel>this.carerRel.set(prop, value)
         );

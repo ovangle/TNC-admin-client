@@ -19,16 +19,20 @@ import {Codec, identity} from 'caesium-core/codec';
  *        - Only added to the member's dependents.
  */
 export type RelationType =
-        'PARENT'
+        'NOT_DISCLOSED'
+        | 'PARENT'
         | 'PARTNER_OF_PARENT'
         | 'SIBLING'
         | 'OTHER'
+        | 'NO_RELATION'
 
 export const RELATION_TYPE_VALUES = OrderedMap<RelationType, string>([
+    ['NOT_DISCLOSED', 'Not disclosed'],
     ['PARENT', 'Parent'],
     ['PARTNER_OF_PARENT', 'Partner of parent'],
     ['SIBLING', 'Sibling'],
-    ['OTHER', 'Other']
+    ['OTHER', 'Other'],
+    ['NO_RELATION', 'No relation']
 ]);
 
 export const RELATION_TYPE_CODEC: Codec<RelationType, string> = identity;

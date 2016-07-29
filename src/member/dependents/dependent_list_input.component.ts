@@ -1,4 +1,4 @@
-import {List} from 'immutable';
+import {List, Set} from 'immutable';
 
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
@@ -13,6 +13,7 @@ import {Carer} from './carer.model';
 import {Dependent} from './dependent.model';
 import {DependentManager} from './dependent.manager';
 import {DependentInput} from './dependent_input.component';
+import {DependentCard} from './dependent_card.component';
 
 @Component({
     selector: 'dependent-list-input',
@@ -24,18 +25,25 @@ import {DependentInput} from './dependent_input.component';
         </div>
         <ul class="list-unstyled">
             <li *ngFor="let dependent of dependents.toArray(); let i=index">
-                <div [ngSwitch]="dependent.id === null">
+                <div *ngIf="isEditing(dependent)">
                     <dependent-input        
-                        *ngSwitchCase="true" 
                         [carers]="carers"
                         [dependent]="dependent"
-                        (dependentChange)="dependentChanged(i, $event)">
+                        (commit)="dependentChanged(i, $event)"
+                        (cancel)="remove(dependent)">
                     </dependent-input>
+                </div>      
+                <div *ngIf="!isEditing(dependent)">
                     <dependent-card
-                        *ngSwitchCase="false"
-                        [carers]="carers"
-                        [dependent]="dependent"
-                        (dependentChange)="dependentChanged(i, $event)">
+                        [dependent]="dependent">
+                        <div class="btn-group">
+                            <button class="btn" (click)="edit(dependent)">
+                                <i class="fa fa-pencil"></i> Edit
+                            </button>
+                            <button class="btn btn-danger">
+                                <i class="fa fa-eraser"></i> Remove
+                            </button>
+                        </div>
                     </dependent-card>
                 </div>
             </li>
@@ -43,7 +51,7 @@ import {DependentInput} from './dependent_input.component';
         <button class="btn btn-primary" (click)="addDependent()"><i class="fa fa-plus"></i>Add</button>
     </fieldset>
     `,
-    directives: [DependentInput],
+    directives: [DependentInput, DependentCard],
     providers: [DependentManager],
     styleUrls: [
        'assets/css/bootstrap.css'
@@ -57,9 +65,13 @@ export class DependentListInput {
     @Input() dependents: List<Dependent>;
     @Output() dependentsChange = new EventEmitter<List<Dependent>>();
 
+    private _editDependentIds: Set<number>;
+
     constructor(
         private dependentManager: DependentManager
-    ) {}
+    ) {
+        this._editDependentIds = Set<number>();
+    }
 
     ngOnInit() {
         if (isBlank(this.carers)) {
@@ -78,6 +90,31 @@ export class DependentListInput {
         this.dependentsChange.emit(
             this.dependents.push(this.dependentManager.create(Dependent, {}))
         );
+    }
+
+    private edit(dependent: Dependent) {
+        this._editDependentIds = this._editDependentIds.add(dependent.id);
+    }
+
+    private isEditing(dependent: Dependent): boolean {
+        if (dependent.id === null) {
+            return true;
+        }
+        return this._editDependentIds.contains(dependent.id);
+    }
+
+    private cancelEdit(dependent: Dependent) {
+        if (dependent.id === null) {
+            return this.remove(dependent);
+        } else {
+            this._editDependentIds = this._editDependentIds.remove(dependent.id);
+        }
+    }
+
+    private remove(dependent: Dependent) {
+        var index = this.dependents.findIndex(dep => dep.id === dependent.id);
+        this._editDependentIds.remove(dependent.id);
+        this.dependentsChange.emit(this.dependents.remove(index));
     }
 
     private dependentChanged(i: number, value: Dependent) {

@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {Iterable, List} from 'immutable';
 
-import {isDefined} from 'caesium-core/lang';
+import {isDefined, isBlank} from 'caesium-core/lang';
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
 import {bool, date, model, list} from "caesium-model/json_codecs";
 
@@ -72,12 +72,6 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
     })
     term: MemberTerm;
 
-    /**
-     * Does the member have a partner? (null === NOT_DISCLOSED)
-     */
-    @Property({codec: bool, allowNull: true, defaultValue: () => null})
-    isPartnered: boolean;
-
     @Property({
         codec: ENERGY_ACCOUNT_CODEC,
         defaultValue: () => new EnergyAccount()
@@ -130,5 +124,26 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
     resolveCarer(memberManager: MemberManager): Observable<Member> {
         return Observable.of<Member>(this);
     }
+
+    equals(object: Object): boolean {
+        if (isBlank(object) || !(object instanceof Member))
+            return false;
+        if (this === object)
+            return true;
+        var member = <Member>object;
+
+        return this.id === member.id
+            && this.name.equals(member.name)
+            && this.gender === member.gender
+            && this.aboriginalOrTorresStraitIslander === member.aboriginalOrTorresStraitIslander
+            && this.registerConsent === member.registerConsent
+            && this.residentialStatus.equals(member.residentialStatus)
+            && this.contact.equals(member.contact)
+            && this.income.equals(member.income)
+            && this.term.equals(member.term)
+            && this.energyAccount.equals(member.energyAccount)
+            && this.partnerId === member.partnerId;
+    }
+
 }
 
