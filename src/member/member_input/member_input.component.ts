@@ -7,6 +7,7 @@ import {List, Map} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
+import {isBlank} from 'caesium-core/lang';
 import {map, str} from 'caesium-model/json_codecs';
 import {GENDER_VALUES} from '../basic';
 import {Response as HttpResponse} from '@angular/http';
@@ -26,38 +27,40 @@ import {PartnerInput} from '../partner/partner_input.component';
 import {DependentListInput} from '../dependents/dependent_list_input.component'
 
 @Component({
-    selector: 'member-signup-form',
+    selector: 'member-input-form',
     moduleId: module.id,
-    templateUrl: './signup_form.component.html',
+    templateUrl: './member_input.component.html',
     directives: [
         NameInput, DateInput, YesNoSelect, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput,
         PartnerInput, EnumSelect2, ROUTER_DIRECTIVES,
         DependentListInput
     ],
-    styleUrls: ['./signup_form.component.css'],
+    styleUrls: ['./member_input.component.css'],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberSignupForm {
+export class MemberInputForm {
     private genderValues = GENDER_VALUES;
     private termTypeValues = MEMBER_TERM_TYPE_SELECT_VALUES;
 
-    private member: Member;
+    @Input() member: Member;
+    @Output() commit = new EventEmitter<Member>();
+    @Output() cancel = new EventEmitter<any>();
+
     private errors = Map<string,boolean>({
         name: false,
-        partner: true
+        partner: true,
+        dependents: true
     });
 
     private get _carers(): List<Member> {
         var carers = [this.member];
-        if (this.member.partner !== null) {
+        if (!isBlank(this.member.partner)) {
             carers.push(this.member.partner);
         }
         return List<Member>(carers);
     }
 
-    @Output() signupSuccess = new EventEmitter<Member>();
-    @Output() signupCancel = new EventEmitter<any>();
 
     constructor(private memberManager: MemberManager) {}
 
@@ -90,7 +93,7 @@ export class MemberSignupForm {
         return response
             .handle({select: 201, decoder: this.memberManager.modelCodec})
             .forEach(member => {
-                this.signupSuccess.emit(member);
+                this.commit.emit(member);
             })
             .catch((response: HttpResponse) => {
                 if (response.status === 400) {
@@ -101,7 +104,7 @@ export class MemberSignupForm {
     }
 
     close() {
-        this.signupCancel.emit(true);
+        this.cancel.emit(true);
     }
 
 }

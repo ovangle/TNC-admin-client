@@ -13,8 +13,8 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {PageHeader} from '../utils/layout/page_header.component';
 import {Modal, RemoteComponent} from '../utils/modal';
 
-import {MemberSignupForm} from './signup_form/signup_form.component';
-import {MemberSignupSuccess} from './signup_form/signup_success_alert.component';
+import {MemberInputForm} from './member_input/member_input.component';
+import {MemberSignupSuccess} from './signup/signup_success_alert.component';
 
 import {MemberManager} from './member.manager';
 import {Member} from './member.model';
@@ -32,11 +32,10 @@ import {Member} from './member.model';
         </page-header>
         
         <div class="input-container">
-            <member-signup-form
-                (validityChange)="_formValid = $event"
-                (signupSuccess)="signupSuccess($event)"
-                (signupCancel)="signupCancel()">
-            </member-signup-form>
+            <member-input-form
+                (commit)="signupSuccess($event)"
+                (cancel)="signupCancel()">
+            </member-input-form>
         </div>
     </div>    
     `,
@@ -60,7 +59,7 @@ import {Member} from './member.model';
         'assets/css/font-awesome.css',
         'assets/css/bootstrap.css'
     ],
-    directives: [PageHeader, MemberSignupForm, MemberSignupSuccess],
+    directives: [PageHeader, MemberInputForm, MemberSignupSuccess],
     providers: [MemberManager],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
