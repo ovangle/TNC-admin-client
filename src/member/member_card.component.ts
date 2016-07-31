@@ -9,10 +9,15 @@ import {NamePipe, AddressPipe} from './basic';
 @Component({
     selector: 'member-card',
     template: `
+    <div class="layout horizontal">
+        <a [routerLink]="['/member', 'details', member.id]">{{member.name | name}}</a>
+
+    <!--
     <div class="well">
         <span><a [routerLink]="['/member', member.id]">{{member.name | name}}</a></span>
         <span>{{member.ID}}</span>
         <span>{{member.address | address}}</span>   
+    -->    
         
         <span class="btn-group" *ngIf="isRemovable">
             <button class="btn btn-default">
@@ -20,6 +25,7 @@ import {NamePipe, AddressPipe} from './basic';
             </button> 
         </span> 
     </div>
+    
     `,
     directives: [ROUTER_DIRECTIVES],
     pipes: [NamePipe, AddressPipe],

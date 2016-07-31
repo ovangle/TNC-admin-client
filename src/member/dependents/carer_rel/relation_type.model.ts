@@ -35,5 +35,14 @@ export const RELATION_TYPE_VALUES = OrderedMap<RelationType, string>([
     ['NO_RELATION', 'No relation']
 ]);
 
+export const REVERSE_RELATION_TYPE_VALUES = OrderedMap<RelationType, string>([
+    ['NOT_DISCLOSED', 'Not disclosed'],
+    ['PARENT', 'Child'],
+    ['PARTNER_OF_PARENT', 'Child of partner'],
+    ['SIBLING', 'Sibling'],
+    ['OTHER', 'Other'],
+    ['NO_RELATION', 'No relation']
+]);
+
 export const RELATION_TYPE_CODEC: Codec<RelationType, string> = identity;
 

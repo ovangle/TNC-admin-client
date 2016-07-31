@@ -1,0 +1,8 @@
+.display-label, .display-value {
+    margin-bottom: 5px;
+}
+
+.display-label {
+    font-weight: bold;
+    text-align: right;
+}
