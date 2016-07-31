@@ -59,7 +59,7 @@ export function formatPhoneNumber(source: string, format: string) {
 
 @Pipe({name: 'phone'})
 export class PhoneNumberPipe implements PipeTransform {
-    transform(value: any, args: any[]) {
+    transform(value: any, ...args: any[]) {
         if (args.length === 0) {
             throw new ArgumentError(
                 'Phone number pipe requires a format argument'
