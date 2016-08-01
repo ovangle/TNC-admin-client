@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {
     Component, ChangeDetectionStrategy, ViewEncapsulation, Output, EventEmitter,
-    ChangeDetectorRef
+    ChangeDetectorRef, ViewChild
 } from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 
@@ -21,6 +21,9 @@ import {MemberTermDisplay} from './term';
 import {NamePipe} from './basic';
 import {Member} from './member.model';
 import {MemberManager} from './member.manager';
+import {FileNoteSearch} from './file_notes';
+
+export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
 
 @Component({
     selector: 'member-details',
@@ -49,27 +52,35 @@ import {MemberManager} from './member.manager';
         </page-header>
         
         <div class="row main-container">
-            <div class="col-sm-2">
-                <ul class="nav nav-pills nav-stacked">
-                    <li [ngClass]="{'active': detailsActive}">
-                        <a [routerLink]="['.']">Details</a>
+            <div class="col-sm-8 main-content">
+                <ul class="nav nav-tabs">
+                    <!--
+                    <li [ngClass]="{'active': _activityActive}">
+                        <a [routerLink]="['./activity']">Activity</a>
+                    </li>
+                    -->
+                    <li [ngClass]="{'active': _basicDetailsActive}">
+                        <a [routerLink]="['./basic']">Details</a>
+                    </li>
+                    <li [ngClass]="{'active': _filenotesActive}">
+                        <a [routerLink]="['./filenotes']">File notes</a>
                     </li>
                 </ul>
             
-            </div>
-            
-            <div class="col-sm-6 main">
-                <router-outlet></router-outlet>
+                <div class="main">
+                    <router-outlet></router-outlet>
+                </div>
             </div>    
-            <div class="col-sm-4">
+            <div class="col-sm-4" *ngIf="_member">
                 <member-term-display 
-                        [term]="_member?.term"
+                        [term]="_member.term"
                         (renew)="renew()"></member-term-display> 
+                <file-note-search [member]="_member" [pinned]="true"></file-note-search>
             </div>
         </div>
     </div>
     `,
-    directives: [ROUTER_DIRECTIVES, PageHeader, MemberTermDisplay],
+    directives: [ROUTER_DIRECTIVES, PageHeader, MemberTermDisplay, FileNoteSearch],
     pipes: [NamePipe, AsyncPipe],
     providers: [MemberManager],
     styles: [`
@@ -79,13 +90,15 @@ import {MemberManager} from './member.manager';
     }    
     .container {
         height: 100%; 
-    }    
+    }
     .main-container {
         height: calc(100% - 160px);
     }    
-    
+    .main-content {
+        height: 100%;
+    }
     .main {
-        height: 100%;  
+        height: calc(100% - 64px);
         overflow-y: auto;
     }    
     `],
@@ -98,8 +111,12 @@ import {MemberManager} from './member.manager';
 })
 export class MemberDetailsPage {
     private _member: Member;
+    private _activePage: ActiveDetailsPage;
 
     member: Observable<Member>;
+
+    @ViewChild(FileNoteSearch)
+    pinnedNotes: FileNoteSearch;
 
     constructor(
         private router: Router,
@@ -124,4 +141,21 @@ export class MemberDetailsPage {
         this.router.navigate(['../../renew', this._member.id || ''], {relativeTo: this.route});
     }
 
+    setActivePage(page: ActiveDetailsPage) {
+        this._activePage = page;
+    }
+
+    private get _basicDetailsActive(): boolean {
+        return this._activePage === 'BASIC';
+    }
+
+    private get _filenotesActive(): boolean {
+        return this._activePage === 'FILE_NOTES';
+    }
+
+    /*
+    private get _activityActive(): boolean {
+        return this._activePage === 'ACTIVITY';
+    }
+    */
 }

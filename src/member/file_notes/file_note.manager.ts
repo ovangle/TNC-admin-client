@@ -72,4 +72,13 @@ export class FileNoteManager extends ManagerBase<FileNote> {
             return request.send().handle({select: 200, decoder: this.modelCodec});
         }
     }
+
+    remove(fileNote: FileNote): Observable<any> {
+        if (isBlank(fileNote.id)) {
+            return Observable.of(true);
+        }
+        var request = this._requestFactory.delete(fileNote.id);
+        return request.send()
+            .handle({select: 200, decoder: this.modelCodec});
+    }
 }

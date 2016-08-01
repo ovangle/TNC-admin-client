@@ -13,8 +13,6 @@ import {FileNoteSeverity, FILE_NOTE_SEVERITY_VALUES} from './severity';
 import {FileNote} from './file_note.model';
 import {FileNoteManager} from './file_note.manager';
 
-
-
 @Component({
     selector: 'file-note-create',
     template: `
@@ -35,8 +33,7 @@ import {FileNoteManager} from './file_note.manager';
             </enum-select2>
             <div class="form-group">
             <button type="submit" class="btn btn-primary">
-                <i class="fa fa-plus"></i>
-                Add note
+                <i class="fa fa-save"></i> Save
             </button>
             </div>
         </div>
@@ -57,7 +54,8 @@ import {FileNoteManager} from './file_note.manager';
     `],
     styleUrls: [
         'assets/css/flex.css',
-       'assets/css/bootstrap.css'
+        'assets/css/bootstrap.css',
+        'assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -112,6 +110,7 @@ export class FileNoteCreate {
                 if (response.status === 400) {
                     //Handle bad request
                 }
+                throw response;
             });
     }
 }

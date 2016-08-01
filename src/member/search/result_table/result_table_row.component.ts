@@ -2,7 +2,7 @@ import {Component, Input, ViewEncapsulation, ChangeDetectionStrategy} from '@ang
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
 import {Expander} from "../../../utils/layout/expander.component";
-import {DefaultPipe} from '../../../utils/pipes/default.pipe';
+import {OrElsePipe} from '../../../utils/pipes/or_else.pipe';
 
 import {Member} from '../../member.model';
 import {AddressPipe, NamePipe} from '../../basic';
@@ -15,7 +15,7 @@ import {PhoneNumberPipe} from "../../../utils/pipes/phone_number.pipe";
     templateUrl: './result_table_row.component.html',
     styleUrls: ['./result_table_row.component.css'],
     directives: [Expander, AlertLabels, ROUTER_DIRECTIVES],
-    pipes: [AddressPipe, DefaultPipe, NamePipe, PhoneNumberPipe],
+    pipes: [AddressPipe, OrElsePipe, NamePipe, PhoneNumberPipe],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

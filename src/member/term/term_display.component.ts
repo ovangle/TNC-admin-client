@@ -23,30 +23,29 @@ import {MemberTerm} from './term.model';
                 <span class="display-value col-sm-8">{{term.renewed | date | orElse: 'Never'}}</span>
             </li>
             <li class="clearfix">
-                <span class="display-label col-sm-4">Expires</span> 
+                <span class="display-label col-sm-4">Expires</span>
                 <span class="display-value col-sm-8">{{term.expires | date}}</span>
             </li>
-        </ul>   
+        </ul>
         <div class="clearfix term-actions">
-            <button class="btn btn-default btn-renew pull-right" 
+            <button class="btn btn-default btn-renew pull-right"
                     (click)="renew.emit(true)">
                 <i class="fa fa-pencil-square-o"></i> Renew
             </button>
         </div>
-    </div>    
+    </div>
     `,
     pipes: [OrElsePipe],
     styles: [`
     :host {
         display: block;
-    }    
+    }
     .member-type {
-        margin-bottom: 10px; 
+        margin-bottom: 10px;
     }    
     .term-actions {
         margin-top: 5px; 
-    }    
-       
+    }
     `],
     styleUrls: [
         'assets/css/font-awesome.css',

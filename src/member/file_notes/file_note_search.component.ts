@@ -1,4 +1,4 @@
-import {List} from 'immutable';
+import {Iterable, List} from 'immutable';
 
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
@@ -21,14 +21,16 @@ import {FileNoteManager} from './file_note.manager';
     selector: 'file-note-search',
     template: `
     <div class="table-body">
-        <ul class="list-unstyled">
-            <li *ngFor="let note of inserted.toArray()">
-                <file-note [fileNote]="note"></file-note> 
-            </li> 
-        </ul>
         <ul class="list-unstyled" [csSearch]="search" #result="result">
-            <li *ngFor="let note of result.items.toArray()">
-                <file-note [fileNote]="note"></file-note> 
+            <li *ngFor="let localNote of _local.toArray(); let i=index">
+                <file-note [fileNote]="localNote" 
+                           (pin)="pin.emit($event)"
+                           [isStatic]="pinned"></file-note>
+            </li>
+            <li *ngFor="let note of result.items.toArray(); let i=index">
+                <file-note [fileNote]="note"
+                           (pin)="pin.emit($event)"
+                           [isStatic]="pinned"></file-note> 
             </li>
         </ul>
         <div class="loading" *ngIf="result.loading">
@@ -54,11 +56,13 @@ import {FileNoteManager} from './file_note.manager';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileNoteSearch {
-    @Input() inserted: List<FileNote>;
+    private _local = List<FileNote>();
 
     // Search parameters
     @Input() member: Member;
     @Input() pinned: boolean = false;
+
+    @Output() pin = new EventEmitter<FileNote>();
 
     private search: Search<FileNote>;
 
@@ -66,11 +70,9 @@ export class FileNoteSearch {
         private fileNoteManager: FileNoteManager,
         private _cd: ChangeDetectorRef
     ) {
-        this.inserted = List<FileNote>();
         this.fileNoteManager = fileNoteManager;
         this.search = fileNoteManager.search();
     }
-
 
     ngOnChanges(changes: any) {
         if (changes.member
@@ -81,6 +83,10 @@ export class FileNoteSearch {
         if (changes.pinned) {
             this.search.setParamValue('pinned', changes.pinned.currentValue);
         }
+    }
+
+    get notes(): Iterable.Indexed<FileNote> {
+        return this._local.concat(this.search.result.items).toIndexedSeq();
     }
 
     resetSearch() {

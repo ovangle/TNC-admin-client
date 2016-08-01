@@ -14,16 +14,14 @@ import {MemberDetailsPage} from '../details_page.component';
 import {
     ContactDisplay, IncomeDisplay, ResidentialStatusDisplay, EnergyAccountDisplay
 } from '../basic';
-import {FileNoteSearch} from '../file_notes/file_note_search.component';
 import {PartnerDisplay} from '../partner/partner_display.component';
 import {DependentListDisplay} from '../dependents/dependent_list_display.component';
 
 @Component({
     selector: 'member-basic-details',
     template: `
-        <div *ngIf="member" class="main">
+        <div *ngIf="member" class="col-sm-12">
         <!-- TODO: Change this name -->
-            <file-note-search [pinned]="true" [member]="member"></file-note-search>
             <contact-display [contact]="member.contact"></contact-display>  
             <residential-status-display
                     [status]="member.residentialStatus"
@@ -46,7 +44,7 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
         
     `,
     directives: [
-        FileNoteSearch, ContactDisplay, ResidentialStatusDisplay, IncomeDisplay,
+        ContactDisplay, ResidentialStatusDisplay, IncomeDisplay,
         EnergyAccountDisplay, PartnerDisplay, DependentListDisplay
     ],
     pipes: [AsyncPipe],
@@ -60,28 +58,25 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
     styleUrls: [
        'assets/css/bootstrap.css'
     ],
-    encapsulation: ViewEncapsulation.Native,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    encapsulation: ViewEncapsulation.Native
 })
 export class MemberBasicDetails {
     private member: Member;
 
     constructor(
         private memberManager: MemberManager,
-        private memberDetailsPage: MemberDetailsPage,
-        private _cd: ChangeDetectorRef) {
+        private memberDetailsPage: MemberDetailsPage) {
     }
 
     ngOnInit() {
         this.memberDetailsPage.member
             .concatMap(member => member.resolvePartner(this.memberManager)).forEach(member => {
-            this.member = member;
-            this._cd.markForCheck();
-        });
+                this.memberDetailsPage.setActivePage('BASIC');
+                this.member = member;
+            });
     }
 
     private renew() {
         this.memberDetailsPage.renew();
     }
-
 }
