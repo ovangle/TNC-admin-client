@@ -11,7 +11,7 @@
 
         <span *ngIf="colHeader" class="table-cell col-address col-header">Address</span>
         <span *ngIf="!colHeader" class="table-cell col-address">
-                {{ member.address | address | default:'Unknown'}}
+                {{ member.address | address | orElse:'Unknown'}}
             </span>
 
         <alert-labels *ngIf="!colHeader && showAlertLabels" class="table-cell" [model]="member"></alert-labels>
