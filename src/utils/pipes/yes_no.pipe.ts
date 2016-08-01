@@ -18,8 +18,8 @@ import {isBoolean} from 'caesium-core/lang';
  *  formats to 'Hello'
  */
 @Pipe({name: 'yesNo'})
-export class YesNo implements PipeTransform {
-    transform(value:any, args: any[]):any {
+export class YesNoPipe implements PipeTransform {
+    transform(value:any, ...args: any[]):any {
         if (!isBoolean(value))
             return value;
         return value ? 'Yes': 'No';

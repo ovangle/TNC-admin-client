@@ -16,10 +16,10 @@ import {isBlank} from 'caesium-core/lang';
  *  {{ 'Hello' | default: 'Unknown'}}
  *  formats to 'Hello'
  */
-@Pipe({name: 'default'})
-export class DefaultPipe implements PipeTransform {
-    transform(value:any, args: any[]):any {
-        if (isBlank(value)) {
+@Pipe({name: 'orElse'})
+export class OrElsePipe implements PipeTransform {
+    transform(value:any, ...args: any[]):any {
+        if (isBlank(value) || value === '') {
             var defaultValue = 'Unknown';
             if (args.length > 0) {
                 defaultValue = args[0];
