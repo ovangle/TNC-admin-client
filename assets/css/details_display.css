@@ -1,3 +1,7 @@
+:host {
+    display:block;
+}
+
 .display-label, .display-value {
     margin-bottom: 5px;
 }
