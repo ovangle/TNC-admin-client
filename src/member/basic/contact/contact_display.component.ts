@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 
 import {PhoneNumberPipe} from '../../../utils/pipes/phone_number.pipe';
+import {OrElsePipe} from '../../../utils/pipes/or_else.pipe'
 import {Contact} from './contact.model';
 
 @Component({
@@ -13,20 +14,23 @@ import {Contact} from './contact.model';
         <ul class="list-unstyled">
             <li class="clearfix">
                 <span class="display-label col-sm-3">Email</span> 
-                <span class="display-value col-sm-9"><a [href]="contact?.emailHref">{{contact.email}}</a></span>
+                <span class="display-value col-sm-9" [ngSwitch]="contact.email !== ''">
+                    <div *ngSwitchCase="true"><a [href]="contact.emailHref">{{contact.email}}</a></div>
+                    <div *ngSwitchDefault>Not disclosed</div>
+                </span>
             </li>
-            <li>
+            <li class="clearfix">
                 <span class="display-label col-sm-3">Phone</span>
-                <span class="display-value col-sm-9">{{contact?.phone | phone: '(dd) dddd dddd'}}</span>
+                <span class="display-value col-sm-9">{{contact.phone | phone: '(dd) dddd dddd' | orElse: 'Not disclosed'}}</span>
             </li>
-            <li>
+            <li class="clearfix">
                 <span class="display-label col-sm-3">Mobile</span> 
-                <span class="display-value col-sm-9">{{contact?.mobile | phone: 'dddd ddd ddd'}}</span>
+                <span class="display-value col-sm-9">{{contact.mobile | phone: 'dddd ddd ddd' | orElse: 'Not disclosed'}}</span>
             </li> 
         </ul>
     </div>   
     `,
-    pipes: [PhoneNumberPipe],
+    pipes: [PhoneNumberPipe, OrElsePipe],
     styles: [`
     .display-label {
         font-weight: bold;
