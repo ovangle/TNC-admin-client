@@ -4,11 +4,14 @@ var ts = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var merge = require('merge2');
 
+var webpack = require('webpack-stream');
+
 gulp.task('clean', function(cb) {
-    return del(['dist'], cb);
+    return del(['dist', 'prod'], cb);
 });
 
 gulp.task('default', ['scripts', 'templates', 'styles'], function() {});
+gulp.task('release', ['scripts'], function() {});
 
 /**
  * Typescript compilation
@@ -26,6 +29,13 @@ gulp.task('scripts', function() {
             .pipe(gulp.dest('dist'))
             .pipe(sourcemaps.write())
     ]);
+});
+
+gulp.task('scripts-prod', ['scripts'], function() {
+    return gulp.src('dist/src/app.js')
+        .pipe(webpack())
+        .pipe(gulp.dest('prod/'))
+
 });
 
 /**

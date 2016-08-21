@@ -2,14 +2,17 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
-import {List, Map} from 'immutable';
+import {List, Map, Set} from 'immutable';
 
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 import {isBlank} from 'caesium-core/lang';
 import {map, str} from 'caesium-model/json_codecs';
-import {GENDER_VALUES} from '../basic';
+import {
+    GENDER_VALUES,
+    EnergyAccount, EnergyAccountType, ENERGY_ACCOUNT_TYPE_VALUES
+} from '../basic';
 import {Response as HttpResponse} from '@angular/http';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 
@@ -21,7 +24,8 @@ import {Member} from '../member.model';
 import {MemberManager} from '../member.manager';
 import {MemberTermType, MEMBER_TERM_TYPE_SELECT_VALUES} from '../term';
 import {
-    NameInput, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput
+    NameInput, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput,
+    EnergyAccountInput
 } from '../basic';
 import {PartnerInput} from '../partner/partner_input.component';
 import {DependentListInput} from '../dependents/dependent_list_input.component'
@@ -32,7 +36,7 @@ import {DependentListInput} from '../dependents/dependent_list_input.component'
     templateUrl: './member_input.component.html',
     directives: [
         NameInput, DateInput, YesNoSelect, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput,
-        PartnerInput, EnumSelect2, ROUTER_DIRECTIVES,
+        PartnerInput, EnumSelect2, ROUTER_DIRECTIVES, EnergyAccountInput,
         DependentListInput
     ],
     styleUrls: ['./member_input.component.css'],
@@ -41,9 +45,14 @@ import {DependentListInput} from '../dependents/dependent_list_input.component'
 })
 export class MemberInputForm {
     private genderValues = GENDER_VALUES;
+    private energyAccountTypeValues = ENERGY_ACCOUNT_TYPE_VALUES;
     private termTypeValues = MEMBER_TERM_TYPE_SELECT_VALUES;
 
+
     @Input() member: Member;
+    /// Model fields to display on the input form.
+    @Input() displayFields: Set<string>;
+
     @Output() commit = new EventEmitter<Member>();
     @Output() cancel = new EventEmitter<any>();
 
@@ -69,9 +78,12 @@ export class MemberInputForm {
     }
 
     ngOnInit() {
-        this.member = this.memberManager.create(Member, {
-            partner: null
-        });
+        if (isBlank(this.member)) {
+            this.member = this.memberManager.create(Member, {
+                partner: null
+            });
+        }
+        this.errors.set('name', !this.member.name.isAnonymous);
     }
 
     private propChanged(prop: string, value: any) {
@@ -85,6 +97,11 @@ export class MemberInputForm {
     private termTypeChanged(termType: MemberTermType) {
         var term = this.member.term.set('type', termType);
         this.member = <Member>this.member.set('term', term);
+    }
+
+    private energyAccountChanged(acctType: EnergyAccountType, acct: EnergyAccount) {
+        let energyAccounts = this.member.energyAccounts.set(acctType, acct);
+        this.member = <Member>this.member.set('energyAccounts', energyAccounts);
     }
 
     save(): Promise<any> {
@@ -105,6 +122,14 @@ export class MemberInputForm {
 
     close() {
         this.cancel.emit(true);
+    }
+
+    displayField(prop: string): boolean {
+        //console.log('display field: ', prop, this.displayFields.contains(prop));
+        if (isBlank(this.displayFields)) {
+            return true;
+        }
+        return this.displayFields.contains(prop);
     }
 
 }

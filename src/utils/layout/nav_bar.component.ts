@@ -1,7 +1,9 @@
+import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {List} from 'immutable';
 
 import {Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {AsyncPipe} from '@angular/common';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
@@ -44,14 +46,14 @@ abstract class MenuOptionsService {
                 </ul>
                 
                 <p class="navbar-text navbar-right">
-                    <a [routerLink]="['/home']">{{userName | name}}</a>
+                    <a [routerLink]="['/home']">{{userName | async | name}}</a>
                 </p>
             </div>
         </div>
     </nav>
     `,
     directives: [ROUTER_DIRECTIVES, Dropdown],
-    pipes: [NamePipe],
+    pipes: [NamePipe, AsyncPipe],
     styles: [`
     :host {
         display: block;
@@ -90,18 +92,16 @@ export class NavBarComponent {
         private changeDetector: ChangeDetectorRef) {
     }
 
-    get userName(): Name {
+    get userName(): Observable<Name> {
         if (isBlank(this.userContext.user)) {
             return null;
         }
-        if (this.userContext.user.isAdmin) {
-            return new Name({firstName: 'Admin', lastName: ''});
-        }
-        return this.userContext.user.staffMember.name;
+        return this.userContext.user
+            .map(user => user.staffMember.name);
     }
 
     ngOnInit() {
-        this.userChange = this.userContext.userChange.subscribe((_) => {
+        this.userChange = this.userContext.user.subscribe((_) => {
             this.changeDetector.markForCheck();
         });
     }

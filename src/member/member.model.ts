@@ -78,6 +78,13 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
     })
     energyAccounts:Map<EnergyAccountType, EnergyAccount>;
 
+    get gasAccount(): EnergyAccount {
+        return this.energyAccounts.get('GAS');
+    }
+    get electricityAccount(): EnergyAccount {
+        return this.energyAccounts.get('ELECTRICITY');
+    }
+
     /**
      * The id of the member that is a partner of this member.
      */

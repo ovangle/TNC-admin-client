@@ -13,7 +13,6 @@
         <span *ngIf="!colHeader" class="table-cell col-address">
                 {{ member.address | address | orElse:'Unknown'}}
             </span>
-
         <alert-labels *ngIf="!colHeader && showAlertLabels" class="table-cell" [model]="member"></alert-labels>
     </header>
     <main *ngIf="!colHeader" class="layout vertical">

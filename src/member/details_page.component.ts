@@ -13,7 +13,6 @@ import {Router, ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
 
-
 import {PageHeader} from '../utils/layout/page_header.component';
 
 import {MemberTermDisplay} from './term';
@@ -32,7 +31,7 @@ export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
         <page-header
             leader="Member"
             [title]="_member?.name | name"
-            [subtitle]="_member?.id">
+            [subtitle]="_member?.id" > 
             <div class="btn-group">
                 <button class="btn btn-primary"
                         (click)="logContact()">
@@ -54,11 +53,9 @@ export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
         <div class="row main-container">
             <div class="col-sm-8 main-content">
                 <ul class="nav nav-tabs">
-                    <!--
                     <li [ngClass]="{'active': _activityActive}">
                         <a [routerLink]="['./activity']">Activity</a>
                     </li>
-                    -->
                     <li [ngClass]="{'active': _basicDetailsActive}">
                         <a [routerLink]="['./basic']">Details</a>
                     </li>
@@ -153,9 +150,7 @@ export class MemberDetailsPage {
         return this._activePage === 'FILE_NOTES';
     }
 
-    /*
     private get _activityActive(): boolean {
         return this._activePage === 'ACTIVITY';
     }
-    */
 }

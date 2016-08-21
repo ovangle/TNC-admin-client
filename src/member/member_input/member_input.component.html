@@ -1,5 +1,5 @@
 <form (ngSubmit)="save()">
-    <div class="row">
+    <div class="row" *ngIf="displayField('term.type')">
         <enum-select2 class="col-sm-4"
                 [label]="'Membership type'"
                 [enumValues]="termTypeValues"
@@ -8,7 +8,7 @@
         </enum-select2>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="displayField('name')">
         <name-input class="col-sm-12"
                     [name]="member.name"
                     (nameChange)="propChanged('name', $event)"
@@ -16,15 +16,16 @@
         </name-input>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="displayField('gender') || displayField('dateOfBirth') || displayField('aboriginalOrTorresStraitIslander')">
         <enum-select2
+                *ngIf="displayField('gender')"
                 class="col-sm-4"
                 [label]="'Gender'"
                 [enumValues]="genderValues"
                 [value]="member.gender"
                 (valueChange)="propChanged('gender', $event)"></enum-select2>
 
-        <date-input class="col-sm-4"
+        <date-input *ngIf="displayField('dateOfBirth')" class="col-sm-4"
                     [label]="'Date of Birth'"
                     [date]="member.dateOfBirth"
                     (dateChange)="propChanged('dateOfBirth', $event)"
@@ -32,15 +33,15 @@
                     [defaultToday]="false">
         </date-input>
 
-        <yesno-select class="col-sm-4"
+        <yesno-select *ngIf="displayField('aboriginalOrTorresStraitIslander')"
+                      class="col-sm-4"
                       [value]="member.aboriginalOrTorresStraitIslander"
                       (valueChange)="propChanged('aboriginalOrTorresStraitIslander', $event)"
                       [label]="'Aboriginal/Torres Strait Islander'"
                       [disabled]="disabled"></yesno-select>
     </div>
 
-    <!--
-    <div class="row">
+    <div class="row" *ngIf="!displayField('residentialStatus') && displayField('address')">
         <address-input class="col-sm-12"
                        [address]="member.address"
                        (addressChange)="propChanged('address', $event)"
@@ -48,9 +49,8 @@
                        [disabled]="disabled">
         </address-input>
     </div>
-    -->
 
-    <div class="row">
+    <div class="row" *ngIf="displayField('contact')">
         <contact-input class="col-sm-12"
                        [contact]="member.contact"
                        (contactChange)="propChanged('contact', $event)"
@@ -59,7 +59,7 @@
         </contact-input>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="displayField('income')">
         <income-input class="col-sm-12"
                       [income]="member.income"
                       (incomeChange)="propChanged('income', $event)"
@@ -68,7 +68,19 @@
         </income-input>
     </div>
 
-    <div class="row">
+    <ul class="list-unstyled">
+        <li *ngFor="let acctType of energyAccountTypeValues.keySeq().toArray()" class="row">
+            <energy-account-input
+                *ngIf="displayField('energyAccounts.' + acctType)"
+                [label]=""
+                [energyAccountType]="acctType"
+                [energyAccount]="member.energyAccounts.get(acctType)"
+                (energyAccountChange)="energyAccountChanged(acctType, $event)">
+            </energy-account-input>
+        </li>
+    </ul>
+
+    <div class="row" *ngIf="displayField('residentialStatus')">
         <residential-status-input
                 class="col-sm-12"
                 [residentialStatus]="member.residentialStatus"
@@ -80,7 +92,7 @@
         </residential-status-input>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="displayField('partner')">
         <partner-input2
                 class="col-sm-12"
                 [label]="'Partner'"
@@ -91,7 +103,7 @@
         </partner-input2>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="displayField('dependents')">
         <dependent-list-input
                 class="col-sm-12"
                 [label]="'Dependents'"
@@ -102,7 +114,7 @@
     </div>
 
 
-    <div class="row" class="form-buttons layout horizontal center-justified">
+    <div class="row form-buttons layout horizontal center-justified">
         <button class="btn btn-primary"
                 [disabled]="!isValid"
                 (click)="save()">

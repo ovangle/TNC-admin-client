@@ -1,0 +1,23 @@
+@import '/assets/css/bootstrap.css';
+
+eapa-assessment-question > div.checkbox {
+    margin-left: 20px;
+}
+
+em {
+    font-weight: 800;
+}
+
+eapa-voucher-bill-input {
+    width: 90%;
+    margin-left: 5%;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.voucher-bills > li + li {
+    margin-top: 15px;
+
+}
+

@@ -28,10 +28,10 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
                     [address]="member.address"></residential-status-display>
             <income-display [income]="member.income"></income-display>
             <div *ngIf="member.gasAccount">
-                <energy-account-display [account]="member.gasAccount"></energy-account-display>
+                <energy-account-display [energyAccount]="member.gasAccount"></energy-account-display>
             </div> 
             <div *ngIf="member.electricityAccount">
-                <energy-account-display [account]="member.electricityAccount"></energy-account-display> 
+                <energy-account-display [energyAccount]="member.electricityAccount"></energy-account-display> 
             </div>
             
             <div>

@@ -31,7 +31,7 @@ import {MouseEventsOutsideElement} from '../events/mouse_events_outside_element.
     div.dropdown-menu {
         display: block;
         padding: 0;
-        overflow: hidden;
+        //overflow: hidden;
     }    
     div.dropdown-full-width {
         width: 100%;

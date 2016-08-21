@@ -1,5 +1,7 @@
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/of';
+
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 
@@ -21,18 +23,24 @@ interface LoginErrors {
 
 @Injectable()
 export class UserContext {
+    private _user: User;
+
     /**
      * The user, if one is logged in, otherwise `null`.
      */
-    user: User;
-
-    userChange = new Subject<User>();
+    get user(): Observable<User> {
+        if (this._user !== null) {
+            return Observable.of(this._user);
+        }
+        return this.userChange.first();
+    }
+    private userChange = new Subject<User>();
 
     constructor(
         private userManager: UserManager,
         private router: Router
     ) {
-        this.user = null;
+        this._user = null;
     }
 
     get loggedIn(): boolean { return !isBlank(this.user); }
@@ -77,11 +85,11 @@ export class UserContext {
 
     setUser(user: User) {
         this.userChange.next(user);
-        this.user = user;
+        this._user = user;
     }
 
-    checkPermission(key: string, action: string): boolean {
+    checkPermission(key: string, action: string): Observable<boolean> {
         return this.user
-            && (this.user.isAdmin || this.user.checkPermission(key, action));
+                .map(user => user.isAdmin || user.checkPermission(key, action));
     }
 }
