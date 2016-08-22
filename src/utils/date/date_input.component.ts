@@ -14,6 +14,9 @@ const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
 @Component({
     selector: 'date-input',
     template: `
+    <style>
+    :host { display: block; }
+    </style>
     <div class="form-group"
          [ngClass]="{
             'has-error': control.touched && !control.valid
@@ -49,12 +52,9 @@ const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
     </div>
     `,
     directives: [DatePicker, Dropdown, REACTIVE_FORM_DIRECTIVES],
-    styles: [`
-        :host { display: block; }    
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

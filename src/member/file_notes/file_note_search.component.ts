@@ -17,9 +17,15 @@ import {FileNoteComponent} from './file_note.component';
 import {FileNoteManager} from './file_note.manager';
 
 
+
 @Component({
     selector: 'file-note-search',
     template: `
+    <style>
+    :host {
+        display: block;
+    }
+    </style>
     <div class="table-body">
         <ul class="list-unstyled" [csSearch]="search" #result="result">
             <li *ngFor="let localNote of _local.toArray(); let i=index">
@@ -44,13 +50,8 @@ import {FileNoteManager} from './file_note.manager';
         Spinner
     ],
     providers: [FileNoteManager],
-    styles: [`
-    :host {
-        display: block;
-    }
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

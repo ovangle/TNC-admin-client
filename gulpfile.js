@@ -31,10 +31,11 @@ gulp.task('scripts', function() {
     ]);
 });
 
-gulp.task('scripts-prod', ['scripts'], function() {
-    return gulp.src('dist/src/app.js')
-        .pipe(webpack())
-        .pipe(gulp.dest('prod/'))
+gulp.task('scripts-prod', function () {
+
+    return gulp.src('src/entry.js')
+        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(gulp.dest('prod'));
 
 });
 

@@ -3,6 +3,7 @@ import {
     SimpleChange, OnChanges, Renderer
 } from '@angular/core';
 
+
 /**
  * A component which expands upon toggling it's 'hidden' attribute.
  *
@@ -16,29 +17,10 @@ import {
 @Component({
     selector: 'expander',
     template: `
-        <div class="layout horizontal header-container">
-            <i  class="fa fa-chevron-right" 
-                [class.fa-rotate-90]="!isHidden"
-                [class.disabled]="isDisabled"
-                (click)="iconClick($event)"
-                aria-hidden="true"></i>
-            <span class="flex">
-                <content select="header"></content>
-            </span>
-        </div>    
-        <div class="expand-container"
-             [class.expanded]="!isHidden">
-            <content select="main"></content>
-        </div>
-    `,
-    styles: [`
+    <style>
     :host {
         display: block; 
         width: 100%;
-    }
-    
-    .header-container {
-        font-size: 0;
     }
         
     i.fa {
@@ -68,10 +50,26 @@ import {
     .expand-container.expanded > ::content > main {
         transition: height 0.3s, visibility 0.2s ease-out;
     }
-    `],
+    </style>
+    <div class="layout horizontal header-container">
+        <i  class="fa fa-chevron-right" 
+            [class.fa-rotate-90]="!isHidden"
+            [class.disabled]="isDisabled"
+            (click)="iconClick($event)"
+            aria-hidden="true"></i>
+        <span class="flex">
+            <content select="header"></content>
+        </span>
+    </div>    
+    <div class="expand-container"
+         [class.expanded]="!isHidden">
+        <content select="main"></content>
+    </div>
+    `,
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/font-awesome.css'
+        '../../../assets/css/flex.css',
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native
 })

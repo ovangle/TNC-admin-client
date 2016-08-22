@@ -30,7 +30,7 @@ import {StaffSearchResultTableRow} from './result_table/result_table_row.compone
         ResultContainer, StaffSearchResultTableRow
     ],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

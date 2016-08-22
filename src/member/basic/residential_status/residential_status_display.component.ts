@@ -11,6 +11,15 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
 @Component({
     selector: 'residential-status-display',
     template: `
+    <style>
+    .display-label {
+        text-align: right;
+        font-weight: bold;
+    }
+    li {
+        margin-bottom: 5px;
+    }
+    </style>
     <div class="row">
         <h3>Residential Status</h3>
         <ul class="list-unstyled">
@@ -31,17 +40,9 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
     `,
     directives: [],
     pipes: [AddressPipe],
-    styles: [`
-    .display-label {
-        text-align: right;
-        font-weight: bold;
-    }
-    li {
-        margin-bottom: 5px;
-    }    
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

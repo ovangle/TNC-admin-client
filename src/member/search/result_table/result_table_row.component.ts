@@ -9,13 +9,19 @@ import {AddressPipe, NamePipe} from '../../basic';
 import {AlertLabels} from "../../../utils/alert_labels.component";
 import {PhoneNumberPipe} from "../../../utils/pipes/phone_number.pipe";
 
+
 @Component({
     selector: 'member-result-table-row',
     moduleId: module.id,
     templateUrl: './result_table_row.component.html',
-    styleUrls: ['./result_table_row.component.css'],
     directives: [Expander, AlertLabels, ROUTER_DIRECTIVES],
     pipes: [AddressPipe, OrElsePipe, NamePipe, PhoneNumberPipe],
+    styleUrls: [
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/search_result_table.css',
+        '../../../../assets/css/font-awesome.css',
+        './result_table_row.component.css'
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

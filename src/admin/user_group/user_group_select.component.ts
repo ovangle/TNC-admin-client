@@ -8,6 +8,7 @@ ChangeDetectorRef, ViewChild, ElementRef
 import {UserGroupManager} from './user_group.manager';
 import {UserGroup} from './user_group.model';
 
+
 @Component({
     selector: 'user-group-select',
     template: `
@@ -25,10 +26,10 @@ import {UserGroup} from './user_group.model';
     </div>
    `,
     directives: [],
-    providers: [UserGroupManager],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
+    providers: [UserGroupManager],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

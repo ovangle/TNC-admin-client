@@ -18,7 +18,9 @@ import {isBlank} from 'caesium-core/lang';
         </select>      
     </div>    
     `,
-    styleUrls: ['assets/css/bootstrap.css'],
+    styleUrls: [
+        '../../../assets/css/bootstrap.css'
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

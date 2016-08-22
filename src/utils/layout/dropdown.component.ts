@@ -1,5 +1,3 @@
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/filter';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -11,19 +9,11 @@ import {
 
 import {MouseEventsOutsideElement} from '../events/mouse_events_outside_element.service';
 
+
 @Component({
     selector: 'dropdown',
     template: `
-        <div class="dropdown-menu" [ngClass]="{
-            'dropdown-menu-right': alignRight,
-            'dropdown-full-width': fullWidth
-       }"
-             *ngIf="active">
-            <content></content>
-        </div>
-    `,
-    providers: [MouseEventsOutsideElement],
-    styles: [`
+    <style>
     :host { 
         position: relative;
         display: block;
@@ -36,9 +26,18 @@ import {MouseEventsOutsideElement} from '../events/mouse_events_outside_element.
     div.dropdown-full-width {
         width: 100%;
     }    
-    `],
+    </style>
+    <div class="dropdown-menu" [ngClass]="{
+        'dropdown-menu-right': alignRight,
+        'dropdown-full-width': fullWidth
+    }"
+         *ngIf="active">
+        <content></content>
+    </div>
+    `,
+    providers: [MouseEventsOutsideElement],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

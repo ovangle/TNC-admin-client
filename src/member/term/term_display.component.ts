@@ -10,6 +10,17 @@ import {MemberTerm} from './term.model';
 @Component({
     selector: 'member-term-display',
     template: `
+    <style>
+    :host {
+        display: block;
+    }
+    .member-type {
+        margin-bottom: 10px;
+    }    
+    .term-actions {
+        margin-top: 5px; 
+    }
+    </style>
     <div class="alert alert-warning">
         <div class="member-type"><strong>{{termType}} member</strong></div>
 
@@ -36,22 +47,11 @@ import {MemberTerm} from './term.model';
     </div>
     `,
     pipes: [OrElsePipe],
-    styles: [`
-    :host {
-        display: block;
-    }
-    .member-type {
-        margin-bottom: 10px;
-    }    
-    .term-actions {
-        margin-top: 5px; 
-    }
-    `],
     styleUrls: [
-        'assets/css/font-awesome.css',
-        'assets/css/bootstrap.css',
-        'assets/css/flex.css',
-        'assets/css/details_display.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css',
+        '../../../assets/css/font-awesome.css',
+        '../../../assets/css/details_display.css',
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

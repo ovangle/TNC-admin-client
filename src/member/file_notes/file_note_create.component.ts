@@ -13,9 +13,18 @@ import {FileNoteSeverity, FILE_NOTE_SEVERITY_VALUES} from './severity';
 import {FileNote} from './file_note.model';
 import {FileNoteManager} from './file_note.manager';
 
+
 @Component({
     selector: 'file-note-create',
     template: `
+    <style>
+    :host {
+        display: block;
+    }
+    enum-select2 {
+        margin-right: 30px;
+    }  
+    </style>
     <form [formGroup]="fileNoteForm" (submit)="save($event)">
         <div class="form-group">
             <label for="message-input" class="sr-only">Message</label> 
@@ -44,19 +53,11 @@ import {FileNoteManager} from './file_note.manager';
         EnumSelectValueAccessor,
         REACTIVE_FORM_DIRECTIVES
     ],
-    styles: [`
-    :host {
-        display: block;
-    }
-    enum-select2 {
-        margin-right: 30px;
-    }    
+    styleUrls: [`
+        '../../../assets/css/flex.css',
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     `],
-    styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css'
-    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

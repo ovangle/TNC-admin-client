@@ -17,16 +17,22 @@ import {STAFF_TYPE_VALUES} from '../type';
 
 import {CreateStaffRequest, CreateStaffResponse, CreateStaffErrors} from './create_staff.model';
 
+
+
 @Component({
     selector: 'staff-create-form',
-    moduleId: module.id,
     templateUrl: './create_form.component.html',
+    styleUrls: [
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/flex.css',
+        '../../../../assets/css/font-awesome.css',
+        './create_form.component.css',
+    ],
     directives: [
         NameInput, DateInput, EnumSelect2, UserInput,
         ROUTER_DIRECTIVES
     ],
     providers: [StaffManager],
-    styleUrls: ['./create_form.component.css'],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

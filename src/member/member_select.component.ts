@@ -20,6 +20,14 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
 @Component({
     selector: 'member-select',
     template: `
+    <style>
+    dropdown {
+        width: 100%;
+    }    
+    member-search-result-table {
+        height: 200px;
+    }  
+    </style>
     <div class="form-group">
         <label *ngIf="label" class="control-label">{{label}}</label>
         <div *ngIf="member" class="layout horizontal">
@@ -31,8 +39,8 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
         <div *ngIf="!member">
             <search-bar
                 (paramValuesChange)="paramValuesChanged($event)"
-                (focus)="_dropdownActive= true"
-            ></search-bar>
+                (focus)="_dropdownActive= true">
+            </search-bar>
                 <dropdown [active]="_dropdownActive" [fullWidth]="true"
                           (closeRequest)="_dropdownActive = false">
                     <member-search-result-table 
@@ -51,17 +59,8 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
         MemberManager,
         {provide: ParameterBuilder, useClass: MemberSearchParameterBuilder}
     ],
-    styles: [`
-    dropdown {
-        width: 100%;
-    }    
-    member-search-result-table {
-        height: 200px;
-    }    
-    
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

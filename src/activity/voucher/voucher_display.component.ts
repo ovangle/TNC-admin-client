@@ -5,6 +5,7 @@ import {
 import {Voucher} from './voucher.model';
 import {EAPAVoucherAssessment} from './eapa';
 
+
 @Component({
     selector: 'voucher-display',
     template: `
@@ -20,8 +21,8 @@ import {EAPAVoucherAssessment} from './eapa';
         EAPAVoucherAssessment
     ],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/details_display.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

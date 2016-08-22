@@ -11,6 +11,7 @@ import {Member} from '../../../member';
 import {Task} from '../task.model';
 import {TaskResultTableRow} from './result_table_row.component';
 
+
 @Component({
     selector: 'task-search-result-table',
     template: `
@@ -33,8 +34,8 @@ import {TaskResultTableRow} from './result_table_row.component';
     `,
     directives: [TaskResultTableRow, Spinner, ResultContainer],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/search_result_table.css'
+    '../../../../assets/css/bootstrap.css',
+    '../../../../assets/css/search_result_table.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

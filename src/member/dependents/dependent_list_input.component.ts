@@ -52,10 +52,8 @@ import {DependentCard} from './dependent_card.component';
     </fieldset>
     `,
     directives: [DependentInput, DependentCard],
+    styleUrls: ['../../../assets/css/bootstrap.css'],
     providers: [DependentManager],
-    styleUrls: [
-       'assets/css/bootstrap.css'
-    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

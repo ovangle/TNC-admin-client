@@ -20,6 +20,8 @@ import {TaskParameterBuilder} from './search/parameter_builder.service';
 
 import {TASK_MENU_ITEMS} from './task.menuitems';
 
+
+
 @Component({
     selector: 'task-search-page',
     template: `
@@ -46,10 +48,10 @@ import {TASK_MENU_ITEMS} from './task.menuitems';
         TaskManager
     ],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css',
-        'assets/css/flex.css',
-        'assets/css/search_page.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css',
+        '../../../assets/css/font-awesome.css',
+        '../../../assets/css/search_page.css',
     ],
     encapsulation: ViewEncapsulation.Native
 })

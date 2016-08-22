@@ -15,6 +15,7 @@ import {TaskType} from './task_type.model';
 import {TaskManager} from './task.manager';
 import {TaskInput} from './task_input/task_input.component';
 
+
 @Component({
     selector: 'create-task-page',
     template: `
@@ -30,7 +31,6 @@ import {TaskInput} from './task_input/task_input.component';
         </task-input> 
     </div>
     
-    
     <div class="form-buttons layout horizontal center-justified">
        <button class="btn btn-primary" (click)="save()">
             <i class="fa fa-save"></i> Save
@@ -38,12 +38,12 @@ import {TaskInput} from './task_input/task_input.component';
     </div>
     `,
     directives: [PageHeader, TaskInput],
-    providers: [TaskManager, VoucherManager],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css',
-        'assets/css/flex.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css',
+        '../../../assets/css/flex.css'
     ],
+    providers: [TaskManager, VoucherManager],
     encapsulation: ViewEncapsulation.Native,
 })
 export class CreateTaskPage {

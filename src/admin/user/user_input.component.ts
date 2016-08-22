@@ -13,6 +13,7 @@ import {AbstractUser, User} from './user.model';
 import {UserManager} from './user.manager';
 
 
+
 @Component({
     selector: 'user-input',
     template: `
@@ -33,7 +34,8 @@ import {UserManager} from './user.manager';
     `,
     directives: [UserGroupSelect],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/flex.css',
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

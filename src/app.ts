@@ -6,9 +6,26 @@ import {NavBarComponent} from './utils/layout/nav_bar.component'
 import {UserManager} from './admin/user/user.manager';
 import {UserContext} from './admin/user/context.service';
 
+import {bootstrap} from './bootstrap';
+
 @Component({
     selector: 'main-app',
     template: `
+        <style>
+        :host {
+            height: 100%;
+            display: block;
+            flex-direction: column;
+            overflow: hidden;
+        } 
+        header {
+            background-color: #fff;
+        }
+        
+        main {
+            height: calc(100% - 80px); 
+        }
+        </style>
         <header>
             <nav-bar></nav-bar>
         </header>
@@ -17,25 +34,9 @@ import {UserContext} from './admin/user/context.service';
         </main>
         <modal-dialog class="modalopen"></modal-dialog>
     `,
-    styles: [`
-    :host {
-        height: 100%;
-        display: block;
-        flex-direction: column;
-        overflow: hidden;
-    }
-
-    header {
-        background-color: #fff;
-    }
-    
-    main {
-        height: calc(100% - 80px);
-    }    
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/flex.css'
+        '../assets/css/bootstrap.css',
+        '../assets/css/flex.css'
     ],
     directives: [ROUTER_DIRECTIVES, NavBarComponent, ModalDialog],
     providers: [UserManager, UserContext],
@@ -52,3 +53,5 @@ export class MainApp implements OnInit {
     }
 
 }
+
+bootstrap();

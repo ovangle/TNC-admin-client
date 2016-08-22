@@ -9,18 +9,17 @@ export {AlertLabel, LabelSeverity, CheckForAlertLabels};
 @Component({
     selector: 'alert-labels',
     template: `
+    <style>
+    ul.list-inline { margin: 0; } 
+    </style>
     <ul class="list-inline"> 
         <li *ngFor="let label of labels">
             <alert-label [label]="label"></alert-label>           
         </li>
     </ul>     
     `,
-    styles: [`
-    ul.list-inline { margin: 0; }
-    `],
-    styleUrls: [
-        'assets/css/bootstrap.css'
-    ],
+    styleUrls: ['../../assets/css/bootstrap.css'],
+
     directives: [AlertLabelComponent],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

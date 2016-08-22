@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/debounceTime';
-
 import {Map, Set} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
@@ -10,9 +8,13 @@ import {isBlank} from 'caesium-core/lang';
 import {Search} from 'caesium-model/manager';
 import {ParameterBuilder} from './parameter_builder.service';
 
+
 @Component({
     selector: 'search-bar',
     template: `
+    <style>
+    :host { display: block; }
+    </style>
     <div class="input-group">
         <span class="input-group-addon" id="search-icon">
             <i class="fa fa-search"></i> 
@@ -24,12 +26,9 @@ import {ParameterBuilder} from './parameter_builder.service';
     </div>
     `,
     directives: [],
-    styles: [`
-    :host { display: block; }
-    `],
     styleUrls: [
-        'assets/css/font-awesome.css',
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

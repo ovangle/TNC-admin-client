@@ -8,6 +8,7 @@ import {
 import {StateException} from 'caesium-model/exceptions';
 import {isDefined} from 'caesium-core/lang';
 
+
 export interface OtherSelectOption {
     /**
      * A unique identifier of this option.
@@ -35,23 +36,7 @@ export interface OtherSelection {
 @Component({
     selector: 'other-select',
     template: `
-        <div class="form-group">
-            <label>{{label}}</label>
-                
-            <select name="other-select" class="form-control" 
-                    [disabled]="disabled"
-                    [ngModel]="selection.option"
-                    (ngModelChange)="_selectionChanged($event)">
-                <option *ngFor="let option of options" [ngValue]="option">{{option.displayText}}</option>         
-            </select>
-            <input type="text"  class="form-control" [ngClass]="{'visible': _otherInputVisible}"
-                    placeholder="Description"
-                    [disabled]="disabled"
-                    [ngModel]="selection.otherValue"
-                    (ngModelChange)="_otherValueChanged($event)">
-        </div>
-    `,
-    styles: [`
+    <style>
     input.form-control {
         margin-left: 1rem;
     }
@@ -60,10 +45,29 @@ export interface OtherSelection {
         /* visibility: hidden; */
         display: none; 
     }
+    </style>
+    <div class="form-group">
+        <label>{{label}}</label>
+            
+        <select name="other-select" class="form-control" 
+                [disabled]="disabled"
+                [ngModel]="selection.option"
+                (ngModelChange)="_selectionChanged($event)">
+            <option *ngFor="let option of options" [ngValue]="option">{{option.displayText}}</option>         
+        </select>
+        <input type="text"  class="form-control" [ngClass]="{'visible': _otherInputVisible}"
+                placeholder="Description"
+                [disabled]="disabled"
+                [ngModel]="selection.otherValue"
+                (ngModelChange)="_otherValueChanged($event)">
+    </div>
+    `,
+    styles: [`
+    
     `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../assets/css/flex.css',
+        '../../../assets/css/bootstrap.css'
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Native

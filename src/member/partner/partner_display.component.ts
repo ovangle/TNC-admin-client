@@ -20,8 +20,8 @@ import {MemberCard} from '../member_card.component';
     `,
     directives: [MemberCard],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/details_display.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

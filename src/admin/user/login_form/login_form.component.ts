@@ -13,12 +13,14 @@ import {User} from '../user.model';
 import {UserContext} from '../context.service';
 import {InputErrorBlock, STANDARD_INPUT_ERRORS} from '../../../utils/components/input_error_block.component';
 
+
 @Component({
     selector: 'user-login-form',
-    moduleId: module.id,
-    templateUrl: './login_form.component.html',
-    styleUrls: ['./login_form.component.css'],
     directives: [REACTIVE_FORM_DIRECTIVES, InputErrorBlock],
+    styleUrls: [
+        '../../../../assets/css/bootstrap.css',
+        './login_form.component.css'
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -65,7 +67,7 @@ export class UserLoginForm implements OnInit {
                 this.password.setErrors(null);
             } else {
                 this.username.setErrors(value.username);
-                this.password.setErrors(value.password);
+                this.password.setErrors((value as any).password);
             }
         });
     }

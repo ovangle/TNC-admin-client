@@ -31,15 +31,9 @@ import {Contact} from './contact.model';
     </div>   
     `,
     pipes: [PhoneNumberPipe, OrElsePipe],
-    styles: [`
-    .display-label {
-        font-weight: bold;
-        text-align: right;
-    }
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css',
-        'assets/css/details_display.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

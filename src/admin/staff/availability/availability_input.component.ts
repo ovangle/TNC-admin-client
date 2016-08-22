@@ -8,9 +8,28 @@ import {
 import {Time, TimeInterval, TimeInput} from '../../../utils/time'
 import {StaffAvailability} from './availability.model';
 
+
 @Component({
     selector: 'staff-availability-input',
     template: `
+    <style>
+    fieldset.main {
+        background-color: #e7e7e7;
+        width: 80%;
+        margin-left: 10%;
+    }
+    
+    fieldset.main > legend {
+        padding-left: 2rem;
+    }    
+        
+    table.table > tbody > tr > td, 
+    table.table > thead > tr > th {
+        max-width: 16%;
+        text-align: center;
+        vertical-align: middle;
+    } 
+    </style>
     <fieldset class="main">
     <legend>Availability</legend>
     <table class="table">
@@ -45,29 +64,10 @@ import {StaffAvailability} from './availability.model';
         </tbody>
     </table>
     </fieldset>
-    
     `,
     directives: [TimeInput],
-    styles: [`
-    fieldset.main {
-        background-color: #e7e7e7;
-        width: 80%;
-        margin-left: 10%;
-    }
-    
-    fieldset.main > legend {
-        padding-left: 2rem;
-    }    
-        
-    table.table > tbody > tr > td, 
-    table.table > thead > tr > th {
-        max-width: 16%;
-        text-align: center;
-        vertical-align: middle;
-    }
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -22,10 +22,9 @@ import {GENDER_VALUES} from '../basic';
     `,
     directives: [],
     pipes: [NamePipe, DatePipe],
-    styles: [``],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/flex.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

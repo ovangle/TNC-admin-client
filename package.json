@@ -4,10 +4,11 @@
   "description": "Administration client for Toukley neighbourhood centre",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
     "serve": "live-server --open=index.html",
     "test": "live-server --open=test.html",
-    "clean": "rm -rf ./dist"
+    "clean": "rm -rf ./dist",
+    "build": "rimraf dist && webpack --progress --profile --bail",
+    "start": "webpack-dev-server --inline --progress --port 8080"
   },
   "author": "Thomas Stephenson <ovangle@gmail.com>",
   "license": "MIT",
@@ -15,8 +16,8 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "caesium-core": "^0.1.1",
-    "caesium-model": "^0.1.0",
-    "es6-shim": "^0.35.0",
+    "caesium-model": "^0.1.2",
+    "core-js": "^2.4.0",
     "immutable": "^3.7.6",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.6",
@@ -34,14 +35,28 @@
     "font-awesome": "^4.6.3"
   },
   "devDependencies": {
+    "angular2-template-loader": "^0.4.0",
+    "css-loader": "^0.23.1",
     "del": "^2.2.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "gulp": "^3.9.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.15.0",
     "jasmine-core": "^2.4.1",
     "live-server": "^0.8.2",
     "merge2": "^1.0.2",
+    "null-loader": "^0.1.1",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.5.4",
+    "style-loader": "^0.13.1",
+    "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-merge": "^0.14.1",
     "webpack-stream": "^3.2.0"
   }
 }

@@ -10,9 +10,15 @@ import {Address, AddressInput} from '../address';
 import {ResidenceType, RESIDENCE_TYPE_VALUES} from './residence_type.model';
 import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_stability.model';
 
+
 @Component({
     selector: 'residential-status-input',
     template: `
+    <style>
+    .input-right {
+        margin-left: 30px;
+    }
+    </style>
     <fieldset>
         <legend>{{label}}</legend>
         
@@ -39,14 +45,9 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
     </fieldset>
     `,
     directives: [EnumSelect2, AddressInput],
-    styles: [`
-    .input-right {
-        margin-left: 30px;
-    }
-    `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/flex.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

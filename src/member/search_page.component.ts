@@ -16,6 +16,7 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
 import {MemberSearchResultTable} from './search/result_table.component';
 
 
+
 @Component({
     selector: 'member-search-page',
     template: `
@@ -36,10 +37,10 @@ import {MemberSearchResultTable} from './search/result_table.component';
         {provide: ParameterBuilder, useClass: MemberSearchParameterBuilder}
     ],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css',
-        'assets/css/flex.css',
-        'assets/css/search_page.css'
+        '../../assets/css/bootstrap.css',
+        '../../assets/css/font-awesome.css',
+        '../../assets/css/flex.css',
+        '../../assets/css/search_page.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -57,7 +57,7 @@ const PARTNER_STATUS_VALUES = OrderedMap([
     `,
     directives: [MemberSelect, EnumSelect2, InputErrorBlock, PartnerCreate],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -7,6 +7,8 @@ import {CarerRel} from './carer_rel.model';
 import {REVERSE_RELATION_TYPE_VALUES} from './relation_type.model';
 import {LIVING_ARRANGEMENT_VALUES} from './living_arrangement.model';
 
+
+
 @Component({
     selector: 'carer-rel-display',
     template: `
@@ -26,8 +28,8 @@ import {LIVING_ARRANGEMENT_VALUES} from './living_arrangement.model';
     `,
     directives: [],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/details_display.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

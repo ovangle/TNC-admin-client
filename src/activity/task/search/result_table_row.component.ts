@@ -7,9 +7,21 @@ import {NamePipe} from '../../../member/basic';
 import {Task} from '../task.model';
 import {VoucherDisplay} from '../../voucher/voucher_display.component';
 
+
 @Component({
     selector: 'task-result-table-row',
     template: `
+    <style>
+    .date-col {
+        width: 8rem;
+    }    
+    .type-col {
+        width: 12rem; 
+    }    
+    .assessor-col {
+        width: 15rem;
+    } 
+    </style>
     <div *ngIf="colHeader">
         <span class="table-cell col-header date-col">Date</span>     
         <span class="table-cell col-header type-col">Type</span>
@@ -31,20 +43,9 @@ import {VoucherDisplay} from '../../voucher/voucher_display.component';
     `,
     directives: [VoucherDisplay, ROUTER_DIRECTIVES],
     pipes: [NamePipe],
-    styles: [`
-    .date-col {
-        width: 8rem;
-    }    
-    .type-col {
-        width: 12rem; 
-    }    
-    .assessor-col {
-        width: 15rem;
-    }
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/search_result_table.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/search_result_table.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

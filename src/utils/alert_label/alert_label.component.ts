@@ -4,18 +4,15 @@ import {Component, Input, OnChanges, SimpleChange, ViewEncapsulation} from "@ang
 import {AlertLabel, LabelSeverity} from "./alert_label";
 
 
+
 @Component({
     selector: 'alert-label',
     template: `
-        <span class="label" [ngClass]="labelClasses">{{label.text}}</span>
+    <style>:host { display: inline-block; }</style>
+    <span class="label" [ngClass]="labelClasses">{{label.text}}</span>
     `,
-    styles: [`
-    :host { 
-        display: inline-block; 
-    }
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native
 })

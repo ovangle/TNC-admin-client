@@ -17,14 +17,7 @@ import {ModalDialogContent} from './components/content.component';
 @Component({
     selector: 'modal-dialog',
     template: `
-    <div class="backdrop" [ngClass]="{'open': isOpen}"></div>
-    <div class="modal-dialog">
-        <modal-dialog-content *ngIf="isOpen" [options]="options">
-        </modal-dialog-content>
-    </div>
-    `,
-    directives: [ModalDialogContent],
-    styles: [`
+    <style>
     :host {
         position: fixed;
         width: 100vw;
@@ -44,10 +37,17 @@ import {ModalDialogContent} from './components/content.component';
         width: 100vw;
         background-color: #000;
         opacity: 0.2;
-    }    
-    `],
+    }  
+    </style>
+    <div class="backdrop" [ngClass]="{'open': isOpen}"></div>
+    <div class="modal-dialog">
+        <modal-dialog-content *ngIf="isOpen" [options]="options">
+        </modal-dialog-content>
+    </div>
+    `,
+    directives: [ModalDialogContent],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

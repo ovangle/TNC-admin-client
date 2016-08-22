@@ -8,12 +8,15 @@ import {VoucherInput} from '../../voucher';
 import {Task} from '../task.model';
 import {TASK_TYPE_VALUES} from '../task_type.model';
 
-
 @Component({
     selector: 'task-input',
     moduleId: module.id,
     templateUrl: './task_input.component.html',
-    styleUrls: ['./task_input.component.css'],
+    styleUrls: [
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/font-awesome.css',
+        './task_input.component.css'
+    ],
     directives: [EnumSelect2, VoucherInput],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

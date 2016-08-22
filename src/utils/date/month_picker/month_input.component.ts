@@ -17,6 +17,7 @@ import {isDefined} from 'caesium-core/lang';
 
 import {KeyCode} from '../../keycodes.enum';
 
+
 const _MONTH_NAMES = List<string>(moment.months());
 
 //TODO: Validity
@@ -24,37 +25,37 @@ const _MONTH_NAMES = List<string>(moment.months());
 @Component({
     selector: 'month-input',
     template: `
-        <textarea #input type="text" class="month-input flex"
-            rows="1"
-            [ngModel]="_partialInput"
-            (ngModelChange)="tryComplete($event)"
-            (keydown)="_handleEnterOrEsc($event)"
-            (focus)="_focus()"
-            (blur)="commit()"
-        ></textarea><span class="highlight" (mouseup)="_focus()">{{_completion}}</span>
+    <style>
+    :host {
+        width: 5em;
+        display: flex;
+    }
+    textarea.month-input, span.highlight {
+        font-weight: 600;
+        padding: 0;
+    }
+    textarea.month-input {
+        text-align: right;
+        border: 0;
+        outline: none;
+        resize: none;
+    }
+    span.highlight {
+        background-color: #eee;
+    } 
+    </style>
+    <textarea #input type="text" class="month-input flex"
+        rows="1"
+        [ngModel]="_partialInput"
+        (ngModelChange)="tryComplete($event)"
+        (keydown)="_handleEnterOrEsc($event)"
+        (focus)="_focus()"
+        (blur)="commit()">
+    </textarea><span class="highlight" (mouseup)="_focus()">{{_completion}}</span>
     `,
-    styles: [`
-        :host {
-            width: 5em;
-            display: flex;
-        }
-        textarea.month-input, span.highlight {
-            font-weight: 600;
-            padding: 0;
-        }
-        textarea.month-input {
-            text-align: right;
-            border: 0;
-            outline: none;
-            resize: none;
-        }
-        span.highlight {
-            background-color: #eee;
-        }
-    `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/flex.css',
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush,

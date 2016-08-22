@@ -30,7 +30,11 @@ import {EAPAVoucherEnergyAccountsSelect} from '../voucher_accounts_select.compon
     moduleId: module.id,
     pipes: [NamePipe, AsyncPipe],
     templateUrl: './voucher_assessment.component.html',
-    styleUrls: [ './voucher_assessment.component.css' ],
+    styleUrls: [
+        '../../../../../assets/css/bootstrap.css',
+        './voucher_assessment.component.css'
+
+    ],
     directives: [
         VoucherAssessmentQuestion,
         EAPAVoucherBillInput,

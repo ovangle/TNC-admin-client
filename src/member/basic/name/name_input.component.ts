@@ -14,6 +14,11 @@ import {Name} from './name.model';
 @Component({
     selector: 'name-input',
     template: `
+    <styles>
+    .form-group + .form-group {
+        margin-left: 30px;
+    }    
+    </styles>
     <div class="layout horizontal">
         <div class="form-group flex"
             [ngClass]="{
@@ -52,15 +57,9 @@ import {Name} from './name.model';
     </div>    
     `,
     directives: [REACTIVE_FORM_DIRECTIVES],
-    styles: [`
-    .form-group + .form-group {
-        margin-left: 30px;
-    }    
-    
-    `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/flex.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

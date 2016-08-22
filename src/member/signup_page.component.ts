@@ -19,9 +19,26 @@ import {MemberSignupSuccess} from './signup/signup_success_alert.component';
 import {MemberManager} from './member.manager';
 import {Member} from './member.model';
 
+
 @Component({
     selector: 'member-signup',
     template: `
+    <style>
+    :host {
+        display: block;
+        height: 100%;
+    }    
+    .container {
+        height: 100%;
+    }    
+    .input-container {
+        height: calc(100% - 140px);
+        overflow-y: auto;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+        padding-bottom: 300px;
+    } 
+    </style>
     <div class="container">
         <page-header title="Member signup">
             <div class="btn-group">
@@ -39,25 +56,9 @@ import {Member} from './member.model';
         </div>
     </div>    
     `,
-    styles: [`
-    :host {
-        display: block;
-        height: 100%;
-    }    
-    .container {
-        height: 100%;
-    }    
-    .input-container {
-        height: calc(100% - 140px);
-        overflow-y: auto;
-        padding-left: 1.2rem;
-        padding-right: 1.2rem;
-        padding-bottom: 300px;
-    }
-    `],
     styleUrls: [
-        'assets/css/font-awesome.css',
-        'assets/css/bootstrap.css'
+        '../../assets/css/bootstrap.css',
+        '../../assets/css/font-awesome.css'
     ],
     directives: [PageHeader, MemberInputForm, MemberSignupSuccess],
     providers: [MemberManager],

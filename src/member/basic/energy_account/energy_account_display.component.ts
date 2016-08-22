@@ -10,6 +10,7 @@ import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
 
 import {EnergyAccountInput} from './energy_account_input.component';
 
+
 @Component({
     selector: 'energy-account-display',
     template: `
@@ -34,9 +35,9 @@ import {EnergyAccountInput} from './energy_account_input.component';
     `,
     directives: [],
     styleUrls: [
-       'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css',
-        'assets/css/details_display.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/font-awesome.css',
+        '../../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

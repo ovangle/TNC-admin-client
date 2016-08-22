@@ -7,6 +7,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {NamePipe} from '../basic';
 import {Member} from '../member.model';
 
+
 @Component({
     selector: 'member-signup-success',
     template: `
@@ -23,9 +24,7 @@ import {Member} from '../member.model';
     </div>
     `,
     pipes: [NamePipe, DatePipe],
-    styleUrls: [
-       'assets/css/bootstrap.css'
-    ],
+    styleUrls: ['../../../assets/css/bootstrap.css'],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

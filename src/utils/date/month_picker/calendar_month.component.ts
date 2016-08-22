@@ -1,4 +1,5 @@
 import moment = require('moment');
+import {List} from 'immutable';
 import {Moment} from 'moment';
 
 import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy} from "@angular/core";
@@ -7,23 +8,7 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetecti
 @Component({
     selector: 'calendar-month',
     template: `
-    <table>
-        <thead>
-            <tr>
-                <th *ngFor="let dayName of dayNames">{{dayName}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let week of monthWeeks">
-                <td *ngFor="let day of week"
-                    (click)="selectDay(day)">
-                    <div class="day-cell" [ngClass]="{'selected': isSelected(day)}">{{inMonth(day) ? day.date: '' }}</div>
-                </td>
-            </tr>
-        </tbody>
-    </table>    
-    `,
-    styles: [`
+    <style>
         :host {
             display: block;
             width: 100%; 
@@ -63,16 +48,32 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetecti
         .day-cell.selected {
             background-color: #337ab7;
             color: white;
-        }    
-    `],
+        }     
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th *ngFor="let dayName of dayNames">{{dayName}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let week of monthWeeks">
+                <td *ngFor="let day of week"
+                    (click)="selectDay(day)">
+                    <div class="day-cell" [ngClass]="{'selected': isSelected(day)}">{{inMonth(day) ? day.date: '' }}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>    
+    `,
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarMonth {
-    private dayNames = Immutable.List<string>(moment.weekdaysMin());
+    private dayNames = List<string>(moment.weekdaysMin());
 
     // The year and month that are displayed on the calendar
     @Input() year: number;

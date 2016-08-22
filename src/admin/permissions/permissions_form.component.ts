@@ -18,7 +18,7 @@ import {PermissionMap} from './permission_map.model';
     `,
     directives: [],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

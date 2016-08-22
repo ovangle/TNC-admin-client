@@ -11,6 +11,12 @@ import {FileNote, FileNoteCreate, FileNoteSearch, FileNoteManager} from '../file
 @Component({
     selector: 'member-file-notes',
     template: `
+    <style>
+    :host {
+        display: block;
+        padding-top: 10px;
+    } 
+    </style>
     <div *ngIf="member">
         <file-note-create 
             [member]="member"
@@ -21,13 +27,8 @@ import {FileNote, FileNoteCreate, FileNoteSearch, FileNoteManager} from '../file
     `,
     directives: [FileNoteCreate, FileNoteSearch],
     providers: [FileNoteManager],
-    styles: [`
-    :host {
-        display: block; 
-        padding-top: 10px;
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
 })

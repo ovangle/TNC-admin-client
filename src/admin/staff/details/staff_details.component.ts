@@ -20,11 +20,16 @@ import {StaffInductionSurveyInput} from '../induction_survey';
 import {StaffManager} from '../staff.manager';
 import {StaffMember} from '../staff.model';
 
+
 @Component({
     selector: 'staff-details',
     moduleId: module.id,
     templateUrl: './staff_details.component.html',
-    styleUrls: ['./staff_details.component.css'],
+    styleUrls: [
+        '../../../../assets/css/font-awesome.css',
+        '../../../../assets/css/bootstrap.css',
+        './staff_details.component.css'
+    ],
     directives: [
         AddressInput, ContactInput, DateInput,
         StaffAvailabilityInput, StaffInductionSurveyInput,

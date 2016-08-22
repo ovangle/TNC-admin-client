@@ -1,6 +1,3 @@
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import {List, Map, Set} from 'immutable';
 
@@ -30,6 +27,7 @@ import {
 import {PartnerInput} from '../partner/partner_input.component';
 import {DependentListInput} from '../dependents/dependent_list_input.component'
 
+
 @Component({
     selector: 'member-input-form',
     moduleId: module.id,
@@ -39,7 +37,12 @@ import {DependentListInput} from '../dependents/dependent_list_input.component'
         PartnerInput, EnumSelect2, ROUTER_DIRECTIVES, EnergyAccountInput,
         DependentListInput
     ],
-    styleUrls: ['./member_input.component.css'],
+    styleUrls: [
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css',
+        '../../../assets/css/font-awesome.css',
+        './member_input.component.css'
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

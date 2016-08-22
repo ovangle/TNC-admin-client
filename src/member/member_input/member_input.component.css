@@ -1,7 +1,3 @@
-@import '/assets/css/flex.css';
-@import '/assets/css/bootstrap.css';
-@import '/assets/css/font-awesome.css';
-
 :host {
     display: block;
 }

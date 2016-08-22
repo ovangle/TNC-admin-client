@@ -11,6 +11,15 @@ import {AddressFormBuilder} from './address.form';
 @Component({
     selector: 'address-input',
     template: `
+    <style>
+    .input-right {
+        margin-left: 30px;
+    }
+    
+    .postcode-input-group {
+        max-width: 7rem;
+    } 
+    </style>
     <label>Address</label>
     <div class="layout horizontal" [formGroup]="addressGroup">
         <div class="form-group flex-4">
@@ -59,18 +68,9 @@ import {AddressFormBuilder} from './address.form';
     `,
     directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [AddressFormBuilder],
-    styles: [`
-    .input-right {
-        margin-left: 30px;
-    }
-    
-    .postcode-input-group {
-        max-width: 7rem;
-    }
-    `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/flex.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

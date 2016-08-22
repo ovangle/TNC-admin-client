@@ -12,22 +12,11 @@ import {Dropdown} from '../../utils/layout/dropdown.component';
 import {Member} from '../member.model';
 import {NamePipe} from '../basic';
 
+
 @Component({
     selector: 'member-search-dropdown',
     template: `
-        <dropdown [active]="active" [fullWidth]="true">
-            <ul class="list-unstyled">
-                <li *ngFor="let item of result.items.toArray()"
-                    [ngClass]="{'selected': item.id === selection.id}"
-                    (click)="select(item)">
-                    {{item.id}}: {{item.name | name}}
-                </li>
-            </ul>
-        </dropdown>
-    `,
-    directives: [Dropdown],
-    pipes: [NamePipe],
-    styles: [`
+    <style>
     :host {
         display: block;
     }
@@ -43,9 +32,21 @@ import {NamePipe} from '../basic';
     li.selected {
         background-color: blue;
     }
-    `],
+    </style>
+    <dropdown [active]="active" [fullWidth]="true">
+        <ul class="list-unstyled">
+            <li *ngFor="let item of result.items.toArray()"
+                [ngClass]="{'selected': item.id === selection.id}"
+                (click)="select(item)">
+                {{item.id}}: {{item.name | name}}
+            </li>
+        </ul>
+    </dropdown>
+    `,
+    directives: [Dropdown],
+    pipes: [NamePipe],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

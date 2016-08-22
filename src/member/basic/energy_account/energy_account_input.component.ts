@@ -18,6 +18,9 @@ import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
 @Component({
     selector: 'energy-account-input',
     template: `
+    <style>
+    :host { display: block; }
+    </style>
     <fieldset>
         <legend>{{accountType}} Account</legend>
         <enum-select2 class="col-sm-12" 
@@ -81,13 +84,8 @@ import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
     `,
     directives: [EnumSelect2],
     pipes: [NamePipe, AddressPipe],
-    styles: [`
-    :host {
-        display: block;
-    }    
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

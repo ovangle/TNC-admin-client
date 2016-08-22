@@ -1,4 +1,5 @@
 import {Set} from 'immutable';
+import {forwardRef} from '@angular/core';
 
 import {date, model} from 'caesium-model/json_codecs';
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
@@ -17,7 +18,7 @@ import {StaffInductionSurvey} from './induction_survey';
 
 @Model({kind: 'staff::StaffMember'})
 export abstract class StaffMember extends ModelBase {
-    @RefProperty({refName: 'user', refType: User})
+    @RefProperty({refName: 'user', refType: forwardRef(() => User)})
     userId:number;
     user:User;
 

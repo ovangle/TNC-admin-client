@@ -6,9 +6,18 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Member} from './member.model';
 import {NamePipe, AddressPipe} from './basic';
 
+
 @Component({
     selector: 'member-card',
     template: `
+    <style>
+    :host {
+        display: block;
+    } 
+    .btn-group {
+        float: right;
+    }  
+    </style>
     <div class="layout horizontal">
         <a [routerLink]="['/member', 'details', member.id]">{{member.name | name}}</a>
 
@@ -29,17 +38,9 @@ import {NamePipe, AddressPipe} from './basic';
     `,
     directives: [ROUTER_DIRECTIVES],
     pipes: [NamePipe, AddressPipe],
-    styles: [`
-    :host {
-        display: block;
-    } 
-    .btn-group {
-        float: right;
-    }    
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css'
+        '../../assets/css/bootstrap.css',
+        '../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

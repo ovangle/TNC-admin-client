@@ -9,7 +9,6 @@ import {ParameterBuilder} from '../../utils/search';
 import {Member} from '../member.model';
 import {MemberDetailsPage} from '../details_page.component';
 
-
 @Component({
     selector: 'member-activity',
     template: `
@@ -18,10 +17,10 @@ import {MemberDetailsPage} from '../details_page.component';
     </div>
     `,
     directives: [ROUTER_DIRECTIVES],
-    providers: [],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
+    providers: [],
     encapsulation: ViewEncapsulation.Native
 })
 export class MemberActivity {

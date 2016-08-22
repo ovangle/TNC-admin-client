@@ -11,6 +11,31 @@ import {FileNote} from './file_note.model';
 @Component({
     selector: 'file-note',
     template: `
+    <style>:host { 
+        display: block; 
+        position: relative;
+    }
+    .edit-buttons {
+        position: absolute;
+        top: 5px; right: 0;
+        width: 30px; 
+        text-align: center; 
+        opacity: 0.6;
+    }
+    .fa.fa-thumb-tack {
+        transition: 0.5s ease-in-out;
+    }
+    .thumb-tack-pinned {
+        transform: rotate(45deg);
+        opacity: 0.8;
+    }
+    .filenote-body {
+        max-width: 80%;
+    }
+    .footer-item {
+        white-space: nowrap; 
+    }
+    </style>
     <div class="alert"
          [ngClass]="{
             'alert-info': fileNote.severity === 'INFO',
@@ -46,36 +71,10 @@ import {FileNote} from './file_note.model';
     `,
     directives: [ROUTER_DIRECTIVES],
     pipes: [DatePipe, NamePipe],
-    styles: [`
-    :host { 
-        display: block; 
-        position: relative;
-    }
-    .edit-buttons {
-        position: absolute;
-        top: 5px; right: 0;
-        width: 30px; 
-        text-align: center; 
-        opacity: 0.6;
-    }
-    .fa.fa-thumb-tack {
-        transition: 0.5s ease-in-out;
-    }
-    .thumb-tack-pinned {
-        transform: rotate(45deg);
-        opacity: 0.8;
-    }
-    .filenote-body {
-        max-width: 80%;
-    }
-    .footer-item {
-        white-space: nowrap; 
-    }    
-    `],
     styleUrls: [
-        'assets/css/font-awesome.css',
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

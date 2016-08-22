@@ -14,10 +14,20 @@ import {Dependent} from './dependent.model';
 
 import {CarerRel, CarerRelDisplay} from './carer_rel';
 
-
 @Component({
     selector: 'dependent-display',
     template: `
+    <style>
+    :host {
+        display: block;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+    
+    h4 {
+        margin-left: 1em;
+    }     
+    </style>
     <h4>{{dependent.name | name}}</h4>
          
     <div class="row">
@@ -40,20 +50,9 @@ import {CarerRel, CarerRelDisplay} from './carer_rel';
     `,
     directives: [CarerRelDisplay],
     pipes: [NamePipe, DatePipe],
-    styles: [`
-    :host {
-        display: block;
-        border: 1px solid black;
-        border-radius: 5px;
-    }
-    
-    h4 {
-        margin-left: 1em;
-    }    
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/details_display.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/details_display.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

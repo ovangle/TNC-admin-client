@@ -9,6 +9,8 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {isDefined} from 'caesium-core/lang';
 import {Dropdown} from './dropdown.component';
 
+
+
 /**
  * An item in a dropdown menu.
  *
@@ -28,31 +30,7 @@ export interface DropdownMenuItem {
 @Component({
     selector: 'dropdown-menu-item',
     template: `
-    <div *ngIf="isSeparator" class="dropdown-separator"></div>    
-    <div *ngIf="isSubmenu" class="dropdown-toggle" 
-            class="submenu" 
-            (mouseover)="_submenuActionMouseOver = true"
-            (mouseout)="_submenuActionMouseOut()">
-        <a class="menu-item" tabindex="0">{{item.name}}</a>
-        <span class="submenu-caret"><i class="fa fa-caret-right"></i></span>
-        <dropdown-menu 
-        
-            [items]="item.children" 
-            [alignRight]="true"
-            [active]="_submenuExpanded"
-            (mouseover)="_submenuMouseOver = true"
-            (mouseout)="_submenuMouseOver = false">
-        </dropdown-menu>
-    </div>
-    <div *ngIf="isLink" class="dropdown-toggle">
-        <a class="menu-item" tabindex="0" [routerLink]="item.command">{{item.name}}</a>
-    </div>
-    `,
-    directives:[
-        ROUTER_DIRECTIVES,
-        forwardRef(() => DropdownMenu)
-    ],
-    styles: [`
+    <style>
     .submenu-caret {
         float: right;
         margin-right: 10px;
@@ -80,11 +58,35 @@ export interface DropdownMenuItem {
     dropdown-menu {
         top: 0;
         left: 100%;
-    }    
-    `],
+    }   
+    </style>
+    <div *ngIf="isSeparator" class="dropdown-separator"></div>    
+    <div *ngIf="isSubmenu" class="dropdown-toggle" 
+            class="submenu" 
+            (mouseover)="_submenuActionMouseOver = true"
+            (mouseout)="_submenuActionMouseOut()">
+        <a class="menu-item" tabindex="0">{{item.name}}</a>
+        <span class="submenu-caret"><i class="fa fa-caret-right"></i></span>
+        <dropdown-menu 
+        
+            [items]="item.children" 
+            [alignRight]="true"
+            [active]="_submenuExpanded"
+            (mouseover)="_submenuMouseOver = true"
+            (mouseout)="_submenuMouseOver = false">
+        </dropdown-menu>
+    </div>
+    <div *ngIf="isLink" class="dropdown-toggle">
+        <a class="menu-item" tabindex="0" [routerLink]="item.command">{{item.name}}</a>
+    </div>
+    `,
+    directives:[
+        ROUTER_DIRECTIVES,
+        forwardRef(() => DropdownMenu)
+    ],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css'
+        '../../../assets/css/flex.css',
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -147,9 +149,6 @@ class DropdownMenuItemComponent {
         background-repeat: repeat-x;
     }    
     `],
-    styleUrls: [
-        'assets/css/bootstrap.css'
-    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

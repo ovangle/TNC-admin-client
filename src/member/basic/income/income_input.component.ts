@@ -9,9 +9,15 @@ import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_incom
 import {BenefitType, BENEFIT_TYPE_VALUES} from './benefit_type.model';
 import {Income} from './income.model';
 
+
 @Component({
     selector: 'income-input',
     template: `
+    <style>
+    .input-right {
+        margin-left: 30px;
+    }    
+    </style>
     <fieldset>
         <legend>{{label}}</legend>
         <div class="layout horizontal">
@@ -51,14 +57,9 @@ import {Income} from './income.model';
       </fieldset>
     `,
     directives: [EnumSelect2],
-    styles: [`
-    .input-right {
-        margin-left: 30px;
-    }    
-    `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/flex.css',
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,5 +1,6 @@
 import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
 
+
 @Component({
     selector: 'spinner',
     template: `
@@ -7,14 +8,8 @@ import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} fr
              [style.font-size]="size || 'inherit'"
              [style.color]="color || _defaultColor"></div>
     `,
-    styles: [`
-    :host {
-        display: inline-block; 
-    }    
-    `],
     styleUrls: [
-        //TODO: Research reslative url
-        'src/utils/spinner/spinner.component.css'
+        './spinner.component.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

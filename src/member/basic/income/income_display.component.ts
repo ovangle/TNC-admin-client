@@ -8,6 +8,7 @@ import {BenefitType, BENEFIT_TYPE_VALUES} from './benefit_type.model';
 import {IncomeType, INCOME_TYPE_VALUES} from './income_type.model';
 import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_income.model';
 
+
 @Component({
     selector: 'income-display',
     template: `
@@ -32,8 +33,8 @@ import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_incom
     `,
     directives: [],
     styleUrls: [
-        'assets/css/details_display.css',
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/details_display.css',
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

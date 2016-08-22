@@ -1,0 +1,35 @@
+<div class="form-group time-container">
+    <label>{{label}}</label>
+    <div class="form-control time-container layout horizontal"
+         [ngClass]="{ 'focus': timeContainerFocus}"
+         [attr.disabled]="time === null ? true : null">
+        <div class="layout horizontal">
+            <input type="number" class="input-section input-hour flex"
+                   [disabled]="time === null"
+                   [ngModel]="_hour"
+                   (ngModelChange)="hourChanged($event)"
+                   (focus)="_hourInputFocus = true"
+                   (blur)="_hourInputFocus = false">
+
+            <span class="input-separator">:</span>
+
+            <input #minuteInput
+                   type="number" class="input-section input-minute flex"
+                   [disabled]="time === null"
+                   [ngModel]="_minute"
+                   (ngModelChange)="minuteChanged($event)"
+                   (focus)="_minuteInputFocus = true"
+                   (blur)="_minuteInputFocus = false">
+        </div>
+
+        <select class="period-select"
+                [disabled]="time === null"
+                [ngModel]="_isAM"
+                (ngModelChange)="isAMChanged($event)"
+                (focus)="_periodSelectFocus = true"
+                (blur)="_periodSelectFocus = false">
+            <option [value]="true">AM</option>
+            <option [value]="false">PM</option>
+        </select>
+    </div>
+</div>

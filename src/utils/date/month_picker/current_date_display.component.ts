@@ -3,15 +3,11 @@ import {Moment} from 'moment';
 
 import {Component, ViewEncapsulation, ChangeDetectionStrategy, Input} from '@angular/core';
 
+
 @Component({
     selector: 'current-date-display',
     template: `
-    <h3>
-        <small class="year-display">{{_moment.format('YYYY')}}</small><br/>
-        {{_moment.format('ddd, MMM\u00A0D')}}
-    </h3> 
-    `,
-    styles: [`   
+    <style>
     :host {
         display: block;
         width: 12rem;
@@ -25,11 +21,15 @@ import {Component, ViewEncapsulation, ChangeDetectionStrategy, Input} from '@ang
     
     h3 small.year-display {
         color: #d0d0d0;
-    }  
-    `],
+    }   
+    </style>
+    <h3>
+        <small class="year-display">{{_moment.format('YYYY')}}</small><br/>
+        {{_moment.format('ddd, MMM\u00A0D')}}
+    </h3> 
+    `,
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/flex.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

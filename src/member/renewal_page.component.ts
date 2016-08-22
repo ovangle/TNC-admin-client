@@ -16,21 +16,38 @@ import {MemberManager} from './member.manager';
 import {NamePipe} from './basic';
 import {MemberInputForm} from './member_input/member_input.component';
 
+
 @Component({
     selector: 'member-renewal-page',
     template: `
+    <style>
+    :host {
+        display: block;
+        height: 100%;
+    }    
+    .container {
+        height: 100%;
+    }    
+    .input-container {
+        height: calc(100% - 140px);
+        overflow-y: auto;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
+        padding-bottom: 300px;
+    }
+    </style>
     <div class="container">
-        <page-header 
+        <page-header>
                 leader="Renew"
                 [title]="member?.name | name"
                 [subtitle]="member?.id">
             <div class="btn-group">
                 <button class="close"
                     (click)="cancelRenewal()">
-                </button> 
+                </button>
             </div>
         </page-header>
-        
+
         <div class="input-container">
             <member-input-form
                 [member]="member"
@@ -45,23 +62,8 @@ import {MemberInputForm} from './member_input/member_input.component';
     ],
     pipes: [AsyncPipe, NamePipe],
     providers: [MemberManager],
-    styles: [`
-    :host {
-        display: block;
-        height: 100%;
-    }    
-    .container {
-        height: 100%;
-    }    
-    .input-container {
-        height: calc(100% - 140px);
-        overflow-y: auto;
-        padding-left: 1.2rem;
-        padding-right: 1.2rem;
-        padding-bottom: 300px;
-    }`],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

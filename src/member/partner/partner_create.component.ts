@@ -20,9 +20,24 @@ import {MemberTerm} from '../term';
 import {NameInput, AddressInput, GENDER_VALUES} from '../basic';
 
 
+
 @Component({
     selector: 'partner-create',
     template: `
+    <style>
+    :host {
+        display: block;
+    }    
+    
+    button + button {
+        margin-left: 30px;
+    }
+    
+    date-input {
+        margin-left: 30px;
+    }
+    </style>
+    
     <div class="well">
         <name-input [name]="partner.name"
             (nameChange)="propChanged('name', $event)"    
@@ -60,24 +75,10 @@ import {NameInput, AddressInput, GENDER_VALUES} from '../basic';
     </div>        
     `,
     directives: [NameInput, EnumSelect2, DateInput, AddressInput],
-    styles: [`
-    :host {
-        display: block;
-        
-    }    
-    
-    button + button {
-        margin-left: 30px;
-    }
-    
-    date-input {
-        margin-left: 30px;
-    }    
-    `],
-    styleUrls: [
-       'assets/css/bootstrap.css',
-       'assets/css/flex.css',
-        'assets/css/font-awesome.css'
+    styles: [
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css',
+        '../../../assets/css/font-awesome.css',
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

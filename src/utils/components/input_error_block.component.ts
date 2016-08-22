@@ -4,10 +4,12 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 
+
 // Avoid typing these out in every module that they're needed in.
 export const STANDARD_INPUT_ERRORS = [
     ['required', 'A value is required'],
 ];
+
 
 @Component({
     selector: 'input-error-block',
@@ -19,7 +21,7 @@ export const STANDARD_INPUT_ERRORS = [
     `,
     directives: [],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

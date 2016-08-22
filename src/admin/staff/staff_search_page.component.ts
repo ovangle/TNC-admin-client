@@ -14,6 +14,7 @@ import {StaffManager} from './staff.manager';
 import {StaffSearchResultTable} from './search/result_table.component';
 import {StaffSearchParameterBuilder} from './search/parameter_builder.service';
 
+
 @Component({
     selector: 'staff-search-page',
     template: `
@@ -33,10 +34,10 @@ import {StaffSearchParameterBuilder} from './search/parameter_builder.service';
         {provide: ParameterBuilder, useClass: StaffSearchParameterBuilder}
     ],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css',
-        'assets/css/flex.css',
-        'assets/css/search_page.css'
+    '../../../assets/css/bootstrap.css',
+    '../../../assets/css/font-awesome.css',
+    '../../../assets/css/flex.css',
+    '../../../assets/css/search_page.css',
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

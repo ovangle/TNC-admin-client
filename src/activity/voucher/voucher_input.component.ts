@@ -14,9 +14,17 @@ import {VoucherManager} from './voucher.manager';
 import {FoodcareVoucher, FoodcareVoucherInput} from './foodcare';
 import {EAPAVoucherAssessment} from './eapa';
 
+
+
 @Component({
     selector: 'voucher-input',
     template: `
+    <style>
+   .voucher-value {
+        position: fixed;
+        bottom: 10px;
+    }
+    </style>
     <div [ngSwitch]="voucher.getType()">
         <foodcare-voucher-input *ngSwitchCase="'FOODCARE'" 
                 [member]="member"
@@ -38,21 +46,14 @@ import {EAPAVoucherAssessment} from './eapa';
     </div>
     
     <div class="voucher-value">
-    <strong>Assessed value:</strong> \${{voucher.getValue()}} 
+        <strong>Assessed value:</strong> \$ {{voucher.getValue()}} 
     </div>
     `,
     directives: [EnumSelect2, FoodcareVoucherInput, EAPAVoucherAssessment],
-    styles: [`
-    .voucher-value {
-        position: fixed;
-        bottom: 10px;
-    }
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
-    //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VoucherInput {
     @Input() member: Member;

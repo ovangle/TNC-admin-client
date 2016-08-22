@@ -7,6 +7,7 @@ import {CheckboxArray} from '../../../../utils/components/checkbox_array.compone
 import {StaffType} from '../../type';
 import {predefinedTraits} from './traits.model';
 
+
 @Component({
     selector: 'staff-traits-input',
     template: `
@@ -23,7 +24,7 @@ import {predefinedTraits} from './traits.model';
     `,
     directives: [CheckboxArray],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

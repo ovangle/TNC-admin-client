@@ -12,9 +12,13 @@ import {NamePipe} from '../../basic';
 import {RelationType, RELATION_TYPE_VALUES} from './relation_type.model';
 import {LivingArrangement, LIVING_ARRANGEMENT_VALUES} from './living_arrangement.model';
 
+
 @Component({
     selector: 'carer-rel-input',
     template: `
+    <style>
+    :host { display: block; } 
+    </style>
     <fieldset>
         <legend>Relationship to {{carerRel.carer.name | name}}</legend>
         <enum-select2
@@ -34,10 +38,8 @@ import {LivingArrangement, LIVING_ARRANGEMENT_VALUES} from './living_arrangement
     `,
     directives: [EnumSelect2],
     pipes: [NamePipe],
-
-    styles: [`:host {display: block}`],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

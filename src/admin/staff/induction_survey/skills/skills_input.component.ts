@@ -10,6 +10,7 @@ import {CheckboxArray} from '../../../../utils/components/checkbox_array.compone
 import {StaffType} from '../../type';
 import {predefinedSkills} from './skills.model';
 
+
 @Component({
     selector: 'staff-skills-input',
     template: `
@@ -25,7 +26,7 @@ import {predefinedSkills} from './skills.model';
     `,
     directives: [CheckboxArray],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

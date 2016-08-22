@@ -23,11 +23,11 @@ import {PermissionMap} from './permission_map.model';
     </div>
     `,
     directives: [],
-    pipes: [CapitalizeFirstPipe],
     styleUrls: [
-        'assets/css/flex.css',
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/flex.css'
     ],
+    pipes: [CapitalizeFirstPipe],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

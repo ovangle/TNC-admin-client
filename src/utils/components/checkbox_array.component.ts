@@ -5,32 +5,11 @@ import {
     ViewChild, ElementRef
 } from '@angular/core';
 
+
 @Component({
     selector: 'checkbox-array',
     template: `
-        <div class="checkbox-inline item-check" *ngFor="let item of values.toArray()">
-            <label>
-                <input type="checkbox" [ngModel]="_hasItem(item)" (ngModelChange)="_toggleItem(item, $event)">
-                {{item}}
-            </label>
-        </div>
-        <div class="checkbox-inline item-check" *ngIf="_otherValueText !== null">
-            <label>
-                <input type="checkbox" [ngModel]="true"> 
-                <input #otherValueInput type="text" [(ngModel)]="_otherValueText"
-                                  (blur)="commitOther()">
-            </label>
-        </div>
-        <div *ngIf="allowOther" class="checkbox-inline item-check other-button">
-            <button class="btn btn-primary btn-sm"
-                    (click)="addOther()">
-                <i class="fa fa-plus"></i>
-            </button> 
-            <label><em>Add other</em></label>
-        </div> 
-    `,
-    directives: [],
-    styles: [`
+    <style>
     div.checkbox-inline.item-check {
         width: 25%;
         margin-left: 0;
@@ -56,10 +35,32 @@ import {
         border: none;
         border-bottom: 1px solid black;
     } 
-    `],
+    </style>
+    <div class="checkbox-inline item-check" *ngFor="let item of values.toArray()">
+        <label>
+            <input type="checkbox" [ngModel]="_hasItem(item)" (ngModelChange)="_toggleItem(item, $event)">
+            {{item}}
+        </label>
+    </div>
+    <div class="checkbox-inline item-check" *ngIf="_otherValueText !== null">
+        <label>
+            <input type="checkbox" [ngModel]="true"> 
+            <input #otherValueInput type="text" [(ngModel)]="_otherValueText"
+                              (blur)="commitOther()">
+        </label>
+    </div>
+    <div *ngIf="allowOther" class="checkbox-inline item-check other-button">
+        <button class="btn btn-primary btn-sm"
+                (click)="addOther()">
+            <i class="fa fa-plus"></i>
+        </button> 
+        <label><em>Add other</em></label>
+    </div> 
+    `,
+    directives: [],
     styleUrls: [
-        'assets/css/font-awesome.css',
-        'assets/css/bootstrap.css'
+        '../../../assets/css/font-awesome.css',
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

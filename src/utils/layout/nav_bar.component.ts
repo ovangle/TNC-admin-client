@@ -13,6 +13,7 @@ import {Name, NamePipe} from '../../member/basic';
 
 import {Dropdown} from './dropdown.component';
 
+
 interface MenuOption {
     routerLink: any[];
     name: string;
@@ -27,6 +28,28 @@ abstract class MenuOptionsService {
 @Component({
     selector: 'nav-bar',
     template: `
+    <style>
+    :host {
+        display: block;
+    }    
+    
+    nav.navbar-default {
+        margin-bottom: 0;
+        width: 100%;
+    }
+    
+    nav {
+        display: inline-block;
+    }    
+    
+    button.navbar-toggle {
+        padding: 6px 10px;
+    }
+
+    a {
+        cursor: pointer;
+    }
+    </style>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -54,30 +77,9 @@ abstract class MenuOptionsService {
     `,
     directives: [ROUTER_DIRECTIVES, Dropdown],
     pipes: [NamePipe, AsyncPipe],
-    styles: [`
-    :host {
-        display: block;
-    }    
-    
-    nav.navbar-default {
-        margin-bottom: 0;
-    }
-    
-    nav {
-        display: inline-block;
-    }    
-    
-    button.navbar-toggle {
-        padding: 6px 10px;
-    }
-
-    a {
-        cursor: pointer;
-    }
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

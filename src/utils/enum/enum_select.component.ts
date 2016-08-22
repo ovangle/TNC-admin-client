@@ -7,6 +7,7 @@ import {StateException} from 'caesium-model/exceptions';
 import {FormControl, Validators, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {isBlank} from 'caesium-core/lang';
 
+
 @Component({
     selector: 'enum-select2',
     template: `
@@ -26,7 +27,7 @@ import {isBlank} from 'caesium-core/lang';
         REACTIVE_FORM_DIRECTIVES
     ],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -44,7 +45,6 @@ export class EnumSelect2 {
 
     private control: FormControl;
     constructor() {}
-
 
     ngOnInit() {
         if (isBlank(this.enumValues)) {

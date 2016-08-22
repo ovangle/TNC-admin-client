@@ -2,12 +2,9 @@
 ///<reference path="../typings/node/node.d.ts"/>
 ///<reference path="../node_modules/immutable/dist/immutable.d.ts"/>
 
-import 'reflect-metadata';
-
 import {enableProdMode} from '@angular/core';
 import {RequestOptions as BaseRequestOptions, Headers, HTTP_PROVIDERS} from '@angular/http';
-
-import {bootstrap} from '@angular/platform-browser-dynamic';
+import {bootstrap as ngBootstrap} from '@angular/platform-browser-dynamic';
 import {
     LocationStrategy, HashLocationStrategy, PathLocationStrategy, APP_BASE_HREF
 } from '@angular/common';
@@ -32,28 +29,31 @@ class RequestOptions extends BaseRequestOptions {
     }
 }
 
-loadAppConfig().then((appConfig) => {
-    if (!appConfig.debug) {
-        enableProdMode();
-    }
+export function bootstrap(): Promise<any> {
+    return loadAppConfig().then((appConfig) => {
+        console.log('loading app config', appConfig);
+        if (!appConfig.debug) {
+            enableProdMode();
+        }
 
-    var apiHost = appConfig.api.serverHref;
+        var apiHost = appConfig.api.serverHref;
 
-    var locationStrategyCls = (appConfig.router.locationStrategy === "hash")
-        ? HashLocationStrategy
-        : PathLocationStrategy;
-    bootstrap(MainApp, [
-        HTTP_PROVIDERS,
-        {provide: BaseRequestOptions, useClass: RequestOptions},
-        APP_ROUTER_PROVIDERS,
-        {provide: LocationStrategy, useClass: locationStrategyCls},
-        {provide: APP_BASE_HREF, useValue: appConfig.router.appBaseHref},
-        {provide:API_HOST_HREF, useValue: appConfig.api.serverHref},
-        {provide:SEARCH_PAGE_SIZE, useValue: appConfig.api.searchPageSize},
-        MANAGER_PROVIDERS,
-        COMPONENT_HOST_PROVIDERS,
-        MODAL_PROVIDERS,
-        disableDeprecatedForms(),
-        provideForms()
-    ]);
-});
+        var locationStrategyCls = (appConfig.router.locationStrategy === "hash")
+            ? HashLocationStrategy
+            : PathLocationStrategy;
+        ngBootstrap(MainApp, [
+            HTTP_PROVIDERS,
+            {provide: BaseRequestOptions, useClass: RequestOptions},
+            APP_ROUTER_PROVIDERS,
+            {provide: LocationStrategy, useClass: locationStrategyCls},
+            {provide: APP_BASE_HREF, useValue: appConfig.router.appBaseHref},
+            {provide: API_HOST_HREF, useValue: appConfig.api.serverHref},
+            {provide: SEARCH_PAGE_SIZE, useValue: appConfig.api.searchPageSize},
+            MANAGER_PROVIDERS,
+            COMPONENT_HOST_PROVIDERS,
+            MODAL_PROVIDERS,
+            disableDeprecatedForms(),
+            provideForms()
+        ]);
+    });
+}

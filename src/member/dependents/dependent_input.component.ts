@@ -17,9 +17,16 @@ import {CarerRel} from './carer_rel/carer_rel.model';
 import {CarerRelInput} from './carer_rel/carer_rel_input.component';
 import {DependentManager} from './dependent.manager';
 
+
 @Component({
     selector: 'dependent-input',
     template: `
+    <style>
+    enum-select2 + date-input, 
+    button + button {
+        margin-left: 30px;
+    } 
+    </style>
     <div class="well">
         <name-input 
             [name]="dependent.name"
@@ -64,16 +71,10 @@ import {DependentManager} from './dependent.manager';
         NameInput, CarerRelInput, EnumSelect2, DateInput
     ],
     pipes: [NamePipe],
-    styles: [`
-    enum-select2 + date-input, 
-    button + button {
-        margin-left: 30px;
-    }
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/flex.css',
-        'assets/css/font-awesome.css'
+    '../../../assets/css/bootstrap.css',
+    '../../../assets/css/flex.css',
+    '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

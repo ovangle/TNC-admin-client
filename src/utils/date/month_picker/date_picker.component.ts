@@ -1,5 +1,6 @@
 import moment = require('moment');
 import {Moment} from 'moment';
+import {List} from 'immutable';
 
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/filter';
@@ -18,67 +19,68 @@ import {CurrentDateDisplay} from './current_date_display.component';
 import {MonthInput} from './month_input.component';
 import {YearInput} from './year_input.component';
 
+
 @Component({
     selector: 'date-picker',
     template: `
+    <style>
+    :host {
+        display: flex;
+        background-color: #fff;
+    }
+
+    .calendar-container {
+        width: 25rem;
+        padding: 1rem;
+    }
+
+    header, main {
+        width: 100%;
+    }
+
+    header {
+        margin-bottom: 2rem;
+    }
+
+    .btn-group {
+        float: right;
+    }
+
+    month-input:after {
+        width: 1rem;
+        content: '';
+    }
+
+    i.fa {
+        line-height: inherit;
+    }
+    </style>
     <current-date-display [date]="_selected"></current-date-display>
     <div class="calendar-container">
         <header class="layout horizontal">
             <i class="fa fa-chevron-left" (click)="_decrementDisplayMonth()"></i>
-            <month-input class="flex-1" [month]="_displayMoment.month()" (monthChange)="_setDisplayMonth($event)"></month-input>     
+            <month-input class="flex-1" [month]="_displayMoment.month()" (monthChange)="_setDisplayMonth($event)"></month-input>
             <year-input class="flex-1" [year]="_displayMoment.year()" (yearChange)="_setDisplayYear($event)"></year-input>
-            <i class="fa fa-chevron-right" (click)="_incrementDisplayMonth()"></i> 
-        </header>    
+            <i class="fa fa-chevron-right" (click)="_incrementDisplayMonth()"></i>
+        </header>
         <main>
-            <calendar-month 
+            <calendar-month
                 [year]="_displayMoment.year()"
                 [month]="_displayMoment.month()"
                 [selectedDate]="_selected"
                 (selectedDateChange)="_selected = $event"></calendar-month>
-                
+
             <div class="btn-group">
-                <button class="btn btn-primary" (click)="commit()">OK</button>    
+                <button class="btn btn-primary" (click)="commit()">OK</button>
                 <button class="btn btn-default" (click)="cancel()">Cancel</button>
             </div>
         </main>
     </div>
     `,
-    styles: [`
-    :host {
-        display: flex; 
-        background-color: #fff;
-    }
-    
-    .calendar-container {
-        width: 25rem; 
-        padding: 1rem;
-    }
-    
-    header, main {
-        width: 100%;
-    }
-    
-    header {
-        margin-bottom: 2rem;
-    }
-    
-    .btn-group {
-        float: right;
-    }
-    
-    month-input:after {
-        width: 1rem;  
-        content: '';
-    }
-    
-    i.fa {
-        line-height: inherit;
-    }
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/font-awesome.css',
-        'assets/css/flex.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/font-awesome.css',
+        '../../../../assets/css/flex.css'
     ],
     directives: [CurrentDateDisplay, MonthInput, YearInput, CalendarMonth],
     encapsulation: ViewEncapsulation.Native,
@@ -90,7 +92,7 @@ export class DatePicker implements OnInit, OnDestroy {
     private _selected: Moment = moment();
 
     private _element: ElementRef;
-    private _closeSubscriptions = Immutable.List<Subscription>();
+    private _closeSubscriptions = List<Subscription>();
 
     @Input()
     get date(): Date { return this._selected.toDate(); }

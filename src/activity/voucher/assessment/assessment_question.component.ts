@@ -10,10 +10,10 @@ import {
         <content></content>
     </fieldset>
     `,
-    directives: [],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
+    directives: [],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

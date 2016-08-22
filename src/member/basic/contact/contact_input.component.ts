@@ -11,12 +11,17 @@ import {isDefined} from 'caesium-core/lang';
 import {Contact} from './contact.model';
 import {PhoneInput} from '../../../utils/components/phone_input.component';
 
-
 const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
 @Component({
     selector: 'contact-input',
     template: `
+    <style>
+    phone-input {
+        margin-left: 30px; 
+    } 
+    </style>
+
     <div class="layout horizontal">
         <div class="form-group email-input flex"
             [ngClass]="{
@@ -54,14 +59,9 @@ const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9
     </div>
     `,
     directives: [PhoneInput],
-    styles: [`
-    phone-input {
-        margin-left: 30px;
-    }
-    `],
     styleUrls: [
-        'assets/css/flex.css',
-        'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css',
+        '../../../../assets/css/flex.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

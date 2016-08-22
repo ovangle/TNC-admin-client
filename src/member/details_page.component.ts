@@ -22,11 +22,31 @@ import {Member} from './member.model';
 import {MemberManager} from './member.manager';
 import {FileNoteSearch} from './file_notes';
 
+
 export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
 
 @Component({
     selector: 'member-details',
     template: `
+    <style>
+    :host {
+        display: block; 
+        height: 100%;
+    }    
+    .container {
+        height: 100%; 
+    }
+    .main-container {
+        height: calc(100% - 160px);
+    }    
+    .main-content {
+        height: 100%;
+    }
+    .main {
+        height: calc(100% - 64px);
+        overflow-y: auto;
+    }     
+    </style>
     <div class="container">
         <page-header
             leader="Member"
@@ -80,28 +100,9 @@ export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
     directives: [ROUTER_DIRECTIVES, PageHeader, MemberTermDisplay, FileNoteSearch],
     pipes: [NamePipe, AsyncPipe],
     providers: [MemberManager],
-    styles: [`
-    :host {
-        display: block; 
-        height: 100%;
-    }    
-    .container {
-        height: 100%; 
-    }
-    .main-container {
-        height: calc(100% - 160px);
-    }    
-    .main-content {
-        height: 100%;
-    }
-    .main {
-        height: calc(100% - 64px);
-        overflow-y: auto;
-    }    
-    `],
     styleUrls: [
-        'assets/css/font-awesome.css',
-        'assets/css/bootstrap.css'
+        '../../assets/css/bootstrap.css',
+        '../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

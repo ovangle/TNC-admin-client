@@ -11,10 +11,21 @@ import {StaffCreateForm} from './create_form/create_form.component';
 import {StaffCreateSuccessAlert} from './create_form/create_success_alert.component';
 
 
-
 @Component({
     selector: 'staff-create-page',
     template: `
+    <style>
+    :host {
+        display: block;
+        height: 100%;
+    }
+    .container {
+        height: 100%;
+    } 
+    staff-create-form {
+        height: calc(100% - 140px);
+    }   
+    </style>
     <div class="container">
         <page-header title="Create staff">
             <div class="btn-group">
@@ -29,21 +40,9 @@ import {StaffCreateSuccessAlert} from './create_form/create_success_alert.compon
     </div>
     `,
     directives: [PageHeader, StaffCreateForm, StaffCreateSuccessAlert],
-    styles: [`
-    :host {
-        display: block;
-        height: 100%;
-    }
-    .container {
-        height: 100%;
-    } 
-    staff-create-form {
-        height: calc(100% - 140px);
-    }    
-    `],
     styleUrls: [
-        'assets/css/font-awesome.css',
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

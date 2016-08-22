@@ -11,12 +11,7 @@ import {KeyCode} from '../../keycodes.enum';
 @Component({
     selector: 'year-input',
     template: `
-        <input #input class="year-input" type="number" 
-               (keydown)="_handleEnterOrEsc($event)"
-               [ngModel]="year" 
-               (ngModelChange)="_inputYear = $event"
-               (blur)="commit()"> `,
-    styles: [`
+    <style>
     input.year-input {
         padding: 0;
         width: 5em;
@@ -28,10 +23,16 @@ import {KeyCode} from '../../keycodes.enum';
     input[type="number"]::-webkit-outer-spin-button, 
     input[type="number"]::-webkit-inner-spin-button {
         display: none;
-    }
-    `],
+    } 
+    </style>
+    <input #input class="year-input" type="number" 
+           (keydown)="_handleEnterOrEsc($event)"
+           [ngModel]="year" 
+           (ngModelChange)="_inputYear = $event"
+           (blur)="commit()"> 
+    `,
     styleUrls: [
-        'assets/css/bootstrap.css'
+         '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -12,9 +12,14 @@ import {ModalOptions} from '../modal_options.model';
 import {Modal} from '../modal.service';
 import {MouseEventsOutsideElement} from '../../events/mouse_events_outside_element.service';
 
+
+
 @Component({
     selector: 'modal-dialog-content',
     template: `
+    <style>
+    :host { display: block; }
+    </style>
     <div class="modal-content">
         <div [csSource]="options.remote" 
              [csType]="options.body" 
@@ -26,11 +31,8 @@ import {MouseEventsOutsideElement} from '../../events/mouse_events_outside_eleme
     providers: [
         MouseEventsOutsideElement
     ],
-    styles: [`
-    :host { display: block; }
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -62,9 +64,9 @@ export class ModalDialogContent implements OnInit, OnDestroy {
             });
         }
     }
-    
+
     ngOnChanges(changes: any) {
-        debugger; 
+        debugger;
     }
 
     ngOnDestroy() {

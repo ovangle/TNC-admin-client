@@ -15,6 +15,11 @@ import {
 @Component({
     selector: 'eapa-voucher-bill-input',
     template: `
+    <style>
+    :host {
+        display: block;
+    }   
+    </style>
     <div *ngIf="bill" class="clearfix">
         <div [ngSwitch]="editing">
             <energy-account-input 
@@ -48,13 +53,8 @@ import {
     `,
     directives: [EnergyAccountInput, EnergyAccountDisplay],
     pipes: [NamePipe, AddressPipe],
-    styles: [`
-    :host {
-        display: block;
-    }    
-    `],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../../../assets/css/bootstrap.css',
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

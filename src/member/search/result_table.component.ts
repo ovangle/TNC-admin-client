@@ -35,8 +35,8 @@ import {MemberResultTableRow} from './result_table/result_table_row.component';
     `,
     directives: [MemberResultTableRow, ResultContainer, Spinner],
     styleUrls: [
-        'assets/css/bootstrap.css',
-        'assets/css/search_result_table.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/search_result_table.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

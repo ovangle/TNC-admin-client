@@ -8,6 +8,7 @@ import {KeyCode} from '../keycodes.enum';
 import {formatPhoneNumber, DIGIT_PLACEHOLDER} from '../pipes/phone_number.pipe';
 
 
+
 @Component({
     selector: 'phone-input',
     template: `
@@ -29,9 +30,8 @@ import {formatPhoneNumber, DIGIT_PLACEHOLDER} from '../pipes/phone_number.pipe';
     </div>
     `,
     directives: [REACTIVE_FORM_DIRECTIVES],
-    styles: [],
     styleUrls: [
-        'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

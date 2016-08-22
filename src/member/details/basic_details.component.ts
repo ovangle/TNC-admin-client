@@ -20,44 +20,44 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
 @Component({
     selector: 'member-basic-details',
     template: `
-        <div *ngIf="member" class="col-sm-12">
-        <!-- TODO: Change this name -->
-            <contact-display [contact]="member.contact"></contact-display>  
-            <residential-status-display
-                    [status]="member.residentialStatus"
-                    [address]="member.address"></residential-status-display>
-            <income-display [income]="member.income"></income-display>
-            <div *ngIf="member.gasAccount">
-                <energy-account-display [energyAccount]="member.gasAccount"></energy-account-display>
-            </div> 
-            <div *ngIf="member.electricityAccount">
-                <energy-account-display [energyAccount]="member.electricityAccount"></energy-account-display> 
-            </div>
-            
-            <div>
-                <h3>Household</h3> 
-                <partner-display [partner]="member.partner"></partner-display>
-                <dependent-list-display [carer]="member" [dependents]="member.dependents">
-                </dependent-list-display>
-            </div>
+    <style>
+    :host {
+        display: block; 
+        height: 100%
+        overflow-y: auto;
+    }
+    </style>
+    <div *ngIf="member" class="col-sm-12">
+    <!-- TODO: Change this name -->
+        <contact-display [contact]="member.contact"></contact-display>  
+        <residential-status-display
+                [status]="member.residentialStatus"
+                [address]="member.address"></residential-status-display>
+        <income-display [income]="member.income"></income-display>
+        <div *ngIf="member.gasAccount">
+            <energy-account-display [energyAccount]="member.gasAccount"></energy-account-display>
+        </div> 
+        <div *ngIf="member.electricityAccount">
+            <energy-account-display [energyAccount]="member.electricityAccount"></energy-account-display> 
         </div>
+            
+        <div>
+            <h3>Household</h3> 
+            <partner-display [partner]="member.partner"></partner-display>
+            <dependent-list-display [carer]="member" [dependents]="member.dependents">
+            </dependent-list-display>
+        </div>
+    </div>
         
     `,
     directives: [
         ContactDisplay, ResidentialStatusDisplay, IncomeDisplay,
         EnergyAccountDisplay, PartnerDisplay, DependentListDisplay
     ],
-    pipes: [AsyncPipe],
-    styles: [`
-    :host {
-        display: block; 
-        height: 100%
-        overflow-y: auto;
-    }
-    `],
     styleUrls: [
-       'assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css'
     ],
+    pipes: [AsyncPipe],
     encapsulation: ViewEncapsulation.Native
 })
 export class MemberBasicDetails {
