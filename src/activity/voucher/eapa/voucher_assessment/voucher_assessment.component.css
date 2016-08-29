@@ -1,3 +1,7 @@
+:host {
+    display: block;
+    margin-bottom: 50px;
+}
 
 eapa-assessment-question > div.checkbox {
     margin-left: 20px;

@@ -21,5 +21,9 @@ export abstract class FoodcareVoucher extends Voucher {
     getType(): VoucherType {
         return 'FOODCARE';
     }
+
+    _getIsValid(): boolean {
+        return true;
+    }
 }
 

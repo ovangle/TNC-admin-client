@@ -37,7 +37,6 @@ import {EAPAVoucherAssessment} from './eapa';
                 [voucher]="voucher"
                 (voucherChange)="voucherChange.emit($event)"
                 (memberChange)="memberChange.emit($event)"
-                (validityChange)="validityChange.emit($event)"
                 [disabled]="disabled">
         </eapa-voucher-assessment>
         <div *ngSwitchDefault>
@@ -45,13 +44,20 @@ import {EAPAVoucherAssessment} from './eapa';
         </div>
     </div>
     
+    <!--
     <div class="voucher-value">
-        <strong>Assessed value:</strong> \$ {{voucher.getValue()}} 
+        <strong>Assessed value:</strong> <span>$ {{voucher.getValue()}}</span>
+        <button class="btn btn-default" 
+                [disabled]="hasErrors">
+            <i class="fa fa-save"></i> Submit
+        </button>    
     </div>
+    -->
     `,
     directives: [EnumSelect2, FoodcareVoucherInput, EAPAVoucherAssessment],
     styleUrls: [
-        '../../../assets/css/bootstrap.css'
+        '../../../assets/css/bootstrap.css',
+        '../../../assets/css/font-awesome.css'
     ],
     encapsulation: ViewEncapsulation.Native,
 })
@@ -61,7 +67,6 @@ export class VoucherInput {
 
     @Input() voucher: Voucher;
     @Output() voucherChange = new EventEmitter<Voucher>();
-    @Output() validityChange = new EventEmitter<boolean>();
 
     @Input() disabled: boolean;
 

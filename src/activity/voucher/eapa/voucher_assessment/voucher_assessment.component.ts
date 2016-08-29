@@ -15,6 +15,7 @@ import {Member} from '../../../../member';
 import {Name, NamePipe} from '../../../../member/basic';
 
 import {VoucherAssessmentQuestion} from '../../assessment/assessment_question.component';
+import {VoucherRange, VoucherRangeInput} from '../voucher_range.ts';
 
 import {EAPAVoucher} from '../eapa_voucher.model';
 import {
@@ -24,6 +25,7 @@ import {
 import {EAPAVoucherBillInput} from '../bill/bill_input.component';
 
 import {EAPAVoucherEnergyAccountsSelect} from '../voucher_accounts_select.component';
+import {EAPAVoucherBooksInput} from '../voucher_book';
 
 @Component({
     selector: 'eapa-voucher-assessment',
@@ -33,12 +35,13 @@ import {EAPAVoucherEnergyAccountsSelect} from '../voucher_accounts_select.compon
     styleUrls: [
         '../../../../../assets/css/bootstrap.css',
         './voucher_assessment.component.css'
-
     ],
     directives: [
         VoucherAssessmentQuestion,
         EAPAVoucherBillInput,
-        EAPAVoucherEnergyAccountsSelect
+        EAPAVoucherEnergyAccountsSelect,
+        VoucherRangeInput,
+        EAPAVoucherBooksInput
     ],
     encapsulation: ViewEncapsulation.Native,
 })
@@ -50,8 +53,6 @@ export class EAPAVoucherAssessment {
     @Input() voucher: EAPAVoucher;
     @Output() voucherChange = new EventEmitter<EAPAVoucher>();
 
-    @Output() validityChange = new EventEmitter<boolean>();
-
     /// If we are reviewing the content of the form.
     @Input() disabled: boolean = false;
 
@@ -59,18 +60,9 @@ export class EAPAVoucherAssessment {
 
     constructor(private userContext: UserContext) {}
 
-    get isValid(): boolean {
-        return !this.voucher.isFacingHardship
-            || this.voucher.bills.isEmpty()
-            || !this.voucher.isCustomerDeclarationSigned
-            || !this.voucher.isAssessorDeclarationSigned
-            || !this.voucher.isValidLimitExemption;
-    }
-
-
     private propChanged(prop: string, value: any) {
+        console.log(`property ${prop} changed`, value);
         this.voucherChange.emit(<EAPAVoucher>this.voucher.set(prop, value));
-        this.validityChange.emit(this.isValid);
     }
 
     private energyAccountTypesChanged(accountTypes: EnergyAccountType[]) {
@@ -93,7 +85,6 @@ export class EAPAVoucherAssessment {
             });
         });
 
-        console.log(bills.toJS());
         this.propChanged('bills', bills);
     }
 

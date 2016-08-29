@@ -12,6 +12,9 @@ import {MemberDetailsPage} from '../details_page.component';
 @Component({
     selector: 'member-activity',
     template: `
+    <style>
+    :host { display: block; }  
+    </style>
     <div class="col-sm-12">
         <router-outlet></router-outlet>
     </div>

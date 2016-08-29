@@ -38,6 +38,7 @@ export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
     }
     .main-container {
         height: calc(100% - 160px);
+        position: relative;
     }    
     .main-content {
         height: 100%;

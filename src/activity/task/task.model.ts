@@ -1,10 +1,9 @@
 import {Observable} from 'rxjs/Observable';
-import {List} from 'immutable';
 
-import {forwardRef} from '@angular/core';
-
+import {isBlank} from 'caesium-core/lang';
 import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
 import {list, dateTime} from 'caesium-model/json_codecs';
+
 
 import {Member, MemberManager} from '../../member';
 import {Name, NAME_CODEC} from '../../member/basic';
@@ -52,5 +51,24 @@ export class Task extends ModelBase {
                 throw 'Invalid voucher type: ' + this.type;
         }
     }
+
+    get isValid(): boolean {
+        switch (this.type) {
+            case 'ISSUE_VOUCHER':
+                return this._isIssueVoucherTaskValid();
+            default:
+                return false;
+        }
+    }
+
+    private _isIssueVoucherTaskValid(): boolean {
+        if (isBlank(this.voucher))
+            return false;
+        // The member ID cannot be null for a voucher
+        if (isBlank(this.memberId))
+            return false;
+        return this.voucher.isValid;
+    }
+
 
 }

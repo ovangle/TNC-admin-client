@@ -60,5 +60,5 @@ export class VoucherManager extends ManagerBase<Voucher> {
 export const VOUCHER_CODEC = union(
     forwardRef(() => ChemistVoucher),
     forwardRef(() => FoodcareVoucher),
-    forwardRef(() => EAPAVoucher)
+    EAPAVoucher
 );

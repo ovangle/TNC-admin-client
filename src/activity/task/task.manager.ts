@@ -20,7 +20,10 @@ export class TaskManager extends ManagerBase<Task> {
         ];
     }
 
-    constructor(options: ManagerOptions) {
+    constructor(
+        options: ManagerOptions,
+        private voucherManager: VoucherManager
+    ) {
         super(options);
     }
 

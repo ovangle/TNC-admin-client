@@ -11,6 +11,7 @@ import {Search} from 'caesium-model/manager';
 import {SearchBar, ParameterBuilder} from '../../utils/search';
 import {DropdownMenu} from '../../utils/layout/dropdown_menu.component';
 import {Member, MemberDetailsPage} from '../../member';
+import {VoucherManager} from '../voucher';
 
 import {Task} from './task.model';
 import {TaskManager} from './task.manager';
@@ -19,8 +20,6 @@ import {TaskSearchResultTable} from './search/result_table.component';
 import {TaskParameterBuilder} from './search/parameter_builder.service';
 
 import {TASK_MENU_ITEMS} from './task.menuitems';
-
-
 
 @Component({
     selector: 'task-search-page',
@@ -45,6 +44,7 @@ import {TASK_MENU_ITEMS} from './task.menuitems';
     directives: [SearchBar, ROUTER_DIRECTIVES, TaskSearchResultTable, DropdownMenu],
     providers: [
         {provide: ParameterBuilder, useClass: TaskParameterBuilder},
+        VoucherManager,
         TaskManager
     ],
     styleUrls: [

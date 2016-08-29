@@ -21,6 +21,12 @@ export class EnergyAccountBill extends _BILL_RECORD {
     }) {
         super(args);
     }
+
+    get isValid(): boolean {
+        return this.account.isValid
+            && this.value >= 0;
+
+    }
 }
 
 export const ENERGY_ACCOUNT_BILL_CODEC = recordCodec<EnergyAccountBill>(

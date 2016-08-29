@@ -6,9 +6,13 @@ import {VoucherType, VOUCHER_TYPE_VALUES} from './voucher_type.model';
 export abstract class Voucher extends ModelBase {
     abstract getValue(): number;
     abstract getType(): VoucherType;
+    abstract _getIsValid(): boolean;
 
     getDisplayType(): string {
         return VOUCHER_TYPE_VALUES.get(this.getType());
     }
+
+    get isValid() { return this._getIsValid(); }
+
 }
 

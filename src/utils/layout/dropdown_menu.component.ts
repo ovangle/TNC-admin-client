@@ -13,8 +13,6 @@ import {Dropdown} from './dropdown.component';
 
 /**
  * An item in a dropdown menu.
- *
- *
  */
 export interface DropdownMenuItem {
 
@@ -125,16 +123,7 @@ class DropdownMenuItemComponent {
 @Component({
     selector: 'dropdown-menu',
     template: `
-    <dropdown [active]="active">
-        <ul class="list-unstyled">
-            <li *ngFor="let item of items.toArray()">
-                <dropdown-menu-item [item]="item" (close)="menuItemClose($event)"></dropdown-menu-item> 
-            </li>
-        </ul>
-    </dropdown>
-    `,
-    directives: [Dropdown, DropdownMenuItemComponent],
-    styles: [`
+    <style>
     ul.list-unstyled {
     }    
     dropdown-menu-item {
@@ -147,8 +136,20 @@ class DropdownMenuItemComponent {
         background-image: linear-gradient(to bottom,#f5f5f5 0,#e8e8e8 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffe8e8e8', GradientType=0);
         background-repeat: repeat-x;
-    }    
-    `],
+    }  
+    </style>
+    <dropdown [active]="active">
+        <ul class="list-unstyled">
+            <li *ngFor="let item of items.toArray()">
+                <dropdown-menu-item [item]="item" (close)="menuItemClose($event)"></dropdown-menu-item> 
+            </li>
+        </ul>
+    </dropdown>
+    `,
+    directives: [Dropdown, DropdownMenuItemComponent],
+    styleUrls: [
+        '../../../assets/css/bootstrap.css'
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
