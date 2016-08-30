@@ -49,7 +49,7 @@ import {VoucherBookAdjacency, getAdjacencies} from './adjacency.model';
                 (voucherBookChange)="bookChanged(i, $event)">
         </eapa-voucher-book-input>
         <div class="form-group">
-            <div class="col-sm-1"
+            <div class="col-sm-1"></div>
             <label class="control-label col-sm-4">Allocated</label>
             <p class="form-control-static col-sm-4">{{currentAllocation}}</p>
         </div>
