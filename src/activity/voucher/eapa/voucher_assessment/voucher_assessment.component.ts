@@ -15,7 +15,6 @@ import {Member} from '../../../../member';
 import {Name, NamePipe} from '../../../../member/basic';
 
 import {VoucherAssessmentQuestion} from '../../assessment/assessment_question.component';
-import {VoucherRange, VoucherRangeInput} from '../voucher_range.ts';
 
 import {EAPAVoucher} from '../eapa_voucher.model';
 import {
@@ -40,7 +39,6 @@ import {EAPAVoucherBooksInput} from '../voucher_book';
         VoucherAssessmentQuestion,
         EAPAVoucherBillInput,
         EAPAVoucherEnergyAccountsSelect,
-        VoucherRangeInput,
         EAPAVoucherBooksInput
     ],
     encapsulation: ViewEncapsulation.Native,
@@ -61,7 +59,6 @@ export class EAPAVoucherAssessment {
     constructor(private userContext: UserContext) {}
 
     private propChanged(prop: string, value: any) {
-        console.log(`property ${prop} changed`, value);
         this.voucherChange.emit(<EAPAVoucher>this.voucher.set(prop, value));
     }
 

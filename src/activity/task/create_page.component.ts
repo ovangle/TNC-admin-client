@@ -106,7 +106,6 @@ export class CreateTaskPage {
     }
 
     save() {
-        debugger;
         this.taskManager.save(this.task).forEach(task => {
             this.router.navigate(['..'], {relativeTo: this.route});
         })

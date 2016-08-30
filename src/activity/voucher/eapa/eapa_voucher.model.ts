@@ -6,8 +6,8 @@ import {isBlank} from 'caesium-core/lang';
 import {Model, Property, RefProperty} from 'caesium-model/model';
 import {Voucher} from '../voucher.model';
 import {VoucherType} from '../voucher_type.model';
-import {VoucherRange} from './voucher_range/voucher_range.model';
-import {EAPAVoucherBook, EAPA_VOUCHER_BOOK_CODEC, VOUCHER_DOLLAR_VALUE} from './voucher_book';
+import {EAPAVoucherBook, EAPA_VOUCHER_BOOK_CODEC, VOUCHER_DOLLAR_VALUE,
+        isVoucherBooksValid} from './voucher_book';
 
 import {EnergyAccountType, EnergyAccountBill, ENERGY_ACCOUNT_BILL_CODEC} from './bill/bill.model';
 
@@ -59,16 +59,10 @@ export class EAPAVoucher extends Voucher {
     }
 
     set(prop: string, value: any): EAPAVoucher {
-        return <EAPAVoucher>super.set(prop, value);
-        /**
         if (prop === 'voucherBooks') {
-            return <EAPAVoucher>super.set('voucherBooks', prefillVoucherBooks(value, this.numVouchersRequired));
-        } else {
-            let self = <EAPAVoucher>super.set(prop, value);
-            // We might have changed the assessment value, which may change the number of booklets
-            return self.set('voucherBooks', self.voucherBooks);
+            console.log('FINAL', value.toJS());
         }
-         **/
+        return <EAPAVoucher>super.set(prop, value);
     }
 
     /**
@@ -77,18 +71,6 @@ export class EAPAVoucher extends Voucher {
     get numVouchersRequired(): number {
         return Math.floor(this.getValue() / VOUCHER_DOLLAR_VALUE);
     }
-
-    /*
-    get voucherRange(): VoucherRange {
-        // Each voucher is worth $50
-        let numIssued = Math.floor(this.getValue() / 50);
-
-        return new VoucherRange({
-            firstId: this.firstVoucherId,
-            numVouchers: numIssued
-        });
-    }
-    */
 
     // The total value of all sighted bills.
     totalBillValue(): number {
@@ -109,18 +91,23 @@ export class EAPAVoucher extends Voucher {
         */
     }
 
+    get isBillsValid(): boolean {
+        return !this.bills.isEmpty()
+            && this.bills.every(bill => bill.isValid);
+    }
+
+    get isVoucherBooksValid(): boolean {
+        return isVoucherBooksValid(this.voucherBooks, this.getValue());
+    }
+
 
     _getIsValid(): boolean {
-        if (this.bills.isEmpty()) {
-            return false;
-        }
-
-        return this.bills.valueSeq().every(bill => bill.isValid)
-            && this.isValidLimitExemption
+        return this.isValidLimitExemption
             && this.isFacingHardship
             && this.isCustomerDeclarationSigned
-            && this.isAssessorDeclarationSigned;
-            //&& this.voucherRange.isValid;
+            && this.isAssessorDeclarationSigned
+            && this.isBillsValid
+            && this.isVoucherBooksValid;
     }
 
     get isValidLimitExemption(): boolean {

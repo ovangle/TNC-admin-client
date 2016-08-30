@@ -65,10 +65,6 @@ export class ModalDialogContent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnChanges(changes: any) {
-        debugger;
-    }
-
     ngOnDestroy() {
         if (this.outsideMouseClick && !this.outsideMouseClick.isUnsubscribed) {
             this.outsideMouseClick.unsubscribe();

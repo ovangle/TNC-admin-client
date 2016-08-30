@@ -1,9 +1,9 @@
 
-
 import {List, Record} from 'immutable';
 import {recordCodec} from 'caesium-model/json_codecs';
-import {isBlank} from 'caesium-core/lang';
+import {isBlank, isNumber} from 'caesium-core/lang';
 import {num} from 'caesium-model/json_codecs';
+import {ArgumentError} from 'caesium-model/exceptions';
 
 import {roundToCeil, roundToFloor} from './utils';
 
@@ -11,10 +11,13 @@ import {roundToCeil, roundToFloor} from './utils';
 export const VOUCHER_DOLLAR_VALUE = 50.0 /* AUD */;
 export const VOUCHERS_PER_BOOK = 10;
 
+const MIN_VOUCHER_ID = 100000;
+const MAX_VOUCHER_ID = 999999;
+
 
 const _EAPA_VOUCHER_BOOK_RECORD = Record({
     firstId: void 0,
-    numIssued: VOUCHERS_PER_BOOK
+    numIssued: 0
 });
 
 export class EAPAVoucherBook extends _EAPA_VOUCHER_BOOK_RECORD {
@@ -25,7 +28,6 @@ export class EAPAVoucherBook extends _EAPA_VOUCHER_BOOK_RECORD {
     constructor(args?: {firstId?: number, numIssued?: number}) {
         super(args);
     }
-
 
     /**
      * The maximum voucher index
@@ -44,15 +46,12 @@ export class EAPAVoucherBook extends _EAPA_VOUCHER_BOOK_RECORD {
     }
 
     get isFirstIdValid(): boolean {
-        if (isBlank(this.firstId)) {
-            return false;
-        }
-        return 100000 <= this.firstId && this.firstId <= 999999;
+        return isValidVoucherId(this.firstId);
     }
 
     get isValid(): boolean {
         return this.isFirstIdValid
-            && (0 < this.numIssued && this.numIssued <= 10)
+            && (this.firstId + this.numIssued < VOUCHERS_PER_BOOK);
     }
 
     contains(voucherId: number) {
@@ -60,17 +59,20 @@ export class EAPAVoucherBook extends _EAPA_VOUCHER_BOOK_RECORD {
             && voucherId < this.firstId + this.numIssued;
     }
 
-    rangeOverlaps(other: EAPAVoucherBook): boolean {
-        return other.contains(this.firstId)
-            || this.contains(other.firstId);
-    }
-
     get lastId(): number {
         return this.firstId + this.numIssued - 1;
     }
 
-    get isFull(): boolean {
+    get isFullyAllocated(): boolean {
         return (this.firstId + this.numIssued) % VOUCHERS_PER_BOOK  === 0;
+    }
+
+    isAdjacentTo(voucherBook?: EAPAVoucherBook): boolean {
+        if (isBlank(voucherBook))
+            return false;
+
+        return Math.abs(this.firstId - voucherBook.lastId) === 1
+            || Math.abs(this.lastId - voucherBook.firstId) === 1;
     }
 }
 
@@ -79,18 +81,44 @@ export const EAPA_VOUCHER_BOOK_CODEC = recordCodec<EAPAVoucherBook>({
     numIssued: num
 }, (args: any) => new EAPAVoucherBook(args));
 
-export function numBooksRequired(voucherBooks: List<EAPAVoucherBook>, expectIssued: number): number {
-    let actualIssued = voucherBooks.reduce((acc, book) => acc + book.numIssued, 0);
-    return Math.ceil((expectIssued - actualIssued) / VOUCHERS_PER_BOOK);
+export function isValidVoucherId(id: number) {
+    return isNumber(id)
+        && MIN_VOUCHER_ID <= id
+        && id <= MAX_VOUCHER_ID;
+}
+
+export function getTotalAllocation(voucherValue: number): number {
+    if (voucherValue % VOUCHER_DOLLAR_VALUE !== 0)  {
+        throw new ArgumentError(
+            `Cannot get total allocation. ` +
+            `Voucher value (${voucherValue}) must be a multiple of '${VOUCHER_DOLLAR_VALUE}'`
+        );
+    }
+
+    return Math.floor(voucherValue / VOUCHER_DOLLAR_VALUE);
+
+}
+
+export function getCurrentAllocation(voucherBooks: List<EAPAVoucherBook>): number {
+    return voucherBooks.reduce((acc, book) => acc + book.numIssued, 0);
+}
+
+function numBooksRequired(voucherBooks: List<EAPAVoucherBook>, totalAllocation: number): number {
+    let allocation = getCurrentAllocation(voucherBooks);
+    let diff = Math.ceil((totalAllocation - allocation) / VOUCHERS_PER_BOOK);
+    return voucherBooks.count() + diff;
 }
 
 function bookIdAndOffset(voucherBook: EAPAVoucherBook): {bookId: number, offset: number} {
     if (isBlank(voucherBook.firstId)) {
         return undefined;
     }
+    // Vouchers are 1-indexed
+    let bookId = roundToFloor(voucherBook.firstId - 1, VOUCHERS_PER_BOOK) + 1;
+
     return {
-        bookId: roundToFloor(voucherBook.firstId, VOUCHERS_PER_BOOK) + 1,
-        offset: voucherBook.firstId % VOUCHERS_PER_BOOK
+        bookId: bookId,
+        offset: voucherBook.firstId - bookId
     };
 }
 
@@ -107,7 +135,7 @@ function vouchersRemainingInBook(voucherBook: EAPAVoucherBook) {
     if (isBlank(x)) {
         return 0;
     }
-    return (VOUCHERS_PER_BOOK + 1) - x.offset;
+    return VOUCHERS_PER_BOOK - x.offset;
 }
 
 
@@ -118,57 +146,58 @@ function vouchersRemainingInBook(voucherBook: EAPAVoucherBook) {
  *
  *
  * @param voucherBooks
- * @param expectIssued
+ * @param totalAllocation
  * @returns {List<EAPAVoucherBook>}
  */
-export function prefillVoucherBooks(voucherBooks: List<EAPAVoucherBook>, expectIssued: number): List<EAPAVoucherBook> {
-    if (expectIssued === 0) {
+export function prefillVoucherBooks(voucherBooks: List<EAPAVoucherBook>, totalAllocation: number): List<EAPAVoucherBook> {
+    voucherBooks = voucherBooks
+        .setSize(numBooksRequired(voucherBooks, totalAllocation))
+        .map(book => isBlank(book) ? new EAPAVoucherBook(): book)
+        .toList();
+
+    if (voucherBooks.isEmpty() || !voucherBooks.first().isFirstIdValid) {
         return voucherBooks;
     }
-    let numBooks = numBooksRequired(voucherBooks, expectIssued);
 
-    console.log('VOUCHER_BOOKS', voucherBooks.toJS());
-
-    return voucherBooks.withMutations(books => {
-        if (numBooks> 0) {
-            let initialBooks = <EAPAVoucherBook[]>[];
-            for (let i = 0; i < numBooks ; i++) {
-                initialBooks.push(new EAPAVoucherBook());
-            }
-            books = books.push(...initialBooks);
-        }
-
-        if (books.isEmpty() || !books.first().isFirstIdValid) {
-            return books;
-        }
+    voucherBooks = voucherBooks.withMutations(books => {
+        let allocated = 0;
 
         let firstBook = books.first();
-        let numIssued = Math.min(vouchersRemainingInBook(firstBook), expectIssued);
+        let numIssued = Math.min(vouchersRemainingInBook(firstBook), totalAllocation);
         books = books.set(0, firstBook.set('numIssued', numIssued));
-
-        let allocated = 0;
 
         for (let i = 1; i < books.count(); i++) {
             let prevBook = books.get(i - 1);
             allocated += prevBook.numIssued;
             let currBook = books.get(i);
 
-            console.log('PREVIOUS BOOK ID', nextBookId(prevBook));
-            console.log('CURRENT BOOK ID', currBook.firstId);
-            console.log('----------------------------------');
-
             if (!currBook.isFirstIdValid || (currBook.firstId < nextBookId(prevBook))) {
                 currBook = currBook.set('firstId', nextBookId(prevBook));
-
             }
             let numIssued = Math.min(
                 vouchersRemainingInBook(currBook),
-                expectIssued - allocated
+                totalAllocation - allocated
             );
             currBook = currBook.set('numIssued', numIssued);
             books = books.set(i, currBook );
         }
         return books;
-
     });
+
+    // Now that all the vouchers have been populated, discard any books
+    // that we don't use a voucher from.
+    return voucherBooks
+        .filter(book => book.numIssued > 0)
+        .toList();
+}
+
+export function isVoucherBooksValid(voucherBooks: List<EAPAVoucherBook>, voucherValue: number): boolean {
+    if (voucherBooks.some(voucherBook => !voucherBook.isValid)) {
+        return false;
+    }
+
+    let totalAllocation = getTotalAllocation(voucherValue);
+    let currentAllocation = getCurrentAllocation(voucherBooks);
+
+    return currentAllocation === totalAllocation;
 }

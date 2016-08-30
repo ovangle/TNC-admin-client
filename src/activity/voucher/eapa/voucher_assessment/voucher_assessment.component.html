@@ -167,7 +167,6 @@
         <div class="alert alert-danger"
             *ngIf="!voucher.isCustomerDeclarationSigned">
             The customer must agree to the privacy notice to be eligible to receive EAPA.
-
         </div>
     </voucher-assessment-question>
 
@@ -230,18 +229,9 @@
         <eapa-voucher-books-input
             [voucherBooks]="voucher.voucherBooks"
             (voucherBooksChange)="propChanged('voucherBooks', $event)"
-            [expectIssued]="voucher.numVouchersRequired">
+            [voucherValue]="voucher.getValue()">
         </eapa-voucher-books-input>
     </voucher-assessment-question>
-
-    <!--
-    <voucher-assessment-question [questionId]="'7'">
-        <voucher-range-input
-                [voucherRange]="voucher.voucherRange"
-                (voucherRangeChange)="voucherRangeChanged($event)">
-        </voucher-range-input>
-    </voucher-assessment-question>
-    -->
 </div>
 
 

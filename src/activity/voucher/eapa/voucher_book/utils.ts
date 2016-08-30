@@ -11,5 +11,3 @@ export function roundToFloor(num: number, toNearest: number) {
 export function roundToCeil(num: number, toNearest: number) {
     return toNearest * Math.ceil(num / toNearest);
 }
-
-

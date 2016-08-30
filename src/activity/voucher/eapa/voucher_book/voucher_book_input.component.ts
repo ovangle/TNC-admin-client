@@ -1,10 +1,13 @@
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ChangeDetectorRef
+    ChangeDetectorRef, ElementRef
 } from '@angular/core';
 import {NgModel} from '@angular/forms';
 
-import {EAPAVoucherBook} from './voucher_book.model';
+import {isBlank} from 'caesium-core/lang';
+
+import {EAPAVoucherBook, isValidVoucherId} from './voucher_book.model';
+import {VoucherBookAdjacency} from './adjacency.model';
 
 @Component({
     selector: 'eapa-voucher-book-input',
@@ -12,17 +15,61 @@ import {EAPAVoucherBook} from './voucher_book.model';
     <style>
     :host {
         display: block; 
-        padding: 0px 15px 0px 15px;
     }
     .form-control.ng-pristine {
         color: #0f0f0f;
     }
     
+    .adjacency-container {
+        position: relative;
+        overflow: hidden;
+        transform: translateY(-7px);
+    }
+        
+    .adjacency-next::before, 
+    .adjacency-prev::before,
+    .adjacency-both::before {
+        content: '';
+        position: absolute; 
+        height: 100%;
+        width: 100%;
+        
+        left: 80%;
+    
+        background-color: blue;
+    }
+    
+    .adjacency-next::before,
+    .adjacency-prev::before {
+        border-radius: 4px;
+    }
+    
+    .adjacency-next::before {
+        top: 50%; 
+        bottom: -50%;
+    }
+    
+    .adjacency-prev::before {
+        top: -50%;
+        height: 100%;
+        width: 100%;
+    }
+    .adjacency-both::before {
+        top: -50%;
+        height: 200%; 
+    }
     
     </style>
     <div class="row">
+        <div class="col-sm-1" [ngSwitch]="adjacency" 
+            class="adjacency-container col-sm-1"
+            [style.height]="_hostHeight">
+            <div *ngSwitchCase="'PREV'" class="adjacency adjacency-prev"></div>
+            <div *ngSwitchCase="'NEXT'" class="adjacency adjacency-next"></div>
+            <div *ngSwitchCase="'BOTH'" class="adjacency adjacency-both"></div>
+        </div>
         <div class="form-group col-sm-4" [ngClass]="{
-            'has-error': !voucherBook.isValidFirstId
+            'has-error': !isFirstIdValid
         }">
             <label class="control-label" for="voucher-start" class="sr-only">
                 First voucher in current booklet
@@ -43,8 +90,16 @@ import {EAPAVoucherBook} from './voucher_book.model';
             </div>
             -->
         </div>    
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <p class="form-control-static">{{voucherBook.numIssued}}</p>       
+        </div>
+        
+        <div class="form-group col-sm-4 has-error"
+            *ngIf="!isFirstIdValid">
+        
+            <div class="help-block"> 
+                ID must be a six digit value 
+            </div>
         </div>
     </div>
     `,
@@ -59,20 +114,23 @@ export class EAPAVoucherBookInput {
     @Input() voucherBook: EAPAVoucherBook;
     @Output() voucherBookChange = new EventEmitter<EAPAVoucherBook>();
 
-    /// An error that is set, but which needs information about other booklets
-    /// in order to set the error
-    @Input() isOverlappingOtherVoucher: boolean = false;
+    @Input() adjacency: VoucherBookAdjacency;
 
-    private _numIssuedDisabled = true;
+    // Stored firstIdInput value
+    private _firstIdInput: number;
 
-    constructor(private changeDetector: ChangeDetectorRef) {}
+    constructor(
+        private changeDetector: ChangeDetectorRef,
+        private elementRef: ElementRef
+    ) {}
 
     ngOnInit() {
-        if (this.voucherBook.isValid) {
-            // Disable the numIssued selector
-            this._numIssuedDisabled = this.voucherBook.isFull;
-            this.changeDetector.markForCheck();
-        }
+        this._firstIdInput = this.voucherBook.firstId;
+    }
+
+    private get _hostHeight(): string{
+        var elem: HTMLElement = this.elementRef.nativeElement;
+        return `${elem.clientHeight}px`;
     }
 
     propChanged(prop: string, value: any) {
@@ -82,28 +140,25 @@ export class EAPAVoucherBookInput {
     }
 
     firstIdChanged(value: string) {
-        let n = Number.parseInt(value);
-        if (Number.isNaN(n)) {
-            return;
+        this._firstIdInput = Number.parseInt(value);
+        if (this.isFirstIdValid) {
+            this.propChanged('firstId', this._firstIdInput);
         }
-        if (n < 100000 || n > 999999) {
-            return;
-        }
-        this.propChanged('firstId', n);
+    }
+
+    get isFirstIdValid() {
+        console.log('Is valid input', isValidVoucherId(this._firstIdInput));
+        return isValidVoucherId(this._firstIdInput)
     }
 
     private firstIdFocused(event: Event) {
-        console.log('firstIdFocused');
         let input = <HTMLInputElement>event.target;
         input.select();
     }
 
     private firstIdBlurred(event: Event) {
-        console.log('firstIdBlurred');
         event.preventDefault();
-
     }
-
 
     get bookMinRange(): number {
         return 1;

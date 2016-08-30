@@ -6,8 +6,9 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 
-import {EAPAVoucherBook, prefillVoucherBooks, numBooksRequired} from './voucher_book.model';
+import {EAPAVoucherBook, prefillVoucherBooks, VOUCHER_DOLLAR_VALUE} from './voucher_book.model';
 import {EAPAVoucherBookInput} from './voucher_book_input.component';
+import {VoucherBookAdjacency, getAdjacencies} from './adjacency.model';
 
 
 @Component({
@@ -18,45 +19,50 @@ import {EAPAVoucherBookInput} from './voucher_book_input.component';
         min-width: 25%;
     } 
     </style>
-    <p>Details of the physical EAPA voucher</p>
     
-    <div class="form-group">
-        <label for="allocate-vouchers">Number of vouchers to allocate</label>
-        <p class="form-control-static">{{expectIssued}}</p>
-    </div>
     
-    <!--
-    <div class="form-group">
-        <label for="num-booklets-required">Number of booklets required</label>
-        <p class="form-control-static">{{numBookletsRequired}}</p>
-    </div>
-    -->
-    
-    <div> 
+    <div class="form-horizontal" *ngIf="!_prefilled.isEmpty()"> 
         <p>
-        Enter the value of the first voucher IDs in each booklet used. 
+        Enter the value of the first 6-digit voucher IDs printed on the front of the voucher booklet.
         If the voucher is already partially consumed, insert the ID of 
         the first visible voucher.
         </p> 
         
+        <p><em>Note:</em> Vouchers must be input in ascending order, with the smallest ID first</p>
+        
         <div class="row">
+            <div class="col-sm-1"></div> 
             <div class="col-sm-4">
-                <p class="col-header"><b>First ID</b></p>
+                <p class="col-header"><strong>First ID</strong></p>
             </div> 
             <div class="col-sm-4">
-                <p><b>Consumed</b></p>
+                <p><strong>Consumed</strong></p>
             </div>
-            
+            <div class="col-sm-4">
+            </div>
         </div>
-        <div class="layout">
-            <eapa-voucher-book-input
+        <eapa-voucher-book-input
                 class="flex"
                 *ngFor="let voucherBook of _prefilled; let i = index"
-                [edited]="_editedBooks.contains(i)"
+                [adjacency]="_adjacencies.get(i)"   
                 [voucherBook]="voucherBook"
                 (voucherBookChange)="bookChanged(i, $event)">
-            </eapa-voucher-book-input>
+        </eapa-voucher-book-input>
+        <div class="form-group">
+            <div class="col-sm-1"
+            <label class="control-label col-sm-4">Allocated</label>
+            <p class="form-control-static col-sm-4">{{currentAllocation}}</p>
         </div>
+        
+        <div class="form-group">
+            <div class="col-sm-1"></div>
+            <label for="allocate-vouchers" class="control-label col-sm-4">Required</label>
+            <p class="form-control-static col-sm-4">{{totalAllocation}}</p>
+        </div>
+    </div>
+    
+    <div *ngIf="_prefilled.isEmpty()" class="alert alert-danger">
+        No vouchers required by assessment
     </div>
     `,
     directives: [EAPAVoucherBookInput],
@@ -73,35 +79,33 @@ export class EAPAVoucherBooksInput {
     @Output() voucherBooksChange = new EventEmitter<List<EAPAVoucherBook>>();
 
     /// The number of individual vouchers we are required to issue.
-    @Input() expectIssued: number;
+    @Input() voucherValue: number;
+
+    get totalAllocation(): number {
+        return Math.floor(this.voucherValue / VOUCHER_DOLLAR_VALUE);
+    }
+
+    get currentAllocation(): number {
+        return this.voucherBooks
+            .reduce((acc, book) => acc + book.numIssued, 0)
+    }
 
     /// A prefilled copy of the array. This is the vouchers we actually
     /// want to keep.
-    private _prefilled: List<EAPAVoucherBook>;
+    private _prefilled = List<EAPAVoucherBook>();
+    private _adjacencies = List<VoucherBookAdjacency>();
 
     /// Which IDs have been directly edited by the user (i.e. not pre-filled values)?
     private _editedBooks: Set<number>;
 
     constructor(private _cd: ChangeDetectorRef){
-        this.errors = {
-            isOverlapping: []
-        }
         this._editedBooks = Set<number>();
     }
 
     ngOnChanges(changes: any) {
-        if (changes.voucherBooks) {
-            this._prefilled = prefillVoucherBooks(changes.voucherBooks.currentValue, this.expectIssued);
-            this._cd.markForCheck();
-        }
-    }
-
-    get prefilledVoucherBooks(): List<EAPAVoucherBook> {
-        return prefillVoucherBooks(this.voucherBooks, this.expectIssued);
-    }
-
-    get numBookletsRequired(): number {
-        return numBooksRequired(this.voucherBooks, this.expectIssued);
+        this._prefilled = prefillVoucherBooks(this.voucherBooks, this.totalAllocation);
+        this._adjacencies = getAdjacencies(this._prefilled);
+        this._cd.markForCheck();
     }
 
     private _focusedInput: number;
@@ -114,20 +118,13 @@ export class EAPAVoucherBooksInput {
         return this.voucherBooks.reduce((acc, book) => book.numIssued, 0);
     }
 
-    isSomeBookOverlapping(index: number, book: EAPAVoucherBook) {
-        return this.voucherBooks
-            .valueSeq()
-            .filter((book, i) => i !== index)
-            .some(b => book.rangeOverlaps(b));
-    }
-
     bookChanged(index: number, event: EAPAVoucherBook) {
         this._editedBooks = this._editedBooks.add(index);
+        let voucherBooks = prefillVoucherBooks(
+            this.voucherBooks.set(index, event),
+            this.totalAllocation
+        );
 
-        if (this.isSomeBookOverlapping(index, event)) {
-            this.errors.isOverlapping[index] = true;
-        }
-
-        this.voucherBooksChange.emit(this._prefilled.set(index, event));
+        this.voucherBooksChange.emit(voucherBooks);
     }
 }
