@@ -43,6 +43,11 @@ export class YearInput implements OnChanges {
 
     private _inputYear: number;
 
+    @ViewChild('input') _yearInput: ElementRef;
+    get yearInput(): HTMLInputElement {
+        return this._yearInput.nativeElement;
+    }
+
     ngOnChanges(changes: any) {
         if (changes['year']) {
             this._inputYear = changes['year'].currentValue;

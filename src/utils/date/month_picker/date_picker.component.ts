@@ -45,10 +45,9 @@ import {YearInput} from './year_input.component';
     .btn-group {
         float: right;
     }
-
-    month-input:after {
-        width: 1rem;
-        content: '';
+    
+    month-input {
+        margin-right: 1em;
     }
 
     i.fa {
@@ -87,9 +86,9 @@ import {YearInput} from './year_input.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatePicker implements OnInit, OnDestroy {
-    private _displayMoment: Moment = moment();
+    private _displayMoment: Moment;
 
-    private _selected: Moment = moment();
+    private _selected: Moment;
 
     private _element: ElementRef;
     private _closeSubscriptions = List<Subscription>();
@@ -97,11 +96,16 @@ export class DatePicker implements OnInit, OnDestroy {
     @Input()
     get date(): Date { return this._selected.toDate(); }
     set date(value: Date) {
-        this._selected = moment(value);
-        if (!this._selected.isValid()) {
-            this._selected = moment();
+        console.log('selected', this._selected);
+        if (!this._selected) {
+            this._selected = moment(value);
+            if (!this._selected.isValid()) {
+                this._selected = moment();
+            }
         }
-        this._displayMoment = this._selected.clone();
+        if (!this._displayMoment) {
+            this._displayMoment = this._selected.clone();
+        }
     }
 
     @Output() dateChange = new EventEmitter<Date>();

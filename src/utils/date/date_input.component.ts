@@ -1,7 +1,11 @@
+import {List} from 'immutable';
+
 import moment = require('moment');
 import {Moment} from 'moment';
 
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {
+    Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnInit,
+} from '@angular/core';
 import {FormControl, REACTIVE_FORM_DIRECTIVES, Validators} from '@angular/forms';
 
 import {isBlank, isDefined} from 'caesium-core/lang';
@@ -26,6 +30,7 @@ const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
             <input name="date-input" type="text" class="form-control"
                 [placeholder]="_fullPlaceholder"
                 [formControl]="control"
+                (focus)="_focusInput($event.target)"
             >
             <div class="input-group-btn">
                 <button class="btn btn-default"
@@ -39,7 +44,8 @@ const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
         <dropdown [active]="_dropdownActive"
                   [alignRight]="true"
                   (closeRequest)="_dropdownActive = false">
-            <date-picker [date]="_moment"
+            <date-picker *ngIf="_dropdownActive"
+                         [date]="_moment"
                          (dateChange)="pickerDateChange($event)">
             </date-picker> 
         </dropdown>    
@@ -89,10 +95,12 @@ export class DateInput implements OnInit {
         this.control = new FormControl(formatDate(this.date), validators);
         this.control.valueChanges.forEach((date: string) => {
             if (this.control.valid) {
-                this.dateChange.emit(tryParseDate(this.control.value).toDate());
+                let date = tryParseDate(this.control.value);
+                if (date !== null && date.isValid()) {
+                    this.dateChange.emit(date.toDate());
+                }
             }
             this.validityChange.emit(this.control.valid);
-
         });
         if (this.defaultToday && isBlank(this.date)) {
             var date = moment().format('DD/MM/YYYY');
@@ -100,11 +108,13 @@ export class DateInput implements OnInit {
         }
     }
 
+    /*
     ngOnChanges(changes: any) {
         if (isDefined(this.control) && changes.date) {
             this.control.updateValue(formatDate(this.date));
         }
     }
+    */
 
     get _fullPlaceholder(): string {
         if (!isBlank(this.placeholder)) {
@@ -134,14 +144,25 @@ export class DateInput implements OnInit {
         event.stopPropagation();
         event.preventDefault();
     }
+
+    _focusInput(element: HTMLInputElement) {
+        console.log('focus input');
+        console.log('Element', element);
+        element.select();
+    }
 }
+
+const ACCEPTED_FORMATS = List([
+    'DD/MM/YYYY',
+    'DD/MM/YY',
+    'DD MMM YYYY'
+]);
 
 function tryParseDate(value: string): Moment {
     if (isBlank(value) || value === '') {
         return null;
     }
-    var m = moment(value, 'DD/MM/YYYY', true);
-    return m;
+    return moment(value, ACCEPTED_FORMATS.toArray(), true);
 }
 
 function dateValidator(control: FormControl): {[key: string]: any} {
