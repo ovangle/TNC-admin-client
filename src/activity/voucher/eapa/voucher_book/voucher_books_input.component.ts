@@ -86,7 +86,7 @@ export class EAPAVoucherBooksInput {
     }
 
     get currentAllocation(): number {
-        return this.voucherBooks
+        return this._prefilled
             .reduce((acc, book) => acc + book.numIssued, 0)
     }
 

@@ -1,5 +1,5 @@
 <form (ngSubmit)="save()">
-    <div class="row" *ngIf="displayField('term.type')">
+    <div class="row" *ngIf="displayField('term')">
         <enum-select2 class="col-sm-4"
                 [label]="'Membership type'"
                 [enumValues]="termTypeValues"

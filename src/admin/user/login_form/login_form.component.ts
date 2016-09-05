@@ -21,6 +21,7 @@ import {InputErrorBlock, STANDARD_INPUT_ERRORS} from '../../../utils/components/
         '../../../../assets/css/bootstrap.css',
         './login_form.component.css'
     ],
+    templateUrl: './login_form.component.html',
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

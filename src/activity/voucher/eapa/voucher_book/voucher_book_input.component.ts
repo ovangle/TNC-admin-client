@@ -16,57 +16,19 @@ import {VoucherBookAdjacency} from './adjacency.model';
     :host {
         display: block; 
     }
-    .form-control.ng-pristine {
-        color: #0f0f0f;
-    }
     
-    .adjacency-container {
-        position: relative;
-        overflow: hidden;
-        transform: translateY(-7px);
+    .adjacency-indicator {
+        font-size: 0.5rem;
+        transform: translate(25%, -7px);
+        color: #5cb85c;
     }
-        
-    .adjacency-next::before, 
-    .adjacency-prev::before,
-    .adjacency-both::before {
-        content: '';
-        position: absolute; 
-        height: 100%;
-        width: 100%;
-        
-        left: 80%;
-    
-        background-color: blue;
-    }
-    
-    .adjacency-next::before,
-    .adjacency-prev::before {
-        border-radius: 4px;
-    }
-    
-    .adjacency-next::before {
-        top: 50%; 
-        bottom: -50%;
-    }
-    
-    .adjacency-prev::before {
-        top: -50%;
-        height: 100%;
-        width: 100%;
-    }
-    .adjacency-both::before {
-        top: -50%;
-        height: 200%; 
-    }
-    
     </style>
     <div class="row">
         <div class="col-sm-1" [ngSwitch]="adjacency" 
-            class="adjacency-container col-sm-1"
-            [style.height]="_hostHeight">
-            <div *ngSwitchCase="'PREV'" class="adjacency adjacency-prev"></div>
-            <div *ngSwitchCase="'NEXT'" class="adjacency adjacency-next"></div>
-            <div *ngSwitchCase="'BOTH'" class="adjacency adjacency-both"></div>
+            class="adjacency-indicator col-sm-1" [style.height]="_hostHeight">
+            <div *ngSwitchCase="'NEXT'" class="ruler-end"></div>
+            <div *ngSwitchCase="'BOTH'" class="ruler-through"></div>
+            <div *ngSwitchCase="'PREV'" class="ruler-end mirrored"></div>
         </div>
         <div class="form-group col-sm-4" [ngClass]="{
             'has-error': !isFirstIdValid
@@ -83,12 +45,6 @@ import {VoucherBookAdjacency} from './adjacency.model';
                 #firstIdInput="ngModel"
                 (focus)="firstIdFocused($event)"
                 (blur)="firstIdBlurred($event)">
-            <!--
-            <div *ngIf="!voucherBook.isValidFirstId"
-                class="help-block has-error">
-                Voucher ID is a 6-digit ID printed on the front of the physical voucher.
-            </div>
-            -->
         </div>    
         <div class="col-sm-3">
             <p class="form-control-static">{{voucherBook.numIssued}}</p>       
@@ -105,7 +61,8 @@ import {VoucherBookAdjacency} from './adjacency.model';
     `,
     directives: [],
     styleUrls: [
-        '../../../../../assets/css/bootstrap.css'
+        '../../../../../assets/css/bootstrap.css',
+        './ruler_shape.css'
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,0 +1,12 @@
+<div class="assessment-container">
+    <voucher-assessment-question [questionId]="'1'">
+
+        <select class="form-control"
+                [ngModel]="voucher.household.count()"
+                (ngModelChange)="addHouseholdMember()">
+            <option [ngValue]="1">One</option>
+            <option [ngValue]="2">Two</option>
+        </div>
+    </voucher-assessment-question>
+
+</div>

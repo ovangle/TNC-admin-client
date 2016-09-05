@@ -1,14 +1,10 @@
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/catch';
+import {Set} from 'immutable';
 
 import {
     Component, ViewEncapsulation, EventEmitter, ChangeDetectionStrategy,
     ViewContainerRef
 } from "@angular/core";
 import {Router, ActivatedRoute} from '@angular/router';
-
 
 import {PageHeader} from '../utils/layout/page_header.component';
 import {Modal, RemoteComponent} from '../utils/modal';
@@ -50,6 +46,7 @@ import {Member} from './member.model';
         
         <div class="input-container">
             <member-input-form
+                [displayFields]="_inputDisplayFields"
                 (commit)="signupSuccess($event)"
                 (cancel)="signupCancel()">
             </member-input-form>
@@ -68,6 +65,19 @@ import {Member} from './member.model';
 export class MemberSignupPage implements RemoteComponent {
     member:Member;
     private _modalClose = new EventEmitter<any>();
+
+    private _inputDisplayFields = Set<string>([
+        'term',
+        'name',
+        'dateOfBirth',
+        'gender',
+        'aboriginalOrTorresStraitIslander',
+        'residentialStatus',
+        'address',
+        'contact',
+        'income',
+        'partner'
+    ]);
 
     constructor(private memberManager:MemberManager,
                 private modal:Modal,

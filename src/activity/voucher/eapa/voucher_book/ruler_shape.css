@@ -1,0 +1,57 @@
+
+.ruler-end {
+    position: relative;
+    color: inherit;
+    height: 100%;
+    width: 100%;
+}
+
+.ruler-end:before {
+    /* The sharp point at the end of the ruler */
+    color: inherit;
+    position: absolute;
+    content: '';
+    width: 0; height: 0;
+    border-top: 1em solid currentcolor;
+    border-right: 2em solid transparent;
+    border-top-right-radius: 1em;
+
+    top: calc(50% - 1em);
+    left: calc(50% + 1em);
+}
+
+.ruler-end:after {
+    /** The bar of the ruler */
+    color: inherit;
+    position: absolute;
+    content: '';
+    width: 0; height: 65%;
+    border: 1em solid currentColor;
+    border-top-left-radius: 0.5em;
+
+    top: calc(50% - 1em);
+    left: calc(50% - 1em);
+}
+.ruler-through {
+    position: relative;
+    color: inherit;
+    height: 100%;
+    width: 100%;
+}
+
+.ruler-through:after {
+    content: '';
+    color: inherit;
+    position: absolute;
+    left: calc(50% - 1em);
+    height: 100%;
+    border: 1em solid currentColor;
+}
+
+.ruler-end.mirrored {
+    transform: scaleY(-1);
+}
+
+.mirrored {
+    transform: scaleY(-1);
+}

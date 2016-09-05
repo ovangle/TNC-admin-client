@@ -14,11 +14,11 @@ import {Name} from './name.model';
 @Component({
     selector: 'name-input',
     template: `
-    <styles>
+    <style>
     .form-group + .form-group {
         margin-left: 30px;
     }    
-    </styles>
+    </style>
     <div class="layout horizontal">
         <div class="form-group flex"
             [ngClass]="{

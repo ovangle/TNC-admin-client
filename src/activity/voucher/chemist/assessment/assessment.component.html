@@ -1,0 +1,50 @@
+<div class="assessment-container">
+    <voucher-assessment-question [questionId]="'1'">
+        Prescriptions presented for assessment
+        <chemist-prescriptions-input
+            [member]="member"
+            [prescriptions]="voucher.prescriptions"
+            (prescriptionsChange)="propChanged('prescriptions', $event)">
+        </chemist-prescriptions-input>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'2'">
+        <div [ngSwitch]="exemptionRequired">
+            <div *ngSwitchCase="true" class="form-group" [ngClass]="{
+                'has-error': voucher.limitExemptionDescription === ''
+            }">
+                <label class="control-label">Reason for granting the exemption</label>
+                <input type="textarea"
+                       [ngModel]="voucher.limitExemptionDescription"
+                       (ngModelChange)="propChanged('limitExemptionDescription', $event)"
+                       [required]>
+            </div>
+
+        </div>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'3'">
+        <details>
+            <summary>Assessor declaration</summary>
+            <div class="well">
+                I, {{staffMemberName | async | name}} have conducted the assessment
+                in accordance with the guidelies for chemist assistance, and certify
+                that:
+
+                <ul>
+                    <li>The individual being assessed is not known to me in any personal capacity</li>
+                </ul>
+            </div>
+        </details>
+
+        <div class="checkbox">
+            <label class="control-label">
+                I have fulfilled my requirements as an assessor, as outlined
+                in the assessor declaration.
+            </label>
+
+        </div>
+
+    </voucher-assessment-question>
+
+</div>

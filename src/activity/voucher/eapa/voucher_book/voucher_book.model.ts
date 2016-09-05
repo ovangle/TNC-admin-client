@@ -45,13 +45,11 @@ export class EAPAVoucherBook extends _EAPA_VOUCHER_BOOK_RECORD {
         return <EAPAVoucherBook>super.set(prop, value);
     }
 
-    get isFirstIdValid(): boolean {
-        return isValidVoucherId(this.firstId);
-    }
-
     get isValid(): boolean {
-        return this.isFirstIdValid
-            && (this.firstId + this.numIssued < VOUCHERS_PER_BOOK);
+        console.log('firstId', isValidVoucherId(this.firstId));
+        console.log('numIssued', this.firstId + this.numIssued < nextBookId(this));
+        return isValidVoucherId(this.firstId)
+            && (this.firstId + this.numIssued < nextBookId(this));
     }
 
     contains(voucherId: number) {
@@ -61,10 +59,6 @@ export class EAPAVoucherBook extends _EAPA_VOUCHER_BOOK_RECORD {
 
     get lastId(): number {
         return this.firstId + this.numIssued - 1;
-    }
-
-    get isFullyAllocated(): boolean {
-        return (this.firstId + this.numIssued) % VOUCHERS_PER_BOOK  === 0;
     }
 
     isAdjacentTo(voucherBook?: EAPAVoucherBook): boolean {
@@ -155,7 +149,7 @@ export function prefillVoucherBooks(voucherBooks: List<EAPAVoucherBook>, totalAl
         .map(book => isBlank(book) ? new EAPAVoucherBook(): book)
         .toList();
 
-    if (voucherBooks.isEmpty() || !voucherBooks.first().isFirstIdValid) {
+    if (voucherBooks.isEmpty() || !isValidVoucherId(voucherBooks.first().firstId)) {
         return voucherBooks;
     }
 
@@ -171,7 +165,7 @@ export function prefillVoucherBooks(voucherBooks: List<EAPAVoucherBook>, totalAl
             allocated += prevBook.numIssued;
             let currBook = books.get(i);
 
-            if (!currBook.isFirstIdValid || (currBook.firstId < nextBookId(prevBook))) {
+            if (!isValidVoucherId(currBook.firstId) || (currBook.firstId < nextBookId(prevBook))) {
                 currBook = currBook.set('firstId', nextBookId(prevBook));
             }
             let numIssued = Math.min(

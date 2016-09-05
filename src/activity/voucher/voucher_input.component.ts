@@ -11,6 +11,7 @@ import {VoucherType, VOUCHER_TYPE_VALUES} from './voucher_type.model';
 import {Voucher} from './voucher.model';
 import {VoucherManager} from './voucher.manager';
 
+import {ChemistVoucherAssessment} from './chemist';
 import {FoodcareVoucher, FoodcareVoucherInput} from './foodcare';
 import {EAPAVoucherAssessment} from './eapa';
 
@@ -26,6 +27,12 @@ import {EAPAVoucherAssessment} from './eapa';
     }
     </style>
     <div [ngSwitch]="voucher.getType()">
+        <chemist-voucher-assessment *ngSwitchCase="'CHEMIST'" 
+                [member]="member"
+                [voucher]="voucher"
+                (voucherChange)="voucherChange.emit($event)"
+                [disabled]="disabled">
+        </chemist-voucher-assessment>
         <foodcare-voucher-input *ngSwitchCase="'FOODCARE'" 
                 [member]="member"
                 [voucher]="voucher"
@@ -54,7 +61,9 @@ import {EAPAVoucherAssessment} from './eapa';
     </div>
     -->
     `,
-    directives: [EnumSelect2, FoodcareVoucherInput, EAPAVoucherAssessment],
+    directives: [
+        FoodcareVoucherInput, EAPAVoucherAssessment, ChemistVoucherAssessment
+    ],
     styleUrls: [
         '../../../assets/css/bootstrap.css',
         '../../../assets/css/font-awesome.css'
