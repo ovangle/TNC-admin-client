@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var utils = require('./utils.js');
 
 
@@ -33,10 +34,11 @@ module.exports = {
             {
                 test: /\.css$/,
                 include: utils.projectDir('assets'),
-                loader: 'css!style'
+                loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
             },
             {
                 test: /\.css$/,
+                exclude: utils.projectDir('assets'),
                 loader: 'raw'
             }
         ]

@@ -1,4 +1,9 @@
+var webpack = require('webpack');
+var webpackMerge = require('webpack-merge');
+
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var commonConfig = require('./webpack.common');
 var utils = require('./utils.js');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
@@ -9,13 +14,15 @@ const ENV_APPCONFIG = {
     },
     api: {
         searchPageSize: 20,
-        serverHref: null
+        serverHref: '/api'
     }
 };
 
-var prodConfig = webpackMerge(commonConfig, {
+module.exports = webpackMerge(commonConfig, {
+    devtool: 'source-map',
+
     output: {
-        path: projectDir('prod'),
+        path: utils.projectDir('dist'),
         publicPath: '/',
         filename: '[name].[hash].js',
         chunkFilename: '[id].[hash].chunk.js'
@@ -25,9 +32,17 @@ var prodConfig = webpackMerge(commonConfig, {
         minimize: false // Workaround for ng2
     },
 
+
     plugins: [
-        //new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.NoErrorsPlugin(),
+
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            //https://github.com/angular/angular/issues/10618
+            mangle: {
+                keep_fnames: true
+            }
+        }),
         new ExtractTextPlugin('[name].[hash].css'),
 
         //define the application config
@@ -38,4 +53,5 @@ var prodConfig = webpackMerge(commonConfig, {
             }
         })
     ]
+
 });

@@ -11,28 +11,29 @@ import {bootstrap} from './bootstrap';
 @Component({
     selector: 'main-app',
     template: `
-        <style>
-        :host {
-            height: 100%;
-            display: block;
-            flex-direction: column;
-            overflow: hidden;
-        } 
-        header {
-            background-color: #fff;
-        }
+    <style>
+    :host {
+        height: 100%;
+        display: block;
+        flex-direction: column;
+        overflow: hidden;
+    } 
+    header {
+        background-color: #fff;
+    }
         
-        main {
-            height: calc(100% - 80px); 
-        }
-        </style>
-        <header>
-            <nav-bar></nav-bar>
-        </header>
-        <main class="flex">
-            <router-outlet></router-outlet>
-        </main>
-        <modal-dialog class="modalopen"></modal-dialog>
+    main {
+        height: calc(100% - 80px); 
+    }
+    </style>
+    
+    <header>
+        <nav-bar></nav-bar>
+    </header>
+    <main class="flex">
+        <router-outlet></router-outlet>
+    </main>
+    <modal-dialog class="modalopen"></modal-dialog>
     `,
     styleUrls: [
         '../assets/css/bootstrap.css',
@@ -54,4 +55,4 @@ export class MainApp implements OnInit {
 
 }
 
-bootstrap();
+bootstrap(MainApp);

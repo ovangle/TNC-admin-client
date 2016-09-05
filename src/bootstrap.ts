@@ -11,13 +11,13 @@ import {
 import {disableDeprecatedForms, provideForms} from '@angular/forms';
 import {APP_ROUTER_PROVIDERS} from './app.routes';
 
+import {Type} from 'caesium-core/lang';
 import {API_HOST_HREF, SEARCH_PAGE_SIZE, MANAGER_PROVIDERS} from 'caesium-model/manager';
 
 import {COMPONENT_HOST_PROVIDERS} from './utils/component_host';
 import {MODAL_PROVIDERS} from './utils/modal';
 
 import {loadAppConfig} from './config';
-import {MainApp} from './app';
 
 class RequestOptions extends BaseRequestOptions {
     constructor() {
@@ -29,7 +29,7 @@ class RequestOptions extends BaseRequestOptions {
     }
 }
 
-export function bootstrap(): Promise<any> {
+export function bootstrap(appComponent: Type): Promise<any> {
     return loadAppConfig().then((appConfig) => {
         console.log('loading app config', appConfig);
         if (!appConfig.debug) {
@@ -41,7 +41,7 @@ export function bootstrap(): Promise<any> {
         var locationStrategyCls = (appConfig.router.locationStrategy === "hash")
             ? HashLocationStrategy
             : PathLocationStrategy;
-        ngBootstrap(MainApp, [
+        ngBootstrap(appComponent, [
             HTTP_PROVIDERS,
             {provide: BaseRequestOptions, useClass: RequestOptions},
             APP_ROUTER_PROVIDERS,
