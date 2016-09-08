@@ -57,9 +57,9 @@ import {Name} from './name.model';
     </div>    
     `,
     directives: [REACTIVE_FORM_DIRECTIVES],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

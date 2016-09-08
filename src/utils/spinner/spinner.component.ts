@@ -8,8 +8,8 @@ import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} fr
              [style.font-size]="size || 'inherit'"
              [style.color]="color || _defaultColor"></div>
     `,
-    styleUrls: [
-        './spinner.component.css'
+    styles: [
+        require('./spinner.component.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -9,10 +9,10 @@ import {Time} from '../time';
 @Component({
     selector: 'time-input',
     templateUrl: './time_input.component.html',
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/flex.css',
-        './time_input.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css'),
+        require('./time_input.component.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -62,8 +62,8 @@ import {MemberInputForm} from './member_input/member_input.component';
     ],
     pipes: [AsyncPipe, NamePipe],
     providers: [MemberManager],
-    styleUrls: [
-        '../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

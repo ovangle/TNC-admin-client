@@ -47,11 +47,11 @@ import {MemberTerm} from './term.model';
     </div>
     `,
     pipes: [OrElsePipe],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/flex.css',
-        '../../../assets/css/font-awesome.css',
-        '../../../assets/css/details_display.css',
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css'),
+        require('css/details_display.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

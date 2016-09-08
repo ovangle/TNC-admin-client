@@ -29,8 +29,8 @@ import {StaffSearchResultTableRow} from './result_table/result_table_row.compone
     directives: [
         ResultContainer, StaffSearchResultTableRow
     ],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

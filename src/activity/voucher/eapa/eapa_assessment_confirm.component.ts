@@ -6,8 +6,8 @@ import {
     selector: 'eapa-assessment-confirm-dialog',
     template: ``,
     directives: [],
-    styleUrls: [
-        'assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

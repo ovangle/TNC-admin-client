@@ -62,12 +62,9 @@ export interface OtherSelection {
                 (ngModelChange)="_otherValueChanged($event)">
     </div>
     `,
-    styles: [`
-    
-    `],
-    styleUrls: [
-        '../../../assets/css/flex.css',
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Native

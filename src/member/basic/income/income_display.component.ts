@@ -32,9 +32,9 @@ import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_incom
     </div>
     `,
     directives: [],
-    styleUrls: [
-        '../../../../assets/css/details_display.css',
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/details_display.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -57,10 +57,10 @@ import {TaskSubmission} from './task_submission.component';
     </div> 
     `,
     directives: [PageHeader, TaskInput, TaskSubmission],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/font-awesome.css',
-        '../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css')
     ],
     providers: [VoucherManager, TaskManager],
     encapsulation: ViewEncapsulation.Native,

@@ -34,10 +34,10 @@ import {EnergyAccountInput} from './energy_account_input.component';
     </div>
     `,
     directives: [],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/font-awesome.css',
-        '../../../../assets/css/details_display.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/details_display.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

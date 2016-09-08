@@ -40,9 +40,9 @@ import {StaffCreateSuccessAlert} from './create_form/create_success_alert.compon
     </div>
     `,
     directives: [PageHeader, StaffCreateForm, StaffCreateSuccessAlert],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/font-awesome.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

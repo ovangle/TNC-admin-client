@@ -76,10 +76,10 @@ import {YearInput} from './year_input.component';
         </main>
     </div>
     `,
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/font-awesome.css',
-        '../../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css')
     ],
     directives: [CurrentDateDisplay, MonthInput, YearInput, CalendarMonth],
     encapsulation: ViewEncapsulation.Native,

@@ -71,10 +71,10 @@ import {FileNote} from './file_note.model';
     `,
     directives: [ROUTER_DIRECTIVES],
     pipes: [DatePipe, NamePipe],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/flex.css',
-        '../../../assets/css/font-awesome.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

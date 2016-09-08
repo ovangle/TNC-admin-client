@@ -47,11 +47,11 @@ import {TASK_MENU_ITEMS} from './task.menuitems';
         VoucherManager,
         TaskManager
     ],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/flex.css',
-        '../../../assets/css/font-awesome.css',
-        '../../../assets/css/search_page.css',
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css'),
+        require('css/search_page.css')
     ],
     encapsulation: ViewEncapsulation.Native
 })

@@ -33,9 +33,9 @@ import {ChemistPrescriptionInput} from './prescription_input.component';
     directives: [
         ChemistPrescriptionInput
     ],
-    styleUrls: [
-        '../../../../../assets/css/font-awesome.css',
-        '../../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

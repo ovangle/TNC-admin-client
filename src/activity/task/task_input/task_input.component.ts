@@ -12,10 +12,10 @@ import {TASK_TYPE_VALUES} from '../task_type.model';
     selector: 'task-input',
     moduleId: module.id,
     templateUrl: './task_input.component.html',
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/font-awesome.css',
-        './task_input.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('./task_input.component.ts')
     ],
     directives: [EnumSelect2, VoucherInput],
     encapsulation: ViewEncapsulation.Native,

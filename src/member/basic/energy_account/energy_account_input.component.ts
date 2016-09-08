@@ -84,8 +84,8 @@ import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
     `,
     directives: [EnumSelect2],
     pipes: [NamePipe, AddressPipe],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

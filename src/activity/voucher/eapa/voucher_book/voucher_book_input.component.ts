@@ -60,9 +60,9 @@ import {VoucherBookAdjacency} from './adjacency.model';
     </div>
     `,
     directives: [],
-    styleUrls: [
-        '../../../../../assets/css/bootstrap.css',
-        './ruler_shape.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('./ruler_shape.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

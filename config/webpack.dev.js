@@ -15,7 +15,7 @@ const ENV_APPCONFIG = {
     },
     api: {
         searchPageSize: 2,
-        serverHref: "http://127.0.0.1:8000/api"
+        serverHref: "http://127.0.0.1:8080/api"
     }
 };
 

@@ -15,7 +15,9 @@ import {NamePipe} from "../../../../member/basic";
     templateUrl: './result_table_row.component.html',
     directives: [ROUTER_DIRECTIVES],
     pipes: [NamePipe],
-    styleUrls: ['./result_table_row.component.css'],
+    styles: [
+        require('./result_table_row.component.css')
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

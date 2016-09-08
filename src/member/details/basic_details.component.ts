@@ -54,8 +54,8 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
         ContactDisplay, ResidentialStatusDisplay, IncomeDisplay,
         EnergyAccountDisplay, PartnerDisplay, DependentListDisplay
     ],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     pipes: [AsyncPipe],
     encapsulation: ViewEncapsulation.Native

@@ -37,11 +37,11 @@ import {DependentListInput} from '../dependents/dependent_list_input.component'
         PartnerInput, EnumSelect2, ROUTER_DIRECTIVES, EnergyAccountInput,
         DependentListInput
     ],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/flex.css',
-        '../../../assets/css/font-awesome.css',
-        './member_input.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css'),
+        require('./member_input.component.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

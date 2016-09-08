@@ -27,8 +27,8 @@ import {FileNote, FileNoteCreate, FileNoteSearch, FileNoteManager} from '../file
     `,
     directives: [FileNoteCreate, FileNoteSearch],
     providers: [FileNoteManager],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
 })

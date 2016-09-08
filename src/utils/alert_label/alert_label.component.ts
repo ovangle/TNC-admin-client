@@ -11,8 +11,8 @@ import {AlertLabel, LabelSeverity} from "./alert_label";
     <style>:host { display: inline-block; }</style>
     <span class="label" [ngClass]="labelClasses">{{label.text}}</span>
     `,
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native
 })

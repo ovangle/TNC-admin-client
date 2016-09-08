@@ -44,8 +44,9 @@ import {StaffTraitsInput} from './traits';
     </staff-traits-input>
     `,
     directives: [YesNoSelect, StaffSkillsInput, StaffTraitsInput, DateInput],
-    styleUrls: ['../../../../assets/css/bootstrap.css'],
-
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
+    ],
     providers: [StaffInductionSurveyManager],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

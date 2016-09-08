@@ -66,10 +66,10 @@ import {VoucherBookAdjacency, getAdjacencies} from './adjacency.model';
     </div>
     `,
     directives: [EAPAVoucherBookInput],
-    styleUrls: [
-        '../../../../../assets/css/bootstrap.css',
-        '../../../../../assets/css/flex.css',
-        '../../../../../assets/css/search_result_table.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css'),
+        require('css/search_result_table.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -66,10 +66,10 @@ import {
         <content select="main"></content>
     </div>
     `,
-    styleUrls: [
-        '../../../assets/css/flex.css',
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/font-awesome.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native
 })

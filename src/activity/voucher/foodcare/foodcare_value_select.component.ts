@@ -13,8 +13,8 @@ import {
         <option [ngValue]="25">$25 (five people)</option>
     </select>
     `,
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -24,8 +24,8 @@ import {ChemistVoucher} from '../chemist_voucher.model';
         ChemistPrescriptionsInput
     ],
     pipes: [NamePipe, AsyncPipe],
-    styleUrls: [
-        '../../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

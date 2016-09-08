@@ -52,7 +52,9 @@ import {DependentCard} from './dependent_card.component';
     </fieldset>
     `,
     directives: [DependentInput, DependentCard],
-    styleUrls: ['../../../assets/css/bootstrap.css'],
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
+    ],
     providers: [DependentManager],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

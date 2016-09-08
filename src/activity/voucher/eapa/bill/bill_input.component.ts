@@ -53,8 +53,8 @@ import {
     `,
     directives: [EnergyAccountInput, EnergyAccountDisplay],
     pipes: [NamePipe, AddressPipe],
-    styleUrls: [
-        '../../../../../assets/css/bootstrap.css',
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

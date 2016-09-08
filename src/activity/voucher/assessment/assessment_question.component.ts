@@ -10,8 +10,8 @@ import {
         <content></content>
     </fieldset>
     `,
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     directives: [],
     encapsulation: ViewEncapsulation.Native,

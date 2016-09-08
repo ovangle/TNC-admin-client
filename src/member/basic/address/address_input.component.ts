@@ -68,9 +68,9 @@ import {AddressFormBuilder} from './address.form';
     `,
     directives: [REACTIVE_FORM_DIRECTIVES],
     providers: [AddressFormBuilder],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

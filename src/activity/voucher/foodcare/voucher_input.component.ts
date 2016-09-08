@@ -23,8 +23,8 @@ import {FoodcareVoucherValueSelect} from './foodcare_value_select.component';
     `,
     directives: [FoodcareVoucherValueSelect],
     pipes: [NamePipe],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

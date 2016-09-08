@@ -32,6 +32,7 @@ class RequestOptions extends BaseRequestOptions {
 export function bootstrap(appComponent: Type): Promise<any> {
     return loadAppConfig().then((appConfig) => {
         console.log('loading app config', appConfig);
+        debugger;
         if (!appConfig.debug) {
             enableProdMode();
         }

@@ -57,9 +57,9 @@ import {Income} from './income.model';
       </fieldset>
     `,
     directives: [EnumSelect2],
-    styleUrls: [
-        '../../../../assets/css/flex.css',
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

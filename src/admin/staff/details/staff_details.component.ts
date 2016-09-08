@@ -25,10 +25,10 @@ import {StaffMember} from '../staff.model';
     selector: 'staff-details',
     moduleId: module.id,
     templateUrl: './staff_details.component.html',
-    styleUrls: [
-        '../../../../assets/css/font-awesome.css',
-        '../../../../assets/css/bootstrap.css',
-        './staff_details.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('./staff_details.component.css')
     ],
     directives: [
         AddressInput, ContactInput, DateInput,

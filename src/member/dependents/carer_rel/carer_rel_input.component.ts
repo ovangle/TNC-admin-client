@@ -38,8 +38,8 @@ import {LivingArrangement, LIVING_ARRANGEMENT_VALUES} from './living_arrangement
     `,
     directives: [EnumSelect2],
     pipes: [NamePipe],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

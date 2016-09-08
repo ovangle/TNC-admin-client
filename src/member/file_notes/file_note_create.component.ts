@@ -53,11 +53,10 @@ import {FileNoteManager} from './file_note.manager';
         EnumSelectValueAccessor,
         REACTIVE_FORM_DIRECTIVES
     ],
-    styleUrls: [`
-        '../../../assets/css/flex.css',
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/font-awesome.css'
-    `],
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css')
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

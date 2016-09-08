@@ -59,9 +59,9 @@ const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9
     </div>
     `,
     directives: [PhoneInput],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

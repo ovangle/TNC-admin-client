@@ -101,9 +101,9 @@ export type ActiveDetailsPage = 'BASIC' | 'FILE_NOTES' | 'ACTIVITY';
     directives: [ROUTER_DIRECTIVES, PageHeader, MemberTermDisplay, FileNoteSearch],
     pipes: [NamePipe, AsyncPipe],
     providers: [MemberManager],
-    styleUrls: [
-        '../../assets/css/bootstrap.css',
-        '../../assets/css/font-awesome.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

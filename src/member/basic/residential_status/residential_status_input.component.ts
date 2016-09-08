@@ -45,9 +45,9 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
     </fieldset>
     `,
     directives: [EnumSelect2, AddressInput],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

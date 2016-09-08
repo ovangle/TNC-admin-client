@@ -59,8 +59,8 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
         MemberManager,
         {provide: ParameterBuilder, useClass: MemberSearchParameterBuilder}
     ],
-    styleUrls: [
-        '../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

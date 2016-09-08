@@ -18,8 +18,9 @@ export {AlertLabel, LabelSeverity, CheckForAlertLabels};
         </li>
     </ul>     
     `,
-    styleUrls: ['../../assets/css/bootstrap.css'],
-
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
+    ],
     directives: [AlertLabelComponent],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

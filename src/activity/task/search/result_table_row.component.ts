@@ -43,9 +43,9 @@ import {VoucherDisplay} from '../../voucher/voucher_display.component';
     `,
     directives: [VoucherDisplay, ROUTER_DIRECTIVES],
     pipes: [NamePipe],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/search_result_table.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/search_result_table.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

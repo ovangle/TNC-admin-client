@@ -31,9 +31,9 @@ import {EAPAVoucherBooksInput} from '../voucher_book';
     moduleId: module.id,
     pipes: [NamePipe, AsyncPipe],
     templateUrl: './voucher_assessment.component.html',
-    styleUrls: [
-        '../../../../../assets/css/bootstrap.css',
-        './voucher_assessment.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('./voucher_assessment.component.css')
     ],
     directives: [
         VoucherAssessmentQuestion,

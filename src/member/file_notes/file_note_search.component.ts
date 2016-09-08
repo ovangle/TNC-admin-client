@@ -50,8 +50,8 @@ import {FileNoteManager} from './file_note.manager';
         Spinner
     ],
     providers: [FileNoteManager],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

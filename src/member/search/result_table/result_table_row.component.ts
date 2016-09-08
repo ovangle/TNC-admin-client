@@ -16,11 +16,11 @@ import {PhoneNumberPipe} from "../../../utils/pipes/phone_number.pipe";
     templateUrl: './result_table_row.component.html',
     directives: [Expander, AlertLabels, ROUTER_DIRECTIVES],
     pipes: [AddressPipe, OrElsePipe, NamePipe, PhoneNumberPipe],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/search_result_table.css',
-        '../../../../assets/css/font-awesome.css',
-        './result_table_row.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/search_result_table.css'),
+        require('./result_table_row.component.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

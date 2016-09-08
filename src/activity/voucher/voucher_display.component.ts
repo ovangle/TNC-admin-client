@@ -20,9 +20,9 @@ import {EAPAVoucherAssessment} from './eapa';
     directives: [
         EAPAVoucherAssessment
     ],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/details_display.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/details_display.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

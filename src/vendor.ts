@@ -36,10 +36,7 @@ import 'immutable';
 // Moment
 import 'moment';
 
-// bootstrap + font-awesome
-import 'css/bootstrap.css';
-import 'css/flex.css';
-import 'css/font-awesome.css';
+
 
 // Caesium
 import 'caesium-core/lang';
@@ -50,4 +47,5 @@ import 'caesium-model/exceptions';
 import 'caesium-model/json_codecs';
 import 'caesium-model/manager';
 import 'caesium-model/model';
+
 

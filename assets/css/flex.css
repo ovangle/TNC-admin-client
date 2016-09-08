@@ -1,6 +1,5 @@
 
-.layout.horizontal,
-.layout.vertical {
+.layout.horizontal, .layout.vertical {
     display: flex;
 }
 

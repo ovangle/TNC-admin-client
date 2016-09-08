@@ -26,8 +26,8 @@ import {isBlank} from 'caesium-core/lang';
     directives: [
         REACTIVE_FORM_DIRECTIVES
     ],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

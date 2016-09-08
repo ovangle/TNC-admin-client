@@ -31,11 +31,11 @@ import {UserLoginForm} from './login_form/login_form.component';
     </div>
     `,
     directives: [UserLoginForm],
-    styleUrls: [
-    '../../../assets/css/flex.css',
-    '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
-changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Native
 })
 export class LoginPage {

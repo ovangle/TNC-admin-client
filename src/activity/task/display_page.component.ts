@@ -31,10 +31,10 @@ import {TaskInput} from './task_input/task_input.component';
     </div>
     `,
     directives: [PageHeader, TaskInput],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/font-awesome.css',
-        '../../../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css')
     ],
     providers: [TaskManager, VoucherManager],
     encapsulation: ViewEncapsulation.Native,

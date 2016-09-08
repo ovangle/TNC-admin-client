@@ -31,8 +31,8 @@ import {MouseEventsOutsideElement} from '../../events/mouse_events_outside_eleme
     providers: [
         MouseEventsOutsideElement
     ],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

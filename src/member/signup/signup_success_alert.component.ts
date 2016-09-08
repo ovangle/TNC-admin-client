@@ -24,7 +24,9 @@ import {Member} from '../member.model';
     </div>
     `,
     pipes: [NamePipe, DatePipe],
-    styleUrls: ['../../../assets/css/bootstrap.css'],
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
+    ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

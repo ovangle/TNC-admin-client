@@ -22,11 +22,11 @@ import {CreateStaffRequest, CreateStaffResponse, CreateStaffErrors} from './crea
 @Component({
     selector: 'staff-create-form',
     templateUrl: './create_form.component.html',
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/flex.css',
-        '../../../../assets/css/font-awesome.css',
-        './create_form.component.css',
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css'),
+        require('./create_form.component.css')
     ],
     directives: [
         NameInput, DateInput, EnumSelect2, UserInput,

@@ -33,11 +33,11 @@ import {StaffSearchParameterBuilder} from './search/parameter_builder.service';
         StaffManager,
         {provide: ParameterBuilder, useClass: StaffSearchParameterBuilder}
     ],
-    styleUrls: [
-    '../../../assets/css/bootstrap.css',
-    '../../../assets/css/font-awesome.css',
-    '../../../assets/css/flex.css',
-    '../../../assets/css/search_page.css',
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css'),
+        require('css/flex.css'),
+        require('css/search_page.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

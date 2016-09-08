@@ -26,8 +26,8 @@ import {UserGroup} from './user_group.model';
     </div>
    `,
     directives: [],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     providers: [UserGroupManager],
     encapsulation: ViewEncapsulation.Native,

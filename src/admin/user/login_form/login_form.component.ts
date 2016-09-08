@@ -17,9 +17,9 @@ import {InputErrorBlock, STANDARD_INPUT_ERRORS} from '../../../utils/components/
 @Component({
     selector: 'user-login-form',
     directives: [REACTIVE_FORM_DIRECTIVES, InputErrorBlock],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        './login_form.component.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('./login_form.component.css')
     ],
     templateUrl: './login_form.component.html',
     encapsulation: ViewEncapsulation.Native,

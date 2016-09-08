@@ -66,8 +66,8 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetecti
         </tbody>
     </table>    
     `,
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

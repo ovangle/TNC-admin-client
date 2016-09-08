@@ -30,8 +30,8 @@ import {formatPhoneNumber, DIGIT_PLACEHOLDER} from '../pipes/phone_number.pipe';
     </div>
     `,
     directives: [REACTIVE_FORM_DIRECTIVES],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -40,9 +40,8 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
     `,
     directives: [],
     pipes: [AddressPipe],
-    styleUrls: [
-        '../../../../assets/css/bootstrap.css',
-        '../../../../assets/css/details_display.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

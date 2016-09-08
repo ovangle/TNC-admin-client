@@ -42,9 +42,9 @@ import {AsyncPipe} from '@angular/common';
     `,
     directives: [],
     pipes: [AsyncPipe],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/font-awesome.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('font-awesome/css/font-awesome.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

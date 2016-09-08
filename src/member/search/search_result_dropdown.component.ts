@@ -45,8 +45,8 @@ import {NamePipe} from '../basic';
     `,
     directives: [Dropdown],
     pipes: [NamePipe],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

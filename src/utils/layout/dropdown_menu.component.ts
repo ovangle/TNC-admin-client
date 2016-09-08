@@ -82,9 +82,9 @@ export interface DropdownMenuItem {
         ROUTER_DIRECTIVES,
         forwardRef(() => DropdownMenu)
     ],
-    styleUrls: [
-        '../../../assets/css/flex.css',
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -147,8 +147,8 @@ class DropdownMenuItemComponent {
     </dropdown>
     `,
     directives: [Dropdown, DropdownMenuItemComponent],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

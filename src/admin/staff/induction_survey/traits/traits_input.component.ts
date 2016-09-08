@@ -23,8 +23,8 @@ import {predefinedTraits} from './traits.model';
     </fieldset>
     `,
     directives: [CheckboxArray],
-    styleUrls: [
-        '../../../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -8,6 +8,11 @@ import {UserContext} from './admin/user/context.service';
 
 import {bootstrap} from './bootstrap';
 
+// CSS which needs to be included in index.html
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
+import 'css/flex.css';
+
 @Component({
     selector: 'main-app',
     template: `
@@ -35,9 +40,9 @@ import {bootstrap} from './bootstrap';
     </main>
     <modal-dialog class="modalopen"></modal-dialog>
     `,
-    styleUrls: [
-        '../assets/css/bootstrap.css',
-        '../assets/css/flex.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css'),
+        require('css/flex.css')
     ],
     directives: [ROUTER_DIRECTIVES, NavBarComponent, ModalDialog],
     providers: [UserManager, UserContext],

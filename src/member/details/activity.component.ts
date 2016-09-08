@@ -20,8 +20,8 @@ import {MemberDetailsPage} from '../details_page.component';
     </div>
     `,
     directives: [ROUTER_DIRECTIVES],
-    styleUrls: [
-        '../../../assets/css/bootstrap.css'
+    styles: [
+        require('bootstrap/dist/css/bootstrap.css')
     ],
     providers: [],
     encapsulation: ViewEncapsulation.Native
