@@ -6,8 +6,11 @@ var utils = require('./utils.js');
 
 module.exports = {
     entry: {
-        'polyfills': './src/polyfills.ts',
-        'vendor': './src/vendor.ts',
+        'polyfills': './src/ext/polyfills.ts',
+        'angular': './src/ext/angular.ts',
+        'caesium': './src/ext/caesium.ts',
+        'rxjs': './src/ext/rxjs.ts',
+        'misc': './src/ext/misc.ts',
         'app': './src/app.ts'
     },
     resolve: {
