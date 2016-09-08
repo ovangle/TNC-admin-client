@@ -1,4 +1,6 @@
-import 'rxjs';
+import 'rxjs/Observable';
+import 'rxjs/Subject';
+
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';

@@ -48,9 +48,18 @@ module.exports = {
         ]
     },
     plugins: [
+        /*
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['app', 'vendor', 'polyfills']
+            name: [
+                'app',
+                'caesium',
+                'angular',
+                'rxjs',
+                'misc',
+                'polyfills'
+            ]
         }),
+        */
         //new webpack.optimize.DedupePlugin(),
 
 
