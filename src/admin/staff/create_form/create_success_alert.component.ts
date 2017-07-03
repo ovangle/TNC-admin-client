@@ -1,5 +1,5 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
 import {CreateStaffResponse} from './create_staff.model';
@@ -19,11 +19,6 @@ import {CreateStaffResponse} from './create_staff.model';
         <button class="btn btn-primary" (click)="confirm.emit($event)">OK</button>
     </div>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffCreateSuccessAlert {

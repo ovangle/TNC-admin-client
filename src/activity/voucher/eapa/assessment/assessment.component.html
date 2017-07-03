@@ -1,0 +1,251 @@
+<div class="assessment-container">
+    <h4>Issue EAPA Voucher</h4>
+
+
+    <div *ngIf="member.term.isExpired" class="alert alert-danger">
+        Membership term expired.
+        <a [routerLink]="['/member', member.id, 'renew']">Renew member></a> before issuing voucher
+    </div>
+
+    <eapa-voucher-energy-accounts-select
+                *ngIf="!disabled"
+                [label]="'Bills sighted'"
+                [value]="energyAccountTypes"
+                (valueChange)="energyAccountTypesChanged($event)">
+    </eapa-voucher-energy-accounts-select>
+
+    <div *ngIf="voucher.bills.isEmpty()" class="alert alert-danger">
+        The assessment must apply to at least one bill.
+    </div>
+
+    <voucher-assessment-question *ngIf="voucher.bills.has('ELECTRICITY')"
+        [questionId]="'Electricty Bill Details'">
+        <eapa-voucher-bill-input
+            [member]="member"
+            [bill]="voucher.bills.get('ELECTRICITY')"
+            (billChange)="voucherBillChanged('ELECTRICITY', $event)"
+            [disabled]="disabled">
+        </eapa-voucher-bill-input>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question *ngIf="voucher.bills.has('GAS')"
+        [questionId]="'Gas Bill Details'">
+        <eapa-voucher-bill-input
+                [member]="member"
+                [bill]="voucher.bills.get('GAS')"
+                (billChange)="voucherBillChanged('GAS', $event)"
+                [disabled]="disabled">
+        </eapa-voucher-bill-input>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'Hardship'">
+        <p>The customer has demonstrated that they are experiencing financial hardship and <em>one of</em>:</p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="voucher.isDenyingBasicNeeds"
+                       (ngModelChange)="propChanged('isDenyingBasicNeeds', $event)"
+                        [disabled]="disabled">
+                are denying basic needs
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="voucher.isFacingDisconnection"
+                       (ngModelChange)="propChanged('isFacingDisconnection', $event)"
+                       [disabled]="disabled">
+                may face disconnection
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       [ngModel]="voucher.isDisconnected"
+                       (ngModelChange)="propChanged('isDisconnected', $event)"
+                       [disabled]="disabled">
+                have been disconnected
+            </label>
+        </div>
+
+        <div *ngIf="!voucher.isFacingHardship"
+             class="alert alert-danger">
+            The client does not satisfy the basic eligibility requirements
+            for EAPA assistance.
+        </div>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'Limit Exemptions'">
+        <div class="checkbox">
+            <label class="checkbox">
+                <input type="checkbox"
+                       [ngModel]="voucher.isGrantedLimitExemption"
+                       (ngModelChange)="propChanged('isGrantedLimitExemption', $event)"
+                       [disabled]="disabled">
+                The client is being granted an extension to the Standard EAPA limits
+            </label>
+        </div>
+
+        <div class="alert alert-info">
+            An explicit exemption must be granted if the member:
+            <ul>
+                <li>is receiving over $250 on the current bill/s</li>
+                <li>has received more than $500 over the current financial year; or</li>
+                <li>has received assistance more than twice in the current financial year</li>
+            </ul>
+        </div>
+
+        <div class="form-group" *ngIf="voucher.isGrantedLimitExemption"
+            [ngClass]="{
+                'has-error': !voucher.isValidLimitExemption
+            }">
+
+            <label class="control-label" for="limit-exemption-description">Explain the reason for granting the exemption</label>
+            <textarea *ngIf="!disabled" id="limit-exemption-description"
+                      class="form-control"
+                      [ngModel]="voucher.limitExemptionDescription"
+                      (ngModelChange)="propChanged('limitExemptionDescription', $event)">
+            </textarea>
+            <div class="alert alert-danger" *ngIf="!voucher.isValidLimitExemption">
+                A value is required
+            </div>
+
+            <div class="form-control-static" *ngIf="disabled">
+                <p><em>{{voucher.limitExemptionDescription}}</em></p>
+            </div>
+
+        </div>
+        <!-- TODO: Require permission from USER-GROUP client assistance before approving voucher. -->
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'4'">
+        <details>
+            <summary>EAPA privacy notice</summary>
+            <div class="well">
+                <p>The NSW department of Industry, Skills and Regional Developement, Department of
+                    Industry, Resources & Energy issues EAPA vouchers to assist energy customers experiencing
+                    an emergency or financial crisis. Energy retailers will provide the following information
+                    about customers who receive EAPA to the department:
+                </p>
+                <ul>
+                    <li>The customer's name and account number</li>
+                    <li>The customer's address</li>
+                    <li>The number of vouchers and the dollar amount of EAPA vouchers issued</li>
+                    <li>The account payment date</li>
+                    <li>The EAPA voucher numbers</li>
+                    <li>The account balance before and after EAPA is applied</li>
+                    <li>The details of the reasons for any cancellation of EAPA vouchers on the customer's account</li>
+                    <li>Any other information concerning the customer's eligibility of EAPA requested by
+                        NSW Department of Industry, Skills and Regional Development</li>
+                </ul>
+
+                <p>
+                    The personal infomration collected by the NSW Department of Industry, Skills and Regional Development
+                    through the EAPA scheme is subject to the <em>Privacy & Personal information Act 1998</em>. It is being
+                    collected by NSW Department of Industry, Skills and Regional Development and will be used for
+                    purposes related to assessing the efficiency and effectiveness of the EAPA scheme and to monitor and
+                    enforce compliance with the Scheme guidlines. Aggregated analysis of EAPA information may be provided
+                    to other government agencies
+                </p>
+
+                <p>NSW Department of Industry, Skills and Regional Develppment will not disclose your personal
+                    information to anybody unless authorised by the law.</p>
+
+                <p>
+                    The provision of your personal information through the EAPA application and payment process
+                    is voluntary. If you choose not to provide the requested information you will not be eligible
+                    for EAPA.
+                </p>
+
+                <p>
+                    You have the right to request access to, and correct details of, your personal information held by
+                    the department. Further information regarding privacy can be obtained from the
+                    <a href="http://www.industry.nsw.gov.au/privacy">
+                        NSW Department of Industry, Skills and Regional Development website
+                    </a>
+                </p>
+            </div>
+        </details>
+
+        <div class="checkbox">
+            <label>
+            <input type="checkbox"
+                   [ngModel]="voucher.isCustomerDeclarationSigned"
+                   (ngModelChange)="propChanged('isCustomerDeclarationSigned', $event)"
+                   [disabled]="disabled">
+                The customer has indicated that they understand and agree to the terms of
+                the privacy notice.
+            </label>
+        </div>
+
+        <div class="alert alert-danger"
+            *ngIf="!voucher.isCustomerDeclarationSigned">
+            The customer must agree to the privacy notice to be eligible to receive EAPA.
+        </div>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'6'">
+        <details>
+            <summary>EAPA delivery guidelines</summary>
+            <div class="well">
+
+            <p>I, <em>{{staffMemberName | async | name}}</em>, have conducted the assessment
+                in accordance with the EAPA delivery guidelines, and certify that:
+            </p>
+
+            <ul>
+                <li>The individual being assessed is not known to me in any personal capacity</li>
+                <li>All bills have been stamped with the EAPA stamp</li>
+                <li>All vouchers have been filled out and stamped them with the organisation's stamp</li>
+                <li>All attempts have been made to contact the customer's retailer to check:
+                    <ul>
+                        <li>Assistance options available to the customer</li>
+                        <li>Energy rebates to which the customer may be entitled</li>
+                        <li>The updated balance on the customer's account</li>
+                        <li>Details of any EAPA assistance that the customer has received
+                            in the current financial year
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    In the event that the customer's retailer could not be reached, an
+                    updated balance for the customer's bill has been obtained from the
+                    retailer's automated system.
+                </li>
+                <li>
+                    Voucher processing and validity have been explained to the customer
+                    and they have indicated that they understand.
+                </li>
+            </ul>
+            </div>
+        </details>
+
+        <div class="checkbox" [ngClass]="{
+                'has-errors': true
+            }">
+            <label class="control-label">
+            <input type="checkbox" [ngModel]="voucher.isAssessorDeclarationSigned"
+                (ngModelChange)="propChanged('isAssessorDeclarationSigned', $event)"
+                [disabled]="disabled">
+                The assessment has been conducted in accordance with the EAPA delivery guidelines.
+            </label>
+
+
+        </div>
+
+        <div class="alert alert-danger"
+             *ngIf="!voucher.isAssessorDeclarationSigned">
+            The voucher declaration must be signed.
+        </div>
+    </voucher-assessment-question>
+
+    <voucher-assessment-question [questionId]="'7'">
+        <eapa-voucher-books-input
+            [voucherBooks]="voucher.voucherBooks"
+            (voucherBooksChange)="propChanged('voucherBooks', $event)"
+            [voucherValue]="voucher.getValue()">
+        </eapa-voucher-books-input>
+    </voucher-assessment-question>
+</div>
+
+

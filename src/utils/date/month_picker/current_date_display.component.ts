@@ -28,10 +28,6 @@ import {Component, ViewEncapsulation, ChangeDetectionStrategy, Input} from '@ang
         {{_moment.format('ddd, MMM\u00A0D')}}
     </h3> 
     `,
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentDateDisplay {

@@ -4,8 +4,8 @@ import {Injectable} from '@angular/core';
 
 import {Type} from 'caesium-core/lang';
 import {identityConverter} from 'caesium-core/converter';
-import {ManagerOptions, ManagerBase, SearchParameter} from 'caesium-model/manager';
-import {Response} from 'caesium-model/manager/request/interfaces';
+import {ManagerOptions, ManagerBase, SearchParameter} from 'caesium-json/manager';
+import {Response} from 'caesium-json/manager/request/interfaces';
 
 import {Name} from './basic';
 import {Member} from './member.model';
@@ -13,32 +13,10 @@ import {Member} from './member.model';
 @Injectable()
 export class MemberManager extends ManagerBase<Member> {
     constructor(options: ManagerOptions) {
-        super(options);
+        super(Member, options);
     }
 
-    getModelType() { return Member; }
-    getModelSubtypes(): Type[] { return []; }
-    getSearchParameters(): SearchParameter[] {
-        return [
-            // Search based on the initial segements of the id
-            {
-                name: 'id',
-                encoder: identityConverter,
-                accessor: (member:Member) => member.id,
-                matcher: (modelValue:string|number, paramValue:string) => {
-                    return modelValue.toString().startsWith(paramValue)
-                }
-            },
-            // matches a set of components to substrings of the different components of the name.
-            {
-                name: 'name',
-                encoder: (nameMatches:Set<string>) => nameMatches.join(','),
-                accessor: (member:Member) => member.name,
-                matcher: partialNameMatcher,
-                refiner: partialNameRefiner
-            }
-        ];
-    }
+    getModelSubtypes(): Type<any>[] { return []; }
 
     save(member: Member): Response {
         var request = this._requestFactory.post('', this.modelCodec);
@@ -47,6 +25,26 @@ export class MemberManager extends ManagerBase<Member> {
 
     }
 }
+
+export const MEMBER_SEARCH_PARAMS = [
+    // Search based on the initial segements of the id
+    {
+        name: 'id',
+        encoder: identityConverter,
+        accessor: (member:Member) => member.id,
+        matcher: (modelValue:string|number, paramValue:string) => {
+            return modelValue.toString().startsWith(paramValue)
+        }
+    },
+    // matches a set of inputs to substrings of the different inputs of the name.
+    {
+        name: 'name',
+        encoder: (nameMatches:Set<string>) => nameMatches.join(','),
+        accessor: (member:Member) => member.name,
+        matcher: partialNameMatcher,
+        refiner: partialNameRefiner
+    }
+];
 
 function partialNameMatcher(modelValue: Name, paramValue: Set<string>): boolean {
     var lowerMemberName = {

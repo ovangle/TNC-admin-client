@@ -1,11 +1,11 @@
 
 import {List, Record} from 'immutable';
-import {recordCodec} from 'caesium-model/json_codecs';
+import {recordCodec} from 'caesium-json/json_codecs';
 import {isBlank, isNumber} from 'caesium-core/lang';
-import {num} from 'caesium-model/json_codecs';
-import {ArgumentError} from 'caesium-model/exceptions';
+import {num} from 'caesium-json/json_codecs';
+import {ArgumentError} from 'caesium-json/exceptions';
 
-import {roundToCeil, roundToFloor} from './utils';
+import {roundToFloor} from './utils';
 
 
 export const VOUCHER_DOLLAR_VALUE = 50.0 /* AUD */;

@@ -18,6 +18,11 @@ import {AsyncPipe} from '@angular/common';
     h1 {
         display: inline-block;
     }    
+    /*
+    .page-header {
+        border-bottom: 0; 
+    }
+    */
     
     .page-header > h4 {
         color: #999;
@@ -35,18 +40,11 @@ import {AsyncPipe} from '@angular/common';
             <small>{{subtitle}}</small>
         </h1>     
         <div class="btn-group-container">
-            <content select=".btn-group"></content>
+            <ng-content select=".btn-group"></ng-content>
         </div>
-        <content></content>
+        <ng-content></ng-content>
     </div>
     `,
-    directives: [],
-    pipes: [AsyncPipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageHeader {

@@ -1,6 +1,6 @@
-import {Map, Record} from 'immutable';
+import {Record} from 'immutable';
 
-import {recordCodec, str} from 'caesium-model/json_codecs';
+import {recordCodec, str} from 'caesium-json/json_codecs';
 
 const _NAME_RECORD = Record({firstName: '', lastName: '', alias: ''});
 

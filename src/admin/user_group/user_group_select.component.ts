@@ -1,8 +1,8 @@
 import {List} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-ChangeDetectorRef, ViewChild, ElementRef
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy,
+    ChangeDetectorRef, ViewChild, ElementRef
 } from '@angular/core';
 
 import {UserGroupManager} from './user_group.manager';
@@ -25,12 +25,6 @@ import {UserGroup} from './user_group.model';
         </select>
     </div>
    `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    providers: [UserGroupManager],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserGroupSelect {

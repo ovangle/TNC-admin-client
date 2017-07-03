@@ -1,11 +1,10 @@
 import {List} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    OnInit
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
-import {Time, TimeInterval, TimeInput} from '../../../utils/time'
+import {Time, TimeInterval} from 'utils/time'
 import {StaffAvailability} from './availability.model';
 
 
@@ -65,11 +64,6 @@ import {StaffAvailability} from './availability.model';
     </table>
     </fieldset>
     `,
-    directives: [TimeInput],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffAvailabilityInput {

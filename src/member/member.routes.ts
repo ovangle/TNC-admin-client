@@ -1,4 +1,4 @@
-import {RouterConfig} from '@angular/router';
+import {Routes} from '@angular/router';
 
 import {MemberSearchPage} from './search_page.component';
 import {MemberDetailsPage} from './details_page.component';
@@ -7,7 +7,7 @@ import {MemberRenewalPage} from './renewal_page.component';
 
 import {MEMBER_DETAIL_ROUTES} from './details/member_details.routes';
 
-export const MEMBER_ROUTES: RouterConfig = [
+export const MEMBER_ROUTES: Routes = [
     {
         path: 'member',
         children: [

@@ -1,10 +1,8 @@
-import {Map} from 'immutable';
-
 import {
-    Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy,
     ViewChild
 } from '@angular/core';
-import {FormControl, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 
 import {isDefined} from 'caesium-core/lang';
 
@@ -56,12 +54,6 @@ import {Name} from './name.model';
         </div>       
     </div>    
     `,
-    directives: [REACTIVE_FORM_DIRECTIVES],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NameInput {

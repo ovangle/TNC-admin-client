@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 
 import {isDefined} from 'caesium-core/lang';
-import {StateException} from 'caesium-model/exceptions';
-import {Search, SearchResult} from 'caesium-model/manager';
+import {StateException} from 'caesium-json/exceptions';
+import {Search, SearchResult} from 'caesium-json/manager';
 
 @Directive({
     selector: 'ul[csSearch]',
@@ -37,7 +37,7 @@ export class ResultContainer<T> implements OnChanges, AfterViewInit, OnInit, OnD
     ) { }
 
     ngOnInit() {
-        this.search.resultChange.forEach((_) => {
+        this.search.resultChange.forEach((_: any) => {
             this.changeDetector.markForCheck();
         });
     }
@@ -59,7 +59,7 @@ export class ResultContainer<T> implements OnChanges, AfterViewInit, OnInit, OnD
     }
 
     ngOnDestroy() {
-        if (!this._windowResized.isUnsubscribed) {
+        if (!this._windowResized.closed) {
             this._windowResized.unsubscribe();
         }
     }
@@ -107,17 +107,17 @@ export class ResultContainer<T> implements OnChanges, AfterViewInit, OnInit, OnD
     }
 
     loadNextResultPage(): Promise<any> {
-        if ((this.hasPendingResults && this.lastRowVisible)) {
+        if (this.hasPendingResults && this.lastRowVisible) {
             this.loading = true;
             this.changeDetector.markForCheck();
-            return this.search.result.loadNextPage().forEach((_) => {
+            return this.search.result.loadNextPage().forEach((_: any) => {
                 console.log('last row visible: ', this.lastRowVisible);
                 if (this.hasPendingResults && this.lastRowVisible) {
                     return this.loadNextResultPage();
                 }
                 this.loading = false;
                 return this.changeDetector.markForCheck();
-            }).catch((err) => {
+            }).catch((err: any) => {
                 this.loading = false;
                 throw err;
             })

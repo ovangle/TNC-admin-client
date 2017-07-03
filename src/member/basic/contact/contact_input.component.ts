@@ -1,15 +1,13 @@
 import {Set} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-ViewChild
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {isDefined} from 'caesium-core/lang';
 
 import {Contact} from './contact.model';
-import {PhoneInput} from '../../../utils/components/phone_input.component';
 
 const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
@@ -58,12 +56,6 @@ const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9
         </phone-input>
     </div>
     `,
-    directives: [PhoneInput],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactInput {

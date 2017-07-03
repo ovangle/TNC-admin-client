@@ -5,8 +5,6 @@ import {
     OnInit
 } from '@angular/core';
 
-import {CheckboxArray} from '../../../../utils/components/checkbox_array.component';
-
 import {StaffType} from '../../type';
 import {predefinedSkills} from './skills.model';
 
@@ -24,9 +22,6 @@ import {predefinedSkills} from './skills.model';
         </checkbox-array>
     </fieldset>    
     `,
-    directives: [CheckboxArray],
-    styles: [require('bootstrap/dist/css/bootstrap.css')],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffSkillsInput implements OnInit {

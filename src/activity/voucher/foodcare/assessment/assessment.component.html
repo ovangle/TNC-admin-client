@@ -1,12 +1,22 @@
 <div class="assessment-container">
-    <voucher-assessment-question [questionId]="'1'">
+    <h4>Issue foodcare voucher</h4>
 
-        <select class="form-control"
-                [ngModel]="voucher.household.count()"
-                (ngModelChange)="addHouseholdMember()">
-            <option [ngValue]="1">One</option>
-            <option [ngValue]="2">Two</option>
-        </div>
+    <div *ngIf="member?.term?.isExpired" class="alert alert-danger">
+        Membership term expired.
+        <a [routerLink]="['/member', member.id, 'renew']">Renew member></a> before issuing voucher
+    </div>
+
+    <voucher-assessment-question [questionId]="'Voucher value'">
+        <label class="col-sm-3 control-label" for="value-input">Value</label>
+
+        <select id="value-input" class="form-control"
+                [ngModel]="voucher.value"
+                (ngModelChange)="propChanged('value', $event)">
+            <option [ngValue]="5">$5 (one person)</option>
+            <option [ngValue]="10">$10 (two people)</option>
+            <option [ngValue]="15">$15 (three people)</option>
+            <option [ngValue]="20">$20 (four people)</option>
+            <option [ngValue]="25">$25 (five people)</option>
+        </select>
     </voucher-assessment-question>
-
 </div>

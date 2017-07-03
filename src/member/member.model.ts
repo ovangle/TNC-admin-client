@@ -4,8 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import {Iterable, List, Map} from 'immutable';
 
 import {isDefined, isBlank} from 'caesium-core/lang';
-import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
-import {bool, date, model, list, map} from "caesium-model/json_codecs";
+import {Model, ModelBase, Property, RefProperty, modelFactory} from 'caesium-json/model';
+import {bool, date, model, list, map} from "caesium-json/json_codecs";
 
 import {AlertLabel, CheckForAlertLabels} from '../utils/alert_label/alert_label';
 
@@ -116,15 +116,9 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
         return <Observable<Member>>this.resolveProperty(memberManager, 'partnerId');
     }
 
-
-    set(propName:string, value:any):Member {
-        return <Member>super.set(propName, value);
-    }
-
     hasValidName():boolean {
         return !this.name.isAnonymous;
     }
-
 
     /// Implementation of carer interface
     isCarerResolved = true;
@@ -154,3 +148,4 @@ export class Member extends ModelBase implements CheckForAlertLabels, Carer {
     }
 }
 
+export const member = modelFactory(Member);

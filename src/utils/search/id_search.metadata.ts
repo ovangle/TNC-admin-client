@@ -1,5 +1,5 @@
 import {identityConverter} from 'caesium-core/converter';
-import {SearchParameter} from 'caesium-model/manager';
+import {SearchParameter} from 'caesium-json/manager';
 
 export const ID_SEARCH: SearchParameter = {
     name: 'id',

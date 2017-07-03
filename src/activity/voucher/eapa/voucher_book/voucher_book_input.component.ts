@@ -2,9 +2,6 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
     ChangeDetectorRef, ElementRef
 } from '@angular/core';
-import {NgModel} from '@angular/forms';
-
-import {isBlank} from 'caesium-core/lang';
 
 import {EAPAVoucherBook, isValidVoucherId} from './voucher_book.model';
 import {VoucherBookAdjacency} from './adjacency.model';
@@ -59,12 +56,9 @@ import {VoucherBookAdjacency} from './adjacency.model';
         </div>
     </div>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('./ruler_shape.css')
+    styleUrls: [
+        './ruler_shape.css'
     ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EAPAVoucherBookInput {

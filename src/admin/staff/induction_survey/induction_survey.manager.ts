@@ -1,17 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Type} from 'caesium-core/lang';
-import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
+import {ManagerBase, ManagerOptions} from 'caesium-json/manager';
 
 import {StaffInductionSurvey} from './induction_survey.model';
 
 @Injectable()
 export class StaffInductionSurveyManager extends ManagerBase<StaffInductionSurvey> {
-    getModelType(): Type { return StaffInductionSurvey; }
-    getModelSubtypes(): Type[] { return []; }
-    getSearchParameters(): SearchParameter[] { return undefined; }
-    
+    getModelSubtypes(): Type<any>[] { return []; }
+
     constructor(options: ManagerOptions) {
-        super(options);
+        super(StaffInductionSurvey, options);
     }
 }
-    
+

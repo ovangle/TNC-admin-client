@@ -3,7 +3,6 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 
-import {CheckboxArray} from '../../../../utils/components/checkbox_array.component';
 import {StaffType} from '../../type';
 import {predefinedTraits} from './traits.model';
 
@@ -22,11 +21,6 @@ import {predefinedTraits} from './traits.model';
         </checkbox-array>    
     </fieldset>
     `,
-    directives: [CheckboxArray],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffTraitsInput {

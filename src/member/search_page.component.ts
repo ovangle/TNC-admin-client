@@ -1,21 +1,16 @@
 import {Set} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ChangeDetectorRef
+    Component, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {Search} from 'caesium-model/manager';
-import {SearchBar, ParameterBuilder} from '../utils/search';
+import {Search} from 'caesium-json/manager';
+import {ParameterBuilder} from '../utils/search';
 
 import {Member} from './member.model';
-import {MemberManager} from './member.manager';
+import {MemberManager, MEMBER_SEARCH_PARAMS} from './member.manager';
 
 import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
-import {MemberSearchResultTable} from './search/result_table.component';
-
-
 
 @Component({
     selector: 'member-search-page',
@@ -31,18 +26,9 @@ import {MemberSearchResultTable} from './search/result_table.component';
     <member-search-result-table class="search-results" [search]="search">
     </member-search-result-table>
     `,
-    directives: [SearchBar, ROUTER_DIRECTIVES, MemberSearchResultTable],
     providers: [
-        MemberManager,
         {provide: ParameterBuilder, useClass: MemberSearchParameterBuilder}
     ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css'),
-        require('css/search_page.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberSearchPage {
@@ -54,7 +40,7 @@ export class MemberSearchPage {
     ) {}
 
     ngOnInit() {
-        this.search = this.memberManager.search();
+        this.search = this.memberManager.search(MEMBER_SEARCH_PARAMS);
         this.changeDetector.markForCheck();
     }
 

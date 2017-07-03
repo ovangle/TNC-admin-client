@@ -4,7 +4,6 @@ import {List} from 'immutable';
 
 import {Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {isBlank} from 'caesium-core/lang';
 
@@ -12,18 +11,6 @@ import {UserContext} from '../../admin/user/context.service';
 import {Name, NamePipe} from '../../member/basic';
 
 import {Dropdown} from './dropdown.component';
-
-
-interface MenuOption {
-    routerLink: any[];
-    name: string;
-}
-
-abstract class MenuOptionsService {
-    constructor() {}
-
-    abstract navbarOptions(): List<MenuOption>;
-}
 
 @Component({
     selector: 'nav-bar',
@@ -36,6 +23,10 @@ abstract class MenuOptionsService {
     nav.navbar-default {
         margin-bottom: 0;
         width: 100%;
+    }
+    
+    .navbar-right {
+        margin-top: 10px;
     }
     
     nav {
@@ -61,27 +52,26 @@ abstract class MenuOptionsService {
             </div>
 
             <!-- TODO: Child routers need to register their menu items separately */ -->
-            <div *ngIf="isLoggedIn" class="collapse navbar-collapse">
+            <div *ngIf="isLoggedIn | async" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a [routerLink]="['/member']">Members</a></li>
                     <li><a [routerLink]="['/admin']">Admin</a></li> 
                     
                 </ul>
                 
-                <p class="navbar-text navbar-right">
-                    <a [routerLink]="['/home']">{{userName | async | name}}</a>
-                </p>
+                <div class="navbar-right">
+                    <div class="user-menu" *ngIf="isLoggedIn | async">
+                        <a [routerLink]="['/home']">{{userName | async | name}}</a>
+                        <button class="btn btn-default btn-sm" (click)="logout()">
+                            <i class="fa fa-sign-out"></i> 
+                            Sign out
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
     `,
-    directives: [ROUTER_DIRECTIVES, Dropdown],
-    pipes: [NamePipe, AsyncPipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavBarComponent {
@@ -98,8 +88,8 @@ export class NavBarComponent {
         if (isBlank(this.userContext.user)) {
             return null;
         }
-        return this.userContext.user
-            .map(user => user.staffMember.name);
+        return this.userContext.staffMember
+            .map(staffMember => isBlank(staffMember) ? null : staffMember.name);
     }
 
     ngOnInit() {
@@ -109,16 +99,20 @@ export class NavBarComponent {
     }
 
     ngOnDestroy() {
-        if (!this.userChange.isUnsubscribed) {
+        if (!this.userChange.closed) {
             this.userChange.unsubscribe();
         }
     }
 
-    get isLoggedIn(): boolean {
+    get isLoggedIn(): Observable<boolean> {
         return this.userContext.loggedIn;
     }
 
     _activateUserDropdown() {
         this._userDropdownActive = true;
+    }
+
+    logout() {
+        this.userContext.logout();
     }
 }

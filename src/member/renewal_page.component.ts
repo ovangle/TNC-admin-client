@@ -1,5 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 
+import {Set} from 'immutable';
+
 import {
     Component, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
     ViewContainerRef, ChangeDetectorRef
@@ -7,7 +9,7 @@ import {
 import {AsyncPipe} from '@angular/common';
 import {Router, ActivatedRoute} from '@angular/router';
 
-import {Modal, RemoteComponent} from '../utils/modal';
+import {Modal} from '../utils/modal';
 import {PageHeader} from '../utils/layout/page_header.component';
 
 import {Member} from './member.model';
@@ -37,7 +39,7 @@ import {MemberInputForm} from './member_input/member_input.component';
     }
     </style>
     <div class="container">
-        <page-header>
+        <page-header
                 leader="Renew"
                 [title]="member?.name | name"
                 [subtitle]="member?.id">
@@ -51,27 +53,32 @@ import {MemberInputForm} from './member_input/member_input.component';
         <div class="input-container">
             <member-input-form
                 [member]="member"
+                [displayFields]="_inputDisplayFields"
                 (commit)="commitRenewal($event)"
                 (cancel)="cancelRenewal()">
             </member-input-form>
         </div>
     </div>
     `,
-    directives: [
-        PageHeader, MemberInputForm
-    ],
-    pipes: [AsyncPipe, NamePipe],
-    providers: [MemberManager],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberRenewalPage implements RemoteComponent {
+export class MemberRenewalPage {
     private member: Member;
     private _modalClose = new EventEmitter<any>();
     private _formValid: boolean = false;
+
+    private _inputDisplayFields = Set<string>([
+        'term',
+        'name',
+        'dateOfBirth',
+        'gender',
+        'aboriginalOrTorresStraitIslander',
+        'residentialStatus',
+        'address',
+        'contact',
+        'income',
+        'partner'
+    ]);
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -90,7 +97,7 @@ export class MemberRenewalPage implements RemoteComponent {
             var memberId = Number.parseInt(params['id']);
             var response = this.memberManager.getById(memberId);
             return response.handle({select: 200, decoder: this.memberManager.modelCodec})
-        }).forEach(member => {
+        }).forEach((member: Member) => {
             this.member = member;
             this.changeDetector.markForCheck();
         });

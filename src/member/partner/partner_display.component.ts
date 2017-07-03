@@ -10,7 +10,7 @@ import {MemberCard} from '../member_card.component';
 @Component({
     selector: 'partner-display',
     template: `
-    <div class="row">     
+    <div class="row">
         <span class="display-label col-sm-3">Partner</span>
         <span class="display-value col-sm-9" [ngSwitch]="hasPartner">
             <member-card *ngSwitchCase="true" [member]="partner"></member-card>
@@ -18,12 +18,6 @@ import {MemberCard} from '../member_card.component';
         </span>
     </div>    
     `,
-    directives: [MemberCard],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/details_display.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartnerDisplay {

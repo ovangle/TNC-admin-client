@@ -23,12 +23,6 @@ import {DependentDisplay} from './dependent_display.component';
         </div>
     </div>
     `,
-    directives: [DependentDisplay],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/details_display.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentListDisplay {

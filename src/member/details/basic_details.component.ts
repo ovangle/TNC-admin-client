@@ -1,21 +1,7 @@
-import 'rxjs/add/operator/do';
-import {Observable} from 'rxjs/Observable';
-import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ChangeDetectorRef
-} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {AsyncPipe} from '@angular/common';
+import {MemberContext} from '../member_context.service';
 
-import {Member} from '../member.model';
-import {MemberManager} from '../member.manager';
-import {MemberDetailsPage} from '../details_page.component';
-
-import {
-    ContactDisplay, IncomeDisplay, ResidentialStatusDisplay, EnergyAccountDisplay
-} from '../basic';
-import {PartnerDisplay} from '../partner/partner_display.component';
-import {DependentListDisplay} from '../dependents/dependent_list_display.component';
 
 @Component({
     selector: 'member-basic-details',
@@ -27,7 +13,7 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
         overflow-y: auto;
     }
     </style>
-    <div *ngIf="member" class="col-sm-12">
+    <div *ngIf="memberContext.member | async as member">
     <!-- TODO: Change this name -->
         <contact-display [contact]="member.contact"></contact-display>  
         <residential-status-display
@@ -50,33 +36,8 @@ import {DependentListDisplay} from '../dependents/dependent_list_display.compone
     </div>
         
     `,
-    directives: [
-        ContactDisplay, ResidentialStatusDisplay, IncomeDisplay,
-        EnergyAccountDisplay, PartnerDisplay, DependentListDisplay
-    ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    pipes: [AsyncPipe],
-    encapsulation: ViewEncapsulation.Native
 })
 export class MemberBasicDetails {
-    private member: Member;
-
-    constructor(
-        private memberManager: MemberManager,
-        private memberDetailsPage: MemberDetailsPage) {
-    }
-
-    ngOnInit() {
-        this.memberDetailsPage.member
-            .concatMap(member => member.resolvePartner(this.memberManager)).forEach(member => {
-                this.memberDetailsPage.setActivePage('BASIC');
-                this.member = member;
-            });
-    }
-
-    private renew() {
-        this.memberDetailsPage.renew();
+    constructor(private memberContext: MemberContext) {
     }
 }

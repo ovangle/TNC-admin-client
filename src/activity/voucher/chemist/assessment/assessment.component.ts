@@ -1,33 +1,26 @@
 import {Observable} from 'rxjs/Observable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
-import {AsyncPipe} from '@angular/common';
 
-import {UserContext} from '../../../../admin/user/context.service';
-import {StaffMember} from '../../../../admin/staff/staff.model';
+import {isBlank} from 'caesium-core/lang';
 
-import {Member} from '../../../../member'
-import {Name, NamePipe} from '../../../../member/basic';
+import {UserContext} from 'admin/user/context.service';
 
-import {VoucherAssessmentQuestion} from '../../assessment/assessment_question.component';
-import {ChemistPrescriptionsInput} from '../prescription';
+import {Member} from 'member'
+import {Name} from 'member/basic';
+
+import {VoucherManager} from '../../voucher.manager';
 
 import {ChemistVoucher} from '../chemist_voucher.model';
 
 @Component({
     selector: 'chemist-voucher-assessment',
     templateUrl: './assessment.component.html',
-    directives: [
-        VoucherAssessmentQuestion,
-        ChemistPrescriptionsInput
+    styleUrls: [
+        './assessment.component.css'
     ],
-    pipes: [NamePipe, AsyncPipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChemistVoucherAssessment {
@@ -39,16 +32,17 @@ export class ChemistVoucherAssessment {
     @Input() disabled: boolean;
 
     constructor(
-        private userContext: UserContext
+        private userContext: UserContext,
+        private voucherManager: VoucherManager
     ) {}
 
-    get staffMember(): Observable<StaffMember> {
-        return this.userContext.user
-            .map(user => user.staffMember);
-    }
-
     get staffMemberName(): Observable<Name> {
-        return this.staffMember.map(staff => staff.name);
+        let task = this.voucher.task;
+        if (task && task.staffName) {
+            return Observable.of(this.voucher.task.staffName);
+        }
+        return this.userContext.staffMember
+            .map(staffMember => (isBlank(staffMember) ? null : staffMember.name));
     }
 
     propChanged(prop: string, value: any) {

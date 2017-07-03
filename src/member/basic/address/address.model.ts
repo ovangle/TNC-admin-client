@@ -1,5 +1,5 @@
 import {Record} from 'immutable';
-import {str, recordCodec} from "caesium-model/json_codecs";
+import {str, recordCodec} from "caesium-json/json_codecs";
 
 const _ADDRESS_RECORD = Record({street: '', city: '', postcode: ''});
 

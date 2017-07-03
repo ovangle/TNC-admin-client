@@ -1,10 +1,7 @@
-import {Record} from 'immutable';
-
 import {forwardRef} from '@angular/core';
 
-import {dateTime, str, bool} from 'caesium-model/json_codecs';
-import {Model, ModelBase, Property, RefProperty} from 'caesium-model/model';
-
+import {dateTime, str, bool} from 'caesium-json/json_codecs';
+import {Model, ModelBase, Property, RefProperty, modelFactory} from 'caesium-json/model';
 
 import {StaffMember} from '../../admin/staff/staff.model';
 import {Member} from '../member.model';
@@ -34,3 +31,4 @@ export class FileNote extends ModelBase {
 
 }
 
+export const fileNote = modelFactory(FileNote);

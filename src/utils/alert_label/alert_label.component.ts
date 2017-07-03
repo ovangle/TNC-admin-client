@@ -3,18 +3,12 @@ import {List} from 'immutable';
 import {Component, Input, OnChanges, SimpleChange, ViewEncapsulation} from "@angular/core";
 import {AlertLabel, LabelSeverity} from "./alert_label";
 
-
-
 @Component({
     selector: 'alert-label',
     template: `
     <style>:host { display: inline-block; }</style>
     <span class="label" [ngClass]="labelClasses">{{label.text}}</span>
     `,
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native
 })
 export class AlertLabelComponent implements OnChanges {
     @Input() label:AlertLabel;

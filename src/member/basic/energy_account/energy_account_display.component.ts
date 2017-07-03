@@ -6,9 +6,7 @@ import {isBlank} from 'caesium-core/lang';
 
 import {EnergyAccount} from './energy_account.model';
 import {EnergyAccountType, ENERGY_ACCOUNT_TYPE_VALUES} from './energy_account_type.model';
-import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
-
-import {EnergyAccountInput} from './energy_account_input.component';
+import {ENERGY_RETAILER_VALUES} from './energy_retailer.model';
 
 
 @Component({
@@ -33,13 +31,6 @@ import {EnergyAccountInput} from './energy_account_input.component';
         </ul>
     </div>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/details_display.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnergyAccountDisplay {

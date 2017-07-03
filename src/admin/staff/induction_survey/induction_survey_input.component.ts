@@ -1,19 +1,12 @@
-import {Set} from 'immutable';
-
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
 
-import {YesNoSelect} from '../../../utils/components/yesno_select.component';
-import {DateInput} from '../../../utils/date/date_input.component';
-
 import {StaffType} from '../type';
 import {StaffInductionSurveyManager} from './induction_survey.manager';
-import {StaffInductionSurvey} from './induction_survey.model';
-import {StaffSkillsInput} from './skills';
-import {StaffTraitsInput} from './traits';
+import {StaffInductionSurvey, staffInductionSurvey} from './induction_survey.model';
 
 @Component({
     selector: 'staff-induction-survey-input',
@@ -43,12 +36,6 @@ import {StaffTraitsInput} from './traits';
         (traitsChange)="propChanged('traits', $event)">
     </staff-traits-input>
     `,
-    directives: [YesNoSelect, StaffSkillsInput, StaffTraitsInput, DateInput],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    providers: [StaffInductionSurveyManager],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffInductionSurveyInput {
@@ -62,9 +49,8 @@ export class StaffInductionSurveyInput {
 
     ngOnInit() {
         if (isBlank(this.survey)) {
-            this.survey = this.surveyManager.create(StaffInductionSurvey, {});
+            this.survey = staffInductionSurvey({});
             this.surveyChange.emit(this.survey);
-
         }
     }
 

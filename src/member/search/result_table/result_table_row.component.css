@@ -12,3 +12,7 @@
     width: 30rem;
     min-width: 20rem;
 }
+
+.col-phone, .col-mobile {
+    width: 10rem;
+}

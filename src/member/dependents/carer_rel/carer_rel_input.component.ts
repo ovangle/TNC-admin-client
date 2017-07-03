@@ -2,15 +2,10 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 
-import {EnumSelect2} from '../../../utils/enum';
-
-import {Carer} from '../carer.model';
 import {CarerRel} from './carer_rel.model';
 
-import {NamePipe} from '../../basic';
-
-import {RelationType, RELATION_TYPE_VALUES} from './relation_type.model';
-import {LivingArrangement, LIVING_ARRANGEMENT_VALUES} from './living_arrangement.model';
+import {RELATION_TYPE_VALUES} from './relation_type.model';
+import {LIVING_ARRANGEMENT_VALUES} from './living_arrangement.model';
 
 
 @Component({
@@ -36,12 +31,6 @@ import {LivingArrangement, LIVING_ARRANGEMENT_VALUES} from './living_arrangement
         </enum-select2>
     </fieldset>
     `,
-    directives: [EnumSelect2],
-    pipes: [NamePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarerRelInput {

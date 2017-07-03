@@ -7,9 +7,6 @@ import {
 
 import {isBlank} from 'caesium-core/lang';
 
-import {EnumSelect2} from '../../utils/enum';
-import {InputErrorBlock} from '../../utils/components/input_error_block.component';
-
 import {Member} from '../member.model';
 import {MemberSelect} from '../member_select.component';
 
@@ -37,35 +34,26 @@ const PARTNER_STATUS_VALUES = OrderedMap([
         <div [ngSwitch]="_partnerStatus">
             <div *ngSwitchCase="'NONE'"></div> 
             <div *ngSwitchCase="'TNC_MEMBER'">
+                <ng-container *ngComponentOutlet="memberSelect"></ng-container> 
                 <member-select [member]="partner" 
                                (memberChange)="partnerChanged($event)">
                 </member-select>
             </div>
             <div *ngSwitchCase="'NON_TNC_MEMBER'">
                 <partner-create 
-                    [member]="member"
                     (save)="partnerChanged($event)"
                     (cancel)="_createCancelled()">
                 </partner-create>
             </div>
         </div>
-        <input-error-block 
-                [errorMessages]="errMessages"
-                [inputTouched]="true"
-                [inputErrors]="errs"></input-error-block>
+        <div *ngIf="errs.partnerOfSelf" class="help-block">
+            A member cannot be their own partner 
+        </div>
     </fieldset>    
     `,
-    directives: [MemberSelect, EnumSelect2, InputErrorBlock, PartnerCreate],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartnerInput {
-    private errMessages = OrderedMap<string,string>({
-       partnerOfSelf: 'A member cannot be their own partner'
-    });
 
     private errs = {
         partnerOfSelf: false,

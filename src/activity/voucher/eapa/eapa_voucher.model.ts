@@ -1,9 +1,8 @@
-import {Observable} from 'rxjs/Observable';
 import {List, Map} from 'immutable';
 
-import {num, bool, str, list, map} from 'caesium-model/json_codecs';
+import {bool, str, list, map} from 'caesium-json/json_codecs';
 import {isBlank} from 'caesium-core/lang';
-import {Model, Property, RefProperty} from 'caesium-model/model';
+import {Model, Property, modelFactory} from 'caesium-json/model';
 import {Voucher} from '../voucher.model';
 import {VoucherType} from '../voucher_type.model';
 import {EAPAVoucherBook, EAPA_VOUCHER_BOOK_CODEC, VOUCHER_DOLLAR_VALUE,
@@ -11,7 +10,7 @@ import {EAPAVoucherBook, EAPA_VOUCHER_BOOK_CODEC, VOUCHER_DOLLAR_VALUE,
 
 import {EnergyAccountType, EnergyAccountBill, ENERGY_ACCOUNT_BILL_CODEC} from './bill/bill.model';
 
-@Model({kind: 'activity::EAPAVoucher', superType: Voucher})
+@Model({kind: 'member::EAPAVoucher', superType: Voucher})
 export class EAPAVoucher extends Voucher {
 
     // Question 1
@@ -46,11 +45,6 @@ export class EAPAVoucher extends Voucher {
     @Property({codec: bool, defaultValue: () => false})
     isAssessorDeclarationSigned: boolean;
 
-    /*
-    @Property({codec: num, defaultValue: () => void 0})
-    firstVoucherId: number;
-    */
-
     @Property({codec: list(EAPA_VOUCHER_BOOK_CODEC), defaultValue: List})
     voucherBooks: List<EAPAVoucherBook>;
 
@@ -58,11 +52,11 @@ export class EAPAVoucher extends Voucher {
         return 'EAPA';
     }
 
-    set(prop: string, value: any): EAPAVoucher {
+    set(prop: string, value: any): this {
         if (prop === 'voucherBooks') {
             console.log('FINAL', value.toJS());
         }
-        return <EAPAVoucher>super.set(prop, value);
+        return super.set(prop, value);
     }
 
     /**
@@ -81,14 +75,11 @@ export class EAPAVoucher extends Voucher {
 
     // The assessed value
     getValue(): number {
-        return 2000;
-        /*
         var voucherValue = (Math.floor(this.totalBillValue() / 50) * 50);
         if (voucherValue <= 250 || this.isGrantedLimitExemption) {
             return voucherValue;
         }
         return 250;
-        */
     }
 
     get isBillsValid(): boolean {
@@ -100,14 +91,15 @@ export class EAPAVoucher extends Voucher {
         return isVoucherBooksValid(this.voucherBooks, this.getValue());
     }
 
-
     _getIsValid(): boolean {
-        return this.isValidLimitExemption
+        let isValid = this.isValidLimitExemption
             && this.isFacingHardship
             && this.isCustomerDeclarationSigned
             && this.isAssessorDeclarationSigned
             && this.isBillsValid
             && this.isVoucherBooksValid;
+        console.log('is eapa voucher valid', isValid);
+        return isValid;
     }
 
     get isValidLimitExemption(): boolean {
@@ -115,3 +107,5 @@ export class EAPAVoucher extends Voucher {
             || this.limitExemptionDescription !== '';
     }
 }
+
+export const eapaVoucher = modelFactory(EAPAVoucher);

@@ -1,18 +1,13 @@
 import {List} from 'immutable';
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    OnChanges, SimpleChange, ChangeDetectorRef
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy,
+    OnChanges, SimpleChange
 } from '@angular/core';
 
-import {isBlank} from 'caesium-core/lang';
+import {UserGroup} from '../user_group';
 
-import {UserGroup, UserGroupSelect} from '../user_group';
-
-import {Name} from '../../member/basic';
+import {Name} from 'member/basic/name';
 import {AbstractUser, User} from './user.model';
-import {UserManager} from './user.manager';
-
-
 
 @Component({
     selector: 'user-input',
@@ -32,12 +27,6 @@ import {UserManager} from './user.manager';
         </user-group-select>
     </fieldset>
     `,
-    directives: [UserGroupSelect],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserInput implements OnChanges {
@@ -48,11 +37,6 @@ export class UserInput implements OnChanges {
 
     @Input() user: AbstractUser;
     @Output() userChange = new EventEmitter<AbstractUser>();
-
-    constructor(
-        private userManager: UserManager,
-        private changeDetector: ChangeDetectorRef
-    ) { }
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (changes['name']) {

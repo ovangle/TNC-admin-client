@@ -1,7 +1,7 @@
 import {
-    Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
-import {REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, AbstractControl} from '@angular/forms';
+import {FormGroup, FormControl} from '@angular/forms';
 
 import {isDefined} from 'caesium-core/lang';
 
@@ -26,7 +26,6 @@ import {AddressFormBuilder} from './address.form';
             <label for="street-input" class="sr-only">Street</label> 
             <input type="text" class="form-control"  id="street-input"
                    [placeholder]="'Street'"
-                   [disabled]="disabled"
                    formControlName="street">
         </div>   
     
@@ -34,7 +33,6 @@ import {AddressFormBuilder} from './address.form';
               
             <input type="text" class="form-control" id="city-input"
                 [placeholder]="'City'"
-                [disabled]="disabled"
                 formControlName="city">
                 <!--
                 [ngModel]="address.city"
@@ -49,7 +47,6 @@ import {AddressFormBuilder} from './address.form';
             <label for="postcode-input" class="sr-only">Postcode</label>
             <input type="text" class="form-control" 
                 [placeholder]="'Postcode'"
-                [disabled]="disabled"
                 formControlName="postcode">
             <span class="help-block" 
                   *ngIf="postcodeControl.touched && postcodeControl.errors?.pattern">
@@ -59,20 +56,9 @@ import {AddressFormBuilder} from './address.form';
                   *ngIf="postcodeControl.touched && postcodeControl.errors?.required">
                 A value is required       
             </span>
-                <!--
-                [ngModel]="address.postcode"
-                (ngModelChange)="propChanged('postcode', $event)">
-                -->
         </div>
     </div>
     `,
-    directives: [REACTIVE_FORM_DIRECTIVES],
-    providers: [AddressFormBuilder],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressInput {
@@ -107,11 +93,19 @@ export class AddressInput {
     }
 
     ngOnChanges(changes: any) {
+        if (changes.disabled) {
+            if (this.disabled) {
+                this.addressGroup.disable();
+            } else {
+                this.addressGroup.enable();
+            }
+        }
+
         if (isDefined(this.addressGroup) && changes.address) {
             var address = changes.address.currentValue;
-            this.streetControl.updateValue(address.street);
-            this.cityControl.updateValue(address.city);
-            this.postcodeControl.updateValue(address.postcode);
+            this.streetControl.setValue(address.street);
+            this.cityControl.setValue(address.city);
+            this.postcodeControl.setValue(address.postcode);
         }
     }
 

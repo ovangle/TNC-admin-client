@@ -20,6 +20,10 @@ import {MemberTerm} from './term.model';
     .term-actions {
         margin-top: 5px; 
     }
+    
+    .display-label {
+        padding-right: 0;
+    }
     </style>
     <div class="alert alert-warning">
         <div class="member-type"><strong>{{termType}} member</strong></div>
@@ -38,22 +42,16 @@ import {MemberTerm} from './term.model';
                 <span class="display-value col-sm-8">{{term.expires | date}}</span>
             </li>
         </ul>
+        <!--
         <div class="clearfix term-actions">
             <button class="btn btn-default btn-renew pull-right"
                     (click)="renew.emit(true)">
                 <i class="fa fa-pencil-square-o"></i> Renew
             </button>
         </div>
+        -->
     </div>
     `,
-    pipes: [OrElsePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css'),
-        require('css/details_display.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberTermDisplay {

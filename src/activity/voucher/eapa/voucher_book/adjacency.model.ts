@@ -1,4 +1,4 @@
-import {List, Seq} from 'immutable';
+import {List} from 'immutable';
 import {EAPAVoucherBook} from './voucher_book.model';
 
 export type VoucherBookAdjacency =

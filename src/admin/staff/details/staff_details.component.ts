@@ -3,19 +3,11 @@ import 'rxjs/add/operator/switchMap';
 import {Subscription} from 'rxjs/Subscription';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ChangeDetectorRef
+    Component, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
-import {ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
-
-import {DateInput} from '../../../utils/date/date_input.component';
-import {PageHeader} from '../../../utils/layout/page_header.component';
-
-import {AddressInput, ContactInput, NamePipe} from '../../../member/basic';
+import {ActivatedRoute} from '@angular/router';
 
 import {STAFF_TYPE_VALUES} from '../type';
-import {StaffAvailabilityInput} from '../availability';
-import {StaffInductionSurveyInput} from '../induction_survey';
 
 import {StaffManager} from '../staff.manager';
 import {StaffMember} from '../staff.model';
@@ -23,22 +15,10 @@ import {StaffMember} from '../staff.model';
 
 @Component({
     selector: 'staff-details',
-    moduleId: module.id,
     templateUrl: './staff_details.component.html',
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('./staff_details.component.css')
+    styleUrls: [
+        './staff_details.component.css'
     ],
-    directives: [
-        AddressInput, ContactInput, DateInput,
-        StaffAvailabilityInput, StaffInductionSurveyInput,
-        PageHeader,
-        ROUTER_DIRECTIVES
-    ],
-    pipes: [NamePipe],
-    providers: [StaffManager],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffDetails {
@@ -60,7 +40,7 @@ export class StaffDetails {
                 select: 200,
                 decoder: this.staffManager.modelCodec
             }))
-            .subscribe(staffMember => {
+            .subscribe((staffMember: StaffMember) => {
                 this.staffMember = staffMember;
                 this.changeDetector.markForCheck();
             });

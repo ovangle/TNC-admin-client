@@ -1,38 +1,29 @@
-import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/publishReplay';
+
 
 import {Injectable} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
-import {Type} from 'caesium-core/lang';
-
-import {Member} from "./member.model";
+import {Member} from './member.model';
 import {MemberManager} from './member.manager';
 
-/**
- * Shared service which stores the member as we navigate through
- * the pages of the member details.
- *
- * An instance is provided by the member details page.
- * Subpages should obtain the injected instance and access the member
- */
 @Injectable()
 export class MemberContext {
-    activePage:Type;
+    constructor(
+        private route: ActivatedRoute,
+        private memberManager: MemberManager
+    ) {}
 
-    isDirty = false;
-    isValid = true;
-
-    member: Member;
-
-    constructor(private memberManager: MemberManager) { }
-
-    setMember(member:Member, isInitialValue:boolean = false) {
-        this.member = member;
-        this.isDirty = !isInitialValue;
-        console.log('context member 2: ', this.member);
-    }
-
-    saveMember() {
-        throw 'saveMember not implemented';
-    }
-
+    member = this.route.params
+        .switchMap((params: any) => {
+            let id = params['id'];
+            let response = this.memberManager.getById(id);
+            return response.handle({select: 200, decoder: this.memberManager.modelCodec})
+        })
+        .switchMap((member: Member) => {
+            return member.resolvePartner(this.memberManager);
+        })
+        .publishReplay(1).refCount();
 }

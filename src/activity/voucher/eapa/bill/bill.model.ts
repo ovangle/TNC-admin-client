@@ -1,6 +1,6 @@
 import {Record} from 'immutable';
 
-import {bool, num, recordCodec} from 'caesium-model/json_codecs';
+import {num, recordCodec} from 'caesium-json/json_codecs';
 
 import {EnergyAccount, ENERGY_ACCOUNT_CODEC} from '../../../../member/basic';
 

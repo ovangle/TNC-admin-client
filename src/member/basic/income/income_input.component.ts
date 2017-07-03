@@ -1,12 +1,10 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
-import {EnumSelect2} from '../../../utils/enum';
-
-import {IncomeType, INCOME_TYPE_VALUES} from './income_type.model';
-import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_income.model';
-import {BenefitType, BENEFIT_TYPE_VALUES} from './benefit_type.model';
+import {INCOME_TYPE_VALUES} from './income_type.model';
+import {PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_income.model';
+import {BENEFIT_TYPE_VALUES} from './benefit_type.model';
 import {Income} from './income.model';
 
 
@@ -56,12 +54,6 @@ import {Income} from './income.model';
         </div>
       </fieldset>
     `,
-    directives: [EnumSelect2],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncomeInput {

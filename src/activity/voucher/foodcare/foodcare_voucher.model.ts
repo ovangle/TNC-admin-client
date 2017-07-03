@@ -1,11 +1,12 @@
-import {Model, Property} from 'caesium-model/model';
-import {bool, date, num} from 'caesium-model/json_codecs';
+import moment = require('moment');
+import {Model, Property, modelFactory} from 'caesium-json/model';
+import {bool, date, num} from 'caesium-json/json_codecs';
 
 import {Voucher} from '../voucher.model';
 import {VoucherType} from '../voucher_type.model';
 
 @Model({kind: 'activity::FoodcareVoucher', superType: Voucher})
-export abstract class FoodcareVoucher extends Voucher {
+export class FoodcareVoucher extends Voucher {
     /**
      * Foodcare voucher come in 5, 10, 15, 20 and 25 dollar selectedValues.
      */
@@ -25,5 +26,12 @@ export abstract class FoodcareVoucher extends Voucher {
     _getIsValid(): boolean {
         return true;
     }
+
+    getValue(): number {
+        return this.value;
+    }
+
 }
+
+export const foodcareVoucher = modelFactory(FoodcareVoucher);
 

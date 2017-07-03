@@ -1,9 +1,9 @@
 import {Record} from 'immutable';
 
 import {Codec} from 'caesium-core/codec';
-import {JsonObject, recordCodec} from 'caesium-model/json_codecs';
+import {JsonObject, recordCodec} from 'caesium-json/json_codecs';
 
-import {TimeInterval, timeIntervalCodec} from '../../../utils/time/time_interval';
+import {TimeInterval, timeIntervalCodec} from 'utils/time';
 
 
 const _STAFF_AVAILABILITY_RECORD = Record({
@@ -20,7 +20,7 @@ export class StaffAvailability extends _STAFF_AVAILABILITY_RECORD {
     wed: TimeInterval;
     thu: TimeInterval;
     fri: TimeInterval;
-    
+
     isAvailable(day: string) {
         return this.get(day) !== null;
     }

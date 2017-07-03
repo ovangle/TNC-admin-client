@@ -5,7 +5,7 @@ import {
 
 import {isBlank} from 'caesium-core/lang';
 
-import {Search} from 'caesium-model/manager';
+import {Search} from 'caesium-json/manager';
 import {ParameterBuilder} from './parameter_builder.service';
 
 
@@ -25,12 +25,6 @@ import {ParameterBuilder} from './parameter_builder.service';
                (ngModelChange)="_rawSearchChange.emit($event)">
     </div>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBar {

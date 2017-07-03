@@ -1,14 +1,13 @@
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 
-import {List} from 'immutable';
 import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
-    OnInit, OnDestroy, ElementRef
+    OnInit, OnDestroy, ElementRef,
+    ChangeDetectorRef
 } from '@angular/core';
 
 import {MouseEventsOutsideElement} from '../events/mouse_events_outside_element.service';
-
 
 @Component({
     selector: 'dropdown',
@@ -27,19 +26,11 @@ import {MouseEventsOutsideElement} from '../events/mouse_events_outside_element.
         width: 100%;
     }    
     </style>
-    <div class="dropdown-menu" [ngClass]="{
-        'dropdown-menu-right': alignRight,
-        'dropdown-full-width': fullWidth
-    }"
-         *ngIf="active">
-        <content></content>
+    <div class="dropdown-menu" *ngIf="active">
+        <ng-content></ng-content>
     </div>
     `,
     providers: [MouseEventsOutsideElement],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Dropdown implements OnInit, OnDestroy {
@@ -61,7 +52,9 @@ export class Dropdown implements OnInit, OnDestroy {
 
     private _element: ElementRef;
 
-    constructor(private mouseEventsOutsideElement: MouseEventsOutsideElement,
+    constructor(
+        private _cd: ChangeDetectorRef,
+        private mouseEventsOutsideElement: MouseEventsOutsideElement,
         element: ElementRef) {
         this._element = element;
     }
@@ -70,19 +63,18 @@ export class Dropdown implements OnInit, OnDestroy {
         var elem1 = (this.mouseEventsOutsideElement as any).elementRef.nativeElement;
         var elem2 = this._element.nativeElement;
         console.log('Is same element ref', elem1, elem2, elem1 === elem2);
+        this.active = true;
     }
 
     ngOnInit() {
         this._clickOutsideDropdown =  this.mouseEventsOutsideElement.onMousedown.subscribe((event: MouseEvent) => {
             this.closeRequest.emit(null);
         });
-        /*
         this._clickOutsideDropdown = Observable.fromEvent(document, 'mousedown')
             .filter((event: MouseEvent) => {
                 var host = this._element.nativeElement;
                 return (event as any).path.every((elem: Node) => elem !== host)
             }).subscribe((event) => this.closeRequest.emit(null));
-            */
 
         this._keypressEvent = Observable.fromEvent(document, 'keyup')
             .filter((event: KeyboardEvent) => {
@@ -95,12 +87,28 @@ export class Dropdown implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         console.log('dropdown on destroy');
-        if (!this._clickOutsideDropdown.isUnsubscribed) {
+        if (!this._clickOutsideDropdown.closed) {
             this._clickOutsideDropdown.unsubscribe();
         }
-        if (!this._keypressEvent.isUnsubscribed) {
+        if (!this._keypressEvent.closed) {
             this._keypressEvent.unsubscribe();
         }
+
+    }
+
+    open() {
+        this.active = true;
+        this._cd.markForCheck();
+    }
+
+    close() {
+        this.active = false;
+        this._cd.markForCheck();
+    }
+
+    toggle() {
+        this.active = !this.active;
+        this._cd.markForCheck();
 
     }
 }

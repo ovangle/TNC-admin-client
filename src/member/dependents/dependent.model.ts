@@ -1,15 +1,15 @@
 import {List} from 'immutable';
 
-import {StateException} from 'caesium-model/exceptions';
-import {list, date, num} from 'caesium-model/json_codecs';
-import {Model, ModelBase, Property} from 'caesium-model/model';
+import {StateException} from 'caesium-json/exceptions';
+import {list, date} from 'caesium-json/json_codecs';
+import {Model, ModelBase, Property, modelFactory} from 'caesium-json/model';
 import {Name, NAME_CODEC, Gender, GENDER_CODEC} from '../basic';
 
 import {CarerRel, CARER_REL_CODEC} from './carer_rel/carer_rel.model';
 import {Carer} from './carer.model';
 
 @Model({kind: 'member.dependent::Dependent'})
-export abstract class Dependent extends ModelBase {
+export class Dependent extends ModelBase {
     // Used internally to set the carer rels.
     @Property({codec: list(CARER_REL_CODEC), defaultValue: List})
     carerRels: List<CarerRel>;
@@ -48,3 +48,5 @@ export abstract class Dependent extends ModelBase {
     }
 
 }
+
+export const dependent = modelFactory(Dependent);

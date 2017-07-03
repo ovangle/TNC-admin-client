@@ -1,12 +1,8 @@
-import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ChangeDetectorRef
-} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {MemberDetailsPage} from '../details_page.component';
 
-import {Member} from '../member.model';
-import {FileNote, FileNoteCreate, FileNoteSearch, FileNoteManager} from '../file_notes';
+import {MemberContext} from '../member_context.service';
+import {FileNote} from '../file_notes';
 
 @Component({
     selector: 'member-file-notes',
@@ -17,33 +13,20 @@ import {FileNote, FileNoteCreate, FileNoteSearch, FileNoteManager} from '../file
         padding-top: 10px;
     } 
     </style>
-    <div *ngIf="member">
+    <div *ngIf="memberContext.member | async as member">
         <file-note-create 
             [member]="member"
             (create)="noteAdded($event)">
         </file-note-create> 
-        <file-note-search [member]="member" (pin)="notePinned($event)"></file-note-search>
+        <file-note-search [member]="member" 
+                (pin)="notePinned($event)"></file-note-search>
     </div>
     `,
-    directives: [FileNoteCreate, FileNoteSearch],
-    providers: [FileNoteManager],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
 })
 export class MemberFileNotes {
-    private member: Member;
+    constructor(private memberContext: MemberContext) {}
 
-    constructor(private memberDetailsPage: MemberDetailsPage) { }
-
-    ngOnInit() {
-        this.memberDetailsPage.member.forEach(member => {
-            this.memberDetailsPage.setActivePage('FILE_NOTES');
-            this.member = member;
-        });
-    }
-
+    /*
     notePinned(fileNote: FileNote) {
         let pinnedNotes = this.memberDetailsPage.pinnedNotes;
         let reset: boolean = false;
@@ -55,4 +38,5 @@ export class MemberFileNotes {
         }
 
     }
+    */
 }

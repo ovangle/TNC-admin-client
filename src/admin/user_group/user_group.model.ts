@@ -1,19 +1,16 @@
-import {Map} from 'immutable';
-
-import {Model, ModelBase, Property} from 'caesium-model/model';
-import {str} from 'caesium-model/json_codecs'
-
-import {PermissionMap, PERMISSION_MAP_CODEC} from '../permissions';
-
+import {Model, ModelBase, Property} from 'caesium-json/model';
+import {str} from 'caesium-json/json_codecs'
 
 @Model({kind: 'user::UserGroup'})
-export abstract class UserGroup extends ModelBase {
+export class UserGroup extends ModelBase {
     @Property({codec: str})
     name:string;
 
+    /*
     @Property({
         codec: PERMISSION_MAP_CODEC,
         defaultValue: () => Map<string,Set<string>>()
     })
     permissions: PermissionMap;
+    */
 }

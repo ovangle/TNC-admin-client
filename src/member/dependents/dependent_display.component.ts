@@ -45,16 +45,7 @@ import {CarerRel, CarerRelDisplay} from './carer_rel';
             <carer-rel-display [rel]="rel"></carer-rel-display>
         </li> 
     </ul>
-    
-    
     `,
-    directives: [CarerRelDisplay],
-    pipes: [NamePipe, DatePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/details_display.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentDisplay {

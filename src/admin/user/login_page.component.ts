@@ -1,8 +1,6 @@
 import 'rxjs/add/operator/debounceTime';
 
-import {Component, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
-import {UserLoginForm} from './login_form/login_form.component';
-
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
     selector: 'login-page',
@@ -30,13 +28,7 @@ import {UserLoginForm} from './login_form/login_form.component';
         </div>
     </div>
     `,
-    directives: [UserLoginForm],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.Native
 })
 export class LoginPage {
 

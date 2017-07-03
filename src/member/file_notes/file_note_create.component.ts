@@ -3,14 +3,13 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 import {Response as HttpResponse} from '@angular/http';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 
 import {Member} from '../member.model';
 
-import {EnumSelect2, EnumSelectValueAccessor} from '../../utils/enum';
-import {FileNoteSeverity, FILE_NOTE_SEVERITY_VALUES} from './severity';
+import {FILE_NOTE_SEVERITY_VALUES} from './severity';
 
-import {FileNote} from './file_note.model';
+import {FileNote, fileNote} from './file_note.model';
 import {FileNoteManager} from './file_note.manager';
 
 
@@ -48,16 +47,6 @@ import {FileNoteManager} from './file_note.manager';
         </div>
     </form>
     `,
-    directives: [
-        EnumSelect2,
-        EnumSelectValueAccessor,
-        REACTIVE_FORM_DIRECTIVES
-    ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileNoteCreate {
@@ -77,9 +66,7 @@ export class FileNoteCreate {
     ) {}
 
     ngOnInit() {
-        this.fileNote = this.fileNoteManager.create(FileNote, {
-            member: this.member
-        });
+        this.fileNote = fileNote({member: this.member});
         this.fileNoteForm = this.formBuilder.group({
             'severity': [this.fileNote.severity, Validators.required],
             'message': [this.fileNote.message, Validators.required]
@@ -101,9 +88,9 @@ export class FileNoteCreate {
     save(event: Event) {
         event.preventDefault();
         this.fileNoteManager.save(this.fileNote)
-            .forEach((fileNote) => {
-                this.create.emit(fileNote);
-                this.fileNote = this.fileNoteManager.create(FileNote, {member: this.member});
+            .forEach((note: FileNote) => {
+                this.create.emit(note);
+                this.fileNote = fileNote({member: this.member});
                 this._cd.markForCheck();
             })
             .catch((response: HttpResponse) => {

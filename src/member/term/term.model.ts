@@ -6,7 +6,7 @@ import {Iterable, List, Record} from 'immutable';
 import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../utils/alert_label/alert_label';
 
 import {MemberTermType, MEMBER_TERM_TYPE_CODEC} from './term_type.model';
-import {dateTime, recordCodec} from "caesium-model/json_codecs";
+import {dateTime, recordCodec} from "caesium-json/json_codecs";
 
 const _TERM_RECORD = Record({
     type: 'TEMPORARY',

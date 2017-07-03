@@ -2,13 +2,11 @@ import {
     Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
 } from '@angular/core';
 
-import {EnumSelect2} from '../../../utils/enum';
 import {ResidentialStatus} from './residential_status.model';
+import {Address} from '../address';
 
-import {Address, AddressInput} from '../address';
-
-import {ResidenceType, RESIDENCE_TYPE_VALUES} from './residence_type.model';
-import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_stability.model';
+import {RESIDENCE_TYPE_VALUES} from './residence_type.model';
+import {RESIDENTIAL_STABILITY_VALUES} from './residential_stability.model';
 
 
 @Component({
@@ -23,7 +21,6 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
         <legend>{{label}}</legend>
         
         <address-input *ngIf="address"
-                [label]="'Address'"
                 [address]="address"
                 (addressChange)="addressChange.emit($event)">
         </address-input>
@@ -44,12 +41,6 @@ import {ResidentialStability, RESIDENTIAL_STABILITY_VALUES} from './residential_
         </div>
     </fieldset>
     `,
-    directives: [EnumSelect2, AddressInput],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResidentialStatusInput {

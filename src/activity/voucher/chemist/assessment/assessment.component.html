@@ -1,33 +1,64 @@
 <div class="assessment-container">
-    <voucher-assessment-question [questionId]="'1'">
-        Prescriptions presented for assessment
-        <chemist-prescriptions-input
+    <div *ngIf="member.term.isExpired" class="alert alert-danger">
+        Membership term expired.
+        <a [routerLink]="['/member', member.id, 'renew']">Renew member></a> before issuing voucher
+    </div>
+
+    <voucher-assessment-question [questionId]="'Prescription details'">
+        <chemist-prescription-input
             [member]="member"
-            [prescriptions]="voucher.prescriptions"
-            (prescriptionsChange)="propChanged('prescriptions', $event)">
-        </chemist-prescriptions-input>
+            [prescription]="voucher.prescription"
+            (prescriptionChange)="propChanged('prescription', $event)">
+        </chemist-prescription-input>
     </voucher-assessment-question>
 
-    <voucher-assessment-question [questionId]="'2'">
-        <div [ngSwitch]="exemptionRequired">
-            <div *ngSwitchCase="true" class="form-group" [ngClass]="{
-                'has-error': voucher.limitExemptionDescription === ''
-            }">
-                <label class="control-label">Reason for granting the exemption</label>
-                <input type="textarea"
-                       [ngModel]="voucher.limitExemptionDescription"
-                       (ngModelChange)="propChanged('limitExemptionDescription', $event)"
-                       [required]>
+    <voucher-assessment-question [questionId]="'Limit exemption'">
+        <div *ngIf="voucher.limitExemption">
+            An explicit exemption to the standard limits is required because:
+            <ul>
+                <li *ngIf="voucher.limitExemption.maxVouchersExceeded">
+                    <i>More than 6 chemist vouchers have been issued in the current financial year
+                    to this member</i>
+                </li>
+                <li *ngIf="voucher.limitExemption.maxValueExceeded">
+                    <i>The value of this medication exceeds $30, but the member requires additional
+                    assistance</i>
+                </li>
+            </ul>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"
+                       [ngModel]="voucher.isGrantedLimitExemption"
+                       (ngModelChange)="propChanged('isGrantedLimitExemption', $event)">
+                    The client has been granted an exception to the standard limits
+                </label>
             </div>
 
+            <div *ngIf="voucher.isGrantedLimitExemption">
+                <label class="control-label" for="limit-exemption-description">
+                    Explain the reason for granting the exemption
+                </label>
+                <textarea class="form-control" id="limit-exemption-description"
+                          [ngModel]="voucher.limitExemptionDescription"
+                          (ngModelChange)="propChanged('limitExemptionDescription', $event)">
+                </textarea>
+
+                <div class="alert alert-danger" *ngIf="!voucher.limitExemptionDescription">
+                    A reason for granting the exemption is required
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!voucher.limitExemption">
+            Not applicable -- no limit exemption is required to issue this voucher.
         </div>
     </voucher-assessment-question>
 
-    <voucher-assessment-question [questionId]="'3'">
+    <voucher-assessment-question [questionId]="'Assessor declaration'">
         <details>
-            <summary>Assessor declaration</summary>
-            <div class="well">
-                I, {{staffMemberName | async | name}} have conducted the assessment
+            <summary><em>Assessor declaration</em></summary>
+            <div>
+                I, {{staffMemberName | async | name}}, have conducted the assessment
                 in accordance with the guidelies for chemist assistance, and certify
                 that:
 
@@ -39,10 +70,17 @@
 
         <div class="checkbox">
             <label class="control-label">
+                <input type="checkbox"
+                       [ngModel]="voucher.isAssessorDeclarationSigned"
+                       (ngModelChange)="propChanged('isAssessorDeclarationSigned', $event)">
+
                 I have fulfilled my requirements as an assessor, as outlined
                 in the assessor declaration.
             </label>
 
+            <div class="alert alert-danger" *ngIf="!voucher.isAssessorDeclarationSigned">
+                You must accept the assessor declaration
+            </div>
         </div>
 
     </voucher-assessment-question>

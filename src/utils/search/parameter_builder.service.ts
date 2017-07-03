@@ -1,5 +1,5 @@
 import {Map, Set} from 'immutable';
-import {SearchParameter} from 'caesium-model/manager';
+import {SearchParameter} from 'caesium-json/manager';
 
 export abstract class ParameterBuilder {
     /**
@@ -7,7 +7,7 @@ export abstract class ParameterBuilder {
      * the new value of the search.
      *
      * @param searchFragments
-     * The raw search string, split on each whitespace element and with 
+     * The raw search string, split on each whitespace element and with
      * any duplicate elements removed.
      */
     abstract buildParamValues(searchFragments: Set<string>): Map<string,any>;

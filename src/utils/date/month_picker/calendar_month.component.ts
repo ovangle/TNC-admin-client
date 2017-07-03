@@ -66,10 +66,6 @@ import {Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetecti
         </tbody>
     </table>    
     `,
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarMonth {

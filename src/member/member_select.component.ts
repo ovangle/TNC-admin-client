@@ -5,16 +5,11 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 
-import {Search} from 'caesium-model/manager';
-import {SearchBar, ParameterBuilder} from '../utils/search';
-import {Dropdown} from '../utils/layout/dropdown.component';
+import {Search} from 'caesium-json/manager';
+import {ParameterBuilder} from '../utils/search';
 
 import {Member} from './member.model';
-import {MemberManager} from './member.manager';
-import {MemberCard} from './member_card.component';
-
-
-import {MemberSearchResultTable} from './search/result_table.component';
+import {MemberManager, MEMBER_SEARCH_PARAMS} from './member.manager';
 import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
 
 @Component({
@@ -52,17 +47,9 @@ import {MemberSearchParameterBuilder} from './search/parameter_builder.service';
         </div>
     </div>
     `,
-    directives: [
-        SearchBar, Dropdown, MemberSearchResultTable, MemberCard
-    ],
     providers: [
-        MemberManager,
         {provide: ParameterBuilder, useClass: MemberSearchParameterBuilder}
     ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberSelect {
@@ -80,7 +67,7 @@ export class MemberSelect {
     ) { }
 
     ngOnInit() {
-        this.search = this.memberManager.search();
+        this.search = this.memberManager.search(MEMBER_SEARCH_PARAMS);
         this.changeDetector.markForCheck();
     }
 

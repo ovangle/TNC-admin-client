@@ -1,12 +1,9 @@
 import {Record} from 'immutable';
 
-import {bool, str, recordCodec} from 'caesium-model/json_codecs';
+import {str, recordCodec} from 'caesium-json/json_codecs';
 
 import {EnergyRetailer, ENERGY_RETAILER_CODEC} from './energy_retailer.model';
 import {EnergyAccountType, ENERGY_ACCOUNT_TYPE_CODEC} from './energy_account_type.model';
-
-import {Name, NAME_CODEC} from '../name';
-import {Address, ADDRESS_CODEC} from '../address';
 
 const _ENERGY_ACCOUNT_RECORD = Record({
     type: 'ELECTRICITY',

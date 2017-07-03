@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
 
 import {Type} from 'caesium-core/lang';
-import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
+import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-json/manager';
 import {Dependent} from './dependent.model';
 
 export interface DependentErrors {
@@ -16,12 +16,10 @@ export interface DependentErrors {
 @Injectable()
 export class DependentManager extends ManagerBase<Dependent> {
     constructor(options: ManagerOptions) {
-        super(options);
+        super(Dependent, options);
     }
 
-    getModelType() { return Dependent; }
-    getModelSubtypes(): Type[] { return []; }
-    getSearchParameters(): SearchParameter[] { return undefined; }
+    getModelSubtypes(): Type<any>[] { return []; }
 
     save(dependent: Dependent): Observable<Dependent | DependentErrors> {
         var request: any;

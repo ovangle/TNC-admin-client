@@ -1,5 +1,5 @@
 import {OrderedMap} from 'immutable'
-import {str} from 'caesium-model/json_codecs'
+import {str} from 'caesium-json/json_codecs'
 
 // TODO: This (and some other enums) should be exported by the server
 // and stored as database selectedValues. We can't be sure that we have the entire

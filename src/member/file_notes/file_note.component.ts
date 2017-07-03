@@ -2,7 +2,6 @@ import {
     Component, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef,
     Input, Output, EventEmitter} from "@angular/core";
 import {DatePipe} from "@angular/common"
-import {ROUTER_DIRECTIVES} from "@angular/router";
 
 import {NamePipe} from '../basic';
 import {FileNoteManager} from './file_note.manager';
@@ -69,14 +68,6 @@ import {FileNote} from './file_note.model';
         </div>
     </div>
     `,
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [DatePipe, NamePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileNoteComponent {

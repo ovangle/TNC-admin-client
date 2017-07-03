@@ -6,32 +6,24 @@ import {Observable} from 'rxjs/Observable';
 
 import {Injectable} from '@angular/core';
 import {Response as HttpResponse} from '@angular/http';
-import {Type, isBlank} from 'caesium-core/lang';
-import {Response} from 'caesium-model/manager/request/interfaces';
-import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
+import {Type} from 'caesium-core/lang';
+import {Response} from 'caesium-json/manager/request/interfaces';
+import {ManagerBase, ManagerOptions} from 'caesium-json/manager';
 
-import {identity, model} from 'caesium-model/json_codecs';
+import {identity} from 'caesium-json/json_codecs';
 
-import {Name} from '../../member/basic';
+import {Name} from 'member/basic/name';
 
 import {User, LoginDetails} from './user.model';
 
 @Injectable()
 export class UserManager extends ManagerBase<User> {
     constructor(options:ManagerOptions) {
-        super(options);
+        super(User, options);
     }
 
-    getModelType() {
-        return User;
-    }
-
-    getModelSubtypes():Type[] {
+    getModelSubtypes():Type<any>[] {
         return [];
-    }
-
-    getSearchParameters():SearchParameter[] {
-        return undefined;
     }
 
     initialize(): Observable<User> {
@@ -39,19 +31,24 @@ export class UserManager extends ManagerBase<User> {
         var response = request.send();
 
         return response
-            .handle<User>({select: 200, decoder: this.modelCodec})
-            .catch<User>((err: HttpResponse) => {
+            .handle({select: 200, decoder: this.modelCodec})
+            .catch((err: HttpResponse) => {
                 if (err.status === 401 /* unauthorized */) {
                     return Observable.of(null);
                 }
                 return Observable.throw(err);
             });
-
     }
 
     login(loginDetails:LoginDetails):Response {
         var request = this._requestFactory.put('login', identity);
         request.setRequestBody(loginDetails);
+        return request.send();
+    }
+
+    logout(): Response {
+        var request = this._requestFactory.put('logout', identity);
+        request.setRequestBody({});
         return request.send();
     }
 
@@ -62,6 +59,6 @@ export class UserManager extends ManagerBase<User> {
             lastName: name.lastName
         });
         var response = request.send();
-        return response.handle<string>({select: 200, decoder: (body) => body['username']});
+        return response.handle<string>({select: 200, decoder: (body: any) => body['username']});
     }
 }

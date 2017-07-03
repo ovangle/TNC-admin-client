@@ -5,7 +5,7 @@ import {Record} from 'immutable';
 
 import {isBlank} from 'caesium-core/lang';
 import {Codec} from 'caesium-core/codec';
-import {ArgumentError, EncodingException} from 'caesium-model/exceptions';
+import {ArgumentError, EncodingException} from 'caesium-json/exceptions';
 
 const _TIME_RECORD = Record({
     hour: 0,
@@ -62,7 +62,7 @@ export class Time extends _TIME_RECORD {
             millisecond: -(millisecond || 0)
         })
     }
-    
+
     get isAM(): boolean {
         return this.hour < 12
             || this.hour === 12 && this.minute === 0;

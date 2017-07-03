@@ -22,18 +22,15 @@
                     [date]="staffMember.dateOfBirth"
                     (dateChange)="propChanged('dateOfBirth', $event)"></date-input>
 
-        <address-input [label]="'Address'"
-                       [address]="staffMember.address"
+        <address-input [address]="staffMember.address"
                        (addressChange)="propChanged('address', $event)">
         </address-input>
 
-        <contact-input [label]="'Contact'"
-                       [contact]="staffMember.contact"
+        <contact-input [contact]="staffMember.contact"
                        (contactChange)="propChanged('contact', $event)">
         </contact-input>
 
         <staff-availability-input
-                [staffType]="staffMember.type"
                 [availability]="staffMember.availability"
                 (availabilityChange)="propChanged('availability', $event)">
         </staff-availability-input>

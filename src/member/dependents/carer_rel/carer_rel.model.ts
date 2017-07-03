@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs/Observable';
 
 import {Record} from 'immutable';
-import {recordCodec, model} from 'caesium-model/json_codecs';
+import {recordCodec, model} from 'caesium-json/json_codecs';
 
 import {Carer, CARER_CODEC} from '../carer.model';
 import {RelationType, RELATION_TYPE_CODEC} from './relation_type.model';

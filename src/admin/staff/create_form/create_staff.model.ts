@@ -1,13 +1,12 @@
 
 import {List, Record} from 'immutable';
-import {str, list, model, recordCodec} from 'caesium-model/json_codecs';
+import {str, list, model, recordCodec} from 'caesium-json/json_codecs';
 
-import {Name, NAME_CODEC} from '../../../member/basic';
+import {Name, NAME_CODEC} from 'member/basic';
+
 import {AbstractUser} from '../../user';
-
-
 import {UserGroup} from '../../user_group';
-import {StaffMember, StaffType, STAFF_TYPE_CODEC} from '../../staff';
+import {StaffType, STAFF_TYPE_CODEC} from '../type';
 
 const _CREATE_STAFF_REQUEST_RECORD = Record({
     username: '',

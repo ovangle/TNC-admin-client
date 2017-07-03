@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
 
 
 @Component({
@@ -8,10 +8,9 @@ import {Component, Input, Output, ChangeDetectionStrategy, ViewEncapsulation} fr
              [style.font-size]="size || 'inherit'"
              [style.color]="color || _defaultColor"></div>
     `,
-    styles: [
-        require('./spinner.component.css')
+    styleUrls: [
+        './spinner.component.css'
     ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Spinner {

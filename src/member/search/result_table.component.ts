@@ -4,13 +4,12 @@ import {
     Component, Input, ViewEncapsulation, ChangeDetectionStrategy,
     Output, EventEmitter
 } from '@angular/core';
-import {Search} from 'caesium-model/manager';
+import {Search} from 'caesium-json/manager';
 
 import {ResultContainer} from '../../utils/search';
 import {Spinner} from '../../utils/spinner/spinner.component';
 
 import {Member} from '../member.model';
-import {MemberResultTableRow} from './result_table/result_table_row.component';
 
 @Component({
     selector: 'member-search-result-table',
@@ -33,12 +32,6 @@ import {MemberResultTableRow} from './result_table/result_table_row.component';
         </li>
     </ul>
     `,
-    directives: [MemberResultTableRow, ResultContainer, Spinner],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/search_result_table.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberSearchResultTable {

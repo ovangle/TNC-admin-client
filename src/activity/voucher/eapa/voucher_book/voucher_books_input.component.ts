@@ -1,13 +1,11 @@
 import {List, Set} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ViewChildren, QueryList,
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy,
     ChangeDetectorRef
 } from '@angular/core';
 
 import {EAPAVoucherBook, prefillVoucherBooks, VOUCHER_DOLLAR_VALUE} from './voucher_book.model';
-import {EAPAVoucherBookInput} from './voucher_book_input.component';
 import {VoucherBookAdjacency, getAdjacencies} from './adjacency.model';
 
 
@@ -65,13 +63,6 @@ import {VoucherBookAdjacency, getAdjacencies} from './adjacency.model';
         No vouchers required by assessment
     </div>
     `,
-    directives: [EAPAVoucherBookInput],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css'),
-        require('css/search_result_table.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EAPAVoucherBooksInput {

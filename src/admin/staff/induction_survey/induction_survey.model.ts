@@ -1,14 +1,13 @@
 import {Set} from 'immutable';
-import {Model, ModelBase, Property} from 'caesium-model/model';
-import {bool, list, str, date, num} from 'caesium-model/json_codecs';
+import {Model, ModelBase, Property, modelFactory} from 'caesium-json/model';
+import {bool, list, str, date, num} from 'caesium-json/json_codecs';
 import {composeCodecs, setToList} from '../../../utils/codecs';
-
-import {StaffMember} from '../staff.model';
 
 const _STRING_SET_CODEC = composeCodecs(setToList, list(str));
 
 @Model({kind: 'staff.induction_survey::StaffInductionSurvey'})
-export abstract class StaffInductionSurvey extends ModelBase {
+export class StaffInductionSurvey extends ModelBase {
+
     @Property({codec: bool})
     hasPreviousExperience: boolean;
 
@@ -30,5 +29,7 @@ export abstract class StaffInductionSurvey extends ModelBase {
     @Property({codec: bool})
     hasUnderstoodPrivacyObligations: boolean;
 }
+
+export const staffInductionSurvey = modelFactory(StaffInductionSurvey);
 
 

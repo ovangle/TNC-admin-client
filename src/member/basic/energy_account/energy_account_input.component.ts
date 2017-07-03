@@ -1,19 +1,15 @@
 import {Map} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
-import {isBlank} from 'caesium-core/lang';
+import {Name} from '../name';
+import {Address} from '../address';
 
-import {EnumSelect2} from '../../../utils/enum';
-
-import {Name, NamePipe} from '../name';
-import {Address, AddressPipe} from '../address';
-
-import {EnergyAccountType, ENERGY_ACCOUNT_TYPE_VALUES} from './energy_account_type.model';
+import {ENERGY_ACCOUNT_TYPE_VALUES} from './energy_account_type.model';
 import {EnergyAccount} from './energy_account.model';
-import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
+import {ENERGY_RETAILER_VALUES} from './energy_retailer.model';
 
 @Component({
     selector: 'energy-account-input',
@@ -82,12 +78,6 @@ import {EnergyRetailer, ENERGY_RETAILER_VALUES} from './energy_retailer.model';
         </div>
     </fieldset>
     `,
-    directives: [EnumSelect2],
-    pipes: [NamePipe, AddressPipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EnergyAccountInput {

@@ -5,16 +5,12 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 
-import {isDefined, isBlank} from 'caesium-core/lang';
-import {Search} from 'caesium-model/manager';
-
-import {Spinner} from '../../utils/spinner/spinner.component';
-import {ResultContainer} from '../../utils/search';
+import {isBlank} from 'caesium-core/lang';
+import {Search} from 'caesium-json/manager';
 
 import {Member} from '../member.model';
 import {FileNote} from './file_note.model';
-import {FileNoteComponent} from './file_note.component';
-import {FileNoteManager} from './file_note.manager';
+import {FileNoteManager, FILE_NOTE_SEARCH_PARAMS} from './file_note.manager';
 
 
 
@@ -44,16 +40,6 @@ import {FileNoteManager} from './file_note.manager';
         </div>
     </div> 
     `,
-    directives: [
-        FileNoteComponent,
-        ResultContainer,
-        Spinner
-    ],
-    providers: [FileNoteManager],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileNoteSearch {
@@ -72,7 +58,7 @@ export class FileNoteSearch {
         private _cd: ChangeDetectorRef
     ) {
         this.fileNoteManager = fileNoteManager;
-        this.search = fileNoteManager.search();
+        this.search = fileNoteManager.search(FILE_NOTE_SEARCH_PARAMS);
     }
 
     ngOnChanges(changes: any) {

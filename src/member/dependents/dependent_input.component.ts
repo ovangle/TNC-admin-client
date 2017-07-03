@@ -5,16 +5,12 @@ import {
 } from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
-import {DateInput} from '../../utils/date/date_input.component';
-import {EnumSelect2} from '../../utils/enum';
 
-import {Member} from '../member.model';
-import {NameInput, NamePipe, GENDER_VALUES} from '../basic';
+import {GENDER_VALUES} from '../basic';
 
-import {Dependent} from './dependent.model';
+import {Dependent, dependent} from './dependent.model';
 import {Carer} from './carer.model';
 import {CarerRel} from './carer_rel/carer_rel.model';
-import {CarerRelInput} from './carer_rel/carer_rel_input.component';
 import {DependentManager} from './dependent.manager';
 
 
@@ -41,8 +37,8 @@ import {DependentManager} from './dependent.manager';
                           
             <date-input class="flex"
                         [label]="'Date of Birth'" 
-                        [value]="dependent.dateOfBirth"                
-                        (valueChange)="propChanged('dateOfBirth', $event)"
+                        [date]="dependent.dateOfBirth"                
+                        (dateChange)="propChanged('dateOfBirth', $event)"
                         [defaultToday]="false">
             </date-input>
                         
@@ -67,23 +63,13 @@ import {DependentManager} from './dependent.manager';
         </div>
     </div>
     `,
-    directives: [
-        NameInput, CarerRelInput, EnumSelect2, DateInput
-    ],
-    pipes: [NamePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentInput {
     private genderValues = GENDER_VALUES;
     @Input() carers: List<Carer>;
 
-    private dependent: Dependent;
+    @Input() dependent: Dependent;
 
     @Output() commit = new EventEmitter<Dependent>();
     @Output() cancel = new EventEmitter<any>();
@@ -93,13 +79,13 @@ export class DependentInput {
     ) { }
 
     ngOnInit() {
-        var carerRels = this.carers
+        let carerRels = this.carers
             .map(carer => new CarerRel({carer: carer}))
             .toList();
 
-        this.dependent = this.dependentManager.create(Dependent, {
-            carerRels: carerRels
-        });
+        if (isBlank(this.dependent)) {
+            this.dependent = dependent({carerRels: carerRels});
+        }
     }
 
     ngOnChanges(changes: {[prop: string]: SimpleChange}) {

@@ -1,20 +1,16 @@
 import {Set} from 'immutable';
 
 import {
-    Component, ViewEncapsulation, EventEmitter, ChangeDetectionStrategy,
-    ViewContainerRef
+    Component, EventEmitter, ChangeDetectionStrategy,
+    ViewContainerRef, Injector
 } from "@angular/core";
 import {Router, ActivatedRoute} from '@angular/router';
 
-import {PageHeader} from '../utils/layout/page_header.component';
-import {Modal, RemoteComponent} from '../utils/modal';
+import {Modal} from '../utils/modal';
 
-import {MemberInputForm} from './member_input/member_input.component';
-import {MemberSignupSuccess} from './signup/signup_success_alert.component';
-
+import {Member, member} from './member.model';
 import {MemberManager} from './member.manager';
-import {Member} from './member.model';
-
+import {MemberSignupSuccess} from './signup/signup_success_alert.component';
 
 @Component({
     selector: 'member-signup',
@@ -53,16 +49,9 @@ import {Member} from './member.model';
         </div>
     </div>    
     `,
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    directives: [PageHeader, MemberInputForm, MemberSignupSuccess],
-    providers: [MemberManager],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberSignupPage implements RemoteComponent {
+export class MemberSignupPage {
     member:Member;
     private _modalClose = new EventEmitter<any>();
 
@@ -79,7 +68,8 @@ export class MemberSignupPage implements RemoteComponent {
         'partner'
     ]);
 
-    constructor(private memberManager:MemberManager,
+    constructor(private injector: Injector,
+                private memberManager:MemberManager,
                 private modal:Modal,
                 private router:Router,
                 private route: ActivatedRoute,
@@ -91,19 +81,19 @@ export class MemberSignupPage implements RemoteComponent {
     }
 
     ngOnInit() {
-        this.member = this.memberManager.create(Member, {});
+        this.member = member({});
     }
 
     signupSuccess(member:Member) {
         this.member = member;
-        this.modal.activate({
-            body: MemberSignupSuccess,
-            bindings: {
-                '[member]': 'member',
-                '(confirm)': 'navigateToMemberSearch()'
-            },
-            remote: this
-        }, this._modalClose);
+        this.modal.open(
+            MemberSignupSuccess,
+            this.injector,
+            {
+                member: this.member,
+                confirm: (event: any) => this.navigateToMemberSearch()
+            }
+        );
     }
 
     signupCancel() {

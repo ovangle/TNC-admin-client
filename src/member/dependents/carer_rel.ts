@@ -8,3 +8,5 @@ export {
 export {CarerRel} from './carer_rel/carer_rel.model';
 export {CarerRelDisplay} from './carer_rel/carer_rel_display.component';
 export {CarerRelInput} from './carer_rel/carer_rel_input.component';
+
+export {MemberDependentCarerRelModule} from './carer_rel/carer_rel.module';

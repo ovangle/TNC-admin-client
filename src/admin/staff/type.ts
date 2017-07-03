@@ -1,5 +1,5 @@
 import {OrderedMap} from 'immutable';
-import {str} from 'caesium-model/json_codecs';
+import {str} from 'caesium-json/json_codecs';
 
 export type StaffType = 'PERMANENT_STAFF'
      | 'OFFICE_VOLUNTEER'

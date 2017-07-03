@@ -6,20 +6,15 @@ import {Map} from 'immutable';
 import {Observable} from 'rxjs/Observable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 import {Response as HttpResponse} from '@angular/http';
 
-import {EnumSelect2} from '../../utils/enum';
-import {DateInput} from '../../utils/date/date_input.component';
-
-import {Member} from '../member.model';
+import {Member, member} from '../member.model';
 import {MemberManager} from '../member.manager';
 import {MemberTerm} from '../term';
 
-import {NameInput, AddressInput, GENDER_VALUES} from '../basic';
-
-
+import {GENDER_VALUES} from '../basic';
 
 @Component({
     selector: 'partner-create',
@@ -53,14 +48,13 @@ import {NameInput, AddressInput, GENDER_VALUES} from '../basic';
                 
             <date-input class="flex"
                 [label]="'Date of Birth'"
-                [value]="partner.dateOfBirth"
-                (valueChange)="propChanged('dateOfBirth', $event)"
+                [date]="partner.dateOfBirth"
+                (dateChange)="propChanged('dateOfBirth', $event)"
                 (validityChange)="propValidityChanged('dateOfBirth', $event)"
                 [defaultToday]="false"></date-input>
         </div>
         
         <address-input
-            [label]="'Address'"
             [address]="partner.address"
             (addressChange)="propChanged('address', $event)"></address-input>
             
@@ -74,13 +68,6 @@ import {NameInput, AddressInput, GENDER_VALUES} from '../basic';
         </div>
     </div>        
     `,
-    directives: [NameInput, EnumSelect2, DateInput, AddressInput],
-    styles: [
-        '../../../assets/css/bootstrap.css',
-        '../../../assets/css/flex.css',
-        '../../../assets/css/font-awesome.css',
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartnerCreate {
@@ -101,7 +88,7 @@ export class PartnerCreate {
     constructor(private memberManager: MemberManager) { }
 
     ngOnInit() {
-        this.partner = this.memberManager.create(Member, {
+        this.partner = member({
             term: new MemberTerm({type: 'PARTNER'}),
             partnerId: null
         });
@@ -118,24 +105,8 @@ export class PartnerCreate {
     private _save(): Promise<any> {
         var response = this.memberManager.save(this.partner);
 
-        /* TODO: This response.handle stuff would be a lot better if the API
-         *  looked more like this.
-         *  response
-         *      .handle(201, this.memberManager.modelCodec, member => {
-         *
-         *      })
-         *      .handle(400, this.memberManager.createErrors, errors => {
-         *      })
-         *      .orElse(response => {
-         *
-         *      })
-         *      .toObservable();
-         *
-         */
-
-
         return response.handle({select: 201, decoder: this.memberManager.modelCodec})
-            .forEach(member => {
+            .forEach((member: Member) => {
                 this.save.emit(member);
             })
             .catch((response: HttpResponse) => {

@@ -1,24 +1,25 @@
 import {List, Map} from 'immutable';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/do';
 
-import {forwardRef, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import {Type, isString} from 'caesium-core/lang';
-import {union, itemList} from 'caesium-model/json_codecs';
-import {ArgumentError} from 'caesium-model/exceptions';
-import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
+import {Type, isBlank} from 'caesium-core/lang';
+import {union, itemList} from 'caesium-json/json_codecs';
+import {ManagerBase, ManagerOptions} from 'caesium-json/manager';
 
-import {DATE} from '../../utils/string_encoders';
+import {DATE} from 'utils/string_encoders';
 
-import {Member} from '../../member';
+import {Member} from 'member';
 
 import {VoucherType} from './voucher_type.model';
 import {Voucher} from './voucher.model';
-import {ChemistVoucher} from './chemist';
-import {EAPAVoucher} from './eapa';
-import {FoodcareVoucher} from './foodcare';
+import {ChemistVoucher} from './chemist/chemist_voucher.model';
+import {EAPAVoucher} from './eapa/eapa_voucher.model';
+import {FoodcareVoucher} from './foodcare/foodcare_voucher.model';
 
-const _VOUCHER_TYPES = Map<VoucherType,Type>({
+const _VOUCHER_TYPES = Map<VoucherType,Type<any>>({
     'FOODCARE': FoodcareVoucher,
     'CHEMIST': ChemistVoucher,
     'EAPA': EAPAVoucher
@@ -27,52 +28,66 @@ const _VOUCHER_TYPES = Map<VoucherType,Type>({
 @Injectable()
 export class VoucherManager extends ManagerBase<Voucher> {
     constructor(options: ManagerOptions) {
-        super(options);
+        super(Voucher, options);
     }
 
-    getModelType(): Type { return Voucher; }
-    getModelSubtypes(): Type[] {
+    getModelSubtypes(): Type<any>[] {
         return [ChemistVoucher, EAPAVoucher, FoodcareVoucher];
     }
-    getSearchParameters(): SearchParameter[] {
-        return undefined;
+
+    private static _getVouchersCache = Map<string, List<Voucher>>();
+    private static _getVouchersParamsHash(member: Member, params?: {type?: VoucherType, before?: Date, after?: Date}) {
+        let type = (params && params.type) ? params.type : '';
+        let before = (params && params.before) ? DATE(params.before) : '';
+        let after = (params && params.after) ? DATE(params.after) : '';
+
+        return `${member.id}-${type}-${before}-${after}`;
     }
 
     getVouchersForMember(
-        member: Member, params?: {
+        member: Member,
+        params?: {
             type?: VoucherType,
             before?: Date,
             after?: Date
         }
     ): Observable<List<Voucher>> {
-        var request = this._requestFactory.get('');
-        request.setRequestParameters({
-            member: member.id
-        });
+        if (isBlank(member)) {
+            return Observable.of(List<Voucher>());
+        }
+
+        let hash = VoucherManager._getVouchersParamsHash(member, params);
+        if (VoucherManager._getVouchersCache.has(hash)) {
+            return Observable.of(VoucherManager._getVouchersCache.get(hash));
+        }
+
+        let requestParams = {member: isBlank(member) ? '' : member.id};
 
         if (params) {
-            request.setRequestParameters({
+            requestParams = Object.assign({}, requestParams, {
                 type: params.type,
                 before: params.before ? DATE(params.before) : null,
                 after: params.after ? DATE(params.after) : null,
             });
         }
+        var request = this._requestFactory.get('voucher');
+        request.setRequestParameters(requestParams);
 
         return request.send()
-            .handle({select: 200, decoder: itemList(this.modelCodec)});
+            .handle({select: 200, decoder: itemList(this.modelCodec)})
+            .do((vouchers: List<Voucher>) => {
+                VoucherManager._getVouchersCache = VoucherManager._getVouchersCache.set(hash, vouchers);
+            })
     }
 
-    //noinspection JSAnnotator
-    create<U extends Voucher>(type: VoucherType | Type, args: any): U {
-        if (isString(type)) {
-            let t = <VoucherType>type;
-            if (!_VOUCHER_TYPES.has(t))
-                throw new ArgumentError('Unsupported voucher type: ' + type);
-            type = _VOUCHER_TYPES.get(t);
-        }
-        return <U>super.create(<Type>type, args);
+    save<U extends Voucher>(member: Member, voucher: U): Observable<U> {
+        let voucherType = voucher.getType();
+        let path = `${member.id}/activity/voucher/${voucherType.toLowerCase()}`;
+        let request = this._requestFactory.post(path, VOUCHER_CODEC);
+        request.setRequestBody(voucher);
+        return request.send()
+            .handle<U>({select: 200, decoder: VOUCHER_CODEC});
     }
-
 }
 
 export const VOUCHER_CODEC = union(

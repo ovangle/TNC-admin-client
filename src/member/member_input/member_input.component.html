@@ -45,7 +45,6 @@
         <address-input class="col-sm-12"
                        [address]="member.address"
                        (addressChange)="propChanged('address', $event)"
-                       [label]="'Address'"
                        [disabled]="disabled">
         </address-input>
     </div>
@@ -68,12 +67,11 @@
         </income-input>
     </div>
 
-    <ul class="list-unstyled">
+    <ul class="list-unstyled" *ngIf="displayField('energyAccounts')">
         <li *ngFor="let acctType of energyAccountTypeValues.keySeq().toArray()" class="row">
             <energy-account-input
                 *ngIf="displayField('energyAccounts.' + acctType)"
                 [label]=""
-                [energyAccountType]="acctType"
                 [energyAccount]="member.energyAccounts.get(acctType)"
                 (energyAccountChange)="energyAccountChanged(acctType, $event)">
             </energy-account-input>
@@ -106,7 +104,6 @@
     <div class="row" *ngIf="displayField('dependents')">
         <dependent-list-input
                 class="col-sm-12"
-                [label]="'Dependents'"
                 [carers]="_carers"
                 [dependents]="member.dependents"
                 (dependentsChange)="propChanged('dependents', $event)">

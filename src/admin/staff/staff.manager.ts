@@ -6,14 +6,14 @@ import {Injectable} from '@angular/core';
 import {Response as HttpResponse} from '@angular/http';
 
 import {Type} from 'caesium-core/lang';
-import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-model/manager';
+import {Response} from 'caesium-json/manager/request';
+import {ManagerBase, ManagerOptions, SearchParameter} from 'caesium-json/manager';
 
 import {NAME_SEARCH} from '../../member/basic/name/name.search_param.metadata';
 
 import {
     CreateStaffRequest, CREATE_STAFF_REQUEST_CODEC,
-    CreateStaffResponse, CREATE_STAFF_RESPONSE_CODEC,
-    CreateStaffErrors
+    CreateStaffResponse, CreateStaffErrors
 } from './create_form/create_staff.model';
 import {StaffMember} from './staff.model';
 
@@ -22,16 +22,10 @@ import {StaffMember} from './staff.model';
 export class StaffManager extends ManagerBase<StaffMember> {
 
     constructor(options: ManagerOptions) {
-        super(options);
+        super(StaffMember, options);
     }
 
-
-    getModelType():Type { return StaffMember; }
-    getModelSubtypes():Type[] { return []; }
-
-    getSearchParameters():SearchParameter[] {
-        return _STAFF_MEMBER_SEARCH_PARAMS;
-    }
+    getModelSubtypes():Type<any>[] { return []; }
 
     post(createRequest: CreateStaffRequest): Observable<CreateStaffResponse | CreateStaffErrors>  {
         var request = this._requestFactory.post('', CREATE_STAFF_REQUEST_CODEC);
@@ -46,13 +40,13 @@ export class StaffManager extends ManagerBase<StaffMember> {
             });
     }
 
-    getById(id: any) {
+    getById(id: any): Response {
         return super.getById(id + '/');
     }
 
 }
 
-const _STAFF_MEMBER_SEARCH_PARAMS: SearchParameter[] = [
+export const STAFF_MEMBER_SEARCH_PARAMS: SearchParameter[] = [
     NAME_SEARCH
 ];
 

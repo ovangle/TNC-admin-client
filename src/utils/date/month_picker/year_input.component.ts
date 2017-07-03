@@ -4,8 +4,6 @@ import {
     ChangeDetectionStrategy, ViewChild, OnChanges
 } from "@angular/core";
 
-import {KeyCode} from '../../keycodes.enum';
-
 //TODO: Validity
 
 @Component({
@@ -31,10 +29,6 @@ import {KeyCode} from '../../keycodes.enum';
            (ngModelChange)="_inputYear = $event"
            (blur)="commit()"> 
     `,
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class YearInput implements OnChanges {
@@ -55,12 +49,14 @@ export class YearInput implements OnChanges {
     }
 
     private _handleEnterOrEsc(event: KeyboardEvent) {
-        if (event.which === KeyCode.Enter) {
-            event.stopImmediatePropagation();
-            this.commit();
-        } else if (event.which === KeyCode.Esc) {
-            event.stopImmediatePropagation();
-            this.cancel();
+        switch (event.key) {
+            case 'Tab':
+            case 'Enter':
+                event.stopImmediatePropagation();
+                return this.commit();
+            case 'Escape':
+                event.stopImmediatePropagation();
+                return this.cancel();
         }
     }
 

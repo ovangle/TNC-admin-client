@@ -7,11 +7,6 @@ import {
     ViewChild, ElementRef
 } from '@angular/core';
 
-import {isDefined} from 'caesium-core/lang';
-
-import {KeyCode} from '../../keycodes.enum';
-
-
 const _MONTH_NAMES = List<string>(moment.months());
 
 type InputMode = 'DISPLAY' | 'EDIT';
@@ -50,7 +45,6 @@ type InputMode = 'DISPLAY' | 'EDIT';
     </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.Native
 })
 export class MonthInput {
     @Input() month: number;
@@ -76,15 +70,14 @@ export class MonthInput {
     }
 
     _handleKeyDown(event: KeyboardEvent) {
-        if (event.which === KeyCode.Tab) {
-            event.stopImmediatePropagation();
-            this.commit();
-        } else if (event.which === KeyCode.Enter) {
-            event.stopImmediatePropagation();
-            this.commit();
-        } else if (event.which === KeyCode.Esc) {
-            event.stopImmediatePropagation();
-            this.cancel();
+        switch (event.key) {
+            case 'Tab':
+            case 'Enter':
+                event.stopImmediatePropagation();
+                return this.commit();
+            case 'Escape':
+                event.stopImmediatePropagation();
+                return this.cancel();
         }
     }
 

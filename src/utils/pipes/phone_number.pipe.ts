@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 import {isBlank, isString} from 'caesium-core/lang';
-import {ArgumentError} from 'caesium-model/exceptions';
+import {ArgumentError} from 'caesium-json/exceptions';
 
 export const DIGIT_PLACEHOLDER = 'd';
 

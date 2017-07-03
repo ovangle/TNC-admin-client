@@ -3,11 +3,9 @@ import {
     ViewChild
 } from '@angular/core';
 
-import {Search} from 'caesium-model/manager';
-import {ResultContainer} from '../../../utils/search/scrolling_result_container.directive';
+import {Search} from 'caesium-json/manager';
+import {ResultContainer} from 'utils/search';
 import {StaffMember} from '../staff.model';
-
-import {StaffSearchResultTableRow} from './result_table/result_table_row.component';
 
 @Component({
     selector: 'staff-search-result-table',
@@ -26,13 +24,6 @@ import {StaffSearchResultTableRow} from './result_table/result_table_row.compone
         </ul>
     </div>
     `,
-    directives: [
-        ResultContainer, StaffSearchResultTableRow
-    ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffSearchResultTable {

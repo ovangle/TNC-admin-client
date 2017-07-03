@@ -6,18 +6,17 @@ var utils = require('./utils.js');
 
 module.exports = {
     entry: {
-        'polyfills': './src/ext/polyfills.ts',
-        'angular': './src/ext/angular.ts',
-        'caesium': './src/ext/caesium.ts',
-        'rxjs': './src/ext/rxjs.ts',
-        'misc': './src/ext/misc.ts',
-        'app': './src/app.ts'
+        'polyfills': './assets/polyfills.ts',
+        'vendor': './assets/vendor.ts',
+        'main': './src/main.ts'
     },
     resolve: {
         extensions: ['', '.js', '.ts', '.css'],
+
         modulesDirectories: [
-            'node_modules',
-            'assets'
+          'src',
+          'assets',
+          'node_modules'
         ]
     },
     module: {
@@ -38,8 +37,10 @@ module.exports = {
                 // loader: "url?limit=10000"
                 loader: "url"
             },
-            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-
+            {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "file"
+            },
             // Load files in the src directory directly into the module bundles
             {
                 test: /\.css$/,
@@ -48,21 +49,13 @@ module.exports = {
         ]
     },
     plugins: [
-        /*
         new webpack.optimize.CommonsChunkPlugin({
             name: [
-                'app',
-                'caesium',
-                'angular',
-                'rxjs',
-                'misc',
+                'main',
+                'vendor',
                 'polyfills'
             ]
         }),
-        */
-        //new webpack.optimize.DedupePlugin(),
-
-
 
         new HtmlWebpackPlugin({
             template: 'src/index.html'

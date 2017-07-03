@@ -1,10 +1,5 @@
-import {Modal} from './modal/modal.service';
 
-export * from './component_host';
-export {Modal};
+export {Modal, MODAL_CONTEXT, ModalContext} from './modal/modal.service';
 export {ModalDialog} from './modal/modal_dialog.component';
+export {ModalModule} from './modal/modal.module';
 
-
-export const MODAL_PROVIDERS: Array<any> = [
-    Modal
-];

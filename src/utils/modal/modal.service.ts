@@ -1,21 +1,24 @@
 import 'rxjs/add/operator/first';
-import {Observable} from 'rxjs/Observable';
 
-import {Injectable} from '@angular/core';
+import {
+    Injectable, Type, ReflectiveInjector, Injector, InjectionToken
+} from '@angular/core';
 
-import {isDefined, Type} from 'caesium-core/lang';
-import {StateException} from 'caesium-model/exceptions';
+import {isDefined} from 'caesium-core/lang';
+import {StateException} from 'caesium-json/exceptions';
 
-import {ModalOptions} from './modal_options.model';
 import {ModalDialog} from './modal_dialog.component';
 
-
+export interface ModalContext {
+    [key: string]: any;
+}
+export const MODAL_CONTEXT = new InjectionToken('MODAL_CONTEXT');
 
 @Injectable()
 export class Modal {
     private _dialog: ModalDialog;
 
-    constructor() {}
+    constructor(private injector: Injector) {}
 
     registerDialogComponent(
         modalDialog: ModalDialog) {
@@ -25,18 +28,33 @@ export class Modal {
         this._dialog = modalDialog;
     }
 
-    activate(options: ModalOptions, close: Observable<any>) {
+    /**
+     * Open the modal-dialog, with the given component.
+     *
+     * The component must be in entryComponents for the module which defines it.
+     * @param component
+     * @param injector
+     * @param context
+     */
+    open(component: Type<any>, injector?: Injector, context?: {[key: string]: any}) {
         if (!isDefined(this._dialog))
             _throwUniqueRegisteredDialogException();
         if (this._dialog.isOpen) {
             throw new StateException('Can only have one open dialog');
         }
 
-        this._dialog.options = options;
-        this._dialog.markForCheck();
-        close.forEach((_) => {
-            this._dialog.close();
-        });
+        let modalInjector = ReflectiveInjector.resolveAndCreate([
+            {provide: MODAL_CONTEXT, useValue: context}
+        ], injector);
+
+        this._dialog.open(component, modalInjector);
+    }
+
+    close() {
+        if (!isDefined(this._dialog))
+            _throwUniqueRegisteredDialogException();
+
+        this._dialog.close();
     }
 }
 

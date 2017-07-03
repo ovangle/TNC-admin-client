@@ -1,39 +1,24 @@
 import {Map} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy,
     ChangeDetectorRef
 } from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 
-import {DateInput} from '../../../utils/date/date_input.component';
-import {EnumSelect2} from '../../../utils/enum';
-
-import {NameInput} from '../../../member/basic';
-
-import {AbstractUser, UserInput} from '../../user';
+import {AbstractUser} from '../../user';
 import {StaffManager} from '../staff.manager';
 import {STAFF_TYPE_VALUES} from '../type';
 
-import {CreateStaffRequest, CreateStaffResponse, CreateStaffErrors} from './create_staff.model';
+import {CreateStaffRequest, CreateStaffResponse,} from './create_staff.model';
 
 
 
 @Component({
     selector: 'staff-create-form',
     templateUrl: './create_form.component.html',
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css'),
-        require('./create_form.component.css')
+    styleUrls: [
+        './create_form.component.css'
     ],
-    directives: [
-        NameInput, DateInput, EnumSelect2, UserInput,
-        ROUTER_DIRECTIVES
-    ],
-    providers: [StaffManager],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffCreateForm {

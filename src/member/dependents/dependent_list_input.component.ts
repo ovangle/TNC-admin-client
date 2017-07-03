@@ -1,19 +1,16 @@
 import {List, Set} from 'immutable';
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    SimpleChange
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
 import {isBlank} from 'caesium-core/lang';
-import {StateException} from 'caesium-model/exceptions';
+import {StateException} from 'caesium-json/exceptions';
 
 
 import {Carer} from './carer.model';
-import {Dependent} from './dependent.model';
+import {Dependent, dependent} from './dependent.model';
 import {DependentManager} from './dependent.manager';
-import {DependentInput} from './dependent_input.component';
-import {DependentCard} from './dependent_card.component';
 
 @Component({
     selector: 'dependent-list-input',
@@ -51,12 +48,6 @@ import {DependentCard} from './dependent_card.component';
         <button class="btn btn-primary" (click)="addDependent()"><i class="fa fa-plus"></i>Add</button>
     </fieldset>
     `,
-    directives: [DependentInput, DependentCard],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    providers: [DependentManager],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentListInput {
@@ -88,7 +79,7 @@ export class DependentListInput {
 
     private addDependent() {
         this.dependentsChange.emit(
-            this.dependents.push(this.dependentManager.create(Dependent, {}))
+            this.dependents.push(dependent({}))
         );
     }
 

@@ -1,15 +1,11 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
 
-import {isBlank} from 'caesium-core/lang';
 
-import {Member} from '../../../../member';
-import {NamePipe, AddressPipe, EnergyAccountInput, EnergyAccountDisplay} from '../../../../member/basic';
+import {Member} from 'member';
 import {
-    EnergyAccountType, ENERGY_ACCOUNT_TYPE_VALUES,
-    EnergyAccount,
-    EnergyAccountBill
+    ENERGY_ACCOUNT_TYPE_VALUES, EnergyAccountBill
 } from './bill.model';
 
 @Component({
@@ -51,12 +47,6 @@ import {
         </div>       
     </div>
     `,
-    directives: [EnergyAccountInput, EnergyAccountDisplay],
-    pipes: [NamePipe, AddressPipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EAPAVoucherBillInput {

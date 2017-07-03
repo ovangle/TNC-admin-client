@@ -76,13 +76,6 @@ import {YearInput} from './year_input.component';
         </main>
     </div>
     `,
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css')
-    ],
-    directives: [CurrentDateDisplay, MonthInput, YearInput, CalendarMonth],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DatePicker implements OnInit, OnDestroy {
@@ -126,9 +119,8 @@ export class DatePicker implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this._closeSubscriptions
-            .filter((subscriber) => !subscriber.isUnsubscribed)
+            .filter((subscriber) => !subscriber.closed)
             .forEach((subscriber) => subscriber.unsubscribe());
-
     }
 
     _decrementDisplayMonth() {

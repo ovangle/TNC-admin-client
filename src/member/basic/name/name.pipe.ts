@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {isBlank} from 'caesium-core/lang';
-import {ArgumentError} from 'caesium-model/exceptions';
+import {ArgumentError} from 'caesium-json/exceptions';
 
 import {Name} from './name.model';
 

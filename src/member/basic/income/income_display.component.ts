@@ -1,5 +1,5 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
+    Component, Input, ChangeDetectionStrategy
 } from '@angular/core';
 
 import {Income} from './income.model';
@@ -12,31 +12,25 @@ import {ProofOfLowIncome, PROOF_OF_LOW_INCOME_VALUES} from './proof_of_low_incom
 @Component({
     selector: 'income-display',
     template: `
-    <div class="row">
-        <h3>Income</h3>
-        <ul class="list-unstyled">
-            <li class="clearfix">
-                <span class="display-label col-sm-3">Type</span> 
-                <span class="display-value col-sm-9">{{incomeType}}</span>
-            </li> 
-            <li class="clearfix">
-                <span class="display-label col-sm-3">Benefit</span>
-                <span class="display-value col-sm-9">{{benefitType}}</span>
-            </li>
-            <li class="clearfix">
-                <span class="display-label col-sm-3">Proof of low income</span> 
-                <span class="display-value col-sm-9">{{proofOfLowIncome}}</span>
-            </li>
-           
-        </ul>
-    </div>
+    <h3>Income</h3>
+    <ul class="list-unstyled">
+        <li class="clearfix">
+            <span class="display-label col-sm-3">Type</span> 
+            <span class="display-value col-sm-9">{{incomeType}}</span>
+        </li> 
+        <li class="clearfix">
+            <span class="display-label col-sm-3">Benefit</span>
+            <span class="display-value col-sm-9">{{benefitType}}</span>
+        </li>
+        <li class="clearfix">
+            <span class="display-label col-sm-3">Proof of low income</span> 
+            <span class="display-value col-sm-9">{{proofOfLowIncome}}</span>
+        </li>
+    </ul>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/details_display.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
+    styles: [`
+    :host {display: block; }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncomeDisplay {

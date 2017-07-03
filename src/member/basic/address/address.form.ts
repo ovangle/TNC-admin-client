@@ -1,6 +1,6 @@
 
 import {Injectable} from '@angular/core';
-import {FormGroup, FormBuilder, FormControl, Validators, ValidatorFn} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, ValidatorFn} from '@angular/forms';
 
 import {Address} from './address.model';
 

@@ -1,7 +1,6 @@
 
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    OnChanges, ViewChild
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges
 } from '@angular/core';
 
 import {Time} from '../time';
@@ -9,12 +8,9 @@ import {Time} from '../time';
 @Component({
     selector: 'time-input',
     templateUrl: './time_input.component.html',
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css'),
-        require('./time_input.component.css')
+    styleUrls: [
+        './time_input.component.css'
     ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimeInput implements OnChanges {

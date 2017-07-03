@@ -1,16 +1,12 @@
-import {List} from 'immutable';
+import {Observable} from 'rxjs/Observable';
 
 import {
-    Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy,
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy,
     ChangeDetectorRef, OnChanges, SimpleChange
 } from '@angular/core';
 
-import {StateException} from 'caesium-model/exceptions';
-import {SearchResult} from 'caesium-model/manager';
-import {Dropdown} from '../../utils/layout/dropdown.component';
-
+import {SearchResult} from 'caesium-json/manager';
 import {Member} from '../member.model';
-import {NamePipe} from '../basic';
 
 
 @Component({
@@ -43,15 +39,9 @@ import {NamePipe} from '../basic';
         </ul>
     </dropdown>
     `,
-    directives: [Dropdown],
-    pipes: [NamePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchResultDropdown implements OnChanges {
+export class MemberSearchResultDropdown implements OnChanges {
     @Input() selection: Member;
     @Output() selectionChange = new EventEmitter<Member>();
 
@@ -67,7 +57,7 @@ export class SearchResultDropdown implements OnChanges {
     ngOnChanges(changes: {[propName: string]: SimpleChange}) {
         if (changes['result']) {
             var result: SearchResult<Member> = changes['result'].currentValue;
-            result.loadNextPage().forEach((result) => {
+            result.loadNextPage().forEach((result: SearchResult<Member>) => {
                 this.result = result;
                 this._changeDetector.markForCheck();
             });

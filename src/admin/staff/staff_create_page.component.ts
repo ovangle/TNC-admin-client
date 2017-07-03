@@ -1,15 +1,11 @@
 import {
-    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation,
-    ViewContainerRef
+    Component, EventEmitter, ChangeDetectionStrategy, Injector
 } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 
-import {PageHeader} from '../../utils/layout/page_header.component';
-import {Modal} from '../../utils/modal';
+import {Modal} from 'utils/modal';
 import {CreateStaffResponse} from './create_form/create_staff.model';
-import {StaffCreateForm} from './create_form/create_form.component';
 import {StaffCreateSuccessAlert} from './create_form/create_success_alert.component';
-
 
 @Component({
     selector: 'staff-create-page',
@@ -39,12 +35,6 @@ import {StaffCreateSuccessAlert} from './create_form/create_success_alert.compon
         </staff-create-form>
     </div>
     `,
-    directives: [PageHeader, StaffCreateForm, StaffCreateSuccessAlert],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffCreatePage {
@@ -53,25 +43,22 @@ export class StaffCreatePage {
     private modalClose = new EventEmitter<any>();
 
     constructor(
+        private injector: Injector,
         private router: Router,
         private route: ActivatedRoute,
-        private modal: Modal,
-        public vcRef: ViewContainerRef
+        private modal: Modal
     ) { }
 
     confirmCreate(response: CreateStaffResponse) {
         this.createResponse = response;
-        this.modal.activate({
-            body: StaffCreateSuccessAlert,
-            bindings: {
-                '(confirm)': '_navigateToStaffSearch()',
-                '[createResponse]': 'createRespose'
-            },
-            remote: {
-                view: this.vcRef,
-                instance: this
+        this.modal.open(
+            StaffCreateSuccessAlert,
+            this.injector,
+            {
+                createResponse: response,
+                confirm: (_: any) => this._navigateToStaffSearch()
             }
-        }, this.modalClose);
+        );
     }
 
     cancelCreate() {

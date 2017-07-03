@@ -5,9 +5,9 @@ import {forwardRef} from '@angular/core';
 import {isBlank} from 'caesium-core/lang';
 import {Codec} from 'caesium-core/codec';
 
-import {EncodingException} from 'caesium-model/exceptions';
+import {EncodingException} from 'caesium-json/exceptions';
 
-import {num, JsonObject} from 'caesium-model/json_codecs';
+import {num, JsonObject} from 'caesium-json/json_codecs';
 
 import {Member} from '../member.model';
 import {MemberManager} from '../member.manager';

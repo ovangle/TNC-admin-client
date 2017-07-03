@@ -1,19 +1,15 @@
 import {Set} from 'immutable';
 
 import {
-    Component, ChangeDetectionStrategy, ViewEncapsulation,
-    ChangeDetectorRef
+    Component, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 
-import {Search} from 'caesium-model/manager';
-import {ParameterBuilder, SearchBar} from '../../utils/search';
+import {Search} from 'caesium-json/manager';
+import {ParameterBuilder} from 'utils/search';
 
 import {StaffMember} from './staff.model';
-import {StaffManager} from './staff.manager';
-import {StaffSearchResultTable} from './search/result_table.component';
+import {StaffManager, STAFF_MEMBER_SEARCH_PARAMS} from './staff.manager';
 import {StaffSearchParameterBuilder} from './search/parameter_builder.service';
-
 
 @Component({
     selector: 'staff-search-page',
@@ -28,18 +24,9 @@ import {StaffSearchParameterBuilder} from './search/parameter_builder.service';
     <staff-search-result-table class="search-results" [search]="search">
     </staff-search-result-table>
     `,
-    directives: [SearchBar, ROUTER_DIRECTIVES, StaffSearchResultTable],
     providers: [
-        StaffManager,
         {provide: ParameterBuilder, useClass: StaffSearchParameterBuilder}
     ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css'),
-        require('css/search_page.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaffSearchPage {
@@ -51,7 +38,7 @@ export class StaffSearchPage {
     ) {}
 
     ngOnInit() {
-        this.search = this.staffManager.search();
+        this.search = this.staffManager.search(STAFF_MEMBER_SEARCH_PARAMS);
         this.changeDetector.markForCheck();
     }
 

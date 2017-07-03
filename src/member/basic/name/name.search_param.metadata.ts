@@ -1,6 +1,6 @@
 import {Set} from 'immutable';
 
-import {SearchParameter} from 'caesium-model/manager';
+import {SearchParameter} from 'caesium-json/manager';
 
 import {Name} from './name.model';
 

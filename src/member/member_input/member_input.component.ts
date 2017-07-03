@@ -1,49 +1,28 @@
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 import {List, Map, Set} from 'immutable';
 
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 import {isBlank} from 'caesium-core/lang';
-import {map, str} from 'caesium-model/json_codecs';
 import {
     GENDER_VALUES,
     EnergyAccount, EnergyAccountType, ENERGY_ACCOUNT_TYPE_VALUES
 } from '../basic';
 import {Response as HttpResponse} from '@angular/http';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 
-import {YesNoSelect} from '../../utils/components/yesno_select.component';
-import {DateInput} from '../../utils/date/date_input.component';
-import {EnumSelect2} from '../../utils/enum';
-
-import {Member} from '../member.model';
+import {Member, member} from '../member.model';
 import {MemberManager} from '../member.manager';
 import {MemberTermType, MEMBER_TERM_TYPE_SELECT_VALUES} from '../term';
-import {
-    NameInput, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput,
-    EnergyAccountInput
-} from '../basic';
-import {PartnerInput} from '../partner/partner_input.component';
-import {DependentListInput} from '../dependents/dependent_list_input.component'
 
 
 @Component({
     selector: 'member-input-form',
-    moduleId: module.id,
     templateUrl: './member_input.component.html',
-    directives: [
-        NameInput, DateInput, YesNoSelect, AddressInput, ContactInput, IncomeInput, ResidentialStatusInput,
-        PartnerInput, EnumSelect2, ROUTER_DIRECTIVES, EnergyAccountInput,
-        DependentListInput
+    styleUrls: [
+        './member_input.component.css'
     ],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css'),
-        require('css/flex.css'),
-        require('./member_input.component.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberInputForm {
@@ -82,9 +61,7 @@ export class MemberInputForm {
 
     ngOnInit() {
         if (isBlank(this.member)) {
-            this.member = this.memberManager.create(Member, {
-                partner: null
-            });
+            this.member = member({partner: null});
         }
         this.errors.set('name', !this.member.name.isAnonymous);
     }
@@ -112,14 +89,14 @@ export class MemberInputForm {
 
         return response
             .handle({select: 201, decoder: this.memberManager.modelCodec})
-            .forEach(member => {
+            .forEach((member: Member) => {
                 this.commit.emit(member);
             })
             .catch((response: HttpResponse) => {
                 if (response.status === 400) {
                     return Observable.of<Member>(null);
                 }
-                return Observable.throw<Member>(response);
+                return Observable.throw(response);
             });
     }
 
@@ -132,6 +109,7 @@ export class MemberInputForm {
         if (isBlank(this.displayFields)) {
             return true;
         }
+
         return this.displayFields.contains(prop);
     }
 

@@ -20,13 +20,6 @@ import {GENDER_VALUES} from '../basic';
         </span>
     </div>
     `,
-    directives: [],
-    pipes: [NamePipe, DatePipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/flex.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DependentCard {

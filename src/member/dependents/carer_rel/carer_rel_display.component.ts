@@ -26,11 +26,6 @@ import {LIVING_ARRANGEMENT_VALUES} from './living_arrangement.model';
         </ul> 
     </div>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('css/details_display.css')
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarerRelDisplay {

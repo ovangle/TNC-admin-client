@@ -4,14 +4,11 @@ import moment = require('moment');
 import {Moment} from 'moment';
 
 import {
-    Component, Input, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnInit,
+    Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit,
 } from '@angular/core';
-import {FormControl, REACTIVE_FORM_DIRECTIVES, Validators} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 
-import {isBlank, isDefined} from 'caesium-core/lang';
-
-import {Dropdown} from '../layout/dropdown.component';
-import {DatePicker} from "./month_picker/date_picker.component";
+import {isBlank} from 'caesium-core/lang';
 
 const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
 
@@ -57,12 +54,6 @@ const _DATE_FORMAT_STRING = 'dd/mm/yyyy';
         </span>
     </div>
     `,
-    directives: [DatePicker, Dropdown, REACTIVE_FORM_DIRECTIVES],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateInput implements OnInit {
@@ -104,7 +95,7 @@ export class DateInput implements OnInit {
         });
         if (this.defaultToday && isBlank(this.date)) {
             var date = moment().format('DD/MM/YYYY');
-            this.control.updateValue(date, {emitEvent: true});
+            this.control.setValue(date, {emitEvent: true});
         }
     }
 
@@ -134,7 +125,7 @@ export class DateInput implements OnInit {
 
     pickerDateChange(date: Date) {
         var m = moment(date);
-        this.control.updateValue(m.format('DD/MM/YYYY'), {emitEvent: true});
+        this.control.setValue(m.format('DD/MM/YYYY'), {emitEvent: true});
         this._dropdownActive = false;
     }
 

@@ -1,7 +1,6 @@
 import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {Member} from './member.model';
 import {NamePipe, AddressPipe} from './basic';
@@ -36,13 +35,6 @@ import {NamePipe, AddressPipe} from './basic';
     </div>
     
     `,
-    directives: [ROUTER_DIRECTIVES],
-    pipes: [NamePipe, AddressPipe],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css'),
-        require('font-awesome/css/font-awesome.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberCard {

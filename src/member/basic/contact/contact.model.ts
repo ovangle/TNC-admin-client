@@ -1,9 +1,8 @@
 import {Iterable, List, Record} from 'immutable'
-import {AlertLabel, CheckForAlertLabels} from '../../../utils/alert_label/alert_label';
+import {str, recordCodec} from "caesium-json/json_codecs";
 
-
-import {str, recordCodec} from "caesium-model/json_codecs";
-import {phoneNumber} from '../../../utils/codecs';
+import {AlertLabel, CheckForAlertLabels} from 'utils/alert_label';
+import {phoneNumber} from 'utils/codecs';
 
 const _CONTACT_RECORD = Record({email: '', phone: '', mobile: ''});
 
@@ -13,7 +12,6 @@ export class Contact extends _CONTACT_RECORD implements CheckForAlertLabels {
     mobile: string;
 
     checkForAlertLabels(): Iterable.Indexed<AlertLabel|Iterable.Indexed<any>> {
-        //TODO: Any labels apply?
         return List<AlertLabel>();
     }
 

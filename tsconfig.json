@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "removeComments": false,
     "outDir": "dist",
     "noImplicitAny": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"],
+    "baseUrl": "src"
   },
   "exclude": [
     "assets",

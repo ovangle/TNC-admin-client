@@ -1,7 +1,7 @@
 import {Record} from 'immutable';
 
 import {Codec, composeCodecs} from 'caesium-core/codec';
-import {recordCodec, JsonObject} from 'caesium-model/json_codecs';
+import {recordCodec, JsonObject} from 'caesium-json/json_codecs';
 
 import {Time, timeCodec} from './time';
 

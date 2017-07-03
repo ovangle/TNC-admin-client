@@ -1,8 +1,8 @@
 import {Iterable, Record, List} from 'immutable';
 
-import {recordCodec, str} from 'caesium-model/json_codecs';
+import {recordCodec, str} from 'caesium-json/json_codecs';
 
-import {AlertLabel, CheckForAlertLabels, LabelSeverity} from '../../../utils/alert_label/alert_label';
+import {AlertLabel, CheckForAlertLabels, LabelSeverity} from 'utils/alert_label';
 
 import {BenefitType, BENEFIT_TYPE_CODEC} from './benefit_type.model';
 import {IncomeType, INCOME_TYPE_CODEC} from './income_type.model';

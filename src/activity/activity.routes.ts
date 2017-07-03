@@ -1,11 +1,22 @@
-import {RouterConfig} from '@angular/router';
+import {Route} from '@angular/router';
 
-import {CreateTaskPage} from './task/create_page.component';
-import {TaskSearchPage} from './task/search_page.component';
-import {DisplayTaskPage} from './task/display_page.component';
+import {MemberActivitySearchPage} from './search_page.component';
 
-export const ACTIVITY_ROUTES: RouterConfig = [
-    {path: '', component: TaskSearchPage},
-    {path: 'create', component: CreateTaskPage},
-    {path: ':id', component: DisplayTaskPage}
+import {ChemistVoucherAssessmentPage} from './voucher/chemist';
+import {EAPAVoucherAssessmentPage} from './voucher/eapa';
+import {FoodcareVoucherAssessmentPage} from './voucher/foodcare';
+
+export const MEMBER_ACTIVITY_ROUTES: Route[] = [
+    {path: '', component: MemberActivitySearchPage},
+    {path: 'voucher', children: [
+        {path: 'chemist', children: [
+            {path: '', component: ChemistVoucherAssessmentPage},
+        ]},
+        {path: 'eapa', children: [
+            {path: '', component: EAPAVoucherAssessmentPage}
+        ]},
+        {path: 'foodcare', children: [
+            {path: '', component: FoodcareVoucherAssessmentPage}
+        ]}
+    ]}
 ];

@@ -2,7 +2,7 @@ import {
     Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 
-import {EnergyAccountType} from '../../../member/basic';
+import {EnergyAccountType} from 'member/basic';
 
 @Component({
     selector: 'eapa-voucher-energy-accounts-select',
@@ -19,11 +19,6 @@ import {EnergyAccountType} from '../../../member/basic';
         </select>
     </div>
     `,
-    directives: [],
-    styles: [
-        require('bootstrap/dist/css/bootstrap.css')
-    ],
-    encapsulation: ViewEncapsulation.Native,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EAPAVoucherEnergyAccountsSelect {
