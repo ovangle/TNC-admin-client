@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import {StateException} from 'caesium-json/exceptions';
 import {FormControl, Validators, NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-import {isBlank} from '../../../../caesium-core/lang';
+import {isBlank} from 'caesium-core/lang';
 
 const enumSelectValueAccessor = {
     provide: NG_VALUE_ACCESSOR,

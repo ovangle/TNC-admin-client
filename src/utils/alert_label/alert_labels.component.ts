@@ -1,7 +1,7 @@
 import {Component, Input, ViewEncapsulation, DoCheck, ChangeDetectionStrategy} from '@angular/core';
 import {List} from 'immutable';
 
-import {isBlank} from '../../../../caesium-core/lang';
+import {isBlank} from 'caesium-core/lang';
 
 import {AlertLabel, LabelSeverity, CheckForAlertLabels} from './alert_label';
 export {AlertLabel, LabelSeverity, CheckForAlertLabels};
