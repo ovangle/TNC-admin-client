@@ -10,7 +10,8 @@
     "noImplicitReturns": true,
     "types": ["node"],
     "typeRoots": ["node_modules/@types"],
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "noStrictGenericChecks": true
   },
   "exclude": [
     "assets",

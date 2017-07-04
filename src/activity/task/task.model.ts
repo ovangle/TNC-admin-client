@@ -47,7 +47,7 @@ export class Task extends TaskRecord {
         }
         return staffManager.getById(this.staffId)
             .handle({select: 200, decoder: staffManager.modelCodec})
-            .map((staffMember: StaffMember) => this.set('staff', staffMember));
+            .map((staffMember: StaffMember) => <Task>this.set('staff', staffMember));
     }
 }
 
