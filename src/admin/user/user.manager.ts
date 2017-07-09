@@ -33,7 +33,7 @@ export class UserManager extends ManagerBase<User> {
         return response
             .handle({select: 200, decoder: this.modelCodec})
             .catch((err: HttpResponse) => {
-                if (err.status === 401 /* unauthorized */) {
+                if (err.status === 403 /* unauthorized */) {
                     return Observable.of(null);
                 }
                 return Observable.throw(err);
