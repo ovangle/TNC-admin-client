@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var commonConfig = require('./webpack.common');
 var utils = require('./utils.js');
@@ -29,15 +29,9 @@ module.exports = webpackMerge(commonConfig, {
         chunkFilename: '[id].[hash].chunk.js'
     },
 
-    htmlLoader: {
-        minimize: false // Workaround for ng2
-    },
-
 
     plugins: [
-        new webpack.NoErrorsPlugin(),
-
-        new webpack.optimize.DedupePlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
 
         /**
          * Plugin: UglifyJsPlugin
@@ -48,7 +42,6 @@ module.exports = webpackMerge(commonConfig, {
          */
         // NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
         // NOTE: Current version of uglify does not support ES6. Disabling minification
-        /*
         new UglifyJsPlugin({
             // beautify: true, //debug
             // mangle: false, //debug
@@ -70,8 +63,7 @@ module.exports = webpackMerge(commonConfig, {
             compress: { screw_ie8: true }, //prod
             comments: false //prod
         }),
-        */
-        new ExtractTextPlugin('[name].[hash].css'),
+        new ExtractTextPlugin({filename: '[name].[hash].css'}),
 
         //define the application config
         new webpack.DefinePlugin({
