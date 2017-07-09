@@ -9,7 +9,7 @@ import '@angular/router';
 
 // Caesium
 import 'caesium-core/lang';
-import '../../caesium-core/decorators';
+import 'caesium-core/decorators';
 import 'caesium-core/codec';
 import 'caesium-core/converter';
 import 'caesium-json/exceptions';
