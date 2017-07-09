@@ -47,6 +47,8 @@ module.exports = webpackMerge(commonConfig, {
          * See: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
          */
         // NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
+        // NOTE: Current version of uglify does not support ES6. Disabling minification
+        /*
         new UglifyJsPlugin({
             // beautify: true, //debug
             // mangle: false, //debug
@@ -68,6 +70,7 @@ module.exports = webpackMerge(commonConfig, {
             compress: { screw_ie8: true }, //prod
             comments: false //prod
         }),
+        */
         new ExtractTextPlugin('[name].[hash].css'),
 
         //define the application config
