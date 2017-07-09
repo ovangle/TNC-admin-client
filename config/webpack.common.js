@@ -42,10 +42,10 @@ module.exports = {
             // Load files in the src directory directly into the module bundles
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
+                loader: ['to-string-loader'].concat(ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: 'css-loader'
-                })
+                }))
             },
             // The following two loaders target the font-awesome fonts
             // the url-loader uses DataUrls.
